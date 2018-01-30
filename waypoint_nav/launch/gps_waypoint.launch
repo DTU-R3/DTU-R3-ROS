@@ -1,0 +1,6 @@
+<launch>
+ 
+  <node pkg="waypoint_nav" type="gps_convert.py" name="gps_convert"></node>
+
+  <node pkg="waypoint_nav" type="waypoint_control.py" name="waypoint_control" ></node>
+</launch>
