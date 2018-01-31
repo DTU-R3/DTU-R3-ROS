@@ -5,7 +5,7 @@ import math
 
 from geometry_msgs.msg import Pose2D, Twist
 from std_msgs.msg import String
-from nav_msgs.msgs import Odometry
+from nav_msgs.msg import Odometry
 
 global linear_vel, angular_vel, state, prestate, robot_state, distance, angle
 global robot_x, robot_y, robot_th, start_x, start_y, start_th, vel, vel_maxlin, vel_maxang
@@ -50,7 +50,7 @@ def stateCB(s):
 
 def cmdCB(cmd):
   global robot_state, distance, angle, linear_vel, angular_vel, robot_x, robot_y, robot_th, start_x, start_y, start_th
-  cmd_parts = cmd.split(',')  
+  cmd_parts = cmd.data.split(',')  
   robot_state = cmd_parts[0] 
   if robot_state == "forward":
     distance = float(cmd_parts[1])
@@ -89,16 +89,16 @@ while not rospy.is_shutdown():
       else:
         vel.linear.x = -linear_vel
       vel.angular.z = 0
-      if ( math.abs(math.sqrt( (robot_x-start_x)**2 + (robot_y-start_y)**2 ) - math.abs(distance)) < dis_thres):
+      if ( math.fabs(math.sqrt( (robot_x-start_x)**2 + (robot_y-start_y)**2 ) - math.fabs(distance)) < dis_thres):
         robot_state = "stop"
         
     elif robot_state == "turn":
       vel.linear.x = 0
-      if angle > 0
+      if angle > 0:
         vel.angular.z = angular_vel
       else:
         vel.angular.z = -angular_vel
-      if (math.abs( math.abs(robot_th - start_th) - math.abs(angle)) < ang_thres):
+      if (math.fabs( math.fabs(robot_th - start_th) - math.fabs(angle)) < ang_thres):
         robot_state = "stop"
         
     elif robot_state == "stop":
