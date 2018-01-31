@@ -17,7 +17,7 @@ robot_state = "idle"
 distance = 0.0
 angle = 0.0
 dis_thres = 0.2
-ang_thres = 0.2
+ang_thres = 0.05
 prestate = "STOP"
 robot_x = 0.0
 robot_y = 0.0
@@ -30,11 +30,11 @@ vel_maxlin = 1
 vel_maxang = 2
 
 def fitInRadians(d):
-  r = d * math.pi / 180
+  r = d
   while (r > math.pi):
-    r = r - 2 * math.pi
+    r = r - 2.0 * math.pi
   while (r < -math.pi):
-    r = r + 2 * math.pi
+    r = r + 2.0 * math.pi
   return r
   
 # Callback functions
@@ -44,28 +44,27 @@ def odomCB(odo):
   robot_y = odo.pose.pose.position.y
   robot_th = 2 * math.atan2(odo.pose.pose.orientation.z,odo.pose.pose.orientation.w)
 
-def stateCB(s):
-  global state
-  state = s.data
-
 def cmdCB(cmd):
   global robot_state, distance, angle, linear_vel, angular_vel, robot_x, robot_y, robot_th, start_x, start_y, start_th
+  print "Received command: " + cmd.data
   cmd_parts = cmd.data.split(',')  
   robot_state = cmd_parts[0] 
-  if robot_state == "forward":
+  if robot_state == "fwd":
     distance = float(cmd_parts[1])
+    print "Target distance is set: " + str(distance)
     if len(cmd_parts) > 2:
       linear_vel = float(cmd_parts[2])
     start_x = robot_x
-    start_y = robot_y
-    start_th = robot_th     
+    start_y = robot_y  
   elif robot_state == "turn":
-    angle = fitInRadians(float(cmd_parts[1]))
+  
+    angle = float(cmd_parts[1]) * math.pi / 180.0
+    angle = fitInRadians(angle)
+    print "Target angle is set: " + str(angle)
     if len(cmd_parts) > 2:
       angular_vel = float(cmd_parts[2])
-    start_x = robot_x
-    start_y = robot_y
     start_th = robot_th
+  
       
 # Init ROS node
 rospy.init_node('odometry_control')
@@ -76,51 +75,50 @@ state_pub = rospy.Publisher('odometry_control/robot_state', String, queue_size =
 
 # Subscribers
 odom_sub = rospy.Subscriber('odom', Odometry, odomCB)
-state_sub = rospy.Subscriber('odometry_control/state', String, stateCB)
 cmd_sub = rospy.Subscriber('odometry_control/cmd', String, cmdCB)
 
-rate = rospy.Rate(1000)
+rate = rospy.Rate(100)
 
 while not rospy.is_shutdown():
-  if state == "RUNNING":
-    if robot_state == "forward":
+  if robot_state == "fwd":
+    if ( math.fabs(math.sqrt( (robot_x-start_x)**2 + (robot_y-start_y)**2 ) - math.fabs(distance)) > dis_thres):
       if distance > 0:
         vel.linear.x = linear_vel
       else:
         vel.linear.x = -linear_vel
       vel.angular.z = 0
-      if ( math.fabs(math.sqrt( (robot_x-start_x)**2 + (robot_y-start_y)**2 ) - math.fabs(distance)) < dis_thres):
-        robot_state = "stop"
-        
-    elif robot_state == "turn":
+    else:
+      vel.linear.x = 0
+      vel.angular.z = 0
+      robot_state = "stop"
+       
+  elif robot_state == "turn":
+    if (math.fabs(robot_th - fitInRadians(start_th + angle) ) > ang_thres):
       vel.linear.x = 0
       if angle > 0:
         vel.angular.z = angular_vel
       else:
         vel.angular.z = -angular_vel
-      if (math.fabs( math.fabs(robot_th - start_th) - math.fabs(angle)) < ang_thres):
-        robot_state = "stop"
-        
-    elif robot_state == "stop":
-      vel.linear.x = 0
-      vel.angular.z = 0
-      
-    if vel.linear.x > vel_maxlin:
-      vel.linear.x = vel_maxlin
-    if vel.angular.z > vel_maxang:
-      vel.angular.z = vel_maxang   
-    vel_pub.publish(vel)
-       
-  else:
-    if prestate == "RUNNING":
-      robot_state = "stop"
-      vel.linear.x = 0
-      vel.angular.z = 0
-      vel_pub.publish(vel)
     else:
+      vel.linear.x = 0
+      vel.angular.z = 0
       robot_state = "idle"
-  
-  prestate = state
-  state_pub.publish(robot_state)
+        
+  elif robot_state == "stop":
+    vel.linear.x = 0
+    vel.angular.z = 0
+    robot_state = "idle"
+      
+  if vel.linear.x > vel_maxlin:
+    vel.linear.x = vel_maxlin
+  if vel.angular.z > vel_maxang:
+    vel.angular.z = vel_maxang
+  if vel.linear.x < -vel_maxlin:
+    vel.linear.x = -vel_maxlin
+  if vel.angular.z < -vel_maxang:
+    vel.angular.z = -vel_maxang
+           
+  vel_pub.publish(vel)
+  state_pub.publish(robot_state) 
   rate.sleep()
 
