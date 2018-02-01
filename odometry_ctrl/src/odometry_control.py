@@ -16,7 +16,7 @@ state = "STOP"
 robot_state = "idle"
 distance = 0.0
 angle = 0.0
-dis_thres = 0.2
+dis_thres = 0.05
 ang_thres = 0.05
 prestate = "STOP"
 robot_x = 0.0
@@ -87,10 +87,12 @@ while not rospy.is_shutdown():
       else:
         vel.linear.x = -linear_vel
       vel.angular.z = 0
+      print "Forwarding: " + str(math.fabs(math.sqrt( (robot_x-start_x)**2 + (robot_y-start_y)**2 ) - math.fabs(distance)))
     else:
       vel.linear.x = 0
       vel.angular.z = 0
-      robot_state = "stop"
+      robot_state = "idle"
+      print "Command completed!"
        
   elif robot_state == "turn":
     if (math.fabs(robot_th - fitInRadians(start_th + angle) ) > ang_thres):
@@ -99,15 +101,18 @@ while not rospy.is_shutdown():
         vel.angular.z = angular_vel
       else:
         vel.angular.z = -angular_vel
+      print "Turning: " + str(math.fabs(robot_th - fitInRadians(start_th + angle)))
     else:
       vel.linear.x = 0
       vel.angular.z = 0
       robot_state = "idle"
+      print "Command completed!"
         
   elif robot_state == "stop":
     vel.linear.x = 0
     vel.angular.z = 0
     robot_state = "idle"
+    print "Robot stopped!"
       
   if vel.linear.x > vel_maxlin:
     vel.linear.x = vel_maxlin
