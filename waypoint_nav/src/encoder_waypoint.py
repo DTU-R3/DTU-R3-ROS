@@ -5,13 +5,14 @@ import math
 
 from geometry_msgs.msg import Point, Pose2D, Twist
 from std_msgs.msg import String, Float32
+from nav_msgs.msg import Odometry
 
 # Variables
-global k_rho, k_alpha, state, substate, goal_set, distance, angle, goal, vel, vel_maxlin, vel_maxang, prestate
+global k_rho, k_alpha, state, substate, goal_set, distance, angle, goal, vel, vel_maxlin, vel_maxang, robot_x, robot_y, robot_th
 k_rho = 0.3
 k_alpha = 0.8
 state = "STOP"
-substate = "STOP"
+robot_state = "STOP"
 goal_set = False
 distance = 0.0
 angle = math.pi
@@ -21,13 +22,14 @@ vel.linear.x = 0
 vel.angular.z = 0
 vel_maxlin = 1
 vel_maxang = 2
-prestate = "STOP"
+
 # Callback functions
 def goalCB(g):
   global goal_set, goal, substate
-  goal = g
+  goal.x = g.x * math.cos(robot_th) - g.y * math.sin(robot.th) + robot_x
+  goal.y = g.x * math.sin(robot_th) + g.y * math.cos(robot.th) + robot_y
   goal_set = True
-  substate = "STOP"
+  robot_state = "STOP"
   print "Waypoint received"
 
 def paraCB(p):
@@ -48,11 +50,14 @@ def stateCB(s):
   state = s.data
   print "Waypoint control state updated: " + state
   
-def poseCB(p):
+def odomCB(odo):
   global goal_set, distance, angle, goal
+  robot_x = odo.pose.pose.position.x
+  robot_y = odo.pose.pose.position.y
+  robot_th = 2 * math.atan2(odo.pose.pose.orientation.z,odo.pose.pose.orientation.w)
   if goal_set:
-    dx = (goal.x-p.x)*math.cos(p.theta)+(goal.y-p.y)*math.sin(p.theta)
-    dy = -(goal.x-p.x)*math.sin(p.theta)+(goal.y-p.y)*math.cos(p.theta)
+    dx = (goal.x-robot_x)*math.cos(robot_th)+(goal.y-robot_y)*math.sin(robot_th)
+    dy = -(goal.x-robot_x)*math.sin(robot_th)+(goal.y-robot_y)*math.cos(robot_th)
     distance = math.sqrt( (dx)**2 + (dy)**2 )
     angle = math.atan2(dy,dx)
 
@@ -75,7 +80,7 @@ state_pub = rospy.Publisher('waypoint/robot_state', String, queue_size = 10)
 
 # Subscribers
 state_sub = rospy.Subscriber('waypoint/state', String, stateCB)
-pose_sub = rospy.Subscriber('robot_pose', Pose2D, poseCB)
+odom_sub = rospy.Subscriber('odom', Odometry, odomCB)
 goal_sub = rospy.Subscriber('waypoint/goal', Point, goalCB)
 para_sub = rospy.Subscriber('waypoint/control_parameters', String, paraCB)
 maxlin_sub = rospy.Subscriber('waypoint/max_linear_speed', Float32, linCB)
@@ -86,48 +91,51 @@ rate = rospy.Rate(100)
 while not rospy.is_shutdown():
 
   if goal_set:
-    if state == "RUNNING":
-      if substate != "FORWARDING":
-        substate = "TURNING"    
+      if state == "RUNNING":
+        if robot_state != "FORWARDING":
+          robot_state = "TURNING"    
     
-      if substate == "TURNING":
-        vel.linear.x = 0
-        vel.angular.z = k_alpha * angle
-        if math.fabs(angle) < 0.2:
-          substate = "FORWARDING"        
-      elif substate == "FORWARDING":
-      	if (angle > math.pi/2):
-          vel.linear.x = -k_rho * distance
-          vel.angular.z = k_alpha * (angle-math.pi)  
-        elif (angle < -math.pi/2):
-          vel.linear.x = -k_rho * distance
-          vel.angular.z = k_alpha * (angle+math.pi)  
-        else:
-          vel.linear.x = k_rho * distance
-          vel.angular.z = k_alpha * angle 
+        if robot_state == "TURNING":
+          vel.linear.x = 0
+          vel.angular.z = k_alpha * angle
+          if math.fabs(angle) < 0.2:
+            robot_state = "FORWARDING"        
+        elif robot_state == "FORWARDING":
+      	  if (angle > math.pi/2):
+            vel.linear.x = -k_rho * distance
+            vel.angular.z = k_alpha * (angle-math.pi)  
+          elif (angle < -math.pi/2):
+            vel.linear.x = -k_rho * distance
+            vel.angular.z = k_alpha * (angle+math.pi)  
+          else:
+            vel.linear.x = k_rho * distance
+            vel.angular.z = k_alpha * angle 
     
-      if vel.linear.x > vel_maxlin:
-        vel.linear.x = vel_maxlin
-      if vel.angular.z > vel_maxang:
-        vel.angular.z = vel_maxang
+        if vel.linear.x > vel_maxlin:
+          vel.linear.x = vel_maxlin
+        if vel.angular.z > vel_maxang:
+          vel.angular.z = vel_maxang
      
-      vel_pub.publish(vel)
+        vel_pub.publish(vel)
       
-    elif state == "PARK":
-      substate = "STOP"
-      vel.linear.x = 0
-      vel.angular.z = 0
-      vel_pub.publish(vel)
-      
-    else:
-      if prestate == "RUNNING":
-        substate = "STOP"
+      elif state == "PARK":
+        robot_state = "STOP"
         vel.linear.x = 0
         vel.angular.z = 0
         vel_pub.publish(vel)
+      
       else:
-        substate = "IDLE"
-        
+        if prestate == "RUNNING":
+          robot_state = "STOP"
+          vel.linear.x = 0
+          vel.angular.z = 0
+          vel_pub.publish(vel)
+        else:
+          substate = "IDLE"
+          
+      timecount = 0
+      pose_received = False
+
     prestate = state
         
   state_pub.publish(substate)
