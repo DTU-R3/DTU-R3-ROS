@@ -20,16 +20,18 @@ vel = Twist()
 vel.linear.x = 0
 vel.angular.z = 0
 vel_maxlin = 1
-vel_maxang = 2
+vel_maxang = 1
 robot_x = 0.0
 robot_y = 0.0
 robot_th = 0.0
 
 # Callback functions
 def goalCB(g):
-  global goal_set, goal, robot_state, robot_x, robot_y, robot_th
+  global goal_set, goal, robot_state, robot_x, robot_y, robot_th, distance, angle
   goal.x = g.x * math.cos(robot_th) - g.y * math.sin(robot_th) + robot_x
   goal.y = g.x * math.sin(robot_th) + g.y * math.cos(robot_th) + robot_y
+  distance = math.sqrt( (g.x)**2 + (g.y)**2 )
+  angle = math.atan2(g.y,g.x)
   goal_set = True
   robot_state = "STOP"
   print "Waypoint received"
@@ -100,7 +102,7 @@ while not rospy.is_shutdown():
     if robot_state == "TURNING":
       vel.linear.x = 0
       vel.angular.z = k_alpha * angle
-      if math.fabs(angle) < 0.05:
+      if math.fabs(angle) < 0.1:
         robot_state = "FORWARDING"        
     
     if robot_state == "FORWARDING":
@@ -113,7 +115,7 @@ while not rospy.is_shutdown():
       else:
         vel.linear.x = k_rho * distance
         vel.angular.z = k_alpha * angle 
-      if math.fabs(distance) < 0.05:
+      if math.fabs(distance) < 0.1:
         vel.linear.x = 0
         vel.angular.z = 0
         robot_state = "IDLE"
@@ -126,9 +128,8 @@ while not rospy.is_shutdown():
     if vel.linear.x < -vel_maxlin:
       vel.linear.x = -vel_maxlin
     if vel.angular.z < -vel_maxang:
-      vel.angular.z = -vel_maxang
-                      
-    vel_pub.publish(vel)        
+      vel.angular.z = -vel_maxang                     
+    vel_pub.publish(vel)      
   state_pub.publish(robot_state)
   rate.sleep()
     

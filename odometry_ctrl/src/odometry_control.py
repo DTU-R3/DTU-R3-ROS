@@ -16,8 +16,8 @@ state = "STOP"
 robot_state = "idle"
 distance = 0.0
 angle = 0.0
-dis_thres = 0.05
-ang_thres = 0.05
+dis_thres = 0.1
+ang_thres = 0.1
 prestate = "STOP"
 robot_x = 0.0
 robot_y = 0.0
@@ -56,8 +56,7 @@ def cmdCB(cmd):
       linear_vel = float(cmd_parts[2])
     start_x = robot_x
     start_y = robot_y  
-  elif robot_state == "turn":
-  
+  elif robot_state == "turn":  
     angle = float(cmd_parts[1]) * math.pi / 180.0
     angle = fitInRadians(angle)
     print "Target angle is set: " + str(angle)
