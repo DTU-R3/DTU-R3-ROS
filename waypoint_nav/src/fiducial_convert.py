@@ -3,7 +3,6 @@
 import rospy
 import math
 
-import tf2_ros
 import tf
 from sensor_msgs.msg import NavSatFix
 from fiducial_msgs import FiducialMapEntryArray
@@ -15,7 +14,7 @@ from pyquaternion import Quaternion
 def mapCB(fiducial_map):
   global reference_id, tf_broadcaster, reference_fiducial_tf
   if reference_id==0:
-    reference_id = fiducial_map.fiducials.fiducial_id
+    reference_id = fiducial_map.fiducials[0].fiducial_id
   for fid in fiducial_map.fiducials:
     if fid.fiducial_id == reference_id:
       reference_fiducial_tf.transform.translation.x = fid.x
@@ -31,7 +30,7 @@ def mapCB(fiducial_map):
 def mapGPSCB(GPS_map):
   global reference_id, tf_broadcaster, reference_utm_tf, utm_map
   if reference_id==0:
-    reference_id = GPS_map.fiducials.fiducial_id
+    reference_id = GPS_map.fiducials[0].fiducial_id
   
   i = 0  
   for fid in GPS_map.fiducials:
@@ -60,11 +59,10 @@ def poseCB(pose):
   robot_fiducial_tf.transform.translation.y = pose.pose.pose.position.y
   robot_fiducial_tf.transform.translation.z = pose.pose.pose.position.z
   robot_fiducial_tf.transform.rotation = pose.pose.pose.orientation
-  robot_gps_tf = tfBuffer.lookup_transform('robot', 'gps', rospy.Time())
+  robot_utm_tf = tfBuffer.lookup_transform('robot', 'utm', rospy.Time())
   gps_pose = NavSatFix()
-  gps_pose.longitude = robot_gps_tf.transform.translation.x
-  gps_pose.latitude = robot_gps_tf.transform.translation.y
-  gps_pose.altitude = robot_gps_tf.transform.translation.z
+  gps_pose.longitude,gps_pose.latitude = projection(robot_utm_tf.transform.translation.x,robot_utm_tf.transform.translation.y,inverse=True)
+  gps_pose.altitude = robot_utm_tf.transform.translation.z
   robot_gps_pub.publish(gps_pose)
   gps_heading = Vector3()
   gps_heading = tf.transformations.euler_from_quaternion(robot_gps_tf.transform.orentation)
@@ -101,7 +99,7 @@ rate = rospy.Rate(10)
 global projection, utm_map, reference_id
 global tf_broadcaster, reference_fiducial_tf, reference_utm_tf, utm_fiducial_tf, fiducial_utm_tf
 projection = Proj(proj="utm", zone="34", ellps='WGS84')
-tf_broadcaster = tf2_ros.TransformBroadcaster()
+tf_broadcaster = tf.TransformBroadcaster()
 utm_map = FiducialMapEntryArray()
 reference_id = 0	# should be auto update in the future
 reference_fiducial_tf = TransformStamped()
@@ -110,8 +108,7 @@ reference_fiducial_tf.child_frame_id = "reference_fid"
 reference_utm_tf = TransformStamped()
 reference_utm_tf.header.frame_id = "utm"
 reference_utm_tf.child_frame_id = "reference_fid"
-tfBuffer = tf2_ros.Buffer()
-listener = tf2_ros.TransformListener(tfBuffer)
+listener = tf.TransformListener()
 
 while not rospy.is_shutdown():
   try:
@@ -119,7 +116,6 @@ while not rospy.is_shutdown():
     fiducial_utm_tf = tfBuffer.lookup_transform('fiducial', 'utm', rospy.Time())
   except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException):
     print "Error when looking up the transformation"
-    rate.sleep()
     continue
   rate.sleep()
   
