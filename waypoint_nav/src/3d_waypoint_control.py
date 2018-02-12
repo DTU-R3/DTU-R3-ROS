@@ -62,7 +62,16 @@ def poseCB(p):
   global goal_set, distance, roll, pitch, yaw, goal
   if goal_set:
     distance = math.sqrt( (goal.x-p.pose.pose.position.x)**2 + (goal.y-p.pose.pose.position.y)**2 + (goal.z-p.pose.pose.position.z)**2 )
-    angle = math.atan2(dy,dx)
+    q_rot = Quaternion(p.pose.pose.orientation.w, p.pose.pose.orientation.x, p.pose.pose.orientation.y, p.pose.pose.orientation.z)
+    x,y,z=q_rot.rotate([(goal.x-p.pose.pose.position.x),(goal.y-p.pose.pose.position.y),(goal.z-p.pose.pose.position.z)])
+    if distance != 0:
+      roll = 0
+      pitch = asin(z/distance)
+      yaw = atan2(y,x)
+    else:
+      roll = 0
+      pitch = 0
+      yaw = 0
 
 def linCB(l):
   global vel_maxlin
@@ -100,19 +109,21 @@ while not rospy.is_shutdown():
     
       if substate == "TURNING":
         vel.linear.x = 0
-        vel.angular.z = k_alpha * angle
-        if math.fabs(angle) < 0.2:
+        vel.angular.x = k_roll * roll
+        vel.angular.y = k_pitch * pitch
+        vel.angular.z = k_yaw * yaw
+        if math.fabs(yaw) < 0.2:
           substate = "FORWARDING"        
       elif substate == "FORWARDING":
       	if (angle > math.pi/2):
           vel.linear.x = -k_rho * distance
-          vel.angular.z = k_alpha * (angle-math.pi)  
+          vel.angular.z = k_yaw * (yaw-math.pi) 
         elif (angle < -math.pi/2):
           vel.linear.x = -k_rho * distance
-          vel.angular.z = k_alpha * (angle+math.pi)  
+          vel.angular.z = k_yaw * (yaw+math.pi)  
         else:
           vel.linear.x = k_rho * distance
-          vel.angular.z = k_alpha * angle 
+          vel.angular.z = k_yaw * yaw 
     
       if vel.linear.x > vel_maxlin:
         vel.linear.x = vel_maxlin
