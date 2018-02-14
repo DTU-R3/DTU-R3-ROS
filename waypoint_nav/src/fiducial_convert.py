@@ -5,7 +5,7 @@ import math
 
 import tf
 from sensor_msgs.msg import NavSatFix
-from fiducial_msgs import FiducialMapEntryArray
+from fiducial_msgs.msg import FiducialMapEntryArray
 from geometry_msgs.msg import Point, Vector3, TransformStamped, PoseWithCovarianceStamped
 from pyproj import Proj
 from pyquaternion import Quaternion
