@@ -6,7 +6,7 @@ import json
 from fiducial_msgs.msg import FiducialMapEntryArray, FiducialMapEntry
 
 # Init ROS node
-rospy.init_node('fiducial_waypoint_convert')
+rospy.init_node('fiducial_map_test')
 
 # Publishers
 map_pub = rospy.Publisher('fiducial_map', FiducialMapEntryArray, queue_size = 10, latch = True)
