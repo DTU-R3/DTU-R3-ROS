@@ -82,10 +82,9 @@ map_gps_sub = rospy.Subscriber('fiducial_map_GPS', FiducialMapEntryArray, mapGPS
 
 rate = rospy.Rate(100)
 
-global projection, utm_frame, reference_id, tf_broadcaster, listener
+global projection, utm_frame, tf_broadcaster, listener
 projection = Proj(proj="utm", zone="34", ellps='WGS84')
 tf_broadcaster = tf.TransformBroadcaster()
-reference_id = 129
 utm_frame = "utm"
 listener = tf.TransformListener()
 

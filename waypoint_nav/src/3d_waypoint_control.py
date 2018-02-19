@@ -92,7 +92,7 @@ state_pub = rospy.Publisher('waypoint/robot_state', String, queue_size = 10)
 
 # Subscribers
 state_sub = rospy.Subscriber('waypoint/state', String, stateCB)
-pose_sub = rospy.Subscriber('robot_pose', PoseWithCovarianceStamped, poseCB)
+pose_sub = rospy.Subscriber('fiducial_pose', PoseWithCovarianceStamped, poseCB)
 goal_sub = rospy.Subscriber('waypoint/goal', Point, goalCB)
 para_sub = rospy.Subscriber('waypoint/control_parameters', String, paraCB)
 maxlin_sub = rospy.Subscriber('waypoint/max_linear_speed', Float32, linCB)
