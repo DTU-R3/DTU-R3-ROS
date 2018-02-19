@@ -17,11 +17,12 @@ data = json.load(open('/home/ros/catkin_ws/src/DTU-R3-ROS/waypoint_nav/src/Fiduc
 rate = rospy.Rate(5000)
 
 index = len( data["FiducialCollections"][0]["SavedFiducials"])
-fiducial_map = FiducialMapEntryArray()
+# fiducial_map = FiducialMapEntryArray()
 fiducial_gps_map = FiducialMapEntryArray()
 
 while not rospy.is_shutdown():
   for fid in data["FiducialCollections"][0]["SavedFiducials"]:
+''' Can not update map
     fid_map = FiducialMapEntry()
     fid_map.fiducial_id = fid["Id"]
     fid_map.x = fid["OriginalData"]["X"]
@@ -31,7 +32,7 @@ while not rospy.is_shutdown():
     fid_map.ry = fid["OriginalData"]["RY"]
     fid_map.rz = fid["OriginalData"]["RZ"]
     fiducial_map.fiducials.append(fid_map)
-    
+'''    
     fid_gps_map = FiducialMapEntry()
     fid_gps_map.fiducial_id = fid["Id"]
     fid_gps_map.x = fid["Position"]["longitude"]
@@ -42,6 +43,6 @@ while not rospy.is_shutdown():
     fid_gps_map.rz = fid["Rotation"]["z"]
     fiducial_gps_map.fiducials.append(fid_gps_map)
 
-  map_pub.publish(fiducial_map)
+#  map_pub.publish(fiducial_map)
   map_gps_pub.publish(fiducial_gps_map)
   rate.sleep()
