@@ -11,6 +11,7 @@ from pyproj import Proj
 from pyquaternion import Quaternion
 
 # Callback functions 
+'''
 def mapCB(fiducial_map):
   global tf_broadcaster, fiducial_frame
   for fid in fiducial_map.fiducials:
@@ -18,6 +19,7 @@ def mapCB(fiducial_map):
     child_frame_id = "fid"+str(fid.fiducial_id)
     quat = tf.transformations.quaternion_from_euler(fid.rx,fid.ry,fid.rz)
     tf_broadcaster.sendTransform( (fid.x, fid.y, fid.z), quat, rospy.Time.now(), child_frame_id, frame_id)
+'''
       
 def mapGPSCB(GPS_map):
   global tf_broadcaster, utm_frame
@@ -77,7 +79,7 @@ robot_heading = rospy.Publisher('robot_gps_heading', Vector3, queue_size = 10)
 # Subscribers
 pose_sub = rospy.Subscriber('robot_pose', PoseWithCovarianceStamped, poseCB)
 point_sub = rospy.Subscriber('waypoint', NavSatFix, pointCB)
-map_sub = rospy.Subscriber('fiducial_map', FiducialMapEntryArray, mapCB)
+# map_sub = rospy.Subscriber('fiducial_map', FiducialMapEntryArray, mapCB)
 map_gps_sub = rospy.Subscriber('fiducial_map_GPS', FiducialMapEntryArray, mapGPSCB)
 
 rate = rospy.Rate(100)
