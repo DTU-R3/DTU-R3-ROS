@@ -43,6 +43,6 @@ while not rospy.is_shutdown():
     fid_gps_map.rz = fid["Rotation"]["z"]
     fiducial_gps_map.fiducials.append(fid_gps_map)
 
-#  map_pub.publish(fiducial_map)
+  map_pub.publish(fiducial_map)
   map_gps_pub.publish(fiducial_gps_map)
   rate.sleep()
