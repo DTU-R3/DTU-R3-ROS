@@ -38,8 +38,9 @@ K_PITCH = 0.8
 K_YAW = 0.8
 
 # Variables
-global goal_set, pose_get, orentation_get
+global projection, goal_set, pose_get, orentation_get
 global distance, roll, pitch, yaw, goal, vel, robot_pose
+projection = Proj(proj="utm", zone="34", ellps='WGS84')
 goal_set = False
 pose_get = False
 orentation_get = False
@@ -111,7 +112,7 @@ def thresCB(thres):
   print "Turning threshold is set to: " + str(TURNING_THRES)
 
 def goalCB(g):
-  global goal_set, goal, robot_state, pose_get, orentation_get, robot_pose
+  global projection, goal_set, goal, robot_state, pose_get, orentation_get, robot_pose
   x,y = projection(g.longitude, g.latitude)
   z = g.altitude
   if not pose_get:
@@ -143,6 +144,7 @@ def goalCB(g):
 def poseCB(p):
   global goal_set, distance, roll, pitch, yaw, goal, pose_get, orentation_get
   robot_pose = p.pose.pose
+  robot_pose.position.x, robot_pose.position.y = projection(p.pose.pose.position.x, p.pose.pose.position.y)
   pose_get = True
   orentation_get = True
   if goal_set:
