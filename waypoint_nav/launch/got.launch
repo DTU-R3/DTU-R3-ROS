@@ -1,0 +1,6 @@
+<launch>
+ 
+  <node pkg="waypoint_nav" type="gamesontrack_convert.py" name="gamesontrack_convert"></node>
+
+  <node pkg="waypoint_nav" type="gamesontrack_control.py" name="gamesontrack_control" ></node>
+</launch>
