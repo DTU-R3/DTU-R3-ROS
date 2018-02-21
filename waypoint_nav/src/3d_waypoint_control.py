@@ -11,8 +11,6 @@ from geometry_msgs.msg import Point, Pose, Twist
 from nav_msgs.msg import Odometry
 from sensor_msgs.msg import NavSatFix
 
-
-
 # STATEs
 global STOP, RUNNING, TURNING, FORWARDING, IDLE, state, robot_state, prestate
 STOP = 0
@@ -52,11 +50,7 @@ goal = Point()
 vel = Twist()
 robot_pose = Pose()
 
-# Math functions
-def DegtoRad(d):
-  r = d * math.pi / 180.0
-  return r
-  
+# Control functions
 def LimitRange(v, l):
   if v > 0:
     return min(v,math.abs(l))

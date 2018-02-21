@@ -10,11 +10,12 @@ import tf
 import tf2_ros
 import tf2_msgs.msg
 import tf2_geometry_msgs
+import geometry_msgs.msg
 
 # ROS messages
 from sensor_msgs.msg import NavSatFix
 from nav_msgs.msg import Odometry
-from geometry_msgs.msg import Pose, PoseStamped, TransformStamped
+
 
 # Variables
 global projection, tfBuffer, listener, robot_odom, robot_pose, robot_gps_pose
@@ -39,7 +40,7 @@ def poseCB(p):
   tf_r_o = geometry_msgs.msg.TransformStamped()
   tf_r_o.header.frame_id = odom_frame
   tf_r_o.header.stamp = rospy.Time.now()   
-  tf_r_o.child_frame_id = "reference"
+  tf_r_o.child_frame_id = "odom_utm_bridge"
   tf_r_o.transform.translation.x = robot_odom.pose.pose.position.x
   tf_r_o.transform.translation.y = robot_odom.pose.pose.position.y
   tf_r_o.transform.translation.z = robot_odom.pose.pose.position.z
@@ -49,9 +50,9 @@ def poseCB(p):
   
   # reference to utm
   tf_r_u = geometry_msgs.msg.TransformStamped()
-  tf_r_u.header.frame_id = "utm_test"
+  tf_r_u.header.frame_id = "utm_encoder_test"
   tf_r_u.header.stamp = rospy.Time.now()   
-  tf_r_u.child_frame_id = "reference_test"
+  tf_r_u.child_frame_id = "odom_utm_bridge_encoder_test"
   tf_r_u.transform.translation.x = robot_pose.position.x
   tf_r_u.transform.translation.y = robot_pose.position.y
   tf_r_u.transform.translation.z = robot_pose.position.z
@@ -61,9 +62,9 @@ def poseCB(p):
   
   # utm to reference / inverse reference_test to utm_test
   try:
-    trans = tfBuffer.lookup_transform("reference_test", "utm_test", rospy.Time())
+    trans = tfBuffer.lookup_transform("odom_utm_bridge_encoder_test", "utm_encoder_test", rospy.Time())
     tf_u_r = geometry_msgs.msg.TransformStamped()
-    tf_u_r.header.frame_id = "reference"
+    tf_u_r.header.frame_id = "odom_utm_bridge"
     tf_u_r.header.stamp = rospy.Time.now()   
     tf_u_r.child_frame_id = utm_frame
     tf_u_r.transform = trans.transform
