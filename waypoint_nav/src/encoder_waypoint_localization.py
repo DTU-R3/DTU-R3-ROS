@@ -11,6 +11,7 @@ import tf2_ros
 import tf2_msgs.msg
 import tf2_geometry_msgs
 import geometry_msgs.msg
+from geometry_msgs.msg import Pose
 
 # ROS messages
 from sensor_msgs.msg import NavSatFix
@@ -25,6 +26,28 @@ listener = tf2_ros.TransformListener(tfBuffer)
 robot_odom = Odometry()
 robot_pose = Pose()
 robot_gps_pose = Odometry()
+
+# Inverse transformation
+def inverseTrans(f, f_child, trans):
+  tf_fwd = geometry_msgs.msg.TransformStamped()
+  tf_fwd.header.frame_id = "origin_child"
+  tf_fwd.header.stamp = rospy.Time.now()   
+  tf_fwd.child_frame_id = "origin"
+  tf_fwd.transform = trans
+  tfmsg_fwd = tf2_msgs.msg.TFMessage([tf_fwd])
+  tf_pub.publish(tfmsg_fwd)
+
+  try:
+    inv_trans = tfBuffer.lookup_transform("origin", "origin_child", rospy.Time())
+    tf_inv = geometry_msgs.msg.TransformStamped()
+    tf_inv.header.frame_id = f
+    tf_inv.child_frame_id = f_child
+    tf_inv.header.stamp = rospy.Time.now()      
+    tf_inv.transform = inv_trans.transform
+    tfmsg_inv = tf2_msgs.msg.TFMessage([tf_inv])
+    tf_pub.publish(tfmsg_inv) 
+  except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException):
+    print "Can not inverse the transformation for " + f + " to " + f_child
 
 # ROS Callback functions
 def odomCB(odo):
@@ -48,30 +71,13 @@ def poseCB(p):
   tfmsg_r_o = tf2_msgs.msg.TFMessage([tf_r_o])
   tf_pub.publish(tfmsg_r_o)
   
-  # reference to utm
-  tf_r_u = geometry_msgs.msg.TransformStamped()
-  tf_r_u.header.frame_id = "utm_encoder_test"
-  tf_r_u.header.stamp = rospy.Time.now()   
-  tf_r_u.child_frame_id = "odom_utm_bridge_encoder_test"
-  tf_r_u.transform.translation.x = robot_pose.position.x
-  tf_r_u.transform.translation.y = robot_pose.position.y
-  tf_r_u.transform.translation.z = robot_pose.position.z
-  tf_r_u.transform.rotation = robot_pose.orientation
-  tfmsg_r_u = tf2_msgs.msg.TFMessage([tf_r_u])
-  tf_pub.publish(tfmsg_r_u)
-  
-  # utm to reference / inverse reference_test to utm_test
-  try:
-    trans = tfBuffer.lookup_transform("odom_utm_bridge_encoder_test", "utm_encoder_test", rospy.Time())
-    tf_u_r = geometry_msgs.msg.TransformStamped()
-    tf_u_r.header.frame_id = "odom_utm_bridge"
-    tf_u_r.header.stamp = rospy.Time.now()   
-    tf_u_r.child_frame_id = utm_frame
-    tf_u_r.transform = trans.transform
-    tfmsg_u_r = tf2_msgs.msg.TFMessage([tf_u_r])
-    tf_pub.publish(tfmsg_u_r) 
-  except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException):
-    print "Can not find the transformation from " + utm_frame + " to reference"
+  # utm to reference
+  trans_reference_utm = geometry_msgs.msg.Transform()
+  trans_reference_utm.translation.x = robot_pose.position.x
+  trans_reference_utm.translation.y = robot_pose.position.y
+  trans_reference_utm.translation.z = robot_pose.position.z
+  trans_reference_utm.rotation = robot_pose.orientation
+  inverseTrans("odom_utm_bridge", utm_frame, trans_reference_utm)
   
 # Init ROS node
 rospy.init_node('encoder_waypoint_localization')
