@@ -66,6 +66,13 @@ def StopRobot():
   vel.angular.y = 0
   vel.angular.z = 0
   vel_pub.publish(vel)
+  
+def fitInRad(r):
+  while r > math.pi:
+    r = r - 2 * math.pi
+  while r < -math.pi:
+    r = r + 2 * math.pi
+  return r
     
 # ROS Callback functions
 def paraCB(p):
@@ -138,8 +145,8 @@ def goalCB(g):
     goal.y = y
     goal.z = z
     goal_set = True 
+    print "Waypoint received"
   robot_state = STOP
-  print "Waypoint received"
   
 def poseCB(p):
   global goal_set, distance, roll, pitch, yaw, goal, pose_get, orentation_get
@@ -158,6 +165,9 @@ def poseCB(p):
       roll = 0
       pitch = 0
       yaw = 0
+    roll = fitInRad(roll)
+    pitch = fitInRad(pitch)
+    yaw = fitInRad(yaw)
       
 # Init ROS node
 rospy.init_node('waypoint_control')
@@ -179,9 +189,6 @@ turning_thres_sub = rospy.Subscriber('waypoint/turning_thres', Float32, thresCB)
 rate = rospy.Rate(100)
 
 while not rospy.is_shutdown():
-  print "roll" + str(roll)
-  print "pitch" + str(pitch)
-  print "yaw" + str(yaw)
   if goal_set:
     if state == RUNNING:
       if robot_state != FORWARDING:
@@ -203,9 +210,7 @@ while not rospy.is_shutdown():
           vel.angular.z = K_YAW * (yaw+math.pi)  
         else:
           vel.linear.x = K_RHO * distance
-          vel.angular.x = K_ROLL * roll
-          vel.angular.y = K_PITCH * pitch
-          vel.angular.z = K_YAW * yaw
+          vel.angular.z = K_YAW * yaw 
       
       vel.linear.x = LimitRange(vel.linear.x, VEL_MAX_LIN)
       vel.angular.x = LimitRange(vel.angular.z, VEL_MAX_ANG)

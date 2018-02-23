@@ -59,6 +59,19 @@ def poseCB(p):
   robot_pose = p.pose.pose
   robot_pose.position.x, robot_pose.position.y = projection(p.pose.pose.position.x, p.pose.pose.position.y)
   
+  # odom to utm
+  try:
+    odo_ref_trans = tfBuffer.lookup_transform(robot_frame, odom_frame, rospy.Time())
+    tf_odo_ref = geometry_msgs.msg.TransformStamped()
+    tf_odo_ref.header.frame_id = "odom_utm_refer"
+    tf_odo_ref.child_frame_id = odom_frame
+    tf_odo_ref.header.stamp = rospy.Time.now()      
+    tf_odo_ref.transform = odo_ref_trans.transform
+    tfmsg_odo_ref = tf2_msgs.msg.TFMessage([tf_odo_ref])
+    tf_pub.publish(tfmsg_odo_ref)
+  except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException):
+    print "Can not do the transformation from " + odom_frame + " to reference" 
+  
   # reference to odom
   tf_r_o = geometry_msgs.msg.TransformStamped()
   tf_r_o.header.frame_id = odom_frame
@@ -77,7 +90,7 @@ def poseCB(p):
   trans_reference_utm.translation.y = robot_pose.position.y
   trans_reference_utm.translation.z = robot_pose.position.z
   trans_reference_utm.rotation = robot_pose.orientation
-  inverseTrans("odom_utm_bridge", utm_frame, trans_reference_utm)
+  inverseTrans("odom_utm_bridge", gps_frame, trans_reference_utm)
   
 # Init ROS node
 rospy.init_node('encoder_waypoint_localization')
@@ -87,7 +100,10 @@ global robot_frame, gps_frame, odom_frame
 robot_frame = rospy.get_param("waypoint_control/base_frame", "base_footprint")
 gps_frame = rospy.get_param("waypoint_control/gps_frame", "utm")
 odom_frame = rospy.get_param("waypoint_control/odom_frame", "odom")
-        
+
+robot_gps_pose.header.frame_id = gps_frame
+robot_gps_pose.child_frame_id = robot_frame
+    
 # Publishers
 robot_gps_pub = rospy.Publisher('robot_gps_pose', Odometry, queue_size = 10)
 tf_pub = rospy.Publisher("/tf", tf2_msgs.msg.TFMessage, queue_size=10)
@@ -108,6 +124,6 @@ while not rospy.is_shutdown():
     robot_gps_pose.pose.pose.position.x,robot_gps_pose.pose.pose.position.y = projection(pose_transformed.pose.position.x,pose_transformed.pose.position.y,inverse=True)
     robot_gps_pub.publish(robot_gps_pose)
   except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException):
-    print "Can not find the transformation from " + odom_frame + " to " + gps_frame
+    continue
   rate.sleep()
   
