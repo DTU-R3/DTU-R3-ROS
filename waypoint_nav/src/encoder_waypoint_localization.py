@@ -27,28 +27,6 @@ robot_odom = Odometry()
 robot_pose = Pose()
 robot_gps_pose = Odometry()
 
-# Inverse transformation
-def inverseTrans(f, f_child, trans):
-  tf_fwd = geometry_msgs.msg.TransformStamped()
-  tf_fwd.header.frame_id = "origin_child"
-  tf_fwd.header.stamp = rospy.Time.now()   
-  tf_fwd.child_frame_id = "origin"
-  tf_fwd.transform = trans
-  tfmsg_fwd = tf2_msgs.msg.TFMessage([tf_fwd])
-  tf_pub.publish(tfmsg_fwd)
-
-  try:
-    inv_trans = tfBuffer.lookup_transform("origin", "origin_child", rospy.Time())
-    tf_inv = geometry_msgs.msg.TransformStamped()
-    tf_inv.header.frame_id = f
-    tf_inv.child_frame_id = f_child
-    tf_inv.header.stamp = rospy.Time.now()      
-    tf_inv.transform = inv_trans.transform
-    tfmsg_inv = tf2_msgs.msg.TFMessage([tf_inv])
-    tf_pub.publish(tfmsg_inv) 
-  except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException):
-    print "Can not inverse the transformation for " + f + " to " + f_child
-
 # ROS Callback functions
 def odomCB(odo):
   global robot_odom
@@ -58,8 +36,9 @@ def poseCB(p):
   global robot_pose, robot_odom
   robot_pose = p.pose.pose
   robot_pose.position.x, robot_pose.position.y = projection(p.pose.pose.position.x, p.pose.pose.position.y)
-  
-  # odom to utm
+  print robot_pose.position.x
+  print robot_pose.position.y
+  # odom to reference
   try:
     odo_ref_trans = tfBuffer.lookup_transform(robot_frame, odom_frame, rospy.Time())
     tf_odo_ref = geometry_msgs.msg.TransformStamped()
@@ -72,26 +51,18 @@ def poseCB(p):
   except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException):
     print "Can not do the transformation from " + odom_frame + " to reference" 
   
-  # reference to odom
-  tf_r_o = geometry_msgs.msg.TransformStamped()
-  tf_r_o.header.frame_id = odom_frame
-  tf_r_o.header.stamp = rospy.Time.now()   
-  tf_r_o.child_frame_id = "odom_utm_bridge"
-  tf_r_o.transform.translation.x = robot_odom.pose.pose.position.x
-  tf_r_o.transform.translation.y = robot_odom.pose.pose.position.y
-  tf_r_o.transform.translation.z = robot_odom.pose.pose.position.z
-  tf_r_o.transform.rotation = robot_odom.pose.pose.orientation
-  tfmsg_r_o = tf2_msgs.msg.TFMessage([tf_r_o])
-  tf_pub.publish(tfmsg_r_o)
-  
-  # utm to reference
-  trans_reference_utm = geometry_msgs.msg.Transform()
-  trans_reference_utm.translation.x = robot_pose.position.x
-  trans_reference_utm.translation.y = robot_pose.position.y
-  trans_reference_utm.translation.z = robot_pose.position.z
-  trans_reference_utm.rotation = robot_pose.orientation
-  inverseTrans("odom_utm_bridge", gps_frame, trans_reference_utm)
-  
+  # reference to utm
+  tf_ref_utm = geometry_msgs.msg.TransformStamped()
+  tf_ref_utm.header.frame_id = gps_frame
+  tf_ref_utm.header.stamp = rospy.Time.now()   
+  tf_ref_utm.child_frame_id = "odom_utm_refer"
+  tf_ref_utm.transform.translation.x = robot_pose.position.x
+  tf_ref_utm.transform.translation.y = robot_pose.position.y
+  tf_ref_utm.transform.translation.z = robot_pose.position.z
+  tf_ref_utm.transform.rotation = robot_pose.orientation
+  tfmsg_ref_utm = tf2_msgs.msg.TFMessage([tf_ref_utm])
+  tf_pub.publish(tfmsg_ref_utm)
+
 # Init ROS node
 rospy.init_node('encoder_waypoint_localization')
 

@@ -30,7 +30,7 @@ prestate = STOP
 global TURNING_THRES, K_RHO, K_ROLL, K_PITCH, K_YAW, VEL_MAX_LIN, VEL_MAX_ANG
 TURNING_THRES = 0.2
 VEL_MAX_LIN = 1.0
-VEL_MAX_ANG = 2.0
+VEL_MAX_ANG = 1.0
 K_RHO = 0.3
 K_ROLL = 0.8
 K_PITCH = 0.8
@@ -123,6 +123,11 @@ def goalCB(g):
     robot_pose.position.z = z
     pose_get = True
   else:  
+    goal.x = x
+    goal.y = y
+    goal.z = z
+    goal_set = True 
+    print "Waypoint received"
     if not orentation_get:
       dx = x - robot_pose.position.x
       dy = y - robot_pose.position.y
@@ -140,12 +145,7 @@ def goalCB(g):
       robot_gps_pose = Odometry()
       robot_gps_pose.pose.pose = robot_pose
       robot_gps_pose.pose.pose.position.x,robot_gps_pose.pose.pose.position.y = projection(robot_pose.position.x, robot_pose.position.y, inverse=True)
-      robot_gps_pub.publish(robot_gps_pose)
-    goal.x = x
-    goal.y = y
-    goal.z = z
-    goal_set = True 
-    print "Waypoint received"
+      robot_gps_pub.publish(robot_gps_pose)  
   robot_state = STOP
   
 def poseCB(p):
@@ -157,17 +157,16 @@ def poseCB(p):
   if goal_set:
     distance = math.sqrt( (goal.x-robot_pose.position.x)**2 + (goal.y-robot_pose.position.y)**2 + (goal.z-robot_pose.position.z)**2 )
     robot_euler = tf.transformations.euler_from_quaternion((robot_pose.orientation.x, robot_pose.orientation.y, robot_pose.orientation.z, robot_pose.orientation.w))
-    if distance != 0:
-      roll = 0
-      pitch = math.atan2(goal.z, math.sqrt(goal.x**2 + goal.y**2)) - robot_euler[1]
-      yaw = math.atan2(goal.y, goal.x) - robot_euler[2]
-    else:
-      roll = 0
-      pitch = 0
-      yaw = 0
+    print robot_euler[2]
+    print goal.y
+    print goal.x
+    roll = 0
+    pitch = math.atan2(goal.z-robot_pose.position.z, math.sqrt((goal.x-robot_pose.position.x)**2 + (goal.y--robot_pose.position.y)**2)) - robot_euler[1]
+    yaw = math.atan2(goal.y-robot_pose.position.y, goal.x-robot_pose.position.x) - robot_euler[2]
     roll = fitInRad(roll)
     pitch = fitInRad(pitch)
     yaw = fitInRad(yaw)
+    print "yaw: " + str(yaw)  
       
 # Init ROS node
 rospy.init_node('waypoint_control')
@@ -216,7 +215,6 @@ while not rospy.is_shutdown():
       vel.angular.x = LimitRange(vel.angular.z, VEL_MAX_ANG)
       vel.angular.y = LimitRange(vel.angular.z, VEL_MAX_ANG)
       vel.angular.z = LimitRange(vel.angular.z, VEL_MAX_ANG)
-     
       vel_pub.publish(vel)
       
     elif state == PARK:
@@ -227,7 +225,7 @@ while not rospy.is_shutdown():
         StopRobot()
       else:
         robot_state = IDLE      
-        
+           
   prestate = state       
   robot_state_pub.publish(robot_state)
   rate.sleep()
