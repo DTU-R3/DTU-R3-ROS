@@ -227,6 +227,6 @@ while not rospy.is_shutdown():
     print "Pitch remains: " + str(pitch) 
     print "Yaw remains: " + str(yaw) 
   prestate = state       
-  robot_state_pub.publish(robot_state)
+  robot_state_pub.publish(str(robot_state))
   rate.sleep()
 
