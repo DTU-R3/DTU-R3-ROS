@@ -11,7 +11,7 @@ import tf2_ros
 import tf2_msgs.msg
 import tf2_geometry_msgs
 import geometry_msgs.msg
-from geometry_msgs.msg import Pose
+from geometry_msgs.msg import Pose, PoseStamped
 
 # ROS messages
 from sensor_msgs.msg import NavSatFix
@@ -33,23 +33,23 @@ def odomCB(odo):
   robot_odom = odo
 
 def poseCB(p):
-  global robot_pose, robot_odom
+  global robot_pose, robot_odom, odom_frame, gps_frame
   robot_pose = p.pose.pose
   robot_pose.position.x, robot_pose.position.y = projection(p.pose.pose.position.x, p.pose.pose.position.y)
-  print robot_pose.position.x
-  print robot_pose.position.y
+  
   # odom to reference
   try:
     odo_ref_trans = tfBuffer.lookup_transform(robot_frame, odom_frame, rospy.Time())
-    tf_odo_ref = geometry_msgs.msg.TransformStamped()
-    tf_odo_ref.header.frame_id = "odom_utm_refer"
-    tf_odo_ref.child_frame_id = odom_frame
-    tf_odo_ref.header.stamp = rospy.Time.now()      
-    tf_odo_ref.transform = odo_ref_trans.transform
-    tfmsg_odo_ref = tf2_msgs.msg.TFMessage([tf_odo_ref])
-    tf_pub.publish(tfmsg_odo_ref)
   except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException):
     print "Can not do the transformation from " + odom_frame + " to reference" 
+  
+  tf_odo_ref = geometry_msgs.msg.TransformStamped()
+  tf_odo_ref.header.frame_id = "odom_utm_refer"
+  tf_odo_ref.child_frame_id = odom_frame
+  tf_odo_ref.header.stamp = rospy.Time.now()      
+  tf_odo_ref.transform = odo_ref_trans.transform
+  tfmsg_odo_ref = tf2_msgs.msg.TFMessage([tf_odo_ref])
+  tf_pub.publish(tfmsg_odo_ref)
   
   # reference to utm
   tf_ref_utm = geometry_msgs.msg.TransformStamped()
@@ -61,7 +61,7 @@ def poseCB(p):
   tf_ref_utm.transform.translation.z = robot_pose.position.z
   tf_ref_utm.transform.rotation = robot_pose.orientation
   tfmsg_ref_utm = tf2_msgs.msg.TFMessage([tf_ref_utm])
-  tf_pub.publish(tfmsg_ref_utm)
+  tf2_pub.publish(tfmsg_ref_utm)
 
 # Init ROS node
 rospy.init_node('encoder_waypoint_localization')
@@ -77,10 +77,11 @@ robot_gps_pose.child_frame_id = robot_frame
     
 # Publishers
 robot_gps_pub = rospy.Publisher('robot_gps_pose', Odometry, queue_size = 10)
-tf_pub = rospy.Publisher("/tf", tf2_msgs.msg.TFMessage, queue_size=10)
+tf_pub = rospy.Publisher("/tf", tf2_msgs.msg.TFMessage, queue_size=20, latch = True)
+tf2_pub = rospy.Publisher("/tf_static", tf2_msgs.msg.TFMessage, queue_size=20, latch = True)
 
 # Subscribers
-robot_gps_sub = rospy.Subscriber('robot_gps_pose', Odometry, poseCB)
+robot_gps_sub = rospy.Subscriber('odo_utm_pose', Odometry, poseCB)
 odom_sub = rospy.Subscriber('odom', Odometry, odomCB)
 
 rate = rospy.Rate(100)

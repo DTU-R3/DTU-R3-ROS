@@ -157,16 +157,12 @@ def poseCB(p):
   if goal_set:
     distance = math.sqrt( (goal.x-robot_pose.position.x)**2 + (goal.y-robot_pose.position.y)**2 + (goal.z-robot_pose.position.z)**2 )
     robot_euler = tf.transformations.euler_from_quaternion((robot_pose.orientation.x, robot_pose.orientation.y, robot_pose.orientation.z, robot_pose.orientation.w))
-    print robot_euler[2]
-    print goal.y
-    print goal.x
     roll = 0
     pitch = math.atan2(goal.z-robot_pose.position.z, math.sqrt((goal.x-robot_pose.position.x)**2 + (goal.y--robot_pose.position.y)**2)) - robot_euler[1]
     yaw = math.atan2(goal.y-robot_pose.position.y, goal.x-robot_pose.position.x) - robot_euler[2]
     roll = fitInRad(roll)
     pitch = fitInRad(pitch)
-    yaw = fitInRad(yaw)
-    print "yaw: " + str(yaw)  
+    yaw = fitInRad(yaw) 
       
 # Init ROS node
 rospy.init_node('waypoint_control')
@@ -174,7 +170,7 @@ rospy.init_node('waypoint_control')
 # Publishers
 vel_pub = rospy.Publisher('cmd_vel', Twist, queue_size = 10)
 robot_state_pub = rospy.Publisher('waypoint/robot_state', String, queue_size = 10)
-robot_gps_pub = rospy.Publisher('robot_gps_pose', Odometry, queue_size = 10)
+robot_gps_pub = rospy.Publisher('odo_utm_pose', Odometry, queue_size = 10)
 
 # Subscribers
 state_sub = rospy.Subscriber('waypoint/state', String, stateCB)
@@ -225,7 +221,11 @@ while not rospy.is_shutdown():
         StopRobot()
       else:
         robot_state = IDLE      
-           
+    
+    print "Distance remains: " + str(distance)      
+    print "Roll remains: " + str(roll) 
+    print "Pitch remains: " + str(pitch) 
+    print "Yaw remains: " + str(yaw) 
   prestate = state       
   robot_state_pub.publish(robot_state)
   rate.sleep()
