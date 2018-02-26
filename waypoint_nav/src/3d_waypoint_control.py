@@ -170,7 +170,7 @@ rospy.init_node('waypoint_control')
 # Publishers
 vel_pub = rospy.Publisher('cmd_vel', Twist, queue_size = 10)
 robot_state_pub = rospy.Publisher('waypoint/robot_state', String, queue_size = 10)
-robot_gps_pub = rospy.Publisher('odo_utm_pose', Odometry, queue_size = 10)
+robot_gps_pub = rospy.Publisher('odo_calib_pose', Odometry, queue_size = 10)
 
 # Subscribers
 state_sub = rospy.Subscriber('waypoint/state', String, stateCB)
