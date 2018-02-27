@@ -158,7 +158,7 @@ def poseCB(p):
     distance = math.sqrt( (goal.x-robot_pose.position.x)**2 + (goal.y-robot_pose.position.y)**2 + (goal.z-robot_pose.position.z)**2 )
     robot_euler = tf.transformations.euler_from_quaternion((robot_pose.orientation.x, robot_pose.orientation.y, robot_pose.orientation.z, robot_pose.orientation.w))
     roll = 0
-    pitch = math.atan2(goal.z-robot_pose.position.z, math.sqrt((goal.x-robot_pose.position.x)**2 + (goal.y--robot_pose.position.y)**2)) - robot_euler[1]
+    pitch = math.atan2(goal.z-robot_pose.position.z, math.sqrt((goal.x-robot_pose.position.x)**2 + (goal.y-robot_pose.position.y)**2)) - robot_euler[1]
     yaw = math.atan2(goal.y-robot_pose.position.y, goal.x-robot_pose.position.x) - robot_euler[2]
     roll = fitInRad(roll)
     pitch = fitInRad(pitch)
@@ -197,19 +197,14 @@ while not rospy.is_shutdown():
         if math.fabs(yaw) < TURNING_THRES:
           robot_state = FORWARDING     
       elif robot_state == FORWARDING:
-      	if (yaw > math.pi/2):
-          vel.linear.x = -K_RHO * distance
-          vel.angular.z = K_YAW * (yaw-math.pi) 
-        elif (yaw < -math.pi/2):
-          vel.linear.x = -K_RHO * distance
-          vel.angular.z = K_YAW * (yaw+math.pi)  
-        else:
-          vel.linear.x = K_RHO * distance
-          vel.angular.z = K_YAW * yaw 
+      	vel.linear.x = K_RHO * distance
+        vel.angular.z = K_YAW * yaw
+        if math.fabs(yaw) > math.pi/2:
+           robot_state = TURNING
       
       vel.linear.x = LimitRange(vel.linear.x, VEL_MAX_LIN)
-      vel.angular.x = LimitRange(vel.angular.z, VEL_MAX_ANG)
-      vel.angular.y = LimitRange(vel.angular.z, VEL_MAX_ANG)
+      vel.angular.x = LimitRange(vel.angular.x, VEL_MAX_ANG)
+      vel.angular.y = LimitRange(vel.angular.y, VEL_MAX_ANG)
       vel.angular.z = LimitRange(vel.angular.z, VEL_MAX_ANG)
       vel_pub.publish(vel)
       
