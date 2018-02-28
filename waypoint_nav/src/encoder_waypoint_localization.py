@@ -3,7 +3,6 @@
 import rospy
 import math
 from pyproj import Proj
-from pyquaternion import Quaternion
 
 # TF libraries
 import tf

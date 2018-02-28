@@ -4,7 +4,6 @@ import rospy
 import math
 import json
 from pyproj import Proj
-from pyquaternion import Quaternion
 
 # TF libraries
 import tf
