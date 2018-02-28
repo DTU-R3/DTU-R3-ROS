@@ -37,3 +37,9 @@ fwd,1,0.5
 ```
 turn,90,0.5
 ```
+
+**Stop command**
+
+```
+stop
+```
