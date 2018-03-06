@@ -51,9 +51,9 @@ def transCB(t):
       fid_utm_x, fid_utm_y = projection(fid.x, fid.y) 
       quat = tf.transformations.quaternion_from_euler(degToRad(fid.rx), degToRad(fid.ry), degToRad(fid.rz))
       tf_fid_utm = geometry_msgs.msg.geometry_msgs.msg.TransformStamped()
-      tf_fid_cam.header.frame_id = gps_frame
-      tf_fid_cam.child_frame_id = "fiducial"
-      tf_fid_cam.header.stamp = rospy.Time.now()  
+      tf_fid_utm.header.frame_id = gps_frame
+      tf_fid_utm.child_frame_id = "fiducial"
+      tf_fid_utm.header.stamp = rospy.Time.now()  
       tf_fid_utm.transform.translation.x = fid_utm_x
       tf_fid_utm.transform.translation.y = fid_utm_y
       tf_fid_utm.transform.translation.z = fid.z
@@ -95,8 +95,9 @@ for fid in json_data["FiducialCollections"][0]["SavedFiducials"]:
   fid_gps_map.y = fid["Position"]["latitude"]
   fid_gps_map.z = fid["Position"]["altitude"]
   fid_gps_map.rx = fid["Rotation"]["x"]
-  fid_gps_map.ry = fid["Rotation"]["y"]
-  fid_gps_map.rz = fid["Rotation"]["z"]
+  # y,z are reversed in Unity space
+  fid_gps_map.ry = fid["Rotation"]["z"]
+  fid_gps_map.rz = fid["Rotation"]["y"]
   fiducial_gps_map.fiducials.append(fid_gps_map)
 fiducials_gps = fiducial_gps_map
 
@@ -118,7 +119,7 @@ while not rospy.is_shutdown():
 
   # Transform from robot to utm
   try:
-    robot_utm_trans = tfBuffer.lookup_transform("utm", "fiducial", rospy.Time())
+    robot_utm_trans = tfBuffer.lookup_transform("utm", "robot_fid", rospy.Time())
     robot_gps_pose.pose.pose.position.z = robot_utm_trans.transform.translation.z
     robot_gps_pose.pose.pose.position.x,robot_gps_pose.pose.pose.position.y = projection(robot_utm_trans.transform.translation.x,robot_utm_trans.transform.translation.y, inverse=True)
     robot_gps_pose.pose.pose.orientation = robot_utm_trans.transform.rotation
