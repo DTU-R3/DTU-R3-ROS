@@ -170,7 +170,7 @@ rospy.init_node('waypoint_control')
 # Publishers
 vel_pub = rospy.Publisher('cmd_vel', Twist, queue_size = 10)
 robot_state_pub = rospy.Publisher('waypoint/robot_state', String, queue_size = 10)
-robot_gps_pub = rospy.Publisher('odo_calib_pose', Odometry, queue_size = 10)
+robot_gps_pub = rospy.Publisher('calib_pose', Odometry, queue_size = 10)
 
 # Subscribers
 state_sub = rospy.Subscriber('waypoint/state', String, stateCB)
@@ -198,6 +198,7 @@ while not rospy.is_shutdown():
           robot_state = FORWARDING     
       elif robot_state == FORWARDING:
       	vel.linear.x = K_RHO * distance
+      	vel.angular.y = K_PITCH * pitch
         vel.angular.z = K_YAW * yaw
         if math.fabs(yaw) > math.pi/2:
            robot_state = TURNING
