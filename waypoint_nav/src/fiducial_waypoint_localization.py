@@ -78,11 +78,11 @@ camera_frame = rospy.get_param("waypoint_control/camera_frame", "raspicam")
         
 # Publishers
 robot_gps_pub = rospy.Publisher('robot_gps_pose', Odometry, queue_size = 10)
-tf_pub = rospy.Publisher("/tf", tf2_msgs.msg.TFMessage, queue_size=20, latch = True)
-tf2_pub = rospy.Publisher("/tf_static", tf2_msgs.msg.TFMessage, queue_size=20, latch = True)
+tf_pub = rospy.Publisher("tf", tf2_msgs.msg.TFMessage, queue_size=20, latch = True)
+tf2_pub = rospy.Publisher("tf_static", tf2_msgs.msg.TFMessage, queue_size=20, latch = True)
 
 # Subscribers
-map_gps_sub = rospy.Subscriber('fiducial_map_GPS', FiducialMapEntryArray, mapGPSCB)
+map_gps_sub = rospy.Subscriber('fiducial_map_gps', FiducialMapEntryArray, mapGPSCB)
 detect_sub = rospy.Subscriber('fiducial_transforms', FiducialTransformArray, transCB)
 
 rate = rospy.Rate(1)

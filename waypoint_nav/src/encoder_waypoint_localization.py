@@ -75,11 +75,11 @@ robot_gps_pose.child_frame_id = robot_frame
     
 # Publishers
 robot_gps_pub = rospy.Publisher('robot_gps_pose', Odometry, queue_size = 10)
-tf_pub = rospy.Publisher("/tf", tf2_msgs.msg.TFMessage, queue_size=20, latch = True)
-tf2_pub = rospy.Publisher("/tf_static", tf2_msgs.msg.TFMessage, queue_size=20, latch = True)
+tf_pub = rospy.Publisher("tf", tf2_msgs.msg.TFMessage, queue_size=20, latch = True)
+tf2_pub = rospy.Publisher("tf_static", tf2_msgs.msg.TFMessage, queue_size=20, latch = True)
 
 # Subscribers
-robot_gps_sub = rospy.Subscriber('calib_pose', Odometry, poseCB)
+robot_gps_sub = rospy.Subscriber('odo_calib_pose', Odometry, poseCB)
 odom_sub = rospy.Subscriber('odom', Odometry, odomCB)
 
 rate = rospy.Rate(100)
