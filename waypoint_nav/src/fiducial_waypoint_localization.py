@@ -36,33 +36,35 @@ def mapGPSCB(GPS_map):
 
 def transCB(t):
   global reference_id, camera_frame, gps_frame, fiducials_gps
-  reference_id = t.transforms[-1].fiducial_id
-  tf_fid_cam = geometry_msgs.msg.TransformStamped()
-  tf_fid_cam.header.frame_id = camera_frame
-  tf_fid_cam.child_frame_id = "fid"+str(reference_id)
-  tf_fid_cam.header.stamp = rospy.Time.now()      
-  tf_fid_cam.transform = t.transforms[-1].transform
-  tfmsg_fid_cam = tf2_msgs.msg.TFMessage([tf_fid_cam])
-  tf_pub.publish(tfmsg_fid_cam)
-
-  # Find the transfrom from robot to utm_fiducial 
-  for fid in fiducials_gps.fiducials:
-    if fid.fiducial_id == reference_id:	
-      fid_utm_x, fid_utm_y = projection(fid.x, fid.y) 
-      quat = tf.transformations.quaternion_from_euler(degToRad(fid.rx), degToRad(fid.ry), degToRad(fid.rz))
-      tf_fid_utm = geometry_msgs.msg.geometry_msgs.msg.TransformStamped()
-      tf_fid_utm.header.frame_id = gps_frame
-      tf_fid_utm.child_frame_id = "fiducial"
-      tf_fid_utm.header.stamp = rospy.Time.now()  
-      tf_fid_utm.transform.translation.x = fid_utm_x
-      tf_fid_utm.transform.translation.y = fid_utm_y
-      tf_fid_utm.transform.translation.z = fid.z
-      tf_fid_utm.transform.rotation.x = quat[0]
-      tf_fid_utm.transform.rotation.y = quat[1]
-      tf_fid_utm.transform.rotation.z = quat[2]
-      tf_fid_utm.transform.rotation.w = quat[3]
-      tfmsg_fid_utm = tf2_msgs.msg.TFMessage([tf_fid_utm])
-      tf_pub.publish(tfmsg_fid_utm)
+  for fid_trans in t.transforms[::-1]:
+    for fid in fiducials_gps.fiducials:
+      if fid_trans.fiducial_id == fid.fiducial_id:
+        reference_id = fid.fiducial_id
+        tf_fid_cam = geometry_msgs.msg.TransformStamped()
+        tf_fid_cam.header.frame_id = camera_frame
+        tf_fid_cam.child_frame_id = "fid"+str(reference_id)
+        tf_fid_cam.header.stamp = rospy.Time.now()      
+        tf_fid_cam.transform = fid_trans.transform
+        tfmsg_fid_cam = tf2_msgs.msg.TFMessage([tf_fid_cam])
+        tf_pub.publish(tfmsg_fid_cam)
+        
+        fid_utm_x, fid_utm_y = projection(fid.x, fid.y) 
+        quat = tf.transformations.quaternion_from_euler(degToRad(fid.rx), degToRad(fid.ry), degToRad(fid.rz))
+        tf_fid_utm = geometry_msgs.msg.geometry_msgs.msg.TransformStamped()
+        tf_fid_utm.header.frame_id = gps_frame
+        tf_fid_utm.child_frame_id = "fiducial"
+        tf_fid_utm.header.stamp = rospy.Time.now()  
+        tf_fid_utm.transform.translation.x = fid_utm_x
+        tf_fid_utm.transform.translation.y = fid_utm_y
+        tf_fid_utm.transform.translation.z = fid.z
+        tf_fid_utm.transform.rotation.x = quat[0]
+        tf_fid_utm.transform.rotation.y = quat[1]
+        tf_fid_utm.transform.rotation.z = quat[2]
+        tf_fid_utm.transform.rotation.w = quat[3]
+        tfmsg_fid_utm = tf2_msgs.msg.TFMessage([tf_fid_utm])
+        tf_pub.publish(tfmsg_fid_utm)
+        break;
+    
 
 # Init ROS node
 rospy.init_node('fiducial_waypoint_localization')
@@ -113,20 +115,15 @@ while not rospy.is_shutdown():
     tf_robot_fid.transform = robot_fid_trans.transform
     tfmsg_robot_fid = tf2_msgs.msg.TFMessage([tf_robot_fid])
     tf_pub.publish(tfmsg_robot_fid)
-    print "Transformation found"
-  except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException):
-    print "Can not find the transformation from robot to fid"+str(reference_id)
-
-  # Transform from robot to utm
-  try:
+    
     robot_utm_trans = tfBuffer.lookup_transform("utm", "robot_fid", rospy.Time())
     robot_gps_pose.pose.pose.position.z = robot_utm_trans.transform.translation.z
-    robot_gps_pose.pose.pose.position.x,robot_gps_pose.pose.pose.position.y = projection(robot_utm_trans.transform.translation.x,robot_utm_trans.transform.translation.y, inverse=True)
-    robot_gps_pose.pose.pose.orientation = robot_utm_trans.transform.rotation
+    robot_gps_pose.pose.pose.position.x,robot_gps_pose.pose.pose.position.y = projection(robot_utm_trans.transform.translation.x, robot_utm_trans.transform.translation.y, inverse=True)
+    robot_gps_pose.pose.pose.orientation = robot_utm_trans.transform.rotation 
     robot_gps_pub.publish(robot_gps_pose)
     print "Transformation found"
   except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException):
-    print "Can not find the transformation from robot to utm"
-  
+    print "Can not find the transformation"
+
   rate.sleep()
   
