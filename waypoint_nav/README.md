@@ -57,7 +57,7 @@ Used to send the robot initial position to the localisation module.
 
 Robot GPS position
 
-**waypoint** ([nav_msgs/Odometry](http://docs.ros.org/api/nav_msgs/html/msg/Odometry.html))
+**waypoint** ([sensor_msgs/NavSatFix](http://docs.ros.org/api/sensor_msgs/html/msg/NavSatFix.html))
 
 Waypoint GPS position
 
