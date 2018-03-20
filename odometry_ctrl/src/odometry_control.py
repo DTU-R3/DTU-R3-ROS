@@ -7,18 +7,29 @@ from geometry_msgs.msg import Pose2D, Twist
 from std_msgs.msg import String
 from nav_msgs.msg import Odometry
 
-global linear_vel, angular_vel, state, prestate, robot_state, distance, angle
+# STATEs
+global STOP, RUNNING, TURNING, FORWARDING, IDLE, state, robot_state, prestate
+STOP = 0
+# waypoint/state
+RUNNING = 1
+PARK = 2
+# waypoint/robot_state
+TURNING = 1
+FORWARDING = 2
+IDLE = 3
+state = STOP
+robot_state = STOP
+prestate = STOP
+
+global linear_vel, angular_vel, distance, angle
 global robot_x, robot_y, robot_th, start_x, start_y, start_th, vel, vel_maxlin, vel_maxang
 
 linear_vel = 0.5
-angular_vel = 0.5
-state = "STOP"
-robot_state = "idle"
+angular_vel = 1.0
 distance = 0.0
 angle = 0.0
 dis_thres = 0.1
 ang_thres = 0.1
-prestate = "STOP"
 robot_x = 0.0
 robot_y = 0.0
 robot_th = 0.0
@@ -43,6 +54,8 @@ def odomCB(odo):
   robot_x = odo.pose.pose.position.x
   robot_y = odo.pose.pose.position.y
   robot_th = 2 * math.atan2(odo.pose.pose.orientation.z,odo.pose.pose.orientation.w)
+
+def stateCB(s):
 
 def cmdCB(cmd):
   global robot_state, distance, angle, linear_vel, angular_vel, robot_x, robot_y, robot_th, start_x, start_y, start_th
@@ -75,6 +88,7 @@ state_pub = rospy.Publisher('odometry_control/robot_state', String, queue_size =
 # Subscribers
 odom_sub = rospy.Subscriber('odom', Odometry, odomCB)
 cmd_sub = rospy.Subscriber('odometry_control/cmd', String, cmdCB)
+state_sub = rospy.Subscriber('odometry_control/state', String, stateCB)
 
 rate = rospy.Rate(100)
 
