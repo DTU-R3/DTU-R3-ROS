@@ -212,7 +212,8 @@ maxang_sub = rospy.Subscriber('waypoint/max_angular_speed', Float32, angCB)
 fwding_thres_sub = rospy.Subscriber('waypoint/forwarding_thres', Float32, fwdThresCB)
 turning_thres_sub = rospy.Subscriber('waypoint/turning_thres', Float32, trunThresCB)
 
-rate = rospy.Rate(10)
+freq = 10
+rate = rospy.Rate(freq)
 
 while not rospy.is_shutdown():
   if goal_set:
@@ -222,16 +223,16 @@ while not rospy.is_shutdown():
     
       if robot_state == TURNING:
         vel.linear.x = 0
-        vel.angular.x = Accelerate(vel.angular.x, K_ROLL * roll, ACC_R)
-        vel.angular.y = Accelerate(vel.angular.y, K_PITCH * pitch, ACC_R)
-        vel.angular.z = Accelerate(vel.angular.z, K_YAW * yaw, ACC_R)
+        vel.angular.x = Accelerate(vel.angular.x, K_ROLL * roll, ACC_R/freq)
+        vel.angular.y = Accelerate(vel.angular.y, K_PITCH * pitch, ACC_R/freq)
+        vel.angular.z = Accelerate(vel.angular.z, K_YAW * yaw, ACC_R/freq)
         if math.fabs(yaw) < TURNING_THRES:
           robot_state = FORWARDING     
       elif robot_state == FORWARDING:
         if math.fabs(distance) > FORWARDING_THRES:
-      	  vel.linear.x = Accelerate(vel.linear.x, K_RHO * distance, ACC)
-      	  vel.angular.y = Accelerate(vel.angular.y, K_PITCH * pitch, ACC_R)
-          vel.angular.z = Accelerate(vel.angular.z, K_YAW * yaw, ACC_R)
+      	  vel.linear.x = Accelerate(vel.linear.x, K_RHO * distance, ACC/freq)
+      	  vel.angular.y = Accelerate(vel.angular.y, K_PITCH * pitch, ACC_R/freq)
+          vel.angular.z = Accelerate(vel.angular.z, K_YAW * yaw, ACC_R/freq)
           if math.fabs(yaw) > math.pi/2:
              robot_state = TURNING
         else:
