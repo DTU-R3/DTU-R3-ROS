@@ -82,7 +82,7 @@ tf2_pub = rospy.Publisher("tf_static", tf2_msgs.msg.TFMessage, queue_size=20, la
 robot_gps_sub = rospy.Subscriber('odo_calib_pose', Odometry, poseCB)
 odom_sub = rospy.Subscriber('odom', Odometry, odomCB)
 
-rate = rospy.Rate(100)
+rate = rospy.Rate(10)
 
 while not rospy.is_shutdown():
   try:

@@ -13,7 +13,7 @@ from nav_msgs.msg import Odometry
 from sensor_msgs.msg import NavSatFix
 
 # STATEs
-global STOP, RUNNING, TURNING, FORWARDING, IDLE, state, robot_state, prestate
+global STOP, RUNNING, TURNING, FORWARDING, IDLE, ARRIVED, state, robot_state, prestate
 STOP = 0
 # waypoint/state
 RUNNING = 1
@@ -22,12 +22,14 @@ PARK = 2
 TURNING = 1
 FORWARDING = 2
 IDLE = 3
+ARRIVED = 4
 state = STOP
 robot_state = STOP
 prestate = STOP
 
 # Control parameters
-global TURNING_THRES, K_RHO, K_ROLL, K_PITCH, K_YAW, VEL_MAX_LIN, VEL_MAX_ANG
+global FORWARDING_THRES, TURNING_THRES, K_RHO, K_ROLL, K_PITCH, K_YAW, VEL_MAX_LIN, VEL_MAX_ANG, ACC, ACC_R
+FORWARDING_THRES = 0.1
 TURNING_THRES = 0.2
 VEL_MAX_LIN = 1.0
 VEL_MAX_ANG = 1.0
@@ -35,6 +37,8 @@ K_RHO = 0.3
 K_ROLL = 0.8
 K_PITCH = 0.8
 K_YAW = 0.8
+ACC = 0.2
+ACC_R = 0.2
 
 # Variables
 global projection, goal_set, pose_get, orentation_get
@@ -73,7 +77,16 @@ def fitInRad(r):
   while r < -math.pi:
     r = r + 2 * math.pi
   return r
-    
+
+def Accelerate(v, cmd_v, acc):
+  if v - cmd_v > acc:
+    vel = v - acc
+  elif cmd_v - v > acc:
+    vel = v + acc
+  else:
+    vel = cmd_v
+  return vel
+
 # ROS Callback functions
 def paraCB(p):
   global K_RHO, K_ROLL, K_PITCH, K_YAW
@@ -88,6 +101,17 @@ def paraCB(p):
     else:
       print "Error: 4 parameter needed, only " + str(len(parts)) + " sent"
 
+def accCB(a):
+  global ACC, ACC_R
+  if len(a.data) > 0:
+    parts = p.data.split(',')
+    if len(parts) == 2:
+      ACC = float(parts[0])
+      ACC_R = float(parts[1])
+      print "Acceleration updated: " + str(ACC) +", " + str(ACC_R)
+    else:
+      print "Error: 2 parameter needed, only " + str(len(parts)) + " sent"
+      
 def stateCB(s):
   global state
   if s.data == "RUNNING":
@@ -107,8 +131,13 @@ def angCB(a):
   global VEL_MAX_ANG
   VEL_MAX_ANG = a.data
   print "Max angular speed is set to: " + str(VEL_MAX_ANG)  
-  
-def thresCB(thres):
+
+def fwdThresCB(thres):
+  global FORWARDING_THRES
+  FORWARDING_THRES = thres.data
+  print "Forwarding threshold is set to: " + str(FORWARDING_THRES)
+    
+def trunThresCB(thres):
   global TURINING_THRES
   TURNING_THRES = thres.data
   print "Turning threshold is set to: " + str(TURNING_THRES)
@@ -177,11 +206,13 @@ state_sub = rospy.Subscriber('waypoint/state', String, stateCB)
 pose_sub = rospy.Subscriber('robot_gps_pose', Odometry, poseCB)
 goal_sub = rospy.Subscriber('waypoint', NavSatFix, goalCB)
 para_sub = rospy.Subscriber('waypoint/control_parameters', String, paraCB)
+acc_sub = rospy.Subscriber('waypoint/acceleration', String, accCB)
 maxlin_sub = rospy.Subscriber('waypoint/max_linear_speed', Float32, linCB)
 maxang_sub = rospy.Subscriber('waypoint/max_angular_speed', Float32, angCB)
-turning_thres_sub = rospy.Subscriber('waypoint/turning_thres', Float32, thresCB)
+fwding_thres_sub = rospy.Subscriber('waypoint/forwarding_thres', Float32, fwdThresCB)
+turning_thres_sub = rospy.Subscriber('waypoint/turning_thres', Float32, trunThresCB)
 
-rate = rospy.Rate(100)
+rate = rospy.Rate(10)
 
 while not rospy.is_shutdown():
   if goal_set:
@@ -191,17 +222,23 @@ while not rospy.is_shutdown():
     
       if robot_state == TURNING:
         vel.linear.x = 0
-        vel.angular.x = K_ROLL * roll
-        vel.angular.y = K_PITCH * pitch
-        vel.angular.z = K_YAW * yaw
+        vel.angular.x = Accelerate(vel.angular.x, K_ROLL * roll, ACC_R)
+        vel.angular.y = Accelerate(vel.angular.y, K_PITCH * pitch, ACC_R)
+        vel.angular.z = Accelerate(vel.angular.z, K_YAW * yaw, ACC_R)
         if math.fabs(yaw) < TURNING_THRES:
           robot_state = FORWARDING     
       elif robot_state == FORWARDING:
-      	vel.linear.x = K_RHO * distance
-      	vel.angular.y = K_PITCH * pitch
-        vel.angular.z = K_YAW * yaw
-        if math.fabs(yaw) > math.pi/2:
-           robot_state = TURNING
+        if math.fabs(distance) > FORWARDING_THRES:
+      	  vel.linear.x = Accelerate(vel.linear.x, K_RHO * distance, ACC)
+      	  vel.angular.y = Accelerate(vel.angular.y, K_PITCH * pitch, ACC_R)
+          vel.angular.z = Accelerate(vel.angular.z, K_YAW * yaw, ACC_R)
+          if math.fabs(yaw) > math.pi/2:
+             robot_state = TURNING
+        else:
+          vel.linear.x = 0
+      	  vel.angular.y = 0
+          vel.angular.z = 0
+          robot_state = ARRIVED
       
       vel.linear.x = LimitRange(vel.linear.x, VEL_MAX_LIN)
       vel.angular.x = LimitRange(vel.angular.x, VEL_MAX_ANG)
