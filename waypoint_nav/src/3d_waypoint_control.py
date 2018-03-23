@@ -63,7 +63,7 @@ def LimitRange(v, l):
     return max(v, -math.fabs(l))
 
 def StopRobot():
-  global robot_state, vel
+  global robot_state, vel, STOP
   robot_state = STOP
   vel.linear.x = 0
   vel.angular.x = 0
@@ -113,7 +113,7 @@ def accCB(a):
       print "Error: 2 parameter needed, only " + str(len(parts)) + " sent"
       
 def stateCB(s):
-  global state
+  global state, RUNNING, PARK, STOP
   if s.data == "RUNNING":
     state = RUNNING
   elif s.data == "PARK":
@@ -144,6 +144,7 @@ def trunThresCB(thres):
 
 def goalCB(g):
   global projection, goal_set, goal, robot_state, pose_get, orentation_get, robot_pose
+  global STOP
   x,y = projection(g.longitude, g.latitude)
   z = g.altitude
   if not pose_get:
