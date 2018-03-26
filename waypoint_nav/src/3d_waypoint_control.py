@@ -228,6 +228,9 @@ while not rospy.is_shutdown():
         vel.angular.y = Accelerate(vel.angular.y, K_PITCH * pitch, ACC_R/freq)
         vel.angular.z = Accelerate(vel.angular.z, K_YAW * yaw, ACC_R/freq)
         if math.fabs(yaw) < TURNING_THRES:
+          vel.angular.x = 0
+          vel.angular.y = 0
+          vel.angular.z = 0
           robot_state = FORWARDING     
       elif robot_state == FORWARDING:
         if math.fabs(distance) > FORWARDING_THRES:
