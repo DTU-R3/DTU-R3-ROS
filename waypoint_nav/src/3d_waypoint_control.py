@@ -175,6 +175,9 @@ def goalCB(g):
       robot_gps_pose = Odometry()
       robot_gps_pose.pose.pose = robot_pose
       robot_gps_pose.pose.pose.position.x,robot_gps_pose.pose.pose.position.y = projection(robot_pose.position.x, robot_pose.position.y, inverse=True)
+      robot_gps_pose.pose.pose.orientation.x = -robot_pose.orientation.x
+      robot_gps_pose.pose.pose.orientation.y = -robot_pose.orientation.y
+      robot_gps_pose.pose.pose.orientation.z = -robot_pose.orientation.z
       robot_gps_pub.publish(robot_gps_pose)  
   robot_state = STOP
   
@@ -182,6 +185,9 @@ def poseCB(p):
   global goal_set, distance, roll, pitch, yaw, goal, pose_get, orentation_get
   robot_pose = p.pose.pose
   robot_pose.position.x, robot_pose.position.y = projection(p.pose.pose.position.x, p.pose.pose.position.y)
+  robot_pose.orientation.x = -p.pose.pose.orientation.x
+  robot_pose.orientation.y = -p.pose.pose.orientation.y
+  robot_pose.orientation.z = -p.pose.pose.orientation.z
   pose_get = True
   orentation_get = True
   if goal_set:

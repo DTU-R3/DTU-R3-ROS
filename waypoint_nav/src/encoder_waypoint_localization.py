@@ -35,6 +35,9 @@ def poseCB(p):
   global robot_pose, robot_odom, odom_frame, gps_frame
   robot_pose = p.pose.pose
   robot_pose.position.x, robot_pose.position.y = projection(p.pose.pose.position.x, p.pose.pose.position.y)
+  robot_pose.orientation.x = -p.pose.pose.orientation.x
+  robot_pose.orientation.y = -p.pose.pose.orientation.y
+  robot_pose.orientation.z = -p.pose.pose.orientation.z
   
   # odom to reference
   try:
@@ -93,6 +96,9 @@ while not rospy.is_shutdown():
     pose_transformed = tf2_geometry_msgs.do_transform_pose(robot_odom_pose, trans)
     robot_gps_pose.pose.pose = pose_transformed.pose
     robot_gps_pose.pose.pose.position.x,robot_gps_pose.pose.pose.position.y = projection(pose_transformed.pose.position.x,pose_transformed.pose.position.y,inverse=True)
+    robot_gps_pose.pose.pose.orientation.x = -pose_transformed.pose.orientation.x
+    robot_gps_pose.pose.pose.orientation.y = -pose_transformed.pose.orientation.y
+    robot_gps_pose.pose.pose.orientation.z = -pose_transformed.pose.orientation.z
     robot_gps_pub.publish(robot_gps_pose)
   except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException):
     continue

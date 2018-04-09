@@ -114,7 +114,10 @@ while not rospy.is_shutdown():
     robot_utm_trans = tfBuffer.lookup_transform(gps_frame, "robot_fid", rospy.Time())
     robot_gps_pose.pose.pose.position.z = robot_utm_trans.transform.translation.z
     robot_gps_pose.pose.pose.position.x,robot_gps_pose.pose.pose.position.y = projection(robot_utm_trans.transform.translation.x, robot_utm_trans.transform.translation.y, inverse=True)
-    robot_gps_pose.pose.pose.orientation = robot_utm_trans.transform.rotation 
+    robot_gps_pose.pose.pose.orientation.x = -robot_utm_trans.transform.rotation.x
+    robot_gps_pose.pose.pose.orientation.y = -robot_utm_trans.transform.rotation.y
+    robot_gps_pose.pose.pose.orientation.z = -robot_utm_trans.transform.rotation.z
+    robot_gps_pose.pose.pose.orientation.w = robot_utm_trans.transform.rotation.w
     robot_gps_pub.publish(robot_gps_pose)
     print "Transformation found"
   except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException):
