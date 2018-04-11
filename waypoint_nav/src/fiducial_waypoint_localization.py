@@ -36,7 +36,7 @@ def mapGPSCB(GPS_map):
   fiducials_gps = GPS_map
 
 def transCB(t):
-  global reference_id, camera_frame, gps_frame, fiducials_gps, fid_ids
+  global reference_id, camera_frame, gps_frame, fiducials_gps, fid_ids, robot_gps_pose
   for fid_trans in t.transforms:
     for fid_id in fid_ids:
       if fid_trans.fiducial_id == fid_id:
@@ -60,6 +60,22 @@ def transCB(t):
           tf_pub.publish(tfmsg_robot_fid)
         except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException):
           print "Can not find the transformation for robot_fid"
+        
+        
+        # Transform from robot to fiducial
+        try:
+          robot_utm_trans = tfBuffer.lookup_transform(gps_frame, "robot_fid", rospy.Time())
+          robot_gps_pose.pose.pose.position.z = robot_utm_trans.transform.translation.z
+          robot_gps_pose.pose.pose.position.x,robot_gps_pose.pose.pose.position.y = projection(robot_utm_trans.transform.translation.x, robot_utm_trans.transform.translation.y, inverse=True)
+          robot_gps_pose.pose.pose.orientation.x = -robot_utm_trans.transform.rotation.x
+          robot_gps_pose.pose.pose.orientation.y = -robot_utm_trans.transform.rotation.y
+          robot_gps_pose.pose.pose.orientation.z = -robot_utm_trans.transform.rotation.z
+          robot_gps_pose.pose.pose.orientation.w = robot_utm_trans.transform.rotation.w
+          robot_gps_pub.publish(robot_gps_pose)
+          print "Transformation found"
+        except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException):
+          print "Can not find the transformation"
+          
         break;
     
 
@@ -108,20 +124,5 @@ for fid in json_data["FiducialCollections"][0]["SavedFiducials"]:
   rate.sleep()
   
 while not rospy.is_shutdown():
-  
-   # Transform from robot to fiducial
-  try:
-    robot_utm_trans = tfBuffer.lookup_transform(gps_frame, "robot_fid", rospy.Time())
-    robot_gps_pose.pose.pose.position.z = robot_utm_trans.transform.translation.z
-    robot_gps_pose.pose.pose.position.x,robot_gps_pose.pose.pose.position.y = projection(robot_utm_trans.transform.translation.x, robot_utm_trans.transform.translation.y, inverse=True)
-    robot_gps_pose.pose.pose.orientation.x = -robot_utm_trans.transform.rotation.x
-    robot_gps_pose.pose.pose.orientation.y = -robot_utm_trans.transform.rotation.y
-    robot_gps_pose.pose.pose.orientation.z = -robot_utm_trans.transform.rotation.z
-    robot_gps_pose.pose.pose.orientation.w = robot_utm_trans.transform.rotation.w
-    robot_gps_pub.publish(robot_gps_pose)
-    print "Transformation found"
-  except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException):
-    print "Can not find the transformation"
-
   rate.sleep()
   
