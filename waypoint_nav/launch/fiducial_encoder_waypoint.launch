@@ -3,11 +3,13 @@
   <arg name="robot_frame" default="base_footprint"/>
   <arg name="utm_frame" default="utm"/>
   <arg name="odom_frame" default="odom"/>
+  <arg name="robot_frame" default="$(HOME)"/>
   
   <param name="waypoint_control/base_frame" value="$(arg robot_frame)"/>
   <param name="waypoint_control/gps_frame" value="$(arg utm_frame)" />
   <param name="waypoint_control/odom_frame" value="$(arg odom_frame)"/>
-   
+  <param name="waypoint_control/map_file" value="$(env HOME)/catkin_ws/src/DTU-R3-ROS/waypoint_nav/src/Fiducials.json"/>
+     
   <node pkg="waypoint_nav" type="fiducial_waypoint_localization.py" name="fiducial_waypoint_localization">
   	<remap from="robot_gps_pose" to="odo_calib_pose"/>
   </node>  
