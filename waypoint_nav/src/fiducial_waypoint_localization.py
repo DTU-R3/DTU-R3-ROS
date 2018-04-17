@@ -89,11 +89,10 @@ def serialCB(s):
     try:
       v = float(line_parts[5])
       omega = float(line_parts[6])
-      if math.abs(v) < 0.05 and math.abs(omega) < 0.05:
+      if math.fabs(v) < 0.05 and math.fabs(omega) < 0.05:
         fid_update = True
       else:
         fid_update = False
-      print fid_update
     except:
       return
 
@@ -115,7 +114,7 @@ tf2_pub = rospy.Publisher("tf_static", tf2_msgs.msg.TFMessage, queue_size=30, la
 # Subscribers
 map_gps_sub = rospy.Subscriber('fiducial_map_gps', FiducialMapEntryArray, mapGPSCB)
 detect_sub = rospy.Subscriber('fiducial_transforms', FiducialTransformArray, transCB)
-serial_sub = rospy.Subscriber('fiducial_transforms', FiducialTransformArray, serialCB)
+serial_sub = rospy.Subscriber('serial', String, serialCB)
 
 rate = rospy.Rate(1)
 
@@ -126,7 +125,7 @@ for fid in json_data["FiducialCollections"][0]["SavedFiducials"]:
   fid_ids.append(fid["Id"])
   # axis y and z are reversed in Unity
   fid_utm_x, fid_utm_y = projection(fid["Position"]["longitude"], fid["Position"]["latitude"]) 
-  quat = tf.transformations.quaternion_from_euler(degToRad(fid["Rotation"]["x"]), degToRad(fid["Rotation"]["z"]), degToRad(fid["Rotation"]["y"]))
+  quat = tf.transformations.quaternion_from_euler(-degToRad(fid["Rotation"]["x"]), -degToRad(fid["Rotation"]["z"]), -degToRad(fid["Rotation"]["y"]))
   tf_fid_utm = geometry_msgs.msg.TransformStamped()
   tf_fid_utm.header.frame_id = gps_frame
   tf_fid_utm.child_frame_id = "fiducial" + str(fid["Id"])
