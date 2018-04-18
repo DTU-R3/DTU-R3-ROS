@@ -32,6 +32,16 @@ def degToRad(d):
   r = d * math.pi / 180.0
   return r
 
+def quatRot(q,deg_x,deg_y,deg_z):
+  euler = tf.transformations.euler_from_quaternion((q.x, q.y, q.z, q.w))
+  quat = tf.transformations.quaternion_from_euler(euler[0]+deg_x*180/math.pi, euler[1]+deg_y*180/math.pi, euler[2]+deg_z*180/math.pi)
+  result = geometry_msgs.msg.Quaternion()
+  result.x = quat[0]
+  result.y = quat[1]
+  result.z = quat[2]
+  result.w = quat[3]
+  return result
+
 # ROS Callback functions
 def mapGPSCB(GPS_map):
   global fiducials_gps
@@ -75,6 +85,7 @@ def transCB(t):
           robot_gps_pose.pose.pose.orientation.y = -robot_utm_trans.transform.rotation.y
           robot_gps_pose.pose.pose.orientation.z = -robot_utm_trans.transform.rotation.z
           robot_gps_pose.pose.pose.orientation.w = robot_utm_trans.transform.rotation.w
+          robot_gps_pose.pose.pose.orientation = quatRot(robot_gps_pose.pose.pose.orientation,0,0,90)
           robot_gps_pub.publish(robot_gps_pose)
           print "Transformation found"
         except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException):

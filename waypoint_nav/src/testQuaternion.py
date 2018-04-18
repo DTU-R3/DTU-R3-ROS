@@ -1,12 +1,10 @@
 import tf
 import math
 
-x= -0.0874559804606
-y= -0.995857553449
-z= 0.020493832834
-w= 0.0141133814589
-
-
+x= -0.0938000863251
+y= -0.0260724750863
+z= 0.766651709621
+w= 0.634639209302
 
 
 euler = tf.transformations.euler_from_quaternion((x, y, z, w))

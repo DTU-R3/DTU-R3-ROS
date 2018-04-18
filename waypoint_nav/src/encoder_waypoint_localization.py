@@ -26,6 +26,16 @@ robot_odom = Odometry()
 robot_pose = Pose()
 robot_gps_pose = Odometry()
 
+def quatRot(q,deg_x,deg_y,deg_z):
+  euler = tf.transformations.euler_from_quaternion((q.x, q.y, q.z, q.w))
+  quat = tf.transformations.quaternion_from_euler(euler[0]+deg_x*180/math.pi, euler[1]+deg_y*180/math.pi, euler[2]+deg_z*180/math.pi)
+  result = geometry_msgs.msg.Quaternion()
+  result.x = quat[0]
+  result.y = quat[1]
+  result.z = quat[2]
+  result.w = quat[3]
+  return result
+  
 # ROS Callback functions
 def odomCB(odo):
   global robot_odom
@@ -38,6 +48,7 @@ def poseCB(p):
   robot_pose.orientation.x = -p.pose.pose.orientation.x
   robot_pose.orientation.y = -p.pose.pose.orientation.y
   robot_pose.orientation.z = -p.pose.pose.orientation.z
+  robot_pose.orientation = quatRot(robot_pose.orientation,0,0,90)
   
   # odom to reference
   try:
@@ -99,6 +110,7 @@ while not rospy.is_shutdown():
     robot_gps_pose.pose.pose.orientation.x = -pose_transformed.pose.orientation.x
     robot_gps_pose.pose.pose.orientation.y = -pose_transformed.pose.orientation.y
     robot_gps_pose.pose.pose.orientation.z = -pose_transformed.pose.orientation.z
+    robot_gps_pose.pose.pose.orientation = quatRot(robot_gps_pose.pose.pose.orientation,0,0,90)
     robot_gps_pub.publish(robot_gps_pose)
   except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException):
     continue
