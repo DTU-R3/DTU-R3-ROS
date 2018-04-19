@@ -90,7 +90,7 @@ def Accelerate(v, cmd_v, acc):
   
 def quatRot(q,deg_x,deg_y,deg_z):
   euler = tf.transformations.euler_from_quaternion((q.x, q.y, q.z, q.w))
-  quat = tf.transformations.quaternion_from_euler(euler[0]+deg_x*180/math.pi, euler[1]+deg_y*180/math.pi, euler[2]+deg_z*180/math.pi)
+  quat = tf.transformations.quaternion_from_euler(euler[0]+deg_x*math.pi/180, euler[1]+deg_y*math.pi/180, euler[2]+deg_z*math.pi/180)
   result = geometry_msgs.msg.Quaternion()
   result.x = quat[0]
   result.y = quat[1]
