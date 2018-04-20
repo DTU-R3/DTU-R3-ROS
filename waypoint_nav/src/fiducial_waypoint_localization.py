@@ -17,7 +17,7 @@ from std_msgs.msg import String
 from fiducial_msgs.msg import FiducialMapEntryArray, FiducialMapEntry, FiducialTransformArray
 
 # Variables
-global projection, tfBuffer, listener, gps_fiducials, reference_id, robot_stopped, fid_measurements, current_measurements
+global projection, tfBuffer, listener, gps_fiducials, reference_id, robot_stopped, fid_measurements
 projection = Proj(proj="utm", zone="34", ellps='WGS84')
 tfBuffer = tf2_ros.Buffer()
 listener = tf2_ros.TransformListener(tfBuffer)
@@ -25,7 +25,6 @@ reference_id = 0
 robot_gps_pose = Odometry()
 robot_stopped = False
 fid_measurements = {} 
-current_measurements = {}
 
 # Math functions
 def degToRad(d):
@@ -47,7 +46,7 @@ def mapGPSCB(GPS_map):
   return
 
 def transCB(t):
-  global reference_id, camera_frame, gps_frame, fid_ids, robot_gps_pose, robot_stopped, fid_measurements, current_measurements
+  global reference_id, camera_frame, gps_frame, fid_ids, robot_gps_pose, robot_stopped, fid_measurements
 
   # Get id list
   for m in fid_measurements:
@@ -69,7 +68,6 @@ def transCB(t):
       continue
     
     if fid_measurements[fid_name] == 0:
-      current_measurements[fid_name] = 1
       # Pause the navigation and stop the robot 	
       state_msg = String()
       state_msg.data = "STOP"
@@ -122,11 +120,9 @@ def transCB(t):
           state_msg.data = "RUNNING"
           state_pub.publish(state_msg)          
           break
+          fid_measurements[fid_name] = 1
         except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException):
           print "Can not find the transformation"    
-             
-  # Update the fid history      
-  fid_measurements = current_measurements
   
 def serialCB(s):
   global robot_stopped
@@ -171,7 +167,6 @@ json_data = json.load(open(fiducial_map_file))
 fiducial_gps_map = FiducialMapEntryArray()
 for fid in json_data["FiducialCollections"][0]["SavedFiducials"]:
   fid_measurements[str(fid["Id"])] = 0
-  current_measurements[str(fid["Id"])] = 0
   # axis y and z are reversed in Unity
   fid_utm_x, fid_utm_y = projection(fid["Position"]["longitude"], fid["Position"]["latitude"]) 
   quat = tf.transformations.quaternion_from_euler(-degToRad(fid["Rotation"]["east"]), -degToRad(fid["Rotation"]["north"]), -degToRad(fid["Rotation"]["heading"]))
@@ -188,6 +183,7 @@ for fid in json_data["FiducialCollections"][0]["SavedFiducials"]:
   tf_fid_utm.transform.rotation.w = quat[3]
   tfmsg_fid_utm = tf2_msgs.msg.TFMessage([tf_fid_utm])
   tf2_pub.publish(tfmsg_fid_utm)
+  rate.sleep()
   
 while not rospy.is_shutdown():
   rate.sleep()
