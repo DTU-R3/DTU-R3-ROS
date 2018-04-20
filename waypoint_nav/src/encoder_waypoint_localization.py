@@ -50,30 +50,40 @@ def poseCB(p):
   robot_pose.orientation.z = -p.pose.pose.orientation.z
   robot_pose.orientation = quatRot(robot_pose.orientation,0,0,90)
   
-  # odom to reference
-  try:
-    odo_ref_trans = tfBuffer.lookup_transform(robot_frame, odom_frame, rospy.Time())
-    tf_odo_ref = geometry_msgs.msg.TransformStamped()
-    tf_odo_ref.header.frame_id = "odom_utm_calib"
-    tf_odo_ref.child_frame_id = odom_frame
-    tf_odo_ref.header.stamp = rospy.Time.now()      
-    tf_odo_ref.transform = odo_ref_trans.transform
-    tfmsg_odo_ref = tf2_msgs.msg.TFMessage([tf_odo_ref])
-    tf_pub.publish(tfmsg_odo_ref)
-  except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException):
-    print "Can not do the transformation from " + odom_frame + " to reference" 
+  while 1:
+    # odom to reference
+    try:
+      odo_ref_trans = tfBuffer.lookup_transform(robot_frame, odom_frame, rospy.Time())
+      tf_odo_ref = geometry_msgs.msg.TransformStamped()
+      tf_odo_ref.header.frame_id = "odom_utm_calib"
+      tf_odo_ref.child_frame_id = odom_frame
+      tf_odo_ref.header.stamp = rospy.Time.now()      
+      tf_odo_ref.transform = odo_ref_trans.transform
+      tfmsg_odo_ref = tf2_msgs.msg.TFMessage([tf_odo_ref])
+      tf_pub.publish(tfmsg_odo_ref)
+    except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException):
+      print "Can not do the transformation from " + odom_frame + " to reference" 
   
-  # reference to utm
-  tf_ref_utm = geometry_msgs.msg.TransformStamped()
-  tf_ref_utm.header.frame_id = gps_frame
-  tf_ref_utm.header.stamp = rospy.Time.now()   
-  tf_ref_utm.child_frame_id = "odom_utm_calib"
-  tf_ref_utm.transform.translation.x = robot_pose.position.x
-  tf_ref_utm.transform.translation.y = robot_pose.position.y
-  tf_ref_utm.transform.translation.z = robot_pose.position.z
-  tf_ref_utm.transform.rotation = robot_pose.orientation
-  tfmsg_ref_utm = tf2_msgs.msg.TFMessage([tf_ref_utm])
-  tf2_pub.publish(tfmsg_ref_utm)
+    # reference to utm
+    tf_ref_utm = geometry_msgs.msg.TransformStamped()
+    tf_ref_utm.header.frame_id = gps_frame
+    tf_ref_utm.header.stamp = rospy.Time.now()   
+    tf_ref_utm.child_frame_id = "odom_utm_calib"
+    tf_ref_utm.transform.translation.x = robot_pose.position.x
+    tf_ref_utm.transform.translation.y = robot_pose.position.y
+    tf_ref_utm.transform.translation.z = robot_pose.position.z
+    tf_ref_utm.transform.rotation = robot_pose.orientation
+    tfmsg_ref_utm = tf2_msgs.msg.TFMessage([tf_ref_utm])
+    tf2_pub.publish(tfmsg_ref_utm)
+    rate.sleep()
+    
+    # Check the tf exists correctly
+    try:
+      trans = tfBuffer.lookup_transform(gps_frame, "odom_utm_calib", rospy.Time())
+      trans2 = tfBuffer.lookup_transform("odom_utm_calib", odom_frame, rospy.Time())
+      break
+    except:
+      print "The transformation has not been created yet"    
 
 # Init ROS node
 rospy.init_node('encoder_waypoint_localization')
