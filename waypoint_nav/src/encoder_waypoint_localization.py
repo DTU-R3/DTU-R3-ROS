@@ -43,14 +43,14 @@ def odomCB(odo):
 
 def poseCB(p):
   global robot_pose, robot_odom, odom_frame, gps_frame
-  robot_pose = p.pose.pose
-  robot_pose.position.x, robot_pose.position.y = projection(p.pose.pose.position.x, p.pose.pose.position.y)
-  robot_pose.orientation.x = -p.pose.pose.orientation.x
-  robot_pose.orientation.y = -p.pose.pose.orientation.y
-  robot_pose.orientation.z = -p.pose.pose.orientation.z
-  robot_pose.orientation = quatRot(robot_pose.orientation,0,0,90)
-  
   while 1:
+    robot_pose = p.pose.pose
+    robot_pose.position.x, robot_pose.position.y = projection(p.pose.pose.position.x, p.pose.pose.position.y)
+    robot_pose.orientation.x = -p.pose.pose.orientation.x
+    robot_pose.orientation.y = -p.pose.pose.orientation.y
+    robot_pose.orientation.z = -p.pose.pose.orientation.z
+    robot_pose.orientation = quatRot(robot_pose.orientation,0,0,90)
+  
     # odom to reference
     try:
       odo_ref_trans = tfBuffer.lookup_transform(robot_frame, odom_frame, rospy.Time())

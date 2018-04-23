@@ -17,14 +17,23 @@ from std_msgs.msg import String
 from fiducial_msgs.msg import FiducialMapEntryArray, FiducialMapEntry, FiducialTransformArray
 
 # Variables
-global projection, tfBuffer, listener, gps_fiducials, reference_id, robot_stopped, fid_measurements
+global projection, tfBuffer, listener, gps_fiducials, reference_id, state, prestate, fiducial_gps_map, previous_fiducial
 projection = Proj(proj="utm", zone="34", ellps='WGS84')
 tfBuffer = tf2_ros.Buffer()
 listener = tf2_ros.TransformListener(tfBuffer)
 reference_id = 0
 robot_gps_pose = Odometry()
-robot_stopped = False
-fid_measurements = {} 
+fiducial_gps_map = FiducialMapEntryArray()
+state = "STOP"
+prestate = "STOP"
+previous_fiducial = 0
+
+global robot_state, STOP, RUNNING, WAIT_DONE, waiting_time, waiting
+STOP = 0
+RUNNING = 1
+robot_state = STOP
+waiting_time = 0
+waiting = False
 
 # Math functions
 def degToRad(d):
@@ -43,45 +52,57 @@ def quatRot(q,deg_x,deg_y,deg_z):
 
 # ROS Callback functions
 def mapGPSCB(GPS_map):
-  return
+  global fiducial_gps_map
+  fiducial_gps_map = GPS_map
+
+def stateCB(s):
+  global state
+  state = s.data
 
 def transCB(t):
-  global reference_id, camera_frame, gps_frame, fid_ids, robot_gps_pose, robot_stopped, fid_measurements
-
-  # Get id list
-  for m in fid_measurements:
-    flag = False
-    for fid_trans in t.transforms:
-      if str(fid_trans.fiducial_id) == m:
-        flag = True
-    if not flag:
-      fid_measurements[m] = 0 
+  global reference_id, camera_frame, gps_frame, fid_ids, robot_gps_pose, state, prestate, waiting
+  global robot_state, STOP, RUNNING, waiting_time, previous_fiducial
   
-  # Process the messege 
-  for fid_trans in t.transforms:   
-     
-    # save the id and name
-    reference_id = fid_trans.fiducial_id
-    fid_name = str(reference_id)  
-    # skip if the tf is not in the map or image error is large
-    if not fid_name in fid_measurements or fid_trans.image_error > 0.3:
-      continue
+  for fid_trans in t.transforms:
+    # Check the image error
+    if fid_trans.image_error > 0.3:
+      return   
     
-    if fid_measurements[fid_name] == 0:
-      # Pause the navigation and stop the robot 	
+    # Check whether we keep seeing the same Fiducial
+    if fid_trans.fiducial_id == previous_fiducial:
+      return
+      
+    # Check whether detected fiducial is in the map  
+    for fid_gps in fiducial_gps_map.fiducials: 
+      # Only process the detected fiducial in the map
+      if fid_trans.fiducial_id != fid_gps.fiducial_id:
+        continue
+       
+      reference_id = fid_trans.fiducial_id
+      fid_name = str(reference_id)
+      
+      # Pause the navigation and stop the robot
+      if not waiting:
+        prestate = state
       state_msg = String()
       state_msg.data = "STOP"
       state_pub.publish(state_msg)
+      waiting = True
+      
       # wait until robot stops
-      while not robot_stopped:
+      if not robot_state == STOP:
+        waiting_time = 0
         rate.sleep()
+        return
+
       # Wait another 5 seconds for updating the image
-      i = 0
-      while i < 5:
+      if waiting_time < 5:
+        waiting_time = waiting_time + 1
         rate.sleep()
-        i = i + 1
+        return
         
       while 1:
+        # Publish tf from fid to camera
         tf_fid_cam = geometry_msgs.msg.TransformStamped()
         tf_fid_cam.header.frame_id = camera_frame
         tf_fid_cam.child_frame_id = fid_name
@@ -90,6 +111,22 @@ def transCB(t):
         tfmsg_fid_cam = tf2_msgs.msg.TFMessage([tf_fid_cam])
         tf_pub.publish(tfmsg_fid_cam)
         
+        # Publish tf from fid to utm
+        tf_fid_utm = geometry_msgs.msg.TransformStamped()
+        tf_fid_utm.header.frame_id = gps_frame
+        tf_fid_utm.child_frame_id = "fiducial"+fid_name
+        tf_fid_utm.header.stamp = rospy.Time.now() 
+        tf_fid_utm.transform.translation.x, tf_fid_utm.transform.translation.y = projection(fid_gps.x, fid_gps.y)
+        tf_fid_utm.transform.translation.z = fid_gps.z
+        quat = tf.transformations.quaternion_from_euler(-degToRad(fid_gps.rx), -degToRad(fid_gps.ry), -degToRad(fid_gps.rz))
+        tf_fid_utm.transform.rotation.x = quat[0] 
+        tf_fid_utm.transform.rotation.y = quat[1] 
+        tf_fid_utm.transform.rotation.z = quat[2] 
+        tf_fid_utm.transform.rotation.w = quat[3] 
+        tfmsg_fid_utm = tf2_msgs.msg.TFMessage([tf_fid_utm])
+        tf_pub.publish(tfmsg_fid_utm)
+        
+        # Publish tf from robot to fid
         try: 
           robot_fid_trans = tfBuffer.lookup_transform(fid_name, robot_frame, rospy.Time())
           tf_robot_fid = geometry_msgs.msg.TransformStamped()
@@ -98,13 +135,13 @@ def transCB(t):
           tf_robot_fid.header.stamp = rospy.Time.now()      
           tf_robot_fid.transform = robot_fid_trans.transform
           tfmsg_robot_fid = tf2_msgs.msg.TFMessage([tf_robot_fid])
-          tf_pub.publish(tfmsg_robot_fid)
+          tf_pub.publish(tfmsg_robot_fid)        
         except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException):
-          print "Can not find the transformation for robot_fid"        
-       
-        # Transform from robot to fiducial
+          return
+        
+        # Publish tf from robot to utm
         try:
-          verify_trans = tfBuffer.lookup_transform(gps_frame, "fiducial"+fid_name, rospy.Time())
+          verify_trans = tfBuffer.lookup_transform(gps_frame, "fiducial"+fid_name, rospy.Time())          
           verify_trans2 = tfBuffer.lookup_transform("fiducial"+fid_name, "robot_fid", rospy.Time())
           robot_utm_trans = tfBuffer.lookup_transform(gps_frame, "robot_fid", rospy.Time())
           robot_gps_pose.pose.pose.position.z = robot_utm_trans.transform.translation.z
@@ -114,27 +151,27 @@ def transCB(t):
           robot_gps_pose.pose.pose.orientation.z = -robot_utm_trans.transform.rotation.z
           robot_gps_pose.pose.pose.orientation.w = robot_utm_trans.transform.rotation.w
           robot_gps_pose.pose.pose.orientation = quatRot(robot_gps_pose.pose.pose.orientation,0,0,90)
-          robot_gps_pub.publish(robot_gps_pose)
-          print "Transformation found"          
+          robot_gps_pub.publish(robot_gps_pose)         
           # Resume the navigation when the update is done
-          state_msg.data = "RUNNING"
-          state_pub.publish(state_msg)          
+          state_msg.data = prestate
+          state_pub.publish(state_msg)         
+          waiting = False 
+          previous_fiducial = reference_id
           break
-          fid_measurements[fid_name] = 1
-        except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException):
-          print "Can not find the transformation"    
-  
+        except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException):    
+          return
+
 def serialCB(s):
-  global robot_stopped
+  global robot_state, STOP, RUNNING
   if len(s.data) > 0: 
     line_parts = s.data.split('\t')
     try:
       v = float(line_parts[5])
       omega = float(line_parts[6])
       if math.fabs(v) < 0.05 and math.fabs(omega) < 0.05:
-        robot_stopped = True
+        robot_state = STOP
       else:
-        robot_stopped = False
+        robot_state = RUNNING
     except:
       return
 
@@ -158,32 +195,24 @@ state_pub = rospy.Publisher('waypoint/state', String, queue_size = 10)
 map_gps_sub = rospy.Subscriber('fiducial_map_gps', FiducialMapEntryArray, mapGPSCB)
 detect_sub = rospy.Subscriber('fiducial_transforms', FiducialTransformArray, transCB)
 serial_sub = rospy.Subscriber('serial', String, serialCB)
+state_sub = rospy.Subscriber('waypoint/state', String, stateCB)
 
 # 1 Hz
 rate = rospy.Rate(1)
 
 # Init fiducials map in GPS from json, publish all fiducial to utm trans to tf
 json_data = json.load(open(fiducial_map_file))
-fiducial_gps_map = FiducialMapEntryArray()
+# Save the map in FiducialMapEntryArray()
 for fid in json_data["FiducialCollections"][0]["SavedFiducials"]:
-  fid_measurements[str(fid["Id"])] = 0
-  # axis y and z are reversed in Unity
-  fid_utm_x, fid_utm_y = projection(fid["Position"]["longitude"], fid["Position"]["latitude"]) 
-  quat = tf.transformations.quaternion_from_euler(-degToRad(fid["Rotation"]["east"]), -degToRad(fid["Rotation"]["north"]), -degToRad(fid["Rotation"]["heading"]))
-  tf_fid_utm = geometry_msgs.msg.TransformStamped()
-  tf_fid_utm.header.frame_id = gps_frame
-  tf_fid_utm.child_frame_id = "fiducial" + str(fid["Id"])
-  tf_fid_utm.header.stamp = rospy.Time.now()  
-  tf_fid_utm.transform.translation.x = fid_utm_x
-  tf_fid_utm.transform.translation.y = fid_utm_y
-  tf_fid_utm.transform.translation.z = fid["Position"]["altitude"]
-  tf_fid_utm.transform.rotation.x = quat[0]
-  tf_fid_utm.transform.rotation.y = quat[1]
-  tf_fid_utm.transform.rotation.z = quat[2]
-  tf_fid_utm.transform.rotation.w = quat[3]
-  tfmsg_fid_utm = tf2_msgs.msg.TFMessage([tf_fid_utm])
-  tf2_pub.publish(tfmsg_fid_utm)
-  rate.sleep()
+  fid_gps = FiducialMapEntry()
+  fid_gps.fiducial_id = fid["Id"]
+  fid_gps.x = fid["Position"]["longitude"]
+  fid_gps.y = fid["Position"]["latitude"]
+  fid_gps.z = fid["Position"]["altitude"]
+  fid_gps.rx = fid["Rotation"]["east"]
+  fid_gps.ry = fid["Rotation"]["north"]
+  fid_gps.rz = fid["Rotation"]["heading"]
+  fiducial_gps_map.fiducials.append(fid_gps)
   
 while not rospy.is_shutdown():
   rate.sleep()
