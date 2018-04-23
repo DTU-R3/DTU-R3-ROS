@@ -43,15 +43,15 @@ def odomCB(odo):
 
 def poseCB(p):
   global robot_pose, robot_odom, odom_frame, gps_frame
-  while 1:
-    robot_pose = p.pose.pose
-    robot_pose.position.x, robot_pose.position.y = projection(p.pose.pose.position.x, p.pose.pose.position.y)
-    robot_pose.orientation.x = -p.pose.pose.orientation.x
-    robot_pose.orientation.y = -p.pose.pose.orientation.y
-    robot_pose.orientation.z = -p.pose.pose.orientation.z
-    robot_pose.orientation = quatRot(robot_pose.orientation,0,0,90)
+  robot_pose = p.pose.pose
+  robot_pose.position.x, robot_pose.position.y = projection(p.pose.pose.position.x, p.pose.pose.position.y)
+  robot_pose.orientation.x = -p.pose.pose.orientation.x
+  robot_pose.orientation.y = -p.pose.pose.orientation.y
+  robot_pose.orientation.z = -p.pose.pose.orientation.z
+  robot_pose.orientation = quatRot(robot_pose.orientation,0,0,90)
   
     # odom to reference
+  while 1:
     try:
       odo_ref_trans = tfBuffer.lookup_transform(robot_frame, odom_frame, rospy.Time())
       tf_odo_ref = geometry_msgs.msg.TransformStamped()
@@ -62,7 +62,7 @@ def poseCB(p):
       tfmsg_odo_ref = tf2_msgs.msg.TFMessage([tf_odo_ref])
       tf_pub.publish(tfmsg_odo_ref)
     except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException):
-      print "Can not do the transformation from " + odom_frame + " to reference" 
+      continue
   
     # reference to utm
     tf_ref_utm = geometry_msgs.msg.TransformStamped()
@@ -81,6 +81,8 @@ def poseCB(p):
     try:
       trans = tfBuffer.lookup_transform(gps_frame, "odom_utm_calib", rospy.Time())
       trans2 = tfBuffer.lookup_transform("odom_utm_calib", odom_frame, rospy.Time())
+      if trans.transform.translation.x != robot_pose.position.x or trans.transform.translation.y != robot_pose.position.y:
+        continue
       break
     except:
       print "The transformation has not been created yet"    

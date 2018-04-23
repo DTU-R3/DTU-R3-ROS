@@ -188,7 +188,6 @@ camera_frame = rospy.get_param("waypoint_control/camera_frame", "raspicam")
 # Publishers
 robot_gps_pub = rospy.Publisher('robot_gps_pose', Odometry, queue_size = 10, latch = True)
 tf_pub = rospy.Publisher("tf", tf2_msgs.msg.TFMessage, queue_size=30, latch = True)
-tf2_pub = rospy.Publisher("tf_static", tf2_msgs.msg.TFMessage, queue_size=30, latch = True)
 state_pub = rospy.Publisher('waypoint/state', String, queue_size = 10)
 
 # Subscribers
