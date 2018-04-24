@@ -7,7 +7,7 @@ import datetime
 from std_msgs.msg import String
 
 def serialCB(s):
-  utc = datetime.datetime.utcnow() 
+  t = datetime.datetime.now().time()
   if len(s.data) > 0: 
     line_parts = s.data.split('\t')
     try:
@@ -21,7 +21,7 @@ def serialCB(s):
     except:
       return
       
-  writer.writerow({'timestamp': utc, 'x': x, 'y': y, 'theta': theta, 'V': vel, 'Omega': omega, 'Left_count': l_count, 'Right_count': r_count})
+  writer.writerow({'timestamp': t, 'x': x, 'y': y, 'theta': theta, 'V': vel, 'Omega': omega, 'Left_count': l_count, 'Right_count': r_count})
 
 # Init ROS node
 rospy.init_node('log_data')
