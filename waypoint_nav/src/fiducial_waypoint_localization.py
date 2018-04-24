@@ -18,6 +18,7 @@ from fiducial_msgs.msg import FiducialMapEntryArray, FiducialMapEntry, FiducialT
 
 # Variables
 global projection, tfBuffer, listener, gps_fiducials, reference_id, state, prestate, fiducial_gps_map, previous_fiducial
+global l_counts, r_counts, l_displacement, r_displacement
 projection = Proj(proj="utm", zone="34", ellps='WGS84')
 tfBuffer = tf2_ros.Buffer()
 listener = tf2_ros.TransformListener(tfBuffer)
@@ -27,6 +28,10 @@ fiducial_gps_map = FiducialMapEntryArray()
 state = "STOP"
 prestate = "STOP"
 previous_fiducial = 0
+l_counts = 0
+r_counts = 0
+l_displacement = 0
+r_displacement = 0
 
 global robot_state, STOP, RUNNING, WAIT_DONE, waiting_time, waiting
 STOP = 0
@@ -61,16 +66,25 @@ def stateCB(s):
 
 def transCB(t):
   global reference_id, camera_frame, gps_frame, fid_ids, robot_gps_pose, state, prestate, waiting
-  global robot_state, STOP, RUNNING, waiting_time, previous_fiducial
+  global robot_state, STOP, RUNNING, waiting_time, previous_fiducial, l_displacement, r_displacement, distance_per_count
+  
+  prev_in_view = False
+  for fid_trans in t.transforms:  
+    # Check whether the previous fiducial is out of the view
+    if fid_trans.fiducial_id == previous_fiducial: 
+      prev_in_view = True
+      # if the displacement of both wheels is small
+      if (l_displacement * float(distance_per_count) < 3.0) and (r_displacement * float(distance_per_count) < 3.0):
+        return 
+        
+  if not prev_in_view:
+    previous_fiducial = 0
+  
   
   for fid_trans in t.transforms:
     # Check the image error
     if fid_trans.image_error > 0.3:
       return   
-    
-    # Check whether we keep seeing the same Fiducial
-    if fid_trans.fiducial_id == previous_fiducial:
-      return
       
     # Check whether detected fiducial is in the map  
     for fid_gps in fiducial_gps_map.fiducials: 
@@ -157,33 +171,44 @@ def transCB(t):
           state_pub.publish(state_msg)         
           waiting = False 
           previous_fiducial = reference_id
+          l_displacement = 0
+          r_displacement = 0
           break
         except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException):    
           return
 
 def serialCB(s):
-  global robot_state, STOP, RUNNING
+  global robot_state, STOP, RUNNING, l_counts, r_counts, l_displacement, r_displacement
   if len(s.data) > 0: 
     line_parts = s.data.split('\t')
     try:
       v = float(line_parts[5])
       omega = float(line_parts[6])
+      new_l_counts = int(line_parts[7])
+      new_r_counts = int(line_parts[8])
+      # Check whether the robot stops
       if math.fabs(v) < 0.05 and math.fabs(omega) < 0.05:
         robot_state = STOP
       else:
-        robot_state = RUNNING
+        robot_state = RUNNING   
+      l_displacement = l_displacement + math.fabs(new_l_counts - l_counts)
+      r_displacement = r_displacement + math.fabs(new_r_counts - r_counts)
+      l_counts = new_l_counts
+      r_counts = new_r_counts
+      print str(l_displacement)+', '+str(r_displacement)
     except:
-      return
+     return
 
 # Init ROS node
 rospy.init_node('fiducial_waypoint_localization')
 
 # rosparams
-global robot_frame, fiducial_frame, camera_frame, gps_frame
+global robot_frame, fiducial_frame, camera_frame, gps_frame, distance_per_count
 robot_frame = rospy.get_param("waypoint_control/base_frame", "base_footprint")
 gps_frame = rospy.get_param("waypoint_control/gps_frame", "utm")
 fiducial_map_file = rospy.get_param("waypoint_control/map_file", "/home/ros/catkin_ws/src/DTU-R3-ROS/waypoint_nav/src/Fiducials.json")
 camera_frame = rospy.get_param("waypoint_control/camera_frame", "raspicam")
+distance_per_count = rospy.get_param("~driveGeometry/distancePerCount", "0.00338")
         
 # Publishers
 robot_gps_pub = rospy.Publisher('robot_gps_pose', Odometry, queue_size = 10, latch = True)

@@ -18,13 +18,14 @@ from nav_msgs.msg import Odometry
 
 
 # Variables
-global projection, tfBuffer, listener, robot_odom, robot_pose, robot_gps_pose
+global projection, tfBuffer, listener, robot_odom, robot_pose, robot_gps_pose, odo_calibrating
 projection = Proj(proj="utm", zone="34", ellps='WGS84')
 tfBuffer = tf2_ros.Buffer()
 listener = tf2_ros.TransformListener(tfBuffer)
 robot_odom = Odometry()
 robot_pose = Pose()
 robot_gps_pose = Odometry()
+odo_calibrating = False
 
 def quatRot(q,deg_x,deg_y,deg_z):
   euler = tf.transformations.euler_from_quaternion((q.x, q.y, q.z, q.w))
@@ -43,6 +44,7 @@ def odomCB(odo):
 
 def poseCB(p):
   global robot_pose, robot_odom, odom_frame, gps_frame
+  odo_calibrating = True
   robot_pose = p.pose.pose
   robot_pose.position.x, robot_pose.position.y = projection(p.pose.pose.position.x, p.pose.pose.position.y)
   robot_pose.orientation.x = -p.pose.pose.orientation.x
@@ -50,7 +52,7 @@ def poseCB(p):
   robot_pose.orientation.z = -p.pose.pose.orientation.z
   robot_pose.orientation = quatRot(robot_pose.orientation,0,0,90)
   
-    # odom to reference
+  # odom to reference
   while 1:
     try:
       odo_ref_trans = tfBuffer.lookup_transform(robot_frame, odom_frame, rospy.Time())
@@ -83,9 +85,10 @@ def poseCB(p):
       trans2 = tfBuffer.lookup_transform("odom_utm_calib", odom_frame, rospy.Time())
       if trans.transform.translation.x != robot_pose.position.x or trans.transform.translation.y != robot_pose.position.y:
         continue
+      odo_calibrating = False
       break
     except:
-      print "The transformation has not been created yet"    
+      continue  
 
 # Init ROS node
 rospy.init_node('encoder_waypoint_localization')
@@ -112,6 +115,9 @@ freq = 10
 rate = rospy.Rate(freq)
 
 while not rospy.is_shutdown():
+  if odo_calibrating:
+    rate.sleep()
+    continue
   try:
     trans = tfBuffer.lookup_transform(gps_frame, odom_frame, rospy.Time())
     robot_odom_pose = PoseStamped()
