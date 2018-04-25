@@ -95,9 +95,9 @@ rospy.init_node('encoder_waypoint_localization')
 
 # rosparams
 global robot_frame, gps_frame, odom_frame
-robot_frame = rospy.get_param("waypoint_control/base_frame", "base_footprint")
-gps_frame = rospy.get_param("waypoint_control/gps_frame", "utm")
-odom_frame = rospy.get_param("waypoint_control/odom_frame", "odom")
+robot_frame = rospy.get_param("~waypoint_control/base_frame", "base_footprint")
+gps_frame = rospy.get_param("~waypoint_control/gps_frame", "utm")
+odom_frame = rospy.get_param("~waypoint_control/odom_frame", "odom")
 
 robot_gps_pose.header.frame_id = gps_frame
 robot_gps_pose.child_frame_id = robot_frame
