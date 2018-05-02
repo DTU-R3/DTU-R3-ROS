@@ -67,7 +67,7 @@ def stateCB(s):
 def transCB(t):
   global reference_id, camera_frame, gps_frame, fid_ids, robot_gps_pose, state, prestate, waiting
   global robot_state, STOP, RUNNING, waiting_time, previous_fiducial, l_displacement, r_displacement, distance_per_count
-  
+
   prev_in_view = False
   for fid_trans in t.transforms:  
     # Check whether the previous fiducial is out of the view
@@ -79,7 +79,6 @@ def transCB(t):
         
   if not prev_in_view:
     previous_fiducial = 0
-  
   
   for fid_trans in t.transforms:
     # Check the image error
@@ -115,67 +114,71 @@ def transCB(t):
         rate.sleep()
         return
         
-      while 1:
-        # Publish tf from fid to camera
-        tf_fid_cam = geometry_msgs.msg.TransformStamped()
-        tf_fid_cam.header.frame_id = camera_frame
-        tf_fid_cam.child_frame_id = fid_name
-        tf_fid_cam.header.stamp = rospy.Time.now()      
-        tf_fid_cam.transform = fid_trans.transform
-        tfmsg_fid_cam = tf2_msgs.msg.TFMessage([tf_fid_cam])
-        tf_pub.publish(tfmsg_fid_cam)
-        
-        # Publish tf from fid to utm
-        tf_fid_utm = geometry_msgs.msg.TransformStamped()
-        tf_fid_utm.header.frame_id = gps_frame
-        tf_fid_utm.child_frame_id = "fiducial"+fid_name
-        tf_fid_utm.header.stamp = rospy.Time.now() 
-        tf_fid_utm.transform.translation.x, tf_fid_utm.transform.translation.y = projection(fid_gps.x, fid_gps.y)
-        tf_fid_utm.transform.translation.z = fid_gps.z
-        quat = tf.transformations.quaternion_from_euler(-degToRad(fid_gps.rx), -degToRad(fid_gps.ry), -degToRad(fid_gps.rz))
-        tf_fid_utm.transform.rotation.x = quat[0] 
-        tf_fid_utm.transform.rotation.y = quat[1] 
-        tf_fid_utm.transform.rotation.z = quat[2] 
-        tf_fid_utm.transform.rotation.w = quat[3] 
-        tfmsg_fid_utm = tf2_msgs.msg.TFMessage([tf_fid_utm])
-        tf_pub.publish(tfmsg_fid_utm)
-        
-        # Publish tf from robot to fid
-        try: 
-          robot_fid_trans = tfBuffer.lookup_transform(fid_name, robot_frame, rospy.Time())
-          tf_robot_fid = geometry_msgs.msg.TransformStamped()
-          tf_robot_fid.header.frame_id = "fiducial"+fid_name
-          tf_robot_fid.child_frame_id = "robot_fid"
-          tf_robot_fid.header.stamp = rospy.Time.now()      
-          tf_robot_fid.transform = robot_fid_trans.transform
-          tfmsg_robot_fid = tf2_msgs.msg.TFMessage([tf_robot_fid])
-          tf_pub.publish(tfmsg_robot_fid)        
-        except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException):
-          return
-        
-        # Publish tf from robot to utm
-        try:
-          verify_trans = tfBuffer.lookup_transform(gps_frame, "fiducial"+fid_name, rospy.Time())          
-          verify_trans2 = tfBuffer.lookup_transform("fiducial"+fid_name, "robot_fid", rospy.Time())
-          robot_utm_trans = tfBuffer.lookup_transform(gps_frame, "robot_fid", rospy.Time())
-          robot_gps_pose.pose.pose.position.z = robot_utm_trans.transform.translation.z
-          robot_gps_pose.pose.pose.position.x,robot_gps_pose.pose.pose.position.y = projection(robot_utm_trans.transform.translation.x, robot_utm_trans.transform.translation.y, inverse=True)
-          robot_gps_pose.pose.pose.orientation.x = -robot_utm_trans.transform.rotation.x
-          robot_gps_pose.pose.pose.orientation.y = -robot_utm_trans.transform.rotation.y
-          robot_gps_pose.pose.pose.orientation.z = -robot_utm_trans.transform.rotation.z
-          robot_gps_pose.pose.pose.orientation.w = robot_utm_trans.transform.rotation.w
-          robot_gps_pose.pose.pose.orientation = quatRot(robot_gps_pose.pose.pose.orientation,0,0,90)
-          robot_gps_pub.publish(robot_gps_pose)         
-          # Resume the navigation when the update is done
-          state_msg.data = prestate
-          state_pub.publish(state_msg)         
-          waiting = False 
-          previous_fiducial = reference_id
-          l_displacement = 0
-          r_displacement = 0
-          break
-        except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException):    
-          return
+      # Publish tf from fid to camera
+      tf_fid_cam = geometry_msgs.msg.TransformStamped()
+      tf_fid_cam.header.frame_id = camera_frame
+      tf_fid_cam.child_frame_id = fid_name
+      tf_fid_cam.header.stamp = rospy.Time.now()      
+      tf_fid_cam.transform = fid_trans.transform
+      tfmsg_fid_cam = tf2_msgs.msg.TFMessage([tf_fid_cam])
+      tf_pub.publish(tfmsg_fid_cam)
+      if robot_state == STOP:
+        rate.sleep()
+
+      # Publish tf from fid to utm
+      tf_fid_utm = geometry_msgs.msg.TransformStamped()
+      tf_fid_utm.header.frame_id = gps_frame
+      tf_fid_utm.child_frame_id = "fiducial"+fid_name
+      tf_fid_utm.header.stamp = rospy.Time.now() 
+      tf_fid_utm.transform.translation.x, tf_fid_utm.transform.translation.y = projection(fid_gps.x, fid_gps.y)
+      tf_fid_utm.transform.translation.z = fid_gps.z
+      quat = tf.transformations.quaternion_from_euler(-degToRad(fid_gps.rx), -degToRad(fid_gps.ry), -degToRad(fid_gps.rz))
+      tf_fid_utm.transform.rotation.x = quat[0] 
+      tf_fid_utm.transform.rotation.y = quat[1] 
+      tf_fid_utm.transform.rotation.z = quat[2] 
+      tf_fid_utm.transform.rotation.w = quat[3] 
+      tfmsg_fid_utm = tf2_msgs.msg.TFMessage([tf_fid_utm])
+      tf_pub.publish(tfmsg_fid_utm)
+      if not robot_state == STOP:
+        rate.sleep()
+
+      # Publish tf from robot to fid
+      try: 
+        robot_fid_trans = tfBuffer.lookup_transform(fid_name, robot_frame, rospy.Time())
+        tf_robot_fid = geometry_msgs.msg.TransformStamped()
+        tf_robot_fid.header.frame_id = "fiducial"+fid_name
+        tf_robot_fid.child_frame_id = "robot_fid"
+        tf_robot_fid.header.stamp = rospy.Time.now()      
+        tf_robot_fid.transform = robot_fid_trans.transform
+        tfmsg_robot_fid = tf2_msgs.msg.TFMessage([tf_robot_fid])
+        tf_pub.publish(tfmsg_robot_fid)        
+        if robot_state == STOP:
+          rate.sleep()
+      except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException):
+        return
+      
+      # Publish tf from robot to utm
+      try:
+        verify_trans = tfBuffer.lookup_transform(gps_frame, "fiducial"+fid_name, rospy.Time())          
+        verify_trans2 = tfBuffer.lookup_transform("fiducial"+fid_name, "robot_fid", rospy.Time())
+        robot_utm_trans = tfBuffer.lookup_transform(gps_frame, "robot_fid", rospy.Time())
+        robot_gps_pose.pose.pose.position.z = robot_utm_trans.transform.translation.z
+        robot_gps_pose.pose.pose.position.x,robot_gps_pose.pose.pose.position.y = projection(robot_utm_trans.transform.translation.x, robot_utm_trans.transform.translation.y, inverse=True)
+        robot_gps_pose.pose.pose.orientation.x = -robot_utm_trans.transform.rotation.x
+        robot_gps_pose.pose.pose.orientation.y = -robot_utm_trans.transform.rotation.y
+        robot_gps_pose.pose.pose.orientation.z = -robot_utm_trans.transform.rotation.z
+        robot_gps_pose.pose.pose.orientation.w = robot_utm_trans.transform.rotation.w
+        robot_gps_pose.pose.pose.orientation = quatRot(robot_gps_pose.pose.pose.orientation,0,0,90)
+        robot_gps_pub.publish(robot_gps_pose)         
+        # Resume the navigation when the update is done
+        state_msg.data = prestate
+        state_pub.publish(state_msg)         
+        waiting = False 
+        previous_fiducial = reference_id
+        l_displacement = 0
+        r_displacement = 0
+      except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException):    
+        return
 
 def serialCB(s):
   global robot_state, STOP, RUNNING, l_counts, r_counts, l_displacement, r_displacement
@@ -206,14 +209,14 @@ rospy.init_node('fiducial_waypoint_localization')
 global robot_frame, fiducial_frame, camera_frame, gps_frame, distance_per_count
 robot_frame = rospy.get_param("~waypoint_control/base_frame", "base_footprint")
 gps_frame = rospy.get_param("~waypoint_control/gps_frame", "utm")
-fiducial_map_file = rospy.get_param("~waypoint_control/map_file", "/home/ros/catkin_ws/src/DTU-R3-ROS/waypoint_nav/src/Fiducials.json")
+fiducial_map_file = rospy.get_param("~waypoint_control/map_file", "/home/pi/catkin_ws/src/DTU-R3-ROS/waypoint_nav/src/Fiducials.json")
 camera_frame = rospy.get_param("~waypoint_control/camera_frame", "raspicam")
 distance_per_count = rospy.get_param("~driveGeometry/distancePerCount", "0.00338")
         
 # Publishers
 robot_gps_pub = rospy.Publisher('robot_gps_pose', Odometry, queue_size = 10, latch = True)
 tf_pub = rospy.Publisher("tf", tf2_msgs.msg.TFMessage, queue_size=30, latch = True)
-state_pub = rospy.Publisher('waypoint/state', String, queue_size = 10)
+state_pub = rospy.Publisher('waypoint/state', String, queue_size = 10, latch = True)
 
 # Subscribers
 map_gps_sub = rospy.Subscriber('fiducial_map_gps', FiducialMapEntryArray, mapGPSCB)
