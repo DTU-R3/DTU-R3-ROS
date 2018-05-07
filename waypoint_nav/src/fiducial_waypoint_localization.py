@@ -92,6 +92,7 @@ def transCB(t):
         continue
        
       reference_id = fid_trans.fiducial_id
+      print reference_id
       fid_name = str(reference_id)
       
       # Pause the navigation and stop the robot
@@ -198,7 +199,6 @@ def serialCB(s):
       r_displacement = r_displacement + math.fabs(new_r_counts - r_counts)
       l_counts = new_l_counts
       r_counts = new_r_counts
-      print str(l_displacement)+', '+str(r_displacement)
     except:
      return
 

@@ -32,14 +32,14 @@ prestate = STOP
 global FORWARDING_THRES, TURNING_THRES, K_RHO, K_ROLL, K_PITCH, K_YAW, VEL_MAX_LIN, VEL_MAX_ANG, ACC, ACC_R
 FORWARDING_THRES = 0.1
 TURNING_THRES = 0.2
-VEL_MAX_LIN = 1.0
+VEL_MAX_LIN = 0.5
 VEL_MAX_ANG = 1.0
 K_RHO = 0.3
 K_ROLL = 0.8
 K_PITCH = 0.8
 K_YAW = 0.8
-ACC = 0.2
-ACC_R = 0.2
+ACC = 0.1
+ACC_R = 0.1
 
 # Variables
 global projection, goal_set, pose_get, orentation_get
@@ -279,10 +279,6 @@ while not rospy.is_shutdown():
       else:
         robot_state = IDLE      
     
-    print "Distance remains: " + str(distance)      
-    print "Roll remains: " + str(roll) 
-    print "Pitch remains: " + str(pitch) 
-    print "Yaw remains: " + str(yaw) 
   prestate = state       
   robot_state_pub.publish(str(robot_state))
   rate.sleep()
