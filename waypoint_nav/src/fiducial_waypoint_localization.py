@@ -209,7 +209,6 @@ rospy.init_node('fiducial_waypoint_localization')
 global robot_frame, fiducial_frame, camera_frame, gps_frame, distance_per_count
 robot_frame = rospy.get_param("~waypoint_control/base_frame", "base_footprint")
 gps_frame = rospy.get_param("~waypoint_control/gps_frame", "utm")
-fiducial_map_file = rospy.get_param("~waypoint_control/map_file", "/home/pi/catkin_ws/src/DTU-R3-ROS/waypoint_nav/src/Fiducials.json")
 camera_frame = rospy.get_param("~waypoint_control/camera_frame", "raspicam")
 distance_per_count = rospy.get_param("~driveGeometry/distancePerCount", "0.00338")
         
