@@ -226,20 +226,6 @@ state_sub = rospy.Subscriber('waypoint/state', String, stateCB)
 
 # 1 Hz
 rate = rospy.Rate(1)
-
-# Init fiducials map in GPS from json, publish all fiducial to utm trans to tf
-json_data = json.load(open(fiducial_map_file))
-# Save the map in FiducialMapEntryArray()
-for fid in json_data["FiducialCollections"][0]["SavedFiducials"]:
-  fid_gps = FiducialMapEntry()
-  fid_gps.fiducial_id = fid["Id"]
-  fid_gps.x = fid["Position"]["longitude"]
-  fid_gps.y = fid["Position"]["latitude"]
-  fid_gps.z = fid["Position"]["altitude"]
-  fid_gps.rx = fid["Rotation"]["east"]
-  fid_gps.ry = fid["Rotation"]["north"]
-  fid_gps.rz = fid["Rotation"]["heading"]
-  fiducial_gps_map.fiducials.append(fid_gps)
   
 while not rospy.is_shutdown():
   rate.sleep()
