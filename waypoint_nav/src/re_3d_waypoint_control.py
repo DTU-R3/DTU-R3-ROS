@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-
 import rospy
 import math
 from pyproj import Proj
@@ -12,6 +11,37 @@ from std_msgs.msg import String, Float32
 from geometry_msgs.msg import Point, Pose, Twist
 from nav_msgs.msg import Odometry
 from sensor_msgs.msg import NavSatFix
+
+# Class
+class waypoint_control(object):
+  def __init__(self):
+    # Init ROS node
+    rospy.init_node('waypoint_control')
+
+    # Publishers
+    vel_pub = rospy.Publisher('cmd_vel', Twist, queue_size = 10)
+    robot_state_pub = rospy.Publisher('waypoint/robot_state', String, queue_size = 10)
+    robot_gps_pub = rospy.Publisher('odo_calib_pose', Odometry, queue_size = 10)
+
+    # Subscribers
+    state_sub = rospy.Subscriber('waypoint/state', String, stateCB)
+    pose_sub = rospy.Subscriber('robot_gps_pose', Odometry, poseCB)
+    goal_sub = rospy.Subscriber('waypoint', NavSatFix, goalCB)
+    para_sub = rospy.Subscriber('waypoint/control_parameters', String, paraCB)
+    acc_sub = rospy.Subscriber('waypoint/acceleration', String, accCB)
+    maxlin_sub = rospy.Subscriber('waypoint/max_linear_speed', Float32, linCB)
+    maxang_sub = rospy.Subscriber('waypoint/max_angular_speed', Float32, angCB)
+    fwding_thres_sub = rospy.Subscriber('waypoint/forwarding_thres', Float32, fwdThresCB)
+    turning_thres_sub = rospy.Subscriber('waypoint/turning_thres', Float32, trunThresCB)
+	
+  def Start(self):
+
+
+if __name__ == '__main__': 
+  ctrl = waypoint_control() 
+  waypoint_control.Start() 
+
+########### ----------------------------------- #############
 
 # STATEs
 global STOP, RUNNING, TURNING, FORWARDING, IDLE, ARRIVED, state, robot_state, prestate
@@ -213,24 +243,7 @@ def poseCB(p):
     pitch = fitInRad(pitch)
     yaw = fitInRad(yaw) 
       
-# Init ROS node
-rospy.init_node('waypoint_control')
 
-# Publishers
-vel_pub = rospy.Publisher('cmd_vel', Twist, queue_size = 10)
-robot_state_pub = rospy.Publisher('waypoint/robot_state', String, queue_size = 10)
-robot_gps_pub = rospy.Publisher('odo_calib_pose', Odometry, queue_size = 10)
-
-# Subscribers
-state_sub = rospy.Subscriber('waypoint/state', String, stateCB)
-pose_sub = rospy.Subscriber('robot_gps_pose', Odometry, poseCB)
-goal_sub = rospy.Subscriber('waypoint', NavSatFix, goalCB)
-para_sub = rospy.Subscriber('waypoint/control_parameters', String, paraCB)
-acc_sub = rospy.Subscriber('waypoint/acceleration', String, accCB)
-maxlin_sub = rospy.Subscriber('waypoint/max_linear_speed', Float32, linCB)
-maxang_sub = rospy.Subscriber('waypoint/max_angular_speed', Float32, angCB)
-fwding_thres_sub = rospy.Subscriber('waypoint/forwarding_thres', Float32, fwdThresCB)
-turning_thres_sub = rospy.Subscriber('waypoint/turning_thres', Float32, trunThresCB)
 
 freq = 10
 rate = rospy.Rate(freq)
