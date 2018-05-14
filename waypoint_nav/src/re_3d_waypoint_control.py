@@ -13,7 +13,7 @@ from geometry_msgs.msg import Point, Pose, Twist
 from nav_msgs.msg import Odometry
 from sensor_msgs.msg import NavSatFix
 
-# Class
+# Control Class
 class waypoint_control(object):
   def __init__(self):
     # Init ROS node
@@ -21,7 +21,7 @@ class waypoint_control(object):
     self.freq = 10  # 10 Hz
     rate = rospy.Rate(self.freq)	
     
-    # Parameters
+    # Parameters, robot configuration
     self.x_config = rospy.get_param("~robot_x_config", True)
     self.y_config = rospy.get_param("~robot_y_config", False)
     self.z_config = rospy.get_param("~robot_z_config", False)
@@ -55,11 +55,10 @@ class waypoint_control(object):
     self.TURNING = 1
     self.FORWARDING = 2
     self.IDLE = 3
-    self.ARRIVED = 4
     # State variables
-    self.state = STOP
-    self.robot_state = STOP
-    self.prestate = STOP
+    self.state = self.STOP
+    self.robot_state = self.STOP
+    self.prestate = self.STOP
     
     # Control parameters
     self.FORWARDING_THRES = 0.1
@@ -91,68 +90,76 @@ class waypoint_control(object):
     
   def Start(self):
     while not rospy.is_shutdown():
+      # Wait until waypoint is set
       if not self.goal_set:
         continue
-      
+      # When the waypoint is activated
       if self.state == self.RUNNING:  
+        # When the robot is turning
         if self.robot_state == self.TURNING:
+          # Stop linear movements
           self.vel.linear.x = 0
           self.vel.linear.y = 0
           self.vel.linear.z = 0
+          # Turn if the robot has DOF
           if self.rx_config:
             self.vel.angular.x = self.Accelerate(self.vel.angular.x, self.K_ROLL * self.roll, self.ACC_R/self.freq)
-          else
+          else:
             self.vel.angular.x = 0
-          if self.rx_config:
+          if self.ry_config:
             self.vel.angular.y = self.Accelerate(self.vel.angular.y, self.K_PITCH * self.pitch, self.ACC_R/self.freq)
-          else
-            self.vel.angular.x = 0
-          if self.rx_config:
+          else:
+            self.vel.angular.y = 0
+          if self.rz_config:
             self.vel.angular.z = self.Accelerate(self.vel.angular.z, self.K_YAW * self.yaw, self.ACC_R/self.freq)
-          else
-            self.vel.angular.x = 0
-          
+          else:
+            self.vel.angular.z = 0
+          # Check whether turning process is finished
           finished_turning = True
           if self.rx_config and math.fabs(self.roll) > self.TURNING_THRES:  
             finished_turning = False
           if self.ry_config and math.fabs(self.pitch) > self.TURNING_THRES:  
             finished_turning = False
           if self.rz_config and math.fabs(self.yaw) > self.TURNING_THRES:  
-            finished_turning = False          
+            finished_turning = False
+          # If turning is finished          
           if finished_turning:
             self.vel.angular.x = 0
             self.vel.angular.y = 0
             self.vel.angular.z = 0
             self.robot_state = self.FORWARDING     
-            
+        # When the robot is moving forwarding    
         elif self.robot_state == self.FORWARDING:
-          
+          # TODO: movement in x-y plane should be optimised
           self.vel.linear.x = self.Accelerate(self.vel.linear.x, self.K_RHO * self.distance, self.ACC_R/self.freq)
+          # If the robot is able to fly
           if self.z_config:
             self.vel.linear.z = self.Accelerate(self.vel.linear.z, self.K_RHO * self.z_dist, self.ACC_R/self.freq)
+          # Correct the orenitation if the robot can
           if self.rx_config:
             self.vel.angular.x = self.Accelerate(self.vel.angular.x, self.K_ROLL * self.roll, self.ACC_R/self.freq)
-          else
+          else:
             self.vel.angular.x = 0
-          if self.rx_config:
+          if self.ry_config:
             self.vel.angular.y = self.Accelerate(self.vel.angular.y, self.K_PITCH * self.pitch, self.ACC_R/self.freq)
-          else
-            self.vel.angular.x = 0
-          if self.rx_config:
+          else:
+            self.vel.angular.y = 0
+          if self.rz_config:
             self.vel.angular.z = self.Accelerate(self.vel.angular.z, self.K_YAW * self.yaw, self.ACC_R/self.freq)
-          else
-            self.vel.angular.x = 0
+          else:
+            self.vel.angular.z = 0
           
-          finished_forwarding = True:
-          if self.x_config and math.fabs(self.distance) > self.FORWARDING_THRES:
+          # Check whether the waypoint is reached
+          finished_forwarding = True
+          if math.fabs(self.distance) > self.FORWARDING_THRES:
             finished_forwarding = False
           if self.z_config and math.fabs(self.z_dist) > self.FLYING_THRES:
             finished_forwarding = False
+          # When reach the waypoint, stop the robot and wait for new command
           if finished_forwarding:
-            self.vel.linear.x = 0
-      	    self.vel.angular.y = 0
-            self.vel.angular.z = 0
-                    
+            self.StopRobot()
+          
+          # If the orientation off too much, enter TURNING mode
           turning_needed = False
           if self.rx_config and math.fabs(self.roll) > math.pi/4:  
             turning_needed = True
@@ -164,9 +171,11 @@ class waypoint_control(object):
             self.robot_state = self.TURNING
         
         else:
+          # If waypoint/state and waypoint is set, robot should run
           if self.goal_set:
             self.robot_state = self.TURNING
-            
+        
+        # Fit the velocity into the limited range    
         self.vel.linear.x = self.LimitRange(self.vel.linear.x, self.VEL_MAX_LIN)
         self.vel.linear.y = self.LimitRange(self.vel.linear.y, self.VEL_MAX_LIN)
         self.vel.linear.z = self.LimitRange(self.vel.linear.z, self.VEL_MAX_LIN)
@@ -175,9 +184,12 @@ class waypoint_control(object):
         self.vel.angular.z = self.LimitRange(self.vel.angular.z, self.VEL_MAX_ANG)
         self.vel_pub.publish(self.vel)
       
+      # If the waypoint/state is set to PARK mode
       elif self.state == self.PARK:
+        self.robot_state = STOP
         self.StopRobot()
       
+      # Stop waypoint control
       else:
         if self.prestate == self.RUNNING:
           self.StopRobot()
@@ -189,7 +201,6 @@ class waypoint_control(object):
   
   # Control functions
   def StopRobot(self):
-    self.robot_state = STOP
     self.vel.linear.x = 0
     self.vel.linear.y = 0
     self.vel.linear.z = 0
@@ -213,7 +224,7 @@ class waypoint_control(object):
       vel = cmd_v
     return vel
   
-  # Servica client
+  # Service client
   def FitInRad_client(r):
     rospy.wait_for_service('FitInRad')
     try:
@@ -272,7 +283,6 @@ class waypoint_control(object):
       self.robot_pose.position.z = z
       self.pose_get = True
       return
-    
     self.goal.x = x
     self.goal.y = y
     self.goal.z = z
@@ -292,7 +302,7 @@ class waypoint_control(object):
     self.robot_pose.orientation.z = robot_quat[2]
     self.robot_pose.orientation.w = robot_quat[3]
     self.orentation_get = True
-    # Publish robot initial position
+    # Publish robot initial position to calibrate the Odometry
     robot_gps_pose = Odometry()
     robot_gps_pose.pose.pose = self.robot_pose
     robot_gps_pose.pose.pose.position.x,robot_gps_pose.pose.pose.position.y = self.projection(self.robot_pose.position.x, self.robot_pose.position.y, inverse=True)
@@ -327,7 +337,7 @@ class waypoint_control(object):
     if len(parts) != 2:
       rospy.logwarn("waypoint_control error: 2 accelerations needed, only " + str(len(parts)) + " sent") 
       return
-    try
+    try:
       ACC = float(parts[0])
       ACC_R = float(parts[1])
       rospy.loginfo("Acceleration updated: " + str(ACC) +", " + str(ACC_R))
@@ -356,7 +366,7 @@ class waypoint_control(object):
 
 if __name__ == '__main__': 
   ctrl = waypoint_control() 
-  waypoint_control.Start() 
+  ctrl.Start()
 
 
 
