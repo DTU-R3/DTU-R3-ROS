@@ -2,6 +2,7 @@
 import rospy
 import math
 from pyproj import Proj
+from waypoint_nav.srv import *
 
 import tf
 import geometry_msgs.msg
@@ -17,116 +18,176 @@ class waypoint_control(object):
   def __init__(self):
     # Init ROS node
     rospy.init_node('waypoint_control')
-
+    freq = 10  # 10 Hz
+    rate = rospy.Rate(freq)	
+    
+    # Parameters
+    self.x_config = rospy.get_param("~robot_x_config", True)
+    self.y_config = rospy.get_param("~robot_y_config", True)
+    self.z_config = rospy.get_param("~robot_z_config", False)
+    self.rx_config = rospy.get_param("~robot_rx_config", False)
+    self.ry_config = rospy.get_param("~robot_ry_config", False)
+    self.rz_config = rospy.get_param("~robot_rz_config", True)
+    
     # Publishers
-    vel_pub = rospy.Publisher('cmd_vel', Twist, queue_size = 10)
-    robot_state_pub = rospy.Publisher('waypoint/robot_state', String, queue_size = 10)
-    robot_gps_pub = rospy.Publisher('odo_calib_pose', Odometry, queue_size = 10)
+    self.vel_pub = rospy.Publisher('cmd_vel', Twist, queue_size = 10)
+    self.robot_state_pub = rospy.Publisher('waypoint/robot_state', String, queue_size = 10)
+    self.robot_gps_pub = rospy.Publisher('odo_calib_pose', Odometry, queue_size = 10)
+    self.debug_output = rospy.Publisher('debug_output', String, queue_size = 10)
 
     # Subscribers
-    state_sub = rospy.Subscriber('waypoint/state', String, stateCB)
-    pose_sub = rospy.Subscriber('robot_gps_pose', Odometry, poseCB)
-    goal_sub = rospy.Subscriber('waypoint', NavSatFix, goalCB)
-    para_sub = rospy.Subscriber('waypoint/control_parameters', String, paraCB)
-    acc_sub = rospy.Subscriber('waypoint/acceleration', String, accCB)
-    maxlin_sub = rospy.Subscriber('waypoint/max_linear_speed', Float32, linCB)
-    maxang_sub = rospy.Subscriber('waypoint/max_angular_speed', Float32, angCB)
-    fwding_thres_sub = rospy.Subscriber('waypoint/forwarding_thres', Float32, fwdThresCB)
-    turning_thres_sub = rospy.Subscriber('waypoint/turning_thres', Float32, trunThresCB)
-	
+    rospy.Subscriber('waypoint/state', String, self.stateCB)
+    rospy.Subscriber('robot_gps_pose', Odometry, self.poseCB)
+    rospy.Subscriber('waypoint', NavSatFix, self.goalCB)
+    rospy.Subscriber('waypoint/control_parameters', String, self.paraCB)
+    rospy.Subscriber('waypoint/acceleration', String, self.accCB)
+    rospy.Subscriber('waypoint/max_linear_speed', Float32, self.linCB)
+    rospy.Subscriber('waypoint/max_angular_speed', Float32, self.angCB)
+    rospy.Subscriber('waypoint/forwarding_thres', Float32, self.fwdThresCB)
+    rospy.Subscriber('waypoint/turning_thres', Float32, self.trunThresCB)
+    
+    # State
+    self.STOP = 0
+    # waypoint/state
+    self.RUNNING = 1
+    self.PARK = 2
+    # waypoint/robot_state
+    self.TURNING = 1
+    self.FORWARDING = 2
+    self.IDLE = 3
+    self.ARRIVED = 4
+    # State variables
+    self.state = STOP
+    self.robot_state = STOP
+    self.prestate = STOP
+    
+    # Control parameters
+    self.FORWARDING_THRES = 0.1
+    self.FLYING_THRES = 1.0
+    self.TURNING_THRES = 0.2
+    self.VEL_MAX_LIN = 0.5
+    self.VEL_MAX_ANG = 1.0
+    self.K_RHO = 0.3
+    self.K_ROLL = 0.8
+    self.K_PITCH = 0.8
+    self.K_YAW = 0.8
+    self.ACC = 0.1
+    self.ACC_R = 0.1
+    
+    # Variables
+    self.projection = Proj(proj="utm", zone="34", ellps='WGS84')
+    self.goal_set = False
+    self.pose_get = False
+    self.orentation_get = False
+    self.distance = 0.0
+    self.roll = 0.0
+    self.pitch = 0.0
+    self.yaw = 0.0
+    self.goal = Point()
+    self.vel = Twist()
+    self.robot_pose = Pose()
+    
   def Start(self):
-
+    while not rospy.is_shutdown():
+      if not self.goal_set:
+        continue
+      
+      if state == RUNNING:    
+        if robot_state == TURNING:
+          vel.linear.x = 0
+          vel.angular.x = Accelerate(vel.angular.x, K_ROLL * roll, ACC_R/freq)
+          vel.angular.y = Accelerate(vel.angular.y, K_PITCH * pitch, ACC_R/freq)
+          vel.angular.z = Accelerate(vel.angular.z, K_YAW * yaw, ACC_R/freq)
+        if math.fabs(yaw) < TURNING_THRES:
+          vel.angular.x = 0
+          vel.angular.y = 0
+          vel.angular.z = 0
+          robot_state = FORWARDING     
+        elif robot_state == FORWARDING:
+          if math.fabs(distance) > FORWARDING_THRES:
+      	    vel.linear.x = Accelerate(vel.linear.x, K_RHO * distance, ACC/freq)
+      	    vel.angular.y = Accelerate(vel.angular.y, K_PITCH * pitch, ACC_R/freq)
+            vel.angular.z = Accelerate(vel.angular.z, K_YAW * yaw, ACC_R/freq)
+            if math.fabs(yaw) > math.pi/4:
+               robot_state = TURNING
+            else:
+              vel.linear.x = 0
+      	      vel.angular.y = 0
+              vel.angular.z = 0
+              robot_state = ARRIVED
+      
+      vel.linear.x = LimitRange(vel.linear.x, VEL_MAX_LIN)
+      vel.angular.x = LimitRange(vel.angular.x, VEL_MAX_ANG)
+      vel.angular.y = LimitRange(vel.angular.y, VEL_MAX_ANG)
+      vel.angular.z = LimitRange(vel.angular.z, VEL_MAX_ANG)
+      vel_pub.publish(vel)
+      
+    elif state == PARK:
+      StopRobot()
+      
+    else:
+      if prestate == RUNNING:
+        StopRobot()
+      else:
+        robot_state = IDLE      
+    
+  prestate = state       
+  robot_state_pub.publish(str(robot_state))
+  rate.sleep()
+  
+  # Control functions
+  def StopRobot(self):
+    self.robot_state = STOP
+    self.vel.linear.x = 0
+    self.vel.linear.y = 0
+    self.vel.linear.z = 0
+    self.vel.angular.x = 0
+    self.vel.angular.y = 0
+    self.vel.angular.z = 0
+    self.vel_pub.publish(vel)
+    
+  def LimitRange(self, v, l):
+    if v > 0:
+      return min(v, math.fabs(l))
+    else:
+      return max(v, -math.fabs(l))
+  
+  def Accelerate(self, v, cmd_v, acc):
+    if v - cmd_v > acc:
+      vel = v - acc
+    elif cmd_v - v > acc:
+      vel = v + acc
+    else:
+      vel = cmd_v
+    return vel
+  
+  # Servica client
+  def FitInRad_client(r):
+    rospy.wait_for_service('FitInRad')
+    try:
+      fit_in_rad = rospy.ServiceProxy('FitInRad', FitInRad)
+      resp = fit_in_rad(r)
+      return resp.rad
+    except rospy.ServiceException, e:
+      print "Service call failed: %s"%e
+  
+  def FitInRad_client(q, deg_x, deg_y, deg_z):
+    rospy.wait_for_service('QuatRot')
+    try:
+      quat_rot = rospy.ServiceProxy('QuatRot', FitInRad)
+      resp = quat_rot(r)
+      return resp.quat
+    except rospy.ServiceException, e:
+      print "Service call failed: %s"%e
+  
+  # ROS callback function
+  
 
 if __name__ == '__main__': 
   ctrl = waypoint_control() 
   waypoint_control.Start() 
 
 ########### ----------------------------------- #############
-
-# STATEs
-global STOP, RUNNING, TURNING, FORWARDING, IDLE, ARRIVED, state, robot_state, prestate
-STOP = 0
-# waypoint/state
-RUNNING = 1
-PARK = 2
-# waypoint/robot_state
-TURNING = 1
-FORWARDING = 2
-IDLE = 3
-ARRIVED = 4
-state = STOP
-robot_state = STOP
-prestate = STOP
-
-# Control parameters
-global FORWARDING_THRES, TURNING_THRES, K_RHO, K_ROLL, K_PITCH, K_YAW, VEL_MAX_LIN, VEL_MAX_ANG, ACC, ACC_R
-FORWARDING_THRES = 0.1
-TURNING_THRES = 0.2
-VEL_MAX_LIN = 0.5
-VEL_MAX_ANG = 1.0
-K_RHO = 0.3
-K_ROLL = 0.8
-K_PITCH = 0.8
-K_YAW = 0.8
-ACC = 0.1
-ACC_R = 0.1
-
-# Variables
-global projection, goal_set, pose_get, orentation_get
-global distance, roll, pitch, yaw, goal, vel, robot_pose
-projection = Proj(proj="utm", zone="34", ellps='WGS84')
-goal_set = False
-pose_get = False
-orentation_get = False
-distance = 0.0
-roll = 0.0
-pitch = 0.0
-yaw = 0.0
-goal = Point()
-vel = Twist()
-robot_pose = Pose()
-
-# Control functions
-def LimitRange(v, l):
-  if v > 0:
-    return min(v, math.fabs(l))
-  else:
-    return max(v, -math.fabs(l))
-
-def StopRobot():
-  global robot_state, vel, STOP
-  robot_state = STOP
-  vel.linear.x = 0
-  vel.angular.x = 0
-  vel.angular.y = 0
-  vel.angular.z = 0
-  vel_pub.publish(vel)
-  
-def fitInRad(r):
-  while r > math.pi:
-    r = r - 2 * math.pi
-  while r < -math.pi:
-    r = r + 2 * math.pi
-  return r
-
-def Accelerate(v, cmd_v, acc):
-  if v - cmd_v > acc:
-    vel = v - acc
-  elif cmd_v - v > acc:
-    vel = v + acc
-  else:
-    vel = cmd_v
-  return vel
-  
-def quatRot(q,deg_x,deg_y,deg_z):
-  euler = tf.transformations.euler_from_quaternion((q.x, q.y, q.z, q.w))
-  quat = tf.transformations.quaternion_from_euler(euler[0]+deg_x*math.pi/180, euler[1]+deg_y*math.pi/180, euler[2]+deg_z*math.pi/180)
-  result = geometry_msgs.msg.Quaternion()
-  result.x = quat[0]
-  result.y = quat[1]
-  result.z = quat[2]
-  result.w = quat[3]
-  return result
 
 # ROS Callback functions
 def paraCB(p):
@@ -245,54 +306,6 @@ def poseCB(p):
       
 
 
-freq = 10
-rate = rospy.Rate(freq)
 
-while not rospy.is_shutdown():
-  if goal_set:
-    if state == RUNNING:
-      if robot_state != FORWARDING:
-        robot_state = TURNING   
-    
-      if robot_state == TURNING:
-        vel.linear.x = 0
-        vel.angular.x = Accelerate(vel.angular.x, K_ROLL * roll, ACC_R/freq)
-        vel.angular.y = Accelerate(vel.angular.y, K_PITCH * pitch, ACC_R/freq)
-        vel.angular.z = Accelerate(vel.angular.z, K_YAW * yaw, ACC_R/freq)
-        if math.fabs(yaw) < TURNING_THRES:
-          vel.angular.x = 0
-          vel.angular.y = 0
-          vel.angular.z = 0
-          robot_state = FORWARDING     
-      elif robot_state == FORWARDING:
-        if math.fabs(distance) > FORWARDING_THRES:
-      	  vel.linear.x = Accelerate(vel.linear.x, K_RHO * distance, ACC/freq)
-      	  vel.angular.y = Accelerate(vel.angular.y, K_PITCH * pitch, ACC_R/freq)
-          vel.angular.z = Accelerate(vel.angular.z, K_YAW * yaw, ACC_R/freq)
-          if math.fabs(yaw) > math.pi/2:
-             robot_state = TURNING
-        else:
-          vel.linear.x = 0
-      	  vel.angular.y = 0
-          vel.angular.z = 0
-          robot_state = ARRIVED
-      
-      vel.linear.x = LimitRange(vel.linear.x, VEL_MAX_LIN)
-      vel.angular.x = LimitRange(vel.angular.x, VEL_MAX_ANG)
-      vel.angular.y = LimitRange(vel.angular.y, VEL_MAX_ANG)
-      vel.angular.z = LimitRange(vel.angular.z, VEL_MAX_ANG)
-      vel_pub.publish(vel)
-      
-    elif state == PARK:
-      StopRobot()
-      
-    else:
-      if prestate == RUNNING:
-        StopRobot()
-      else:
-        robot_state = IDLE      
-    
-  prestate = state       
-  robot_state_pub.publish(str(robot_state))
-  rate.sleep()
+
 
