@@ -2,7 +2,7 @@
 import rospy
 import math
 from pyproj import Proj
-from waypoint_nav.srv import *
+from R3_functions import quat_rot, fit_in_rad, debug_info
 
 import tf
 import geometry_msgs.msg
@@ -224,25 +224,6 @@ class waypoint_control(object):
       vel = cmd_v
     return vel
   
-  # Service client
-  def FitInRad_client(r):
-    rospy.wait_for_service('FitInRad')
-    try:
-      fit_in_rad = rospy.ServiceProxy('FitInRad', FitInRad)
-      resp = fit_in_rad(r)
-      return resp.rad
-    except rospy.ServiceException, e:
-      rospy.logwarn("Service call failed: %s"%e)
-  
-  def QuatRot_client(q, deg_x, deg_y, deg_z):
-    rospy.wait_for_service('QuatRot')
-    try:
-      quat_rot = rospy.ServiceProxy('QuatRot', QuatRot)
-      resp = quat_rot(q, deg_x, deg_y, deg_z)
-      return resp.quat
-    except rospy.ServiceException, e:
-      rospy.logwarn("Service call failed: %s"%e)
-  
   # ROS callback function
   def stateCB(s):
     if s.data == "RUNNING":
@@ -259,7 +240,7 @@ class waypoint_control(object):
     self.robot_pose.orientation.x = -p.pose.pose.orientation.x
     self.robot_pose.orientation.y = -p.pose.pose.orientation.y
     self.robot_pose.orientation.z = -p.pose.pose.orientation.z
-    self.robot_pose.orientation = self.QuatRot_client(robot_pose.orientation, 0, 0, 90)
+    self.robot_pose.orientation = quat_rot(robot_pose.orientation, 0, 0, 90)
     self.pose_get = True
     self.orentation_get = True
     if not self.goal_set:
@@ -270,9 +251,9 @@ class waypoint_control(object):
     self.roll = 0
     self.pitch = math.atan2(self.goal.z-self.robot_pose.position.z, math.sqrt((self.goal.x-self.robot_pose.position.x)**2 + (self.goal.y-self.robot_pose.position.y)**2)) - robot_euler[1]
     self.yaw = math.atan2(self.goal.y-self.robot_pose.position.y, self.goal.x-self.robot_pose.position.x) - robot_euler[2]
-    self.roll = FitInRad_client(self.roll)
-    self.pitch = FitInRad_client(self.pitch)
-    self.yaw = FitInRad_client(self.yaw)
+    self.roll = fit_in_rad(self.roll)
+    self.pitch = fit_in_rad(self.pitch)
+    self.yaw = fit_in_rad(self.yaw)
   
   def goalCB(g):
     x,y = self.projection(g.longitude, g.latitude)
@@ -367,19 +348,4 @@ class waypoint_control(object):
 if __name__ == '__main__': 
   ctrl = waypoint_control() 
   ctrl.Start()
-
-
-
-
-
-
-
-
-  
- 
-      
-
-
-
-
 

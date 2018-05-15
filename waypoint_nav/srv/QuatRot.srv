@@ -1,6 +1,0 @@
-geometry_msgs/Quaternion q
-float64 deg_x
-float64 deg_y
-float64 deg_z
----
-float64 quat

@@ -7,13 +7,9 @@
   <param name="waypoint_control/base_frame" value="$(arg robot_frame)"/>
   <param name="waypoint_control/gps_frame" value="$(arg utm_frame)" />
   <param name="waypoint_control/odom_frame" value="$(arg odom_frame)"/>
-  
-  <!-- ROS Service -->   
-  <node pkg="waypoint_nav" type="FitInRad_server.py" name="FitInRad"></node>
-  <node pkg="waypoint_nav" type="QuatRot_server.py" name="QuatRot"></node>
-  
+    
   <!-- ROS nodes -->   
-  <node pkg="waypoint_nav" type="fiducial_waypoint_localization.py" name="fiducial_waypoint_localization">
+  <node pkg="waypoint_nav" type="re_fiducial_waypoint_localization.py" name="fiducial_waypoint_localization">
   	<remap from="robot_gps_pose" to="odo_calib_pose"/>
   </node>  
   <node pkg="waypoint_nav" type="encoder_waypoint_localization.py" name="encoder_waypoint_localization"></node>

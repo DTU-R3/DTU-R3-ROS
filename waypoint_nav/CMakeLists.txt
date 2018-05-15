@@ -15,7 +15,7 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
   tf2_ros
   tf2_msgs
-  message_generation
+#  message_generation
 )
 
 ## System dependencies are found with CMake's conventions
@@ -58,12 +58,12 @@ find_package(catkin REQUIRED COMPONENTS
 #   Message2.msg
 # )
 
-# Generate services in the 'srv' folder
-add_service_files(
-  FILES
-  FitInRad.srv
-  QuatRot.srv
-)
+## Generate services in the 'srv' folder
+# add_service_files(
+#  FILES
+#  FitInRad.srv
+#  QuatRot.srv
+#)
 
 ## Generate actions in the 'action' folder
 # add_action_files(
@@ -73,11 +73,11 @@ add_service_files(
 # )
 
 ## Generate added messages and services with any dependencies listed here
-generate_messages(
-  DEPENDENCIES  
-  geometry_msgs
-  std_msgs
-)
+# generate_messages(
+#  DEPENDENCIES  
+#  geometry_msgs
+#  std_msgs
+#)
 
 ################################################
 ## Declare ROS dynamic reconfigure parameters ##
