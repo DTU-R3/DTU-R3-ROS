@@ -55,6 +55,14 @@ class odometry_control(object):
     self.freq = 10
     self.rate = rospy.Rate(freq)
 	
+	# Parameters, robot configuration
+    self.x_config = rospy.get_param("~robot_x_config", True)
+    self.y_config = rospy.get_param("~robot_y_config", False)
+    self.z_config = rospy.get_param("~robot_z_config", False)
+    self.rx_config = rospy.get_param("~robot_rx_config", False)
+    self.ry_config = rospy.get_param("~robot_ry_config", False)
+    self.rz_config = rospy.get_param("~robot_rz_config", True)
+    
     # Publishers
     self.vel_pub = rospy.Publisher('cmd_vel', Twist, queue_size = 10)
     self.robot_state_pub = rospy.Publisher('odometry_control/robot_state', String, queue_size = 10)
@@ -71,6 +79,11 @@ class odometry_control(object):
     rospy.Subscriber('odometry_control/forwarding_thres', Float32, self.fwdThresCB)
     rospy.Subscriber('odometry_control/turning_thres', Float32, self.trunThresCB)
   
+    
+  def Start(self):
+    while not rospy.is_shutdown():
+	  # TODO
+	  
   # Control functions
   def StopRobot(self):
     self.vel.linear.x = 0
@@ -96,97 +109,96 @@ class odometry_control(object):
       vel = cmd_v
     return vel
   
-  def Start(self):
-    while not rospy.is_shutdown():
+  # Callback functions
+  def odomCB(self, odo):
+    self.robot_pos = odo.pose.pose
+  
+  def cmdCB(self, cmd):
+    cmd_parts = cmd.data.split(',')  
+    s = cmd_parts[0] 
+	robot_euler = tf.transformations.euler_from_quaternion((self.robot_pos.orientation.x, self.robot_pos.orientation.y, self.robot_pos.orientation.z, self.robot_pos.orientation.w))
+    robot_th = robot_euler[2] # 2 * math.atan2(odo.pose.pose.orientation.z,odo.pose.pose.orientation.w)
+	self.target_pos = self.robot_pos
+    if s == "fwd":
+      dis = float(cmd_parts[1])
+      self.target_pos.position.x = self.target_pos.position.x + dis * math.cos(robot_th)
+      self.target_pos.position.y = self.target_pos.position.y + dis * math.sin(robot_th) 
+      self.robot_state = FORWARDING
+    elif s == "turn":  
+      a = math.radians( float(cmd_parts[1]) )
+      target_th = robot_th + a
+      target_th = fit_in_rad(target_th)
+	  target_quat = tf.transformations.quaternion_from_euler(robot_euler[0], robot_euler[1], target_th)
+      self.target_pos.orientation.x = target_quat[0]
+      self.target_pos.orientation.y = target_quat[1]
+      self.target_pos.orientation.z = target_quat[2]
+      self.target_pos.orientation.w = target_quat[3]
+      self.robot_state = TURNING
+  
+  def stateCB(self, s):
+    if s.data == "RUNNING":
+      self.state = self.RUNNING
+    elif s.data == "PARK":
+      self.state = self.PARK
+    else:  
+      self.state = self.STOP
+  
+  def paraCB(self, p):
+    if len(p.data) <= 0:
+      debug_info(self.debug_output, "odometry_control parameter invalid") 
+      return
+    parts = p.data.split(',')
+    if len(parts) != 4:
+      debug_info(self.debug_output, "odometry_control error: 4 parameters needed, only " + str(len(parts)) + " sent") 
+      return
+    try:
+      self.K_RHO = float(parts[0])
+      self.K_ROLL = float(parts[1])
+      self.K_PITCH = float(parts[2])
+      self.K_YAW = float(parts[3])
+      debug_info(self.debug_output, "Parameter updated: " + str(self.K_RHO) +", " + str(self.K_ROLL) +", " + str(self.K_PITCH) +", " + str(self.K_YAW))
+    except:
+      return
+  
+  def accCB(self, a):
+    if len(a.data) <= 0:
+      debug_info(self.debug_output, "waypoint_control acceleration invalid") 
+      return
+    parts = a.data.split(',')
+    if len(parts) != 2:
+      debug_info(self.debug_output, "waypoint_control error: 2 accelerations needed, only " + str(len(parts)) + " sent") 
+      return
+    try:
+      self.ACC = float(parts[0])
+      self.ACC_R = float(parts[1])
+      debug_info(self.debug_output, "Acceleration updated: " + str(self.ACC) +", " + str(self.ACC_R))
+    except:
+      return
+  
+  def linCB(self, l):
+    self.VEL_MAX_LIN = l.data
+    debug_info(self.debug_output, "Max linear speed is set to: " + str(self.VEL_MAX_LIN) )
+
+  def angCB(self, a):
+    self.VEL_MAX_ANG = a.data
+    debug_info(self.debug_output, "Max angular speed is set to: " + str(self.VEL_MAX_ANG) )
+
+  def fwdThresCB(self, thres):
+    self.FORWARDING_THRES = thres.data
+    debug_info(self.debug_output, "Forwarding threshold is set to: " + str(self.FORWARDING_THRES) )
+    
+  def trunThresCB(self, thres):
+    self.TURNING_THRES = thres.data
+    debug_info(self.debug_output, "Turning threshold is set to: " + str(self.TURNING_THRES) )
+    
+  def flyThresCB(self, thres):
+    self.FLYING_THRES = thres.data
+    debug_info(self.debug_output, "Flying threshold is set to: " + str(self.FLYING_THRES) )
   
 if __name__ == '__main__': 
   ctrl = odometry_control() 
   ctrl.Start()  
 ########### --------------- ################
-
-  
-def fitInRad(r):
-  while r > math.pi:
-    r = r - 2 * math.pi
-  while r < -math.pi:
-    r = r + 2 * math.pi
-  return r
-
-# Callback functions
-def odomCB(odo):
-  global robot_x, robot_y, robot_th
-  robot_x = odo.pose.pose.position.x
-  robot_y = odo.pose.pose.position.y
-  robot_euler = tf.transformations.euler_from_quaternion((odo.pose.pose.orientation.x, odo.pose.pose.orientation.y, odo.pose.pose.orientation.z, odo.pose.pose.orientation.w))
-  robot_th = robot_euler[2] # 2 * math.atan2(odo.pose.pose.orientation.z,odo.pose.pose.orientation.w)
-  
-def stateCB(s):
-  global state
-  if s.data == "RUNNING":
-    state = RUNNING
-  elif s.data == "PARK":
-    state = PARK
-  else:  
-    state = STOP
-  print "Odometry control state updated: " + s.data
-
-def cmdCB(cmd):
-  global robot_state, target_x, target_y, target_th, robot_x, robot_y, robot_th
-  global FORWARDING, TURNING 
-  cmd_parts = cmd.data.split(',')  
-  s = cmd_parts[0] 
-  if s == "fwd":
-    dis = float(cmd_parts[1])
-    target_x = robot_x + dis * math.cos(robot_th)
-    target_y = robot_y + dis * math.sin(robot_th) 
-    robot_state = FORWARDING
-  elif s == "turn":  
-    a = float(cmd_parts[1]) * math.pi / 180.0
-    target_th = robot_th + a
-    target_th = fitInRad(target_th)
-    robot_state = TURNING
-
-def paraCB(p):
-  global K_RHO, K_ALPHA
-  if len(p.data) > 0:
-    parts = p.data.split(',')
-    if len(parts) == 2:
-      K_RHO = float(parts[0])
-      K_ALPHA = float(parts[1])
-      print "Parameter updated: " + str(K_RHO) +", " + str(K_ALPHA)
-    else:
-      print "Error: 2 parameter needed, only " + str(len(parts)) + " sent"
-
-def accCB(a):
-  global ACC, ACC_R
-  if len(a.data) > 0:
-    parts = p.data.split(',')
-    if len(parts) == 2:
-      ACC = float(parts[0])
-      ACC_R = float(parts[1])
-      print "Acceleration updated: " + str(ACC) +", " + str(ACC_R)
-    else:
-      print "Error: 2 parameter needed, only " + str(len(parts)) + " sent"
-
-def linCB(l):
-  global VEL_MAX_LIN
-  VEL_MAX_LIN = l.data
-  print "Max linear speed is set to: " + str(VEL_MAX_LIN)
-
-def angCB(a):
-  global VEL_MAX_ANG
-  VEL_MAX_ANG = a.data
-  print "Max angular speed is set to: " + str(VEL_MAX_ANG)  
-
-def fwdThresCB(thres):
-  global FORWARDING_THRES
-  FORWARDING_THRES = thres.data
-  print "Forwarding threshold is set to: " + str(FORWARDING_THRES)
-    
-def trunThresCB(thres):
-  global TURINING_THRES
-  TURNING_THRES = thres.data
-  print "Turning threshold is set to: " + str(TURNING_THRES)
 
 
 

@@ -300,11 +300,11 @@ class waypoint_control(object):
       debug_info(self.debug_output, "waypoint_control error: 4 parameters needed, only " + str(len(parts)) + " sent") 
       return
     try:
-      K_RHO = float(parts[0])
-      K_ROLL = float(parts[1])
-      K_PITCH = float(parts[2])
-      K_YAW = float(parts[3])
-      debug_info(self.debug_output, "Parameter updated: " + str(K_RHO) +", " + str(K_ROLL) +", " + str(K_PITCH) +", " + str(K_YAW))
+      self.K_RHO = float(parts[0])
+      self.K_ROLL = float(parts[1])
+      self.K_PITCH = float(parts[2])
+      self.K_YAW = float(parts[3])
+      debug_info(self.debug_output, "Parameter updated: " + str(self.K_RHO) +", " + str(self.K_ROLL) +", " + str(self.K_PITCH) +", " + str(self.K_YAW))
     except:
       return
   
@@ -317,31 +317,31 @@ class waypoint_control(object):
       debug_info(self.debug_output, "waypoint_control error: 2 accelerations needed, only " + str(len(parts)) + " sent") 
       return
     try:
-      ACC = float(parts[0])
-      ACC_R = float(parts[1])
-      debug_info(self.debug_output, "Acceleration updated: " + str(ACC) +", " + str(ACC_R))
+      self.ACC = float(parts[0])
+      self.ACC_R = float(parts[1])
+      debug_info(self.debug_output, "Acceleration updated: " + str(self.ACC) +", " + str(self.ACC_R))
     except:
       return
 
   def linCB(self, l):
     self.VEL_MAX_LIN = l.data
-    debug_info(self.debug_output, "Max linear speed is set to: " + str(VEL_MAX_LIN) )
+    debug_info(self.debug_output, "Max linear speed is set to: " + str(self.VEL_MAX_LIN) )
 
   def angCB(self, a):
     self.VEL_MAX_ANG = a.data
-    debug_info(self.debug_output, "Max angular speed is set to: " + str(VEL_MAX_ANG) )
+    debug_info(self.debug_output, "Max angular speed is set to: " + str(self.VEL_MAX_ANG) )
 
   def fwdThresCB(self, thres):
     self.FORWARDING_THRES = thres.data
-    debug_info(self.debug_output, "Forwarding threshold is set to: " + str(FORWARDING_THRES) )
+    debug_info(self.debug_output, "Forwarding threshold is set to: " + str(self.FORWARDING_THRES) )
     
   def trunThresCB(self, thres):
     self.TURNING_THRES = thres.data
-    debug_info(self.debug_output, "Turning threshold is set to: " + str(TURNING_THRES) )
+    debug_info(self.debug_output, "Turning threshold is set to: " + str(self.TURNING_THRES) )
     
   def flyThresCB(self, thres):
     self.FLYING_THRES = thres.data
-    debug_info(self.debug_output, "Flying threshold is set to: " + str(FLYING_THRES) )
+    debug_info(self.debug_output, "Flying threshold is set to: " + str(self.FLYING_THRES) )
 
 if __name__ == '__main__': 
   ctrl = waypoint_control() 
