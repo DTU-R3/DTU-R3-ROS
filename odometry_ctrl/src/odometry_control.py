@@ -27,7 +27,7 @@ class odometry_control(object):
     self.robot_state = STOP
     self.prestate = STOP
 
-	# Control parameters
+    # Control parameters
     self.FORWARDING_THRES = 0.1
     self.TURNING_THRES = 0.2
     self.FLYING_THRES = 1.0

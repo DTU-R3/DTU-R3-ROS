@@ -23,11 +23,11 @@ class odometry_control(object):
     self.IDLE = 3
     self.ARRIVED = 4
     # State variables
-	self.state = STOP
+    self.state = STOP
     self.robot_state = STOP
     self.prestate = STOP
 
-	# Control parameters
+    # Control parameters
     self.FORWARDING_THRES = 0.1
     self.TURNING_THRES = 0.2
     self.FLYING_THRES = 1.0
@@ -65,8 +65,7 @@ class odometry_control(object):
     
     # Publishers
     self.vel_pub = rospy.Publisher('cmd_vel', Twist, queue_size = 10)
-    self.robot_state_pub = rospy.Publisher('odometry_control/robot_state', String, queue_size = 10)
-	self.debug_output = rospy.Publisher('debug_output', String, queue_size = 10)
+    self.debug_output = rospy.Publisher('debug_output', String, queue_size = 10)
 
     # Subscribers
     rospy.Subscriber('odom', Odometry, self.odomCB)
@@ -82,7 +81,120 @@ class odometry_control(object):
     
   def Start(self):
     while not rospy.is_shutdown():
-	  # TODO
+      if self.state == self.RUNNING: 
+        # Calculate relative position
+        distance = math.sqrt( (self.target_pos.position.x-self.robot_pos.position.x)**2 + (self.target_pos.position.y-self.robot_pos.position.y)**2 )
+        z_dist = self.target_pos.position.y - self.robot_pos.position.y
+        robot_euler = tf.transformations.euler_from_quaternion((self.robot_pos.orientation.x, self.robot_pos.orientation.y, self.robot_pos.orientation.z, self.robot_pos.orientation.w))
+        target_euler = tf.transformations.euler_from_quaternion((self.target_pos.orientation.x, self.target_pos.orientation.y, self.target_pos.orientation.z, self.target_pos.orientation.w))
+        roll = fit_in_rad(target_euler[0] - robot_euler[0]) 
+        pitch = fit_in_rad(target_euler[1] - robot_euler[1]) 
+        yaw = fit_in_rad(target_euler[2] - robot_euler[2])
+      
+        # When the robot is turning
+        if self.robot_state == self.TURNING:
+          # Stop linear movements
+          self.vel.linear.x = 0
+          self.vel.linear.y = 0
+          self.vel.linear.z = 0
+          # Turn if the robot has DOF
+          if self.rx_config:
+            self.vel.angular.x = self.Accelerate(self.vel.angular.x, self.K_ROLL * self.roll, self.ACC_R/self.freq)
+          else:
+            self.vel.angular.x = 0
+          if self.ry_config:
+            self.vel.angular.y = self.Accelerate(self.vel.angular.y, self.K_PITCH * self.pitch, self.ACC_R/self.freq)
+          else:
+            self.vel.angular.y = 0
+          if self.rz_config:
+            self.vel.angular.z = self.Accelerate(self.vel.angular.z, self.K_YAW * self.yaw, self.ACC_R/self.freq)
+          else:
+            self.vel.angular.z = 0
+          # Check whether turning process is finished
+          finished_turning = True
+          if self.rx_config and math.fabs(self.roll) > self.TURNING_THRES:  
+            finished_turning = False
+          if self.ry_config and math.fabs(self.pitch) > self.TURNING_THRES:  
+            finished_turning = False
+          if self.rz_config and math.fabs(self.yaw) > self.TURNING_THRES:  
+            finished_turning = False
+          # If turning is finished          
+          if finished_turning:
+            self.vel.angular.x = 0
+            self.vel.angular.y = 0
+            self.vel.angular.z = 0
+            self.robot_state = self.FORWARDING  
+        
+        # When the robot is moving forwarding    
+        elif self.robot_state == self.FORWARDING:
+          # TODO: movement in x-y plane should be optimised
+          self.vel.linear.x = self.Accelerate(self.vel.linear.x, self.K_RHO * self.distance, self.ACC_R/self.freq)
+          # If the robot is able to fly
+          if self.z_config:
+            self.vel.linear.z = self.Accelerate(self.vel.linear.z, self.K_RHO * self.z_dist, self.ACC_R/self.freq)
+          # Correct the orenitation if the robot can
+          if self.rx_config:
+            self.vel.angular.x = self.Accelerate(self.vel.angular.x, self.K_ROLL * self.roll, self.ACC_R/self.freq)
+          else:
+            self.vel.angular.x = 0
+          if self.ry_config:
+            self.vel.angular.y = self.Accelerate(self.vel.angular.y, self.K_PITCH * self.pitch, self.ACC_R/self.freq)
+          else:
+            self.vel.angular.y = 0
+          if self.rz_config:
+            self.vel.angular.z = self.Accelerate(self.vel.angular.z, self.K_YAW * self.yaw, self.ACC_R/self.freq)
+          else:
+            self.vel.angular.z = 0
+          
+          # Check whether the target is reached
+          finished_forwarding = True
+          if math.fabs(self.distance) > self.FORWARDING_THRES:
+            finished_forwarding = False
+          if self.z_config and math.fabs(self.z_dist) > self.FLYING_THRES:
+            finished_forwarding = False
+          # When reach the target, stop the robot and wait for new command
+          if finished_forwarding:
+            self.StopRobot()
+          
+          # If the orientation off too much, enter TURNING mode
+          turning_needed = False
+          if self.rx_config and math.fabs(self.roll) > math.pi/4:  
+            turning_needed = True
+          if self.ry_config and math.fabs(self.pitch) > math.pi/4:  
+            turning_needed = True
+          if self.rz_config and math.fabs(self.yaw) > math.pi/4:  
+            turning_needed = True
+          if turning_needed:
+            self.robot_state = self.TURNING
+        
+        # When the cmd is not known
+        else:
+          self.robot_state = STOP
+          self.StopRobot()
+        
+        # Fit the velocity into the limited range    
+        self.vel.linear.x = self.LimitRange(self.vel.linear.x, self.VEL_MAX_LIN)
+        self.vel.linear.y = self.LimitRange(self.vel.linear.y, self.VEL_MAX_LIN)
+        self.vel.linear.z = self.LimitRange(self.vel.linear.z, self.VEL_MAX_LIN)
+        self.vel.angular.x = self.LimitRange(self.vel.angular.x, self.VEL_MAX_ANG)
+        self.vel.angular.y = self.LimitRange(self.vel.angular.y, self.VEL_MAX_ANG)
+        self.vel.angular.z = self.LimitRange(self.vel.angular.z, self.VEL_MAX_ANG)
+        self.vel_pub.publish(self.vel)
+            
+      # If the waypoint/state is set to PARK mode
+      elif self.state == self.PARK:
+        self.robot_state = STOP
+        self.StopRobot()
+      
+      # Stop waypoint control
+      else:
+        if self.prestate == self.RUNNING:
+          self.StopRobot()
+        else:
+          self.robot_state = self.IDLE      
+    
+      self.prestate = self.state       
+      self.rate.sleep()
 	  
   # Control functions
   def StopRobot(self):
@@ -116,9 +228,9 @@ class odometry_control(object):
   def cmdCB(self, cmd):
     cmd_parts = cmd.data.split(',')  
     s = cmd_parts[0] 
-	robot_euler = tf.transformations.euler_from_quaternion((self.robot_pos.orientation.x, self.robot_pos.orientation.y, self.robot_pos.orientation.z, self.robot_pos.orientation.w))
+    robot_euler = tf.transformations.euler_from_quaternion((self.robot_pos.orientation.x, self.robot_pos.orientation.y, self.robot_pos.orientation.z, self.robot_pos.orientation.w))
     robot_th = robot_euler[2] # 2 * math.atan2(odo.pose.pose.orientation.z,odo.pose.pose.orientation.w)
-	self.target_pos = self.robot_pos
+    self.target_pos = self.robot_pos
     if s == "fwd":
       dis = float(cmd_parts[1])
       self.target_pos.position.x = self.target_pos.position.x + dis * math.cos(robot_th)
@@ -128,7 +240,7 @@ class odometry_control(object):
       a = math.radians( float(cmd_parts[1]) )
       target_th = robot_th + a
       target_th = fit_in_rad(target_th)
-	  target_quat = tf.transformations.quaternion_from_euler(robot_euler[0], robot_euler[1], target_th)
+      target_quat = tf.transformations.quaternion_from_euler(robot_euler[0], robot_euler[1], target_th)
       self.target_pos.orientation.x = target_quat[0]
       self.target_pos.orientation.y = target_quat[1]
       self.target_pos.orientation.z = target_quat[2]
@@ -198,49 +310,4 @@ class odometry_control(object):
 if __name__ == '__main__': 
   ctrl = odometry_control() 
   ctrl.Start()  
-########### --------------- ################
-
-
-
-while not rospy.is_shutdown():
-  if state == RUNNING: 
-    if robot_state == TURNING:     
-      angle = fitInRad(target_th - robot_th)
-      vel.linear.x = 0
-      vel.angular.z = Accelerate(vel.angular.z, K_ALPHA * angle, ACC_R/freq)
-      if math.fabs(angle) < TURNING_THRES:
-        vel.linear.x = 0
-        vel.angular.z = 0
-        robot_state = ARRIVED     
-    elif robot_state == FORWARDING:
-      distance = math.sqrt( (target_x-robot_x)**2 + (target_y-robot_y)**2)
-      angle = fitInRad(math.atan2(target_y-robot_y,target_x-robot_x)-robot_th)
-      if math.fabs(distance) > FORWARDING_THRES:
-        vel.linear.x = Accelerate(vel.linear.x, K_RHO * distance, ACC/freq)
-        vel.angular.z = Accelerate(vel.angular.z, K_ALPHA * angle, ACC_R/freq)
-      else:
-        vel.linear.x = 0
-        vel.angular.z = 0
-        robot_state = ARRIVED 
-    
-    print "distance: " + str(distance)  
-    print "angle: " + str(angle)  
-    vel.linear.x = LimitRange(vel.linear.x, VEL_MAX_LIN)
-    vel.angular.x = LimitRange(vel.angular.x, VEL_MAX_ANG)
-    vel.angular.y = LimitRange(vel.angular.y, VEL_MAX_ANG)
-    vel.angular.z = LimitRange(vel.angular.z, VEL_MAX_ANG)
-    vel_pub.publish(vel)
-    
-  elif state == PARK:
-    StopRobot()
-      
-  else:
-    if prestate == RUNNING:
-      StopRobot()
-    else:
-      robot_state = IDLE      
-
-  prestate = state       
-  robot_state_pub.publish(str(robot_state))
-  rate.sleep()
 
