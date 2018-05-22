@@ -33,10 +33,6 @@ class fiducial_localization(object):
     self.robot_stopped = True
     self.waiting_time = 0
     self.waiting = False
-    self.l_counts = 0
-    self.r_counts = 0
-    self.l_displacement = 0
-    self.r_displacement = 0
     
     # Init ROS node
     rospy.init_node('fiducial_waypoint_localization')
@@ -57,8 +53,8 @@ class fiducial_localization(object):
     # Subscribers
     rospy.Subscriber('fiducial_map_gps', FiducialMapEntryArray, self.mapGPSCB)
     rospy.Subscriber('fiducial_transforms', FiducialTransformArray, self.transCB)
-    rospy.Subscriber('serial', String, self.serialCB)
     rospy.Subscriber('waypoint/state', String, self.stateCB)
+    rospy.Subscriber('odom', Odometry, self.odomCB)
 
     # 1 Hz
     self.rate = rospy.Rate(1)
@@ -103,9 +99,7 @@ class fiducial_localization(object):
       # Check whether the previous fiducial is out of the view
       if fid_trans.fiducial_id == self.previous_fiducial: 
         prev_in_view = True
-        # if the displacement of both wheels is small
-        if (self.l_displacement * float(self.distance_per_count) < 3.0) and (self.r_displacement * float(self.distance_per_count) < 3.0):
-          return 
+        return
     
     # Clear the previous fiducial    
     if not prev_in_view:
@@ -219,35 +213,20 @@ class fiducial_localization(object):
           self.state_pub.publish(state_msg)         
           self.waiting = False 
           self.previous_fiducial = self.reference_id
-          self.l_displacement = 0
-          self.r_displacement = 0
           debug_info(self.debug_output, "Fiducial position updated")
         except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException):    
           return
 
   def stateCB(self, s):
-    self.state = s.data        
+    self.state = s.data
   
-  def serialCB(self, s):
-    if len(s.data) <= 0:
-      return 
-    line_parts = s.data.split('\t')
-    try:
-      v = float(line_parts[5])
-      omega = float(line_parts[6])
-      new_l_counts = int(line_parts[7])
-      new_r_counts = int(line_parts[8])
-      # Check whether the robot stops
-      if math.fabs(v) < 0.05 and math.fabs(omega) < 0.05:
-        self.robot_stopped = True
-      else:
-        self.robot_stopped = False  
-      self.l_displacement = self.l_displacement + math.fabs(new_l_counts - self.l_counts)
-      self.r_displacement = self.r_displacement + math.fabs(new_r_counts - self.r_counts)
-      self.l_counts = new_l_counts
-      self.r_counts = new_r_counts
-    except:
-      return
+  def odomCB(self, odo):
+    v = odo.twist.linear.x
+    omega = odo.twist.angular.z
+    if math.fabs(v) < 0.05 and math.fabs(omega) < 0.05:
+      self.robot_stopped = True
+    else:
+      self.robot_stopped = False
   
 if __name__ == '__main__': 
   fid = fiducial_localization() 
