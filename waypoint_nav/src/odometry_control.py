@@ -23,9 +23,9 @@ class odometry_control(object):
     self.IDLE = 3
     self.ARRIVED = 4
     # State variables
-    self.state = STOP
-    self.robot_state = STOP
-    self.prestate = STOP
+    self.state = self.STOP
+    self.robot_state = self.STOP
+    self.prestate = self.STOP
 
     # Control parameters
     self.FORWARDING_THRES = 0.1
@@ -44,16 +44,11 @@ class odometry_control(object):
     self.robot_pos = Pose()
     self.target_pos = Pose()
     self.vel = Twist()
-    self.distance = 0.0
-    self.z_dist = 0.0
-    self.roll = 0.0
-    self.pitch = 0.0
-    self.yaw = 0.0
     	
     # Init ROS node
     rospy.init_node('odometry_control')
     self.freq = 10
-    self.rate = rospy.Rate(freq)
+    self.rate = rospy.Rate(self.freq)
 	
 	# Parameters, robot configuration
     self.x_config = rospy.get_param("~robot_x_config", True)
@@ -90,7 +85,6 @@ class odometry_control(object):
         roll = fit_in_rad(target_euler[0] - robot_euler[0]) 
         pitch = fit_in_rad(target_euler[1] - robot_euler[1]) 
         yaw = fit_in_rad(target_euler[2] - robot_euler[2])
-      
         # When the robot is turning
         if self.robot_state == self.TURNING:
           # Stop linear movements
@@ -99,77 +93,63 @@ class odometry_control(object):
           self.vel.linear.z = 0
           # Turn if the robot has DOF
           if self.rx_config:
-            self.vel.angular.x = self.Accelerate(self.vel.angular.x, self.K_ROLL * self.roll, self.ACC_R/self.freq)
+            self.vel.angular.x = self.Accelerate(self.vel.angular.x, self.K_ROLL * roll, self.ACC_R/self.freq)
           else:
             self.vel.angular.x = 0
           if self.ry_config:
-            self.vel.angular.y = self.Accelerate(self.vel.angular.y, self.K_PITCH * self.pitch, self.ACC_R/self.freq)
+            self.vel.angular.y = self.Accelerate(self.vel.angular.y, self.K_PITCH * pitch, self.ACC_R/self.freq)
           else:
             self.vel.angular.y = 0
           if self.rz_config:
-            self.vel.angular.z = self.Accelerate(self.vel.angular.z, self.K_YAW * self.yaw, self.ACC_R/self.freq)
+            self.vel.angular.z = self.Accelerate(self.vel.angular.z, self.K_YAW * yaw, self.ACC_R/self.freq)
           else:
             self.vel.angular.z = 0
           # Check whether turning process is finished
           finished_turning = True
-          if self.rx_config and math.fabs(self.roll) > self.TURNING_THRES:  
+          if self.rx_config and math.fabs(roll) > self.TURNING_THRES:  
             finished_turning = False
-          if self.ry_config and math.fabs(self.pitch) > self.TURNING_THRES:  
+          if self.ry_config and math.fabs(pitch) > self.TURNING_THRES:  
             finished_turning = False
-          if self.rz_config and math.fabs(self.yaw) > self.TURNING_THRES:  
+          if self.rz_config and math.fabs(yaw) > self.TURNING_THRES:  
             finished_turning = False
           # If turning is finished          
           if finished_turning:
-            self.vel.angular.x = 0
-            self.vel.angular.y = 0
-            self.vel.angular.z = 0
-            self.robot_state = self.FORWARDING  
+            self.StopRobot()
         
         # When the robot is moving forwarding    
         elif self.robot_state == self.FORWARDING:
           # TODO: movement in x-y plane should be optimised
-          self.vel.linear.x = self.Accelerate(self.vel.linear.x, self.K_RHO * self.distance, self.ACC_R/self.freq)
+          self.vel.linear.x = self.Accelerate(self.vel.linear.x, self.K_RHO * distance, self.ACC_R/self.freq)
           # If the robot is able to fly
           if self.z_config:
-            self.vel.linear.z = self.Accelerate(self.vel.linear.z, self.K_RHO * self.z_dist, self.ACC_R/self.freq)
+            self.vel.linear.z = self.Accelerate(self.vel.linear.z, self.K_RHO * z_dist, self.ACC_R/self.freq)
           # Correct the orenitation if the robot can
           if self.rx_config:
-            self.vel.angular.x = self.Accelerate(self.vel.angular.x, self.K_ROLL * self.roll, self.ACC_R/self.freq)
+            self.vel.angular.x = self.Accelerate(self.vel.angular.x, self.K_ROLL * roll, self.ACC_R/self.freq)
           else:
             self.vel.angular.x = 0
           if self.ry_config:
-            self.vel.angular.y = self.Accelerate(self.vel.angular.y, self.K_PITCH * self.pitch, self.ACC_R/self.freq)
+            self.vel.angular.y = self.Accelerate(self.vel.angular.y, self.K_PITCH * pitch, self.ACC_R/self.freq)
           else:
             self.vel.angular.y = 0
           if self.rz_config:
-            self.vel.angular.z = self.Accelerate(self.vel.angular.z, self.K_YAW * self.yaw, self.ACC_R/self.freq)
+            self.vel.angular.z = self.Accelerate(self.vel.angular.z, self.K_YAW * yaw, self.ACC_R/self.freq)
           else:
             self.vel.angular.z = 0
           
           # Check whether the target is reached
           finished_forwarding = True
-          if math.fabs(self.distance) > self.FORWARDING_THRES:
+          if math.fabs(distance) > self.FORWARDING_THRES:
             finished_forwarding = False
-          if self.z_config and math.fabs(self.z_dist) > self.FLYING_THRES:
+          if self.z_config and math.fabs(z_dist) > self.FLYING_THRES:
             finished_forwarding = False
           # When reach the target, stop the robot and wait for new command
           if finished_forwarding:
             self.StopRobot()
-          
-          # If the orientation off too much, enter TURNING mode
-          turning_needed = False
-          if self.rx_config and math.fabs(self.roll) > math.pi/4:  
-            turning_needed = True
-          if self.ry_config and math.fabs(self.pitch) > math.pi/4:  
-            turning_needed = True
-          if self.rz_config and math.fabs(self.yaw) > math.pi/4:  
-            turning_needed = True
-          if turning_needed:
-            self.robot_state = self.TURNING
         
         # When the cmd is not known
         else:
-          self.robot_state = STOP
+          self.robot_state = self.STOP
           self.StopRobot()
         
         # Fit the velocity into the limited range    
@@ -235,7 +215,7 @@ class odometry_control(object):
       dis = float(cmd_parts[1])
       self.target_pos.position.x = self.target_pos.position.x + dis * math.cos(robot_th)
       self.target_pos.position.y = self.target_pos.position.y + dis * math.sin(robot_th) 
-      self.robot_state = FORWARDING
+      self.robot_state = self.FORWARDING
     elif s == "turn":  
       a = math.radians( float(cmd_parts[1]) )
       target_th = robot_th + a
@@ -245,7 +225,7 @@ class odometry_control(object):
       self.target_pos.orientation.y = target_quat[1]
       self.target_pos.orientation.z = target_quat[2]
       self.target_pos.orientation.w = target_quat[3]
-      self.robot_state = TURNING
+      self.robot_state = self.TURNING
   
   def stateCB(self, s):
     if s.data == "RUNNING":
