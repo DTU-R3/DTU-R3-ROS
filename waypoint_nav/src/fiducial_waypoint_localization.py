@@ -221,8 +221,8 @@ class fiducial_localization(object):
     self.state = s.data
   
   def odomCB(self, odo):
-    v = odo.twist.linear.x
-    omega = odo.twist.angular.z
+    v = odo.twist.twist.linear.x
+    omega = odo.twist.twist.angular.z
     if math.fabs(v) < 0.05 and math.fabs(omega) < 0.05:
       self.robot_stopped = True
     else:
