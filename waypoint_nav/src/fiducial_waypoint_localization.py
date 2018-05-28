@@ -143,12 +143,14 @@ class fiducial_localization(object):
           # Initialise the waiting time
           self.waiting_time = 0
           self.rate.sleep()
+          debug_info(self.debug_output, "Wait until robot stop ...")
           return
 
         # Wait another 5 seconds for updating the image
         if self.waiting_time < 5:
           self.waiting_time += 1
           self.rate.sleep()
+          debug_info(self.debug_output, "Wait another 5 seconds ...")
           return
         
         # Publish tf from fid to camera
@@ -192,6 +194,7 @@ class fiducial_localization(object):
           if self.robot_stopped:
             self.rate.sleep()
         except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException):
+          debug_info(self.debug_output, "Fail to create tf from robot to fid")
           return
       
         # Publish tf from robot to utm
@@ -216,6 +219,7 @@ class fiducial_localization(object):
           self.previous_fiducial = self.reference_id
           debug_info(self.debug_output, "Fiducial position updated")
         except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException):    
+          debug_info(self.debug_output, "Fail to update the position")
           return
 
   def stateCB(self, s):
