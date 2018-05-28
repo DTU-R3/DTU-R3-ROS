@@ -178,7 +178,7 @@ class fiducial_localization(object):
         tf_fid_utm.transform.rotation.w = quat[3] 
         tfmsg_fid_utm = tf2_msgs.msg.TFMessage([tf_fid_utm])
         self.tf_pub.publish(tfmsg_fid_utm)
-        if not self.robot_stopped:
+        if self.robot_stopped:
           self.rate.sleep()
 
         # Publish tf from robot to fid
@@ -194,7 +194,7 @@ class fiducial_localization(object):
           if self.robot_stopped:
             self.rate.sleep()
         except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException):
-          debug_info(self.debug_output, "Fail to create tf from robot to fid")
+          debug_info(self.debug_output, "Creating tf from robot to fid")
           return
       
         # Publish tf from robot to utm
@@ -219,7 +219,7 @@ class fiducial_localization(object):
           self.previous_fiducial = self.reference_id
           debug_info(self.debug_output, "Fiducial position updated")
         except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException):    
-          debug_info(self.debug_output, "Fail to update the position")
+          debug_info(self.debug_output, "Updating the position")
           return
 
   def stateCB(self, s):
