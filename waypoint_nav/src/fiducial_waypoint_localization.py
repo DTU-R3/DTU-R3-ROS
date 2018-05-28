@@ -113,6 +113,7 @@ class fiducial_localization(object):
       self.state_pub.publish(state_msg)         
       self.waiting = False
       debug_info(self.debug_output, "Fiducial detected is out of the view")
+      return
     
     for fid_trans in t.transforms:
       # Check the image error
@@ -132,10 +133,10 @@ class fiducial_localization(object):
         if not self.waiting:
           self.prestate = self.state
           debug_info(self.debug_output, "Reading fiducial ...")
-        state_msg = String()
-        state_msg.data = "STOP"
-        self.state_pub.publish(state_msg)
-        self.waiting = True
+          state_msg = String()
+          state_msg.data = "STOP"
+          self.state_pub.publish(state_msg)
+          self.waiting = True
       
         # wait until robot stops
         if not self.robot_stopped:
