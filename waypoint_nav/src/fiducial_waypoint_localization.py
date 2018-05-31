@@ -33,6 +33,9 @@ class fiducial_localization(object):
     self.robot_stopped = True
     self.waiting_time = 0
     self.waiting = False
+    self.displacement = 0
+    self.pre_odom = Odometry()
+    self.pre_odom_get = False
     
     # Init ROS node
     rospy.init_node('fiducial_waypoint_localization')
@@ -41,7 +44,7 @@ class fiducial_localization(object):
     self.robot_frame = rospy.get_param("~waypoint_control/base_frame", "base_footprint")
     self.gps_frame = rospy.get_param("~waypoint_control/gps_frame", "utm")
     self.camera_frame = rospy.get_param("~waypoint_control/camera_frame", "raspicam")
-    self.distance_per_count = rospy.get_param("~driveGeometry/distancePerCount", "0.00338")
+    self.trackWidth = rospy.get_param("~driveGeometry/trackWidth", "0.403")
     self.fiducial_map_file = rospy.get_param("~waypoint_control/map_file", "Fiducials.json") 
     
     # Publishers
@@ -99,11 +102,8 @@ class fiducial_localization(object):
       # Check whether the previous fiducial is out of the view
       if fid_trans.fiducial_id == self.previous_fiducial: 
         prev_in_view = True
-        return
-    
-    # Clear the previous fiducial    
-    if not prev_in_view:
-      self.previous_fiducial = 0
+        if self.displacement < 3:
+          return
     
     # If the detected is out of view when the robot stops, continue
     if self.waiting and not reference_in_view:
@@ -232,6 +232,13 @@ class fiducial_localization(object):
       self.robot_stopped = True
     else:
       self.robot_stopped = False
+    
+    if not self.pre_odom_get:
+      self.pre_odom = odo
+      return
+    # calculate displacement of the robot  
+    self.displacement += math.sqrt((odo.pose.pose.position.x - self.pre_odo.pose.pose.position.x)**2 + (odo.pose.pose.position.x - self.pre_odo.pose.pose.position.y)**2)
+    self.pre_odom = odo
   
 if __name__ == '__main__': 
   fid = fiducial_localization() 
