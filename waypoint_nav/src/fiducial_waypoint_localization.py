@@ -44,7 +44,7 @@ class fiducial_localization(object):
     self.robot_frame = rospy.get_param("~waypoint_control/base_frame", "base_footprint")
     self.gps_frame = rospy.get_param("~waypoint_control/gps_frame", "utm")
     self.camera_frame = rospy.get_param("~waypoint_control/camera_frame", "raspicam")
-    self.trackWidth = rospy.get_param("~driveGeometry/trackWidth", "0.403")
+    self.trackWidth = float(rospy.get_param("~driveGeometry/trackWidth", "0.403"))
     self.fiducial_map_file = rospy.get_param("~waypoint_control/map_file", "Fiducials.json") 
     
     # Publishers
@@ -108,10 +108,10 @@ class fiducial_localization(object):
     # If the detected is out of view when the robot stops, continue
     if self.waiting and not reference_in_view:
       # Cotinue move to the waypoint
+      self.waiting = False
       state_msg = String()
       state_msg.data = self.prestate
       self.state_pub.publish(state_msg)         
-      self.waiting = False
       debug_info(self.debug_output, "Fiducial detected is out of the view")
       return
     
@@ -131,12 +131,13 @@ class fiducial_localization(object):
       
         # Pause the navigation and stop the robot
         if not self.waiting:
+          self.waiting = True
           self.prestate = self.state
           debug_info(self.debug_output, "Reading fiducial ...")
           state_msg = String()
           state_msg.data = "STOP"
           self.state_pub.publish(state_msg)
-          self.waiting = True
+          
       
         # wait until robot stops
         if not self.robot_stopped:
@@ -217,6 +218,7 @@ class fiducial_localization(object):
           self.state_pub.publish(state_msg)         
           self.waiting = False 
           self.previous_fiducial = self.reference_id
+          self.displacement = 0
           debug_info(self.debug_output, "Fiducial position updated")
         except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException):    
           debug_info(self.debug_output, "Updating the position")
@@ -224,7 +226,9 @@ class fiducial_localization(object):
 
   def stateCB(self, s):
     self.state = s.data
-  
+    if not self.waiting:
+      self.prestate = self.state
+      
   def odomCB(self, odo):
     v = odo.twist.twist.linear.x
     omega = odo.twist.twist.angular.z
@@ -235,12 +239,13 @@ class fiducial_localization(object):
     
     if not self.pre_odom_get:
       self.pre_odom = odo
+      self.pre_odom_get = True
       return
-    # calculate displacement of the robot  
-    self.displacement += math.sqrt((odo.pose.pose.position.x - self.pre_odo.pose.pose.position.x)**2 + (odo.pose.pose.position.x - self.pre_odo.pose.pose.position.y)**2)
+    # calculate displacement of the robot 
+    self.displacement += math.sqrt((odo.pose.pose.position.x - self.pre_odom.pose.pose.position.x)**2 + (odo.pose.pose.position.y - self.pre_odom.pose.pose.position.y)**2)
     odom_euler = tf.transformations.euler_from_quaternion((odo.pose.pose.orientation.x, odo.pose.pose.orientation.y, odo.pose.pose.orientation.z, odo.pose.pose.orientation.w))
     pre_odom_euler = tf.transformations.euler_from_quaternion((self.pre_odom.pose.pose.orientation.x, self.pre_odom.pose.pose.orientation.y, self.pre_odom.pose.pose.orientation.z, self.pre_odom.pose.pose.orientation.w))
-    self.displacement += (odon_euler - pre_odom_euler) * self.trackwidth / 2
+    self.displacement += math.fabs(odom_euler[2] - pre_odom_euler[2]) * self.trackWidth / 2
     self.pre_odom = odo
   
 if __name__ == '__main__': 
