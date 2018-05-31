@@ -238,6 +238,9 @@ class fiducial_localization(object):
       return
     # calculate displacement of the robot  
     self.displacement += math.sqrt((odo.pose.pose.position.x - self.pre_odo.pose.pose.position.x)**2 + (odo.pose.pose.position.x - self.pre_odo.pose.pose.position.y)**2)
+    odom_euler = tf.transformations.euler_from_quaternion((odo.pose.pose.orientation.x, odo.pose.pose.orientation.y, odo.pose.pose.orientation.z, odo.pose.pose.orientation.w))
+    pre_odom_euler = tf.transformations.euler_from_quaternion((self.pre_odom.pose.pose.orientation.x, self.pre_odom.pose.pose.orientation.y, self.pre_odom.pose.pose.orientation.z, self.pre_odom.pose.pose.orientation.w))
+    self.displacement += (odon_euler - pre_odom_euler) * self.trackwidth / 2
     self.pre_odom = odo
   
 if __name__ == '__main__': 
