@@ -82,6 +82,11 @@ class odometry_control(object):
         z_dist = self.target_pos.position.y - self.robot_pos.position.y
         robot_euler = tf.transformations.euler_from_quaternion((self.robot_pos.orientation.x, self.robot_pos.orientation.y, self.robot_pos.orientation.z, self.robot_pos.orientation.w))
         target_euler = tf.transformations.euler_from_quaternion((self.target_pos.orientation.x, self.target_pos.orientation.y, self.target_pos.orientation.z, self.target_pos.orientation.w))
+        angle = fit_in_rad( math.atan2((self.target_pos.position.y-self.robot_pos.position.y),(self.target_pos.position.x-self.robot_pos.position.x)) - robot_euler[2])
+        if math.fabs(angle) < math.pi/2:
+          fwd_dir = 1.0
+        else:
+          fwd_dir = -1.0
         roll = fit_in_rad(target_euler[0] - robot_euler[0]) 
         pitch = fit_in_rad(target_euler[1] - robot_euler[1]) 
         yaw = fit_in_rad(target_euler[2] - robot_euler[2])
@@ -117,9 +122,9 @@ class odometry_control(object):
             self.StopRobot()
         
         # When the robot is moving forwarding    
-        elif self.robot_state == self.FORWARDING:
+        elif self.robot_state == self.FORWARDING:       
           # TODO: movement in x-y plane should be optimised
-          self.vel.linear.x = self.Accelerate(self.vel.linear.x, self.K_RHO * distance, self.ACC_R/self.freq)
+          self.vel.linear.x = self.Accelerate(self.vel.linear.x, fwd_dir * self.K_RHO * distance, self.ACC/self.freq)
           # If the robot is able to fly
           if self.z_config:
             self.vel.linear.z = self.Accelerate(self.vel.linear.z, self.K_RHO * z_dist, self.ACC_R/self.freq)
