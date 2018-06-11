@@ -59,7 +59,7 @@ class waypoint_control(object):
     
     # Init ROS node
     rospy.init_node('waypoint_control')
-    self.freq = 10  # 10 Hz
+    self.freq = 2  # 10 Hz
     self.rate = rospy.Rate(self.freq)	
     
     # Parameters, robot configuration
@@ -91,6 +91,7 @@ class waypoint_control(object):
     while not rospy.is_shutdown():
       # Wait until waypoint is set
       if not self.goal_set:
+        self.rate.sleep()
         continue
       # When the waypoint is activated
       if self.state == self.RUNNING:  
