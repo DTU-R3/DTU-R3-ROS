@@ -107,24 +107,24 @@ class encoder_localization(object):
     self.robot_odom = odo
     if self.odom_calibrating:
         self.rate.sleep()
-        continue
-      try:
-        trans = self.tfBuffer.lookup_transform(self.gps_frame, self.odom_frame, rospy.Time())
-        robot_odom_pose = PoseStamped()
-        robot_odom_pose.pose = self.robot_odom.pose.pose
-        pose_transformed = tf2_geometry_msgs.do_transform_pose(robot_odom_pose, trans)
-        robot_gps_pose = Odometry()
-        robot_gps_pose.header.frame_id = self.gps_frame
-        robot_gps_pose.child_frame_id = self.robot_frame
-        robot_gps_pose.pose.pose = pose_transformed.pose
-        robot_gps_pose.pose.pose.position.x,robot_gps_pose.pose.pose.position.y = self.projection(pose_transformed.pose.position.x,pose_transformed.pose.position.y,inverse=True)
-        robot_gps_pose.pose.pose.orientation.x = -pose_transformed.pose.orientation.x
-        robot_gps_pose.pose.pose.orientation.y = -pose_transformed.pose.orientation.y
-        robot_gps_pose.pose.pose.orientation.z = -pose_transformed.pose.orientation.z
-        robot_gps_pose.pose.pose.orientation = quat_rot(robot_gps_pose.pose.pose.orientation,0,0,90)
-        self.robot_gps_pub.publish(robot_gps_pose)
-      except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException):
-        continue
+        return
+    try:
+      trans = self.tfBuffer.lookup_transform(self.gps_frame, self.odom_frame, rospy.Time())
+      robot_odom_pose = PoseStamped()
+      robot_odom_pose.pose = self.robot_odom.pose.pose
+      pose_transformed = tf2_geometry_msgs.do_transform_pose(robot_odom_pose, trans)
+      robot_gps_pose = Odometry()
+      robot_gps_pose.header.frame_id = self.gps_frame
+      robot_gps_pose.child_frame_id = self.robot_frame
+      robot_gps_pose.pose.pose = pose_transformed.pose
+      robot_gps_pose.pose.pose.position.x,robot_gps_pose.pose.pose.position.y = self.projection(pose_transformed.pose.position.x,pose_transformed.pose.position.y,inverse=True)
+      robot_gps_pose.pose.pose.orientation.x = -pose_transformed.pose.orientation.x
+      robot_gps_pose.pose.pose.orientation.y = -pose_transformed.pose.orientation.y
+      robot_gps_pose.pose.pose.orientation.z = -pose_transformed.pose.orientation.z
+      robot_gps_pose.pose.pose.orientation = quat_rot(robot_gps_pose.pose.pose.orientation,0,0,90)
+      self.robot_gps_pub.publish(robot_gps_pose)
+    except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException):
+      return
     
 if __name__ == '__main__': 
   encoder = encoder_localization() 
