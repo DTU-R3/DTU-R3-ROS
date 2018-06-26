@@ -4,6 +4,7 @@ import rospy
 import math
 from pyproj import Proj
 from R3_functions import quat_rot, fit_in_rad, debug_info
+from bisect import bisect_left
 
 # TF libraries
 import tf
@@ -25,7 +26,9 @@ class encoder_localization(object):
     self.tfBuffer = tf2_ros.Buffer()
     self.tf_listener = tf2_ros.TransformListener(self.tfBuffer)
     self.robot_odom = Odometry()
+    self.odom_list = [[],[]] # a list contains timestamp list and odom_pose list
     self.odom_calibrating = False
+    self.list_cleaning = False
     
     # Init ROS node
     rospy.init_node('encoder_waypoint_localization')
@@ -64,8 +67,39 @@ class encoder_localization(object):
     robot_pose.orientation = quat_rot(robot_pose.orientation,0,0,90)
     debug_info(self.debug_output, "Odom calib tf received")
     
+    # Align odometry with odom_calib and calculate offset
+    current_stamp = p.header.stamp
+    i = bisect_left(self.odom_list[0], current_stamp)
+    if i == len(self.odom_list[0]):
+      i -= 1
+    elif self.odom_list[0][i] - current_stamp > current_stamp - self.odom_list[0][i]:
+      i -= 1
+    current_euler = tf.transformations.euler_from_quaternion((self.robot_odom.pose.pose.orientation.x, self.robot_odom.pose.pose.orientation.y, self.robot_odom.pose.pose.orientation.z, self.robot_odom.pose.pose.orientation.w))
+    bench_euler = tf.transformations.euler_from_quaternion((self.odom_list[1][i].orientation.x, self.odom_list[1][i].orientation.y, self.odom_list[1][i].orientation.z, self.odom_list[1][i].orientation.w))
+    offset_odom_x = self.robot_odom.pose.pose.position.x - self.odom_list[1][i].position.x
+    offset_odom_y = self.robot_odom.pose.pose.position.y - self.odom_list[1][i].position.y
+    offset_odom_z = self.robot_odom.pose.pose.position.z - self.odom_list[1][i].position.z
+    offset_odom_rz = current_euler[2] - bench_euler[2]
+    # Remove out dated elements after calculating offset
+    self.list_cleaning = True
+    self.odom_list[0] = self.odom_list[0][i+1:]
+    self.odom_list[1] = self.odom_list[1][i+1:]
+    self.list_cleaning = False
+    while True:
+      try:
+        odo_utm_trans = self.tfBuffer.lookup_transform(self.gps_frame, self.odom_frame, rospy.Time())
+        odo_utm_euler = tf.transformations.euler_from_quaternion((odo_utm_trans.transform.rotation.x, odo_utm_trans.transform.rotation.y, odo_utm_trans.transform.rotation.z, odo_utm_trans.transform.rotation.w))
+        theta = odo_utm_euler[2]
+        break
+      except:
+        pass
+    robot_pose.position.x += offset_odom_x * math.cos(theta) - offset_odom_y * math.sin(theta)
+    robot_pose.position.y += offset_odom_x * math.sin(theta) + offset_odom_y * math.cos(theta)
+    robot_pose.position.z += offset_odom_z
+    robot_pose.orientation = quat_rot(robot_pose.orientation,0,0,math.degrees(offset_odom_rz))
+    
     # odom to reference
-    while 1:
+    while True:
       try:
         odo_ref_trans = self.tfBuffer.lookup_transform(self.robot_frame, self.odom_frame, rospy.Time())
         tf_odo_ref = TransformStamped()
@@ -105,6 +139,10 @@ class encoder_localization(object):
       
   def odomCB(self, odo):
     self.robot_odom = odo
+    if not self.list_cleaning:
+      self.odom_list[0].append(odo.header.stamp)
+      self.odom_list[1].append(odo.pose.pose)
+    
     if self.odom_calibrating:
         self.rate.sleep()
         return
