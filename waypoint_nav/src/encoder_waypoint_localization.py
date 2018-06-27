@@ -97,6 +97,7 @@ class encoder_localization(object):
     robot_pose.position.y += offset_odom_x * math.sin(theta) + offset_odom_y * math.cos(theta)
     robot_pose.position.z += offset_odom_z
     robot_pose.orientation = quat_rot(robot_pose.orientation,0,0,math.degrees(offset_odom_rz))
+    debug_info(self.debug_output, "Odometry offset calculated")
     
     # odom to reference
     while True:
@@ -110,6 +111,7 @@ class encoder_localization(object):
         tfmsg_odo_ref = tf2_msgs.msg.TFMessage([tf_odo_ref])
         self.tf_pub.publish(tfmsg_odo_ref)
       except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException):
+        debug_info(self.debug_output, "Publishing odometry calibration")
         continue
   
       # reference to utm
