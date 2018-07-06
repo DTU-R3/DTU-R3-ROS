@@ -85,19 +85,18 @@ class encoder_localization(object):
     self.odom_list[0] = self.odom_list[0][i+1:]
     self.odom_list[1] = self.odom_list[1][i+1:]
     self.list_cleaning = False
-    while True:
-      try:
-        odo_utm_trans = self.tfBuffer.lookup_transform(self.gps_frame, self.odom_frame, rospy.Time())
-        odo_utm_euler = tf.transformations.euler_from_quaternion((odo_utm_trans.transform.rotation.x, odo_utm_trans.transform.rotation.y, odo_utm_trans.transform.rotation.z, odo_utm_trans.transform.rotation.w))
-        theta = odo_utm_euler[2]
-        break
-      except:
-        pass
-    robot_pose.position.x += offset_odom_x * math.cos(theta) - offset_odom_y * math.sin(theta)
-    robot_pose.position.y += offset_odom_x * math.sin(theta) + offset_odom_y * math.cos(theta)
-    robot_pose.position.z += offset_odom_z
-    robot_pose.orientation = quat_rot(robot_pose.orientation,0,0,math.degrees(offset_odom_rz))
-    debug_info(self.debug_output, "Odometry offset calculated")
+    try:
+      odo_utm_trans = self.tfBuffer.lookup_transform(self.gps_frame, self.odom_frame, rospy.Time())
+      odo_utm_euler = tf.transformations.euler_from_quaternion((odo_utm_trans.transform.rotation.x, odo_utm_trans.transform.rotation.y, odo_utm_trans.transform.rotation.z, odo_utm_trans.transform.rotation.w))
+      theta = odo_utm_euler[2]
+      robot_pose.position.x += offset_odom_x * math.cos(theta) - offset_odom_y * math.sin(theta)
+      robot_pose.position.y += offset_odom_x * math.sin(theta) + offset_odom_y * math.cos(theta)
+      robot_pose.position.z += offset_odom_z
+      robot_pose.orientation = quat_rot(robot_pose.orientation,0,0,math.degrees(offset_odom_rz))
+      debug_info(self.debug_output, "Odometry offset calculated")
+    except:
+      debug_info(self.debug_output, "Initialise odometry frame in utm")
+    
     
     # odom to reference
     while True:

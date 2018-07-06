@@ -26,12 +26,6 @@ class fiducial_localization(object):
     self.tf_listener = tf2_ros.TransformListener(self.tfBuffer)
     self.reference_id = 0
     self.fiducial_gps_map = FiducialMapEntryArray()
-
-    self.previous_fiducial = 0
-    self.robot_stopped = True
-    self.waiting_time = 0
-    self.waiting = False
-    self.displacement = 0
     self.pre_odom = Odometry()
     self.pre_odom_get = False
     
@@ -88,13 +82,6 @@ class fiducial_localization(object):
     # TODO: write in json
     
   def transCB(self, t):
-    prev_in_view = False
-    for fid_trans in t.transforms:     
-      # Check whether the previous fiducial is out of the view
-      if fid_trans.fiducial_id == self.previous_fiducial: 
-        prev_in_view = True
-        if self.displacement < 3:
-          return
     
     for fid_trans in t.transforms:
       # Check the image error
@@ -165,8 +152,6 @@ class fiducial_localization(object):
             robot_gps_pose.pose.pose.orientation.w = robot_utm_trans.transform.rotation.w
             robot_gps_pose.pose.pose.orientation = quat_rot(robot_gps_pose.pose.pose.orientation,0,0,90)
             self.robot_gps_pub.publish(robot_gps_pose)         
-            self.previous_fiducial = self.reference_id
-            self.displacement = 0
             debug_info(self.debug_output, "Fiducial position updated")
             break
           except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException):    
@@ -175,21 +160,11 @@ class fiducial_localization(object):
       
   def odomCB(self, odo):
     v = odo.twist.twist.linear.x
-    omega = odo.twist.twist.angular.z
-    if math.fabs(v) < 0.05 and math.fabs(omega) < 0.05:
-      self.robot_stopped = True
-    else:
-      self.robot_stopped = False
-    
+    omega = odo.twist.twist.angular.z   
     if not self.pre_odom_get:
       self.pre_odom = odo
       self.pre_odom_get = True
       return
-    # calculate displacement of the robot 
-    self.displacement += math.sqrt((odo.pose.pose.position.x - self.pre_odom.pose.pose.position.x)**2 + (odo.pose.pose.position.y - self.pre_odom.pose.pose.position.y)**2)
-    odom_euler = tf.transformations.euler_from_quaternion((odo.pose.pose.orientation.x, odo.pose.pose.orientation.y, odo.pose.pose.orientation.z, odo.pose.pose.orientation.w))
-    pre_odom_euler = tf.transformations.euler_from_quaternion((self.pre_odom.pose.pose.orientation.x, self.pre_odom.pose.pose.orientation.y, self.pre_odom.pose.pose.orientation.z, self.pre_odom.pose.pose.orientation.w))
-    self.displacement += math.fabs(odom_euler[2] - pre_odom_euler[2]) * self.trackWidth / 2
     self.pre_odom = odo
 
 if __name__ == '__main__': 
