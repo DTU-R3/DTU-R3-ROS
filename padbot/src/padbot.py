@@ -22,12 +22,12 @@ class padbot_serial(object):
     self.t = rospy.Time.now()
        
     # ROS param
-    self.track_width = float(rospy.get_param("~driveGeometry/trackWidth", "0.35"))
-    self.distance_per_count = float(rospy.get_param("~driveGeometry/distancePerCount", "0.00025"))
-    self.speed_to_cmd = rospy.get_param("~speedToCmd", 50.0)
-    self.min_power = rospy.get_param("~min_power", 60)
-    self.fwd_left_to_right = rospy.get_param("~fwdLeftToright", 1.06)
-    self.back_left_to_right = rospy.get_param("~backLeftToright", 1.00)
+    self.track_width = float(rospy.get_param("~driveGeometry/trackWidth", "0.228"))
+    self.distance_per_count = float(rospy.get_param("~driveGeometry/distancePerCount", "0.0000439"))
+    self.speed_to_cmd = rospy.get_param("~speedToCmd", 543.48)
+    self.min_power = rospy.get_param("~min_power", 11)
+    self.fwd_left_to_right = rospy.get_param("~fwdLeftToright", 1.05)
+    self.back_left_to_right = rospy.get_param("~backLeftToright", 1.065)
     # Start serial port
     port = rospy.get_param("~port", "/dev/ttyACM0")
     baud_rate = int(rospy.get_param("~baudRate", 115200))
@@ -138,16 +138,16 @@ class padbot_serial(object):
     leftSpeed = v - omega * 0.5 * self.track_width
     rightSpeed = v + omega * 0.5 * self.track_width
       
-    if leftSpeed > 0:
+    if leftSpeed > 0.1:
       l_cmd = int(self.fwd_left_to_right * ((leftSpeed * self.speed_to_cmd) + self.min_power));
-    elif leftSpeed < 0:
+    elif leftSpeed < -0.1:
       l_cmd = int(self.back_left_to_right * ((leftSpeed * self.speed_to_cmd) - self.min_power));
     else:
       l_cmd = 0
            
-    if rightSpeed > 0:
+    if rightSpeed > 0.1:
       r_cmd = int((rightSpeed * self.speed_to_cmd) + self.min_power);
-    elif rightSpeed < 0:
+    elif rightSpeed < -0.1:
       r_cmd = int((rightSpeed * self.speed_to_cmd) - self.min_power);
     else:
       r_cmd = 0
