@@ -1,0 +1,12 @@
+<launch>
+  <node pkg="padbot" type="padbot.py" name="padbot">
+    <param name="driveGeometry/trackWidth" value="0.228" />
+    <param name="driveGeometry/distancePerCount" value="0.0000439" />
+    <param name="speedToCmd" value="543.48" />
+    <param name="min_power" value="11" />
+    <param name="fwdLeftToright" value="1.05" />
+    <param name="backLeftToright" value="1.065" />
+    <param name="port" value="/dev/ttyACM0" />
+    <param name="baudRate" value="115200" />
+  </node>
+</launch>
