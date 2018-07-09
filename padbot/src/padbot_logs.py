@@ -10,9 +10,9 @@ from nav_msgs.msg import Odometry
 class CSV_log(object): 
   def __init__(self): 
     rospy.init_node('padbot_log')
-    self.rate = rospy.Rate(1) 
-    if len(sys.argv) > 0:
-      self.file_name = str(sys.argv[1])
+    self.rate = rospy.Rate(1)
+    if len(sys.argv) > 1:
+      self.file_name = "padbot_" + str(sys.argv[1])
     else:
       self.file_name = 'log.csv'
     
@@ -32,7 +32,7 @@ class CSV_log(object):
     self.csvfile.close()
             
   def OdomCB(self, odom): 
-    t = rospy.now()
+    t = rospy.Time.now()
     try: 
       euler = tf.transformations.euler_from_quaternion((odom.pose.pose.orientation.x, odom.pose.pose.orientation.y, odom.pose.pose.orientation.z, odom.pose.pose.orientation.w))
       x = odom.pose.pose.position.x 
