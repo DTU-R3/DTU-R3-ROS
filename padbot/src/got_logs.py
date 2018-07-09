@@ -10,10 +10,10 @@ from geometry_msgs.msg import Vector3
 class CSV_log(object): 
   def __init__(self): 
     self.left_x = 0
-    self.left_y = 0
+    self.left_y = 10
     self.left_z = 0
     self.right_x = 0
-    self.right_y = 0
+    self.right_y = -10
     self.right_z = 0
   
     rospy.init_node('gamesontrack_log')
@@ -35,9 +35,9 @@ class CSV_log(object):
   def Running(self):
     while not rospy.is_shutdown():
       t = rospy.Time.now()
-      x = (left_x + right_x) / 2
-      y = (left_y + right_y) / 2
-      theta = math.atan2((right_y - left_y),(right_x - left_x)) + math.pi/2
+      x = (self.left_x + self.right_x) / 2
+      y = (self.left_y + self.right_y) / 2
+      theta = math.atan2((self.right_y - self.left_y),(self.right_x - self.left_x)) + math.pi/2
       while theta > math.pi:
         theta -= math.pi * 2
       while theta < -math.pi:
