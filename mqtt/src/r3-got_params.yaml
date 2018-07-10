@@ -9,11 +9,11 @@ serializer: json:dumps
 deserializer: json:loads
 bridge:
   - factory: mqtt_bridge.bridge:MqttToRosBridge
-    msg_type: sensor_msgs.msg:NavSatFix
-    topic_from: /GamesOnTrack/R232/41269
-    topic_to: /waypoint/left_sensor
+    msg_type: geometry_msgs.msg:Vector3
+    topic_from: /GamesOnTrack/41272
+    topic_to: /gamesontrack/left_sensor
   - factory: mqtt_bridge.bridge:MqttToRosBridge
-    msg_type: sensor_msgs.msg:NavSatFix
-    topic_from: /GamesOnTrack/R232/41272
-    topic_to: /waypoint/right_sensor
+    msg_type: geometry_msgs.msg:Vector3
+    topic_from: /GamesOnTrack/41274
+    topic_to: /gamesontrack/right_sensor
 

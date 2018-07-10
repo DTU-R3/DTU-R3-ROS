@@ -24,8 +24,8 @@ class CSV_log(object):
       self.file_name = 'log.csv'
     
     # Subcribers 
-    rospy.Subscriber('gamesontrack/left', Vector3, self.leftCB)  
-    rospy.Subscriber('gamesontrack/right', Vector3, self.rightCB)   
+    rospy.Subscriber('gamesontrack/left_sensor', Vector3, self.leftCB)  
+    rospy.Subscriber('gamesontrack/right_sensor', Vector3, self.rightCB)   
     
     self.csvfile = open(self.file_name, 'w') 
     fieldnames = ['timestamp', 'x', 'y', 'theta', 'left_x', 'left_y', 'left_z', 'right_x', 'right_y', 'right_z'] 
