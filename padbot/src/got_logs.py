@@ -19,7 +19,7 @@ class CSV_log(object):
     rospy.init_node('gamesontrack_log')
     self.rate = rospy.Rate(10) 
     if len(sys.argv) > 1:
-      self.file_name = "got_" + str(sys.argv[1])
+      self.file_name = "got_" + str(sys.argv[1]) + ".csv"
     else:
       self.file_name = 'log.csv'
     
