@@ -5,6 +5,7 @@ import csv
 import math
 
 from std_msgs.msg import Int32
+from geometry_msgs.msg import Twist
  
 # Class 
 class CSV_log(object): 
@@ -19,6 +20,8 @@ class CSV_log(object):
     self.x = 0
     self.y = 0
     self.theta = 0
+    self.v = 0
+    self.w = 0
     self.left_count = 0
     self.right_count = 0
     self.last_left = 0
@@ -32,6 +35,7 @@ class CSV_log(object):
     # Subcribers    
     rospy.Subscriber('padbot/left_count', Int32, self.leftCB)  
     rospy.Subscriber('padbot/right_count', Int32, self.rightCB)
+    rospy.Subscriber('cmd_vel', Twist, self.velCB)
     
     self.csvfile = open(self.file_name, 'w') 
     fieldnames = ['timestamp', 'x', 'y', 'theta', 'vel', 'omega', 'left_count', 'right_count'] 
@@ -47,15 +51,13 @@ class CSV_log(object):
       self.last_left = self.left_count
       self.last_right = self.right_count
       if deltaLeft > 10000 or deltaRight > 10000:
-        return
+        continue
       deltaDistance = (deltaLeft + deltaRight) * self.distance_per_count / 2
       deltaAngle = (deltaRight - deltaLeft) * self.distance_per_count / self.track_width
       self.x += deltaDistance * math.cos(self.theta)
       self.y += deltaDistance * math.sin(self.theta)
       self.theta += deltaAngle
-      vx = deltaDistance / delta_t
-      omega = deltaAngle / delta_t
-      self.writer.writerow({'timestamp': self.time, 'x': self.x, 'y': self.y, 'theta': self.theta, 'vel': vx, 'omega': omega, 'left_count': self.last_left, 'right_count': self.last_right}) 
+      self.writer.writerow({'timestamp': self.time, 'x': self.x, 'y': self.y, 'theta': self.theta, 'vel': self.v, 'omega': self.w, 'left_count': self.last_left, 'right_count': self.last_right}) 
       self.rate.sleep()
   
   def Stop(self):
@@ -67,17 +69,9 @@ class CSV_log(object):
   def rightCB(self, r):
     self.right_count = r.data
      
-  def OdomCB(self, odom): 
-    t = rospy.Time.now()
-    try: 
-      x = odom.pose.pose.position.x 
-      y = odom.pose.pose.position.y
-      theta = euler[2]
-      vel = odom.twist.twist.linear.x
-      omega = odom.twist.twist.angular.z
-      self.writer.writerow({'timestamp': t, 'x': x, 'y': y, 'theta': theta, 'vel': vel, 'omega': omega, 'left_count': vel, 'right_count': omega}) 
-    except: 
-      return 
+  def velCB(self, vel): 
+    self.v = vel.linear.x
+    self.w = vel.angular.z
 
 if __name__ == '__main__':  
   log = CSV_log()
