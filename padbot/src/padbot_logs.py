@@ -4,8 +4,8 @@ import sys
 import csv 
 import math
 
-from std_msgs.msg import Int32
-from geometry_msgs.msg import Twist
+from std_msgs.msg import Int32, Bool
+from geometry_msgs.msg import Twist, Pose2D
  
 # Class 
 class CSV_log(object): 
@@ -17,9 +17,10 @@ class CSV_log(object):
     else:
       self.file_name = 'log.csv'
     
-    self.x = 0
-    self.y = 0
-    self.theta = 0
+    self.pose = Pose2D()
+    self.pose.x = 0
+    self.pose.y = 0
+    self.pose.theta = 0
     self.v = 0
     self.w = 0
     self.left_count = 0
@@ -32,6 +33,10 @@ class CSV_log(object):
     self.track_width = 0.228
     self.distance_per_count = 0.0000439
     
+    # Publlishers
+    self.posePub= rospy.Publisher('padbot/pose', Pose2D, queue_size = 10)
+    self.resetPub= rospy.Publisher('padbot/reset_encoder', Bool, queue_size = 10)
+    
     # Subcribers    
     rospy.Subscriber('padbot/left_count', Int32, self.leftCB)  
     rospy.Subscriber('padbot/right_count', Int32, self.rightCB)
@@ -43,6 +48,10 @@ class CSV_log(object):
     self.writer.writeheader() 
   
   def Running(self):
+    reset_msg = Bool()
+    reset_msg.data = True
+    self.resetPub.publish(reset_msg)
+    rospy.sleep(1)
     while not rospy.is_shutdown():
       deltaLeft = self.left_count - self.last_left
       deltaRight = self.right_count - self.last_right
@@ -54,10 +63,11 @@ class CSV_log(object):
         continue
       deltaDistance = (deltaLeft + deltaRight) * self.distance_per_count / 2
       deltaAngle = (deltaRight - deltaLeft) * self.distance_per_count / self.track_width
-      self.x += deltaDistance * math.cos(self.theta)
-      self.y += deltaDistance * math.sin(self.theta)
-      self.theta += deltaAngle
-      self.writer.writerow({'timestamp': self.time, 'x': self.x, 'y': self.y, 'theta': self.theta, 'vel': self.v, 'omega': self.w, 'left_count': self.last_left, 'right_count': self.last_right}) 
+      self.pose.x += deltaDistance * math.cos(self.pose.theta)
+      self.pose.y += deltaDistance * math.sin(self.pose.theta)
+      self.pose.theta += deltaAngle
+      self.posePub.publish(self.pose)
+      self.writer.writerow({'timestamp': self.time, 'x': self.pose.x, 'y': self.pose.y, 'theta': self.pose.theta, 'vel': self.v, 'omega': self.w, 'left_count': self.last_left, 'right_count': self.last_right}) 
       self.rate.sleep()
   
   def Stop(self):
