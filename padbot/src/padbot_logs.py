@@ -3,19 +3,21 @@ import rospy
 import sys
 import csv 
 import math
+import datetime
 
-from std_msgs.msg import Int32, Bool
+from std_msgs.msg import Int32, Bool, Float32
 from geometry_msgs.msg import Twist, Pose2D
  
 # Class 
 class CSV_log(object): 
   def __init__(self): 
+    stamp = datetime.datetime.utcnow().strftime("%a%H%M%S")
     rospy.init_node('padbot_log')
     self.rate = rospy.Rate(10)
     if len(sys.argv) > 1:
-      self.file_name = "padbot_" + str(sys.argv[1]) + ".csv"
+      self.file_name = "padbot_" + str(sys.argv[1]) + "_" + stamp + ".csv"
     else:
-      self.file_name = 'log.csv'
+      self.file_name = "padbot_" + stamp + ".csv"
     
     self.pose = Pose2D()
     self.pose.x = 0
@@ -23,6 +25,8 @@ class CSV_log(object):
     self.pose.theta = 0
     self.v = 0
     self.w = 0
+    self.left_speed = 0
+    self.right_speed = 0
     self.left_count = 0
     self.right_count = 0
     self.last_left = 0
@@ -38,9 +42,10 @@ class CSV_log(object):
     self.resetPub= rospy.Publisher('padbot/reset_encoder', Bool, queue_size = 10)
     
     # Subcribers    
+    rospy.Subscriber('padbot/left_speed', Float32, self.leftSpdCB)  
+    rospy.Subscriber('padbot/right_speed', Float32, self.rightSpdCB)
     rospy.Subscriber('padbot/left_count', Int32, self.leftCB)  
     rospy.Subscriber('padbot/right_count', Int32, self.rightCB)
-    rospy.Subscriber('cmd_vel', Twist, self.velCB)
     
     self.csvfile = open(self.file_name, 'w') 
     fieldnames = ['timestamp', 'x', 'y', 'theta', 'vel', 'omega', 'left_count', 'right_count'] 
@@ -67,21 +72,25 @@ class CSV_log(object):
       self.pose.y += deltaDistance * math.sin(self.pose.theta)
       self.pose.theta += deltaAngle
       self.posePub.publish(self.pose)
+      self.v = (self.left_speed + self.right_speed) / 2
+      self.w = (self.right_speed - self.left_speed) / self.track_width
       self.writer.writerow({'timestamp': self.time, 'x': self.pose.x, 'y': self.pose.y, 'theta': self.pose.theta, 'vel': self.v, 'omega': self.w, 'left_count': self.last_left, 'right_count': self.last_right}) 
       self.rate.sleep()
   
   def Stop(self):
     self.csvfile.close()
   
+  def leftSpdCB(self, l):
+    self.left_speed = l.data
+    
+  def rightSpdCB(self, r):
+    self.right_speed = r.data
+    
   def leftCB(self, l):
     self.left_count = l.data
     
   def rightCB(self, r):
     self.right_count = r.data
-     
-  def velCB(self, vel): 
-    self.v = vel.linear.x
-    self.w = vel.angular.z
 
 if __name__ == '__main__':  
   log = CSV_log()

@@ -3,12 +3,14 @@ import rospy
 import sys
 import csv 
 import math
+import datetime
 
 from geometry_msgs.msg import Vector3
 
 # Class 
 class CSV_log(object): 
   def __init__(self): 
+    stamp = datetime.datetime.utcnow().strftime("%a%H%M%S")
     self.left_x = 0
     self.left_y = 10
     self.left_z = 0
@@ -19,9 +21,9 @@ class CSV_log(object):
     rospy.init_node('gamesontrack_log')
     self.rate = rospy.Rate(10) 
     if len(sys.argv) > 1:
-      self.file_name = "got_" + str(sys.argv[1]) + ".csv"
+      self.file_name = "got_" + str(sys.argv[1]) + "_" + stamp + ".csv"
     else:
-      self.file_name = 'log.csv'
+      self.file_name = 'log.csv' + stamp + ".csv"
     
     # Subcribers 
     rospy.Subscriber('gamesontrack/left_sensor', Vector3, self.leftCB)  
