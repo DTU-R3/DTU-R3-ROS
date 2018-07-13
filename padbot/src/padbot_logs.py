@@ -11,7 +11,7 @@ from geometry_msgs.msg import Twist, Pose2D
 # Class 
 class CSV_log(object): 
   def __init__(self): 
-    stamp = datetime.datetime.utcnow().strftime("%a%H%M%S")
+    stamp = datetime.datetime.utcnow().strftime("%y%m%d%H%M%S")
     rospy.init_node('padbot_log')
     self.rate = rospy.Rate(10)
     if len(sys.argv) > 1:

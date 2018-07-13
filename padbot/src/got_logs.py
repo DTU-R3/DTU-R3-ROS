@@ -10,7 +10,7 @@ from geometry_msgs.msg import Vector3
 # Class 
 class CSV_log(object): 
   def __init__(self): 
-    stamp = datetime.datetime.utcnow().strftime("%a%H%M%S")
+    stamp = datetime.datetime.utcnow().strftime("%y%m%d%H%M%S")
     self.left_x = 0
     self.left_y = 10
     self.left_z = 0
