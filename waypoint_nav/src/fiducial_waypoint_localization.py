@@ -136,12 +136,13 @@ class fiducial_localization(object):
           except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException):
             debug_info(self.debug_output, "Creating tf from robot to fid")
             continue
-      
+      	    	  
           # Publish tf from robot to utm
           try:
-            verify_trans = self.tfBuffer.lookup_transform(self.gps_frame, "fiducial"+fid_name, rospy.Time())          
-            verify_trans2 = self.tfBuffer.lookup_transform("fiducial"+fid_name, "robot_fid", rospy.Time())
+            fid_stamp = tf_robot_fid.header.stamp 
             robot_utm_trans = self.tfBuffer.lookup_transform(self.gps_frame, "robot_fid", rospy.Time())
+            while fid_stamp > robot_utm_trans.header.stamp:
+              robot_utm_trans = self.tfBuffer.lookup_transform(self.gps_frame, "robot_fid", rospy.Time())
             robot_gps_pose = Odometry()
             robot_gps_pose.header.stamp = t.header.stamp # Important to apply offset
             robot_gps_pose.pose.pose.position.z = robot_utm_trans.transform.translation.z
