@@ -139,9 +139,9 @@ class fiducial_localization(object):
       	    	  
           # Publish tf from robot to utm
           try:
-            fid_stamp = tf_fid_utm.header.stamp 
+            verify_stamp = tf_fid_utm.header.stamp 
             robot_utm_trans = self.tfBuffer.lookup_transform(self.gps_frame, "robot_fid", rospy.Time())
-            if fid_stamp > robot_utm_trans.header.stamp:
+            if verify_stamp > robot_utm_trans.header.stamp:
               debug_info(self.debug_output, "Looking up transformations")
               continue
             robot_gps_pose = Odometry()

@@ -29,6 +29,7 @@ class encoder_localization(object):
     self.odom_list = [[],[]] # a list contains timestamp list and odom_pose list
     self.odom_calibrating = False
     self.list_cleaning = False
+    self.verify_stamp = rospy.Time.now()
     
     # Init ROS node
     rospy.init_node('encoder_waypoint_localization')
@@ -137,6 +138,7 @@ class encoder_localization(object):
         break
       except:
         continue  
+    self.verify_stamp = tf_odo_ref.header.stamp 
       
   def odomCB(self, odo):
     self.robot_odom = odo
@@ -149,6 +151,9 @@ class encoder_localization(object):
         return
     try:
       trans = self.tfBuffer.lookup_transform(self.gps_frame, self.odom_frame, rospy.Time())
+      if self.verify_stamp > trans.header.stamp:
+        debug_info(self.debug_output, "Looking up transformations")
+        return
       robot_odom_pose = PoseStamped()
       robot_odom_pose.pose = self.robot_odom.pose.pose
       pose_transformed = tf2_geometry_msgs.do_transform_pose(robot_odom_pose, trans)
