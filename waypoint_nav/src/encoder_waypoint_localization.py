@@ -29,11 +29,11 @@ class encoder_localization(object):
     self.odom_list = [[],[]] # a list contains timestamp list and odom_pose list
     self.odom_calibrating = False
     self.list_cleaning = False
-    self.verify_stamp = rospy.Time.now()
     
     # Init ROS node
     rospy.init_node('encoder_waypoint_localization')
-    
+    self.verify_stamp = rospy.Time.now()
+
     # rosparams
     self.robot_frame = rospy.get_param("~waypoint_control/base_frame", "base_footprint")
     self.gps_frame = rospy.get_param("~waypoint_control/gps_frame", "utm")
