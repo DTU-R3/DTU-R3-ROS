@@ -4,9 +4,12 @@ import sys
 import csv 
 import math
 import datetime
+import tf
+import tf2_ros
+import tf2_msgs.msg
 
 from std_msgs.msg import Int32, Bool, Float32
-from geometry_msgs.msg import Twist, Pose2D
+from geometry_msgs.msg import Twist, Pose2D, Quaternion
 from nav_msgs.msg import Odometry
  
 # Class 
@@ -49,9 +52,6 @@ class padbot_u1(object):
     self.resetPub.publish(reset_msg)
     rospy.sleep(1)
     
-    self.odom.header.frame_id = "odom"
-    self.odom.child_frame_id = "base_footprint"
-    self.odom.pose.pose.position.z = 0
     while not rospy.is_shutdown():
       # Calculate robot postion
       deltaLeft = self.left_count - self.last_left
@@ -66,8 +66,8 @@ class padbot_u1(object):
           continue
       deltaDistance = (deltaLeft + deltaRight) * self.distance_per_count / 2
       deltaAngle = (deltaRight - deltaLeft) * self.distance_per_count / self.track_width
-      self.x += deltaDistance * math.cos(self.pose.theta)
-      self.y += deltaDistance * math.sin(self.pose.theta)
+      self.x += deltaDistance * math.cos(self.theta)
+      self.y += deltaDistance * math.sin(self.theta)
       self.theta += deltaAngle
       self.v = (self.left_speed + self.right_speed) / 2
       self.w = (self.right_speed - self.left_speed) / self.track_width
@@ -76,8 +76,8 @@ class padbot_u1(object):
       quaternion = Quaternion()
       quaternion.x = 0.0
       quaternion.y = 0.0
-      quaternion.z = sin(self.theta / 2.0)
-      quaternion.w = cos(self.theta / 2.0)
+      quaternion.z = math.sin(self.theta / 2.0)
+      quaternion.w = math.cos(self.theta / 2.0)
       ros_now = rospy.Time.now()
       self._OdometryTransformBroadcaster.sendTransform(
         (self.x, self.y, 0),
@@ -93,18 +93,11 @@ class padbot_u1(object):
       odometry.pose.pose.position.y = self.y
       odometry.pose.pose.position.z = 0
       odometry.pose.pose.orientation = quaternion
-      odometry.child_frame_id = "base_link"
+      odometry.child_frame_id = "base_footprint"
       odometry.twist.twist.linear.x = self.v
       odometry.twist.twist.linear.y = 0
       odometry.twist.twist.angular.z = self.w
       self._OdometryPublisher.publish(odometry)
-    
-    # Set the frame and position for the odometry
-    odometry = odo
-    odometry.header.frame_id = "odom"
-    odometry.header.stamp = ros_now
-    odometry.child_frame_id = "zed"
-    odometry.pose.pose.position.z = 0
       self.rate.sleep()
   
   def leftSpdCB(self, l):
