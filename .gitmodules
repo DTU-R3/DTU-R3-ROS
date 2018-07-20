@@ -1,18 +1,6 @@
-[submodule "Arlobot"]
-        path = Arlobot
-	url = https://github.com/DTU-R3/ArloBot
 [submodule "fiducials"]
         path = fiducials
 	url = https://github.com/DTU-R3/fiducials
-[submodule "gscam"]
-        path = gscam
-	url = https://github.com/DTU-R3/gscam
-[submodule "jetson_csi_cam"]
-	path = jetson_csi_cam
-        url = https://github.com/DTU-R3/jetson_csi_cam
 [submodule "raspicam_node"]
         path = raspicam_node
 	url = https://github.com/DTU-R3/raspicam_node
-[submodule "wheelchair-jetson"]
-        path = wheelchair-jetson
-	url = https://github.com/DTU-R3/wheelchair-jetson
