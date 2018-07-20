@@ -10,6 +10,23 @@
         <color rgba="0.0 0.0 0.0 1.0"/>
     </material>
     
+    <link name="base_footprint">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <box size="0.001 0.001 0.001" />
+        </geometry>
+        <material name="Green" />
+      </visual>
+
+      <collision>
+        <origin xyz="0 0 0.017" rpy="0 0 0" />
+        <geometry>
+          <box size="0.001 0.001 0.001" />
+        </geometry>
+      </collision>
+    </link>
+    
     <link name="base_link">
         <inertial>
             <mass value="2"/>
@@ -37,16 +54,16 @@
             <inertia ixx="0.0001" ixy="0.0" ixz="0.0" iyy="0.0001" iyz="0.0" izz="0.0001"/>
         </inertial>
         <visual>
-            <origin rpy="0 0 0" xyz="0 0 0.34"/>
+            <origin rpy="0 0 0" xyz="0 0 0.415"/>
             <geometry>
-                <cylinder length="0.68" radius="0.03"/>
+                <cylinder length="0.765" radius="0.03"/>
             </geometry>
             <material name="white"/>
         </visual>
         <collision>
             <origin rpy="0 0 0" xyz="0 0 0.34"/>
             <geometry>
-                <cylinder length="0.68" radius="0.03"/>
+                <cylinder length="0.765" radius="0.03"/>
             </geometry>
         </collision>
     </link>
@@ -170,14 +187,42 @@
             </geometry>
         </collision>
     </link>
+    <link name="raspicam">
+      <inertial>
+        <origin xyz="0 0 0"/>
+        <mass value="0.01" />
+        <inertia ixx="0.001" ixy="0.0" ixz="0.0"
+          iyy="0.001" iyz="0.0" izz="0.001" />
+      </inertial>
+
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <cylinder radius="0.01" length = "0.005"/>
+        </geometry>
+        <material name ="Green" />
+      </visual>
+
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <cylinder radius="0.01" length = "0.005"/>
+        </geometry>
+      </collision>
+    </link>
     
+    <joint name="footprint_base" type="fixed">
+        <origin rpy="0 0 0" xyz="0.085 0 0.085"/>
+        <parent link="base_footprint"/>
+        <child link="base_link"/>
+    </joint> 
     <joint name="base_pole" type="fixed">
         <origin rpy="0 0 0" xyz="0.075 0 0"/>
         <parent link="base_link"/>
         <child link="pole"/>
     </joint>   
     <joint name="tablet_holder_joint" type="revolute">
-        <origin rpy="0 0 0" xyz="0 0 0.68"/>
+        <origin rpy="0 0 0" xyz="0 0 0.765"/>
          <limit effort="30" lower="-0.785398" upper="0.05" velocity= "0.5"/>
         <axis xyz="0 1 0" />
         <parent link="pole"/>
@@ -211,6 +256,11 @@
         <axis xyz="0 1 0" />
         <parent link="caster_holder"/>
         <child link="caster_wheel"/>
+    </joint>
+    <joint name="raspicam_footprint" type="fixed">
+      <origin xyz="0.15 0 0.885" rpy="0 0 -1.5708"/>
+      <parent link="base_footprint"/>
+      <child link="raspicam" />
     </joint>
 </robot>
 
