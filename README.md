@@ -18,7 +18,7 @@ The Unity projects contain ROS packages for robot features as well as package de
 ## Installation
 To install packages needed for each robot. $ROBOT_NAME could be arlobot, padbot or wheelchair
 
-Download codes
+### Download codes
 ```
 cd ~/catkin_ws/src
 git clone https://github.com/DTU-R3/DTU-R3-ROS.git
@@ -29,13 +29,19 @@ git submodule update
 git submodule foreach git checkout origin/dtu-r3/$ROBOT_NAME
 ```
 
-Compile workspace
+### Compile workspace
 ```
 cd ~/catkin_ws
 catkin_make
 source devel/setup.bash
 ```
 
+### RUN codes
+```
+roslaunch arlobot_bringup arlobot.launch		# Run arlobot
+roslaunch padbot padbot_u1.launch			# Run padbot
+roslaunch wheelchair-jetson wheelchair_jetson.launch	# Run wheelchair
+```
 ## License
 DTU-R3-ROS is licensed under the **BSD 3-clause "New" or "Revised"** License - see the [LICENSE.md](LICENSE) file for details
 
