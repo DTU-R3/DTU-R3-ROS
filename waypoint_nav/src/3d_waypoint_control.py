@@ -59,7 +59,7 @@ class waypoint_control(object):
     
     # Init ROS node
     rospy.init_node('waypoint_control')
-    self.freq = 2  # 10 Hz
+    self.freq = 10  # 10 Hz
     self.rate = rospy.Rate(self.freq)	
     
     # Parameters, robot configuration

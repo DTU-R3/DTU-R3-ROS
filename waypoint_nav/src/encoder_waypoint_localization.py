@@ -49,7 +49,7 @@ class encoder_localization(object):
     rospy.Subscriber('odo_calib_pose', Odometry, self.poseCB)
     rospy.Subscriber('odom', Odometry, self.odomCB)
 
-    self.freq = 2
+    self.freq = 10
     self.rate = rospy.Rate(self.freq)
 
   def Start(self):
