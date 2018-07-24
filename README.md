@@ -36,13 +36,6 @@ catkin_make
 source devel/setup.bash
 ```
 
-### RUN codes
-```
-roslaunch arlobot_bringup arlobot.launch		# Run arlobot
-roslaunch padbot padbot_u1.launch			# Run padbot
-roslaunch wheelchair-jetson wheelchair_jetson.launch	# Run wheelchair
-```
-
 # Install dependencies
 ### Arlobot
 ```
@@ -66,6 +59,13 @@ sudo pip install pyproj
 ### padbot & wheelchair-jetson
 ```
 sudo apt install ros-kinetic-rosserial*
+```
+
+## RUN codes
+```
+roslaunch arlobot_bringup arlobot.launch		# Run arlobot
+roslaunch padbot padbot_u1.launch			# Run padbot
+roslaunch wheelchair-jetson wheelchair_jetson.launch	# Run wheelchair
 ```
 
 ## License
