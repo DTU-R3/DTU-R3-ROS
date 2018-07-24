@@ -1,5 +1,4 @@
 # ROS-waypoint-navigation
-
 This is the code to drive the robot through a series of waypoint defined by the user. The package includes navigation by GamesOnTrack, odometry and fiducial markers.
 
 ## Setup
@@ -31,7 +30,7 @@ vel.angular.z = K_YAW * yaw
 
 **encoder_waypoint.launch:** 3D waypoint navigation by encoders only. Two waypoints are needed to intialise the robot. The first waypoint is to set the robot position in GPS frame while the second waypoint is to orientate the robot and define the destination at the same time.
 
-**got.launch:** 2D waypoint navigation by GamesOnTrack, the GamesOnTrack sensors should be respectively placed on the left and right side of the robot.
+**odometry_control.launch:** Higher level control based on odometry. Commands such as 'forward 1 meter' and 'turn 90 degrees'.
 
 ## 3d_waypoint_control.py
 
@@ -121,8 +120,48 @@ Update the fiducial map, the fiducial position should be in GPS frame.
 
 Array of transformations from the fidicials markers to the camera.
 
-## gamesontrack_control.py
-2D waypoint navigation.
+## odometry_control.py
+Higher level control based on odometry.
 
-## gamesontrack_convert.py
-Robot localisation by GamesOnTrack sensors.
+### Publishers
+
+**cmd_vel** ([geometry_msgs/Twist](http://docs.ros.org/api/geometry_msgs/html/msg/Twist.html))
+
+Robot speed command
+
+### Subscribers
+
+**odom** ([nav_msgs/Odometry](http://docs.ros.org/api/nav_msgs/html/msg/Odometry.html))
+
+Robot odometry.
+
+**odometry_control/cmd** ([std_msgs/String](http://docs.ros.org/api/std_msgs/html/msg/String.html))
+
+Higher level command.
+
+**odometry_control/state** ([std_msgs/String](http://docs.ros.org/api/std_msgs/html/msg/String.html))
+
+State to enable/disable odometry control
+
+**odometry_control/control_parameters** ([std_msgs/String](http://docs.ros.org/api/std_msgs/html/msg/String.html))
+
+Odometry control parameters.
+
+**odometry_control/max_linear_speed** ([std_msgs/Float32](http://docs.ros.org/api/std_msgs/html/msg/Float32.html))
+
+Robot max linear speed, defaule 1.0 m/s.
+
+**odometry_control/max_angular_speed** ([std_msgs/Float32](http://docs.ros.org/api/std_msgs/html/msg/Float32.html))
+
+Robot max angular speed, defaule 1.0 rad/s.
+
+**odometry_control/forwarding_thres** ([std_msgs/Float32](http://docs.ros.org/api/std_msgs/html/msg/Float32.html))
+
+Threshold for the forward phase.
+
+**odometry_control/turning_thres** ([std_msgs/Float32](http://docs.ros.org/api/std_msgs/html/msg/Float32.html))
+
+Threshold for the turning phase.
+
+## R3_functions.py
+General functions that are used by other codes.
