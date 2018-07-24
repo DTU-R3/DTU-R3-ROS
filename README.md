@@ -36,12 +36,38 @@ catkin_make
 source devel/setup.bash
 ```
 
-### RUN codes
+# Install dependencies
+### Arlobot
+```
+sudo apt update
+sudo apt upgrade
+sudo apt install python-serial ros-kinetic-cv-bridge ros-kinetic-move-base-msgs ros-kinetic-nodelet ros-kinetic-robot-state-publisher ros-kinetic-tf ros-kinetic-xacro ros-kinetic-yocs-cmd-vel-mux ros-kinetic-yocs-velocity-smoother
+```
+
+### mqtt
+```
+sudo apt install ros-kinetic-mqtt-bridge
+sudo pip install inject paho-mqtt msgpack-python
+```
+
+### waypoint_nav
+```
+sudo apt-get install python-pip
+sudo pip install pyproj
+```
+
+### padbot & wheelchair-jetson
+```
+sudo apt install ros-kinetic-rosserial*
+```
+
+## RUN codes
 ```
 roslaunch arlobot_bringup arlobot.launch		# Run arlobot
 roslaunch padbot padbot_u1.launch			# Run padbot
 roslaunch wheelchair-jetson wheelchair_jetson.launch	# Run wheelchair
 ```
+
 ## License
 DTU-R3-ROS is licensed under the **BSD 3-clause "New" or "Revised"** License - see the [LICENSE.md](LICENSE) file for details
 
