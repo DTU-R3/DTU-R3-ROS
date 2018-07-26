@@ -15,6 +15,9 @@ For tutorials and documentation on installing see [ROS Website](http://www.ros.o
 ## Project contents
 The Unity projects contain ROS packages for robot features as well as package developed by DTU-R3. Detail information for each packages locates in respective folder. 
 
+## ROS graph of the scenrio
+![Alt text](/rosgraph.png "ROS graph")
+
 ## Installation
 To install packages needed for each robot. $ROBOT_NAME could be arlobot, padbot or wheelchair
 
