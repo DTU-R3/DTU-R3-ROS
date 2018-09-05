@@ -50,6 +50,11 @@ sudo apt upgrade
 sudo apt install python-serial ros-kinetic-cv-bridge ros-kinetic-move-base-msgs ros-kinetic-nodelet ros-kinetic-robot-state-publisher ros-kinetic-tf ros-kinetic-xacro ros-kinetic-yocs-cmd-vel-mux ros-kinetic-yocs-velocity-smoother
 ```
 
+### Raspiberry Pi camera
+```
+sudo apt install ros-kinetic-compressed-*
+```
+
 ### mqtt
 ```
 sudo apt install ros-kinetic-mqtt-bridge
