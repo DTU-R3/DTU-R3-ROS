@@ -16,7 +16,10 @@ For tutorials and documentation on installing see [ROS Website](http://www.ros.o
 The Unity projects contain ROS packages for robot features as well as package developed by DTU-R3. Detail information for each packages locates in respective folder. 
 
 ## ROS graph of the scenrio
-![Alt text](/rosgraph.png "ROS graph")
+![ROS graph](/docs/rosgraph.png "ROS graph")
+
+## Transformation tree
+![Transformation tree](/docs/frames.png "Transformation tree")
 
 ## Installation
 To install packages needed for each robot. $ROBOT_NAME could be arlobot, padbot or wheelchair
@@ -45,6 +48,11 @@ source devel/setup.bash
 sudo apt update
 sudo apt upgrade
 sudo apt install python-serial ros-kinetic-cv-bridge ros-kinetic-move-base-msgs ros-kinetic-nodelet ros-kinetic-robot-state-publisher ros-kinetic-tf ros-kinetic-xacro ros-kinetic-yocs-cmd-vel-mux ros-kinetic-yocs-velocity-smoother
+```
+
+### Raspiberry Pi camera
+```
+sudo apt install ros-kinetic-compressed-*
 ```
 
 ### mqtt
