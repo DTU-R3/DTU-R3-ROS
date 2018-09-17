@@ -57,7 +57,7 @@ class fiducial_localization(object):
       json_data = json.load(open(self.fiducial_map_file)) 
       # Save the map in FiducialMapEntryArray() 
       json_map = FiducialMapEntryArray()
-      for fid in json_data["FiducialCollections"][0]["SavedFiducials"]: 
+      for fid in json_data["FiducialCollections"]: 
         fid_gps = FiducialMapEntry() 
         fid_gps.fiducial_id = fid["Id"] 
         fid_gps.x = fid["Position"]["longitude"] 
