@@ -57,7 +57,7 @@ class fiducial_localization(object):
       json_data = json.load(open(self.fiducial_map_file)) 
       # Save the map in FiducialMapEntryArray() 
       json_map = FiducialMapEntryArray()
-      for fid in json_data["FiducialCollections"][0]["SavedFiducials"]: 
+      for fid in json_data["FiducialCollections"]: 
         fid_gps = FiducialMapEntry() 
         fid_gps.fiducial_id = fid["Id"] 
         fid_gps.x = fid["Position"]["longitude"] 
@@ -80,6 +80,24 @@ class fiducial_localization(object):
   def mapGPSCB(self, GPS_map):
     self.fiducial_gps_map = GPS_map
     # TODO: write in json
+    map_dict = {"FiducialCollections": []}
+    for fid in GPS_map.fiducials:
+      fid_in_map = {"Id":fid.fiducial_id, 
+         "Position":{
+            "longitude":fid.x,
+            "latitude":fid.y,
+            "altitude":fid.z
+         },
+         "Rotation":{
+            "heading":fid.rz,
+            "north":fid.ry,
+            "east":fid.rx
+         }}
+      map_dict["FiducialCollections"].append(fid_in_map)
+    map_str = json.dumps(map_dict)
+    map_json = json.loads(map_str)
+    with open(self.fiducial_map_file, 'w') as outfile:
+      json.dump(map_json, outfile)
     
   def transCB(self, t):
     
