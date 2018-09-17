@@ -51,6 +51,12 @@
       "url":"ws://ROS-Jetson:9090/"
    },
    {
+      "id":"10675bcf.36aea4",
+      "type":"ros-server",
+      "z":"",
+      "url":"ws://Raspi-ROS-02:9090/"
+   },
+   {
       "id":"216edf74.149fc",
       "type":"ros-publish",
       "z":"c21d2fe0.d12df8",
@@ -545,11 +551,11 @@
       "id":"6842bb86.8983a4",
       "type":"ros-publish",
       "z":"e5ab4c28.30757",
-      "server":"7dfe1673.aa17d",
+      "server":"10675bcf.36aea4",
       "topicname":"/waypoint/state",
       "msgtype":"std_msgs/String",
       "x":480,
-      "y":120,
+      "y":140,
       "wires":[
 
       ]
@@ -567,7 +573,7 @@
       "once":false,
       "onceDelay":0.1,
       "x":280,
-      "y":100,
+      "y":120,
       "wires":[
          [
             "6842bb86.8983a4"
@@ -587,7 +593,7 @@
       "once":false,
       "onceDelay":0.1,
       "x":290,
-      "y":160,
+      "y":180,
       "wires":[
          [
             "6842bb86.8983a4"
@@ -602,7 +608,7 @@
       "topicname":"/waypoint",
       "msgtype":"sensor_msgs/NavSatFix",
       "x":840,
-      "y":260,
+      "y":280,
       "wires":[
 
       ]
@@ -615,7 +621,7 @@
       "topicname":"/waypoint/control_parameters",
       "msgtype":"std_msgs/String",
       "x":590,
-      "y":620,
+      "y":640,
       "wires":[
 
       ]
@@ -633,7 +639,7 @@
       "once":false,
       "onceDelay":0.1,
       "x":290,
-      "y":620,
+      "y":640,
       "wires":[
          [
             "af7f13f2.49338"
@@ -648,7 +654,7 @@
       "topicname":"/waypoint/acceleration",
       "msgtype":"std_msgs/String",
       "x":560,
-      "y":700,
+      "y":720,
       "wires":[
 
       ]
@@ -666,7 +672,7 @@
       "once":false,
       "onceDelay":0.1,
       "x":270,
-      "y":700,
+      "y":720,
       "wires":[
          [
             "d1c62d7a.788498"
@@ -681,7 +687,7 @@
       "topicname":"/waypoint/max_linear_speed",
       "msgtype":"std_msgs/Float32",
       "x":580,
-      "y":780,
+      "y":800,
       "wires":[
 
       ]
@@ -699,7 +705,7 @@
       "once":false,
       "onceDelay":0.1,
       "x":260,
-      "y":780,
+      "y":800,
       "wires":[
          [
             "3570bac1.f54746"
@@ -714,7 +720,7 @@
       "topicname":"/waypoint/max_angular_speed",
       "msgtype":"std_msgs/Float32",
       "x":590,
-      "y":860,
+      "y":880,
       "wires":[
 
       ]
@@ -732,7 +738,7 @@
       "once":false,
       "onceDelay":0.1,
       "x":250,
-      "y":860,
+      "y":880,
       "wires":[
          [
             "44966651.872c5"
@@ -747,7 +753,7 @@
       "topicname":"/waypoint/forwarding_thres",
       "msgtype":"std_msgs/Float32",
       "x":580,
-      "y":940,
+      "y":960,
       "wires":[
 
       ]
@@ -765,7 +771,7 @@
       "once":false,
       "onceDelay":0.1,
       "x":250,
-      "y":940,
+      "y":960,
       "wires":[
          [
             "f6c191c6.691d9"
@@ -780,7 +786,7 @@
       "topicname":"/waypoint/turning_thres",
       "msgtype":"std_msgs/Float32",
       "x":570,
-      "y":1020,
+      "y":1040,
       "wires":[
 
       ]
@@ -798,7 +804,7 @@
       "once":false,
       "onceDelay":0.1,
       "x":260,
-      "y":1020,
+      "y":1040,
       "wires":[
          [
             "e6b87a1f.e3728"
@@ -818,7 +824,7 @@
       "once":false,
       "onceDelay":"",
       "x":180,
-      "y":260,
+      "y":280,
       "wires":[
          [
             "5385b975.666a28"
@@ -829,11 +835,11 @@
       "id":"5385b975.666a28",
       "type":"ros-publish",
       "z":"e5ab4c28.30757",
-      "server":"7dfe1673.aa17d",
+      "server":"10675bcf.36aea4",
       "topicname":"/odo_calib_pose",
       "msgtype":"nav_msgs/Odometry",
       "x":380,
-      "y":260,
+      "y":280,
       "wires":[
 
       ]
@@ -851,7 +857,7 @@
       "once":false,
       "onceDelay":0.1,
       "x":620,
-      "y":260,
+      "y":280,
       "wires":[
          [
             "d7439166.328a08"
@@ -871,7 +877,7 @@
       "once":false,
       "onceDelay":0.1,
       "x":620,
-      "y":320,
+      "y":340,
       "wires":[
          [
             "d7439166.328a08"
@@ -891,7 +897,7 @@
       "once":false,
       "onceDelay":0.1,
       "x":230,
-      "y":420,
+      "y":440,
       "wires":[
          [
             "f027fda1.44bcf"
@@ -906,7 +912,7 @@
       "topicname":"/waypoint",
       "msgtype":"sensor_msgs/NavSatFix",
       "x":500,
-      "y":480,
+      "y":500,
       "wires":[
 
       ]
@@ -924,7 +930,7 @@
       "once":false,
       "onceDelay":0.1,
       "x":230,
-      "y":460,
+      "y":480,
       "wires":[
          [
             "f027fda1.44bcf"
@@ -944,7 +950,7 @@
       "once":false,
       "onceDelay":0.1,
       "x":230,
-      "y":500,
+      "y":520,
       "wires":[
          [
             "f027fda1.44bcf"
@@ -964,7 +970,7 @@
       "once":false,
       "onceDelay":0.1,
       "x":230,
-      "y":540,
+      "y":560,
       "wires":[
          [
             "f027fda1.44bcf"
@@ -1058,7 +1064,7 @@
       "topicname":"/arlobot/reset_motorBoard",
       "msgtype":"std_msgs/Bool",
       "x":530,
-      "y":380,
+      "y":400,
       "wires":[
 
       ]
@@ -1076,7 +1082,7 @@
       "once":false,
       "onceDelay":0.1,
       "x":210,
-      "y":380,
+      "y":400,
       "wires":[
          [
             "5962a801.8c779"
@@ -1219,6 +1225,39 @@
          [
             "fe8a452b.d1b3b8"
          ]
+      ]
+   },
+   {
+      "id":"a2ebebc.e3c9018",
+      "type":"inject",
+      "z":"e5ab4c28.30757",
+      "name":"Initial fiducial map 89",
+      "topic":"",
+      "payload":"{\"fiducials\":[{\"y\":55.7827023488895,\"z\":10.2530002593994,\"x\":12.5141731917683,\"rx\":0,\"ry\":180,\"rz\":276.5,\"fiducial_id\":100},{\"y\":55.7826913621249,\"z\":10.8999996185303,\"x\":12.5142383914115,\"rx\":6.10666519521713e-13,\"ry\":180,\"rz\":204.907989501953,\"fiducial_id\":124},{\"y\":55.7827030087058,\"z\":10.1400003433228,\"x\":12.5141939157732,\"rx\":0,\"ry\":180,\"rz\":114.908004760742,\"fiducial_id\":118},{\"y\":55.7826788192313,\"z\":10.2530002593994,\"x\":12.5141565871093,\"rx\":0,\"ry\":180,\"rz\":114.908004760742,\"fiducial_id\":150},{\"y\":55.7826268681538,\"z\":10.2530002593994,\"x\":12.514126610999,\"rx\":0,\"ry\":180,\"rz\":114.908004760742,\"fiducial_id\":151},{\"y\":55.7825286244069,\"z\":10.2530002593994,\"x\":12.5140748829797,\"rx\":0,\"ry\":180,\"rz\":114.908004760742,\"fiducial_id\":152},{\"y\":55.7824561121478,\"z\":10.2530002593994,\"x\":12.5140331926298,\"rx\":4.07111003979457e-13,\"ry\":180,\"rz\":115.000007629395,\"fiducial_id\":153},{\"y\":55.7823734933141,\"z\":10.2530002593994,\"x\":12.5139859846002,\"rx\":4.07111003979457e-13,\"ry\":180,\"rz\":115.000007629395,\"fiducial_id\":154},{\"y\":55.7823196086569,\"z\":10.2530002593994,\"x\":12.5139544447294,\"rx\":4.07111003979457e-13,\"ry\":180,\"rz\":115.000007629395,\"fiducial_id\":155},{\"y\":55.7822373160491,\"z\":10.2530002593994,\"x\":12.5139074910966,\"rx\":4.07111003979457e-13,\"ry\":180,\"rz\":115.000007629395,\"fiducial_id\":156},{\"y\":55.7821519031233,\"z\":10.2530002593994,\"x\":12.5138611153848,\"rx\":4.07111003979457e-13,\"ry\":180,\"rz\":115.000007629395,\"fiducial_id\":157},{\"y\":55.7821051250662,\"z\":10.2530002593994,\"x\":12.5138364390989,\"rx\":4.07111003979457e-13,\"ry\":180,\"rz\":115.000007629395,\"fiducial_id\":158},{\"y\":55.7820465675116,\"z\":10.7419996261597,\"x\":12.513851384089,\"rx\":4.07111003979457e-13,\"ry\":180,\"rz\":115.000007629395,\"fiducial_id\":159},{\"y\":55.6617074878224,\"z\":15,\"x\":12.5863218280206,\"rx\":-0.00000500895657751244,\"ry\":180,\"rz\":197,\"fiducial_id\":201}]}",
+      "payloadType":"json",
+      "repeat":"",
+      "crontab":"",
+      "once":false,
+      "onceDelay":"",
+      "x":240,
+      "y":40,
+      "wires":[
+         [
+            "4c7d55fa.1777cc"
+         ]
+      ]
+   },
+   {
+      "id":"4c7d55fa.1777cc",
+      "type":"ros-publish",
+      "z":"e5ab4c28.30757",
+      "server":"10675bcf.36aea4",
+      "topicname":"/fiducial_map_gps",
+      "msgtype":"fiducial_msgs/FiducialMapEntryArray",
+      "x":490,
+      "y":40,
+      "wires":[
+
       ]
    }
 ]
