@@ -79,7 +79,6 @@ class fiducial_localization(object):
   # ROS callback function
   def mapGPSCB(self, GPS_map):
     self.fiducial_gps_map = GPS_map
-    # TODO: write in json
     map_dict = {"FiducialCollections": []}
     for fid in GPS_map.fiducials:
       fid_in_map = {"Id":fid.fiducial_id, 
