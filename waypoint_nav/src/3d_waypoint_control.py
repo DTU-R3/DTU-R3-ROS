@@ -8,7 +8,7 @@ import tf
 import geometry_msgs.msg
 
 # ROS messages
-from std_msgs.msg import String, Float32
+from std_msgs.msg import String, Float32, Bool
 from geometry_msgs.msg import Point, Pose, Twist
 from nav_msgs.msg import Odometry
 from sensor_msgs.msg import NavSatFix
@@ -55,6 +55,7 @@ class waypoint_control(object):
     self.yaw = 0.0
     self.goal = Point()
     self.vel = Twist()
+    self.reached = Bool()
     self.robot_pose = Pose()
     
     # Init ROS node
@@ -74,6 +75,7 @@ class waypoint_control(object):
     self.vel_pub = rospy.Publisher('cmd_vel', Twist, queue_size = 10)
     self.robot_gps_pub = rospy.Publisher('odo_calib_pose', Odometry, queue_size = 10)
     self.debug_output = rospy.Publisher('debug_output', String, queue_size = 10)
+    self.reached_pub = rospy.Publisher('waypoint/reached', Bool, queue_size = 10)
 
     # Subscribers
     rospy.Subscriber('waypoint/state', String, self.stateCB)
@@ -157,6 +159,9 @@ class waypoint_control(object):
             finished_forwarding = False
           # When reach the waypoint, stop the robot and wait for new command
           if finished_forwarding:
+            self.reached.data = True
+            self.reached_pub.publish(self.reached)
+            self.reached.data = False  
             self.StopRobot()
           
           # If the orientation off too much, enter TURNING mode
