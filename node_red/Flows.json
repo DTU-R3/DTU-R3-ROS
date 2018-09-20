@@ -404,7 +404,7 @@
       "id":"975a48a.ce49cb8",
       "type":"ros-publish",
       "z":"ef228b48.e71a58",
-      "server":"38329431.b9fffc",
+      "server":"10675bcf.36aea4",
       "topicname":"/cmd_vel",
       "msgtype":"geometry_msgs/Twist",
       "x":760,
@@ -554,8 +554,8 @@
       "server":"10675bcf.36aea4",
       "topicname":"/waypoint/state",
       "msgtype":"std_msgs/String",
-      "x":480,
-      "y":140,
+      "x":500.00000381469727,
+      "y":190.00000190734863,
       "wires":[
 
       ]
@@ -572,8 +572,8 @@
       "crontab":"",
       "once":false,
       "onceDelay":0.1,
-      "x":280,
-      "y":120,
+      "x":300.00000381469727,
+      "y":170.00000190734863,
       "wires":[
          [
             "6842bb86.8983a4"
@@ -592,8 +592,8 @@
       "crontab":"",
       "once":false,
       "onceDelay":0.1,
-      "x":290,
-      "y":180,
+      "x":310.00000381469727,
+      "y":230.00000190734863,
       "wires":[
          [
             "6842bb86.8983a4"
@@ -1182,52 +1182,6 @@
       ]
    },
    {
-      "id":"54e475e5.beccfc",
-      "type":"ros-subscribe",
-      "z":"ef228b48.e71a58",
-      "server":"38329431.b9fffc",
-      "topicname":"/debug_output",
-      "x":160,
-      "y":700,
-      "wires":[
-         [
-            "989e5e37.71ce5"
-         ]
-      ]
-   },
-   {
-      "id":"fe8a452b.d1b3b8",
-      "type":"debug",
-      "z":"ef228b48.e71a58",
-      "name":"",
-      "active":false,
-      "tosidebar":true,
-      "console":false,
-      "tostatus":false,
-      "complete":"payload",
-      "x":480,
-      "y":700,
-      "wires":[
-
-      ]
-   },
-   {
-      "id":"989e5e37.71ce5",
-      "type":"function",
-      "z":"ef228b48.e71a58",
-      "name":"JSON",
-      "func":"msg.payload = JSON.stringify(msg.payload);\nreturn msg;",
-      "outputs":1,
-      "noerr":0,
-      "x":340,
-      "y":700,
-      "wires":[
-         [
-            "fe8a452b.d1b3b8"
-         ]
-      ]
-   },
-   {
       "id":"a2ebebc.e3c9018",
       "type":"inject",
       "z":"e5ab4c28.30757",
@@ -1251,13 +1205,158 @@
       "id":"4c7d55fa.1777cc",
       "type":"ros-publish",
       "z":"e5ab4c28.30757",
-      "server":"10675bcf.36aea4",
+      "server":"7dfe1673.aa17d",
       "topicname":"/fiducial_map_gps",
       "msgtype":"fiducial_msgs/FiducialMapEntryArray",
       "x":490,
       "y":40,
       "wires":[
 
+      ]
+   },
+   {
+      "id":"bb1f90a4.c959d",
+      "type":"ros-subscribe",
+      "z":"e5ab4c28.30757",
+      "server":"10675bcf.36aea4",
+      "topicname":"/robot_gps_pose",
+      "x":140,
+      "y":1120,
+      "wires":[
+         [
+            "dad6e4ab.8c266"
+         ]
+      ]
+   },
+   {
+      "id":"6557b174.ea76b",
+      "type":"debug",
+      "z":"e5ab4c28.30757",
+      "name":"",
+      "active":false,
+      "tosidebar":true,
+      "console":false,
+      "tostatus":false,
+      "complete":"payload",
+      "x":430,
+      "y":1120,
+      "wires":[
+
+      ]
+   },
+   {
+      "id":"dad6e4ab.8c266",
+      "type":"function",
+      "z":"e5ab4c28.30757",
+      "name":"JSON",
+      "func":"msg.payload = JSON.stringify(msg.payload);\nreturn msg;",
+      "outputs":1,
+      "noerr":0,
+      "x":290,
+      "y":1120,
+      "wires":[
+         [
+            "6557b174.ea76b"
+         ]
+      ]
+   },
+   {
+      "id":"92cd1851.080c48",
+      "type":"ros-subscribe",
+      "z":"e5ab4c28.30757",
+      "server":"10675bcf.36aea4",
+      "topicname":"/debug_output",
+      "x":140,
+      "y":1180,
+      "wires":[
+         [
+            "c54b101d.2b9a3"
+         ]
+      ]
+   },
+   {
+      "id":"7d71baf9.876ca4",
+      "type":"debug",
+      "z":"e5ab4c28.30757",
+      "name":"",
+      "active":false,
+      "tosidebar":true,
+      "console":false,
+      "tostatus":false,
+      "complete":"payload",
+      "x":460,
+      "y":1180,
+      "wires":[
+
+      ]
+   },
+   {
+      "id":"c54b101d.2b9a3",
+      "type":"function",
+      "z":"e5ab4c28.30757",
+      "name":"JSON",
+      "func":"msg.payload = JSON.stringify(msg.payload);\nreturn msg;",
+      "outputs":1,
+      "noerr":0,
+      "x":320,
+      "y":1180,
+      "wires":[
+         [
+            "7d71baf9.876ca4"
+         ]
+      ]
+   },
+   {
+      "id":"c6a59bd0.1a7118",
+      "type":"inject",
+      "z":"e5ab4c28.30757",
+      "name":"Initial campus id 89",
+      "topic":"",
+      "payload":"{\"data\":89}",
+      "payloadType":"json",
+      "repeat":"",
+      "crontab":"",
+      "once":false,
+      "onceDelay":"",
+      "x":230,
+      "y":80,
+      "wires":[
+         [
+            "fdc12a88.fbdcb8"
+         ]
+      ]
+   },
+   {
+      "id":"fdc12a88.fbdcb8",
+      "type":"ros-publish",
+      "z":"e5ab4c28.30757",
+      "server":"10675bcf.36aea4",
+      "topicname":"//mazemap/campusId",
+      "msgtype":"std_msgs/Int32",
+      "x":500,
+      "y":100,
+      "wires":[
+
+      ]
+   },
+   {
+      "id":"4a39a3ed.6f020c",
+      "type":"inject",
+      "z":"e5ab4c28.30757",
+      "name":"Initial campus id 179",
+      "topic":"",
+      "payload":"{\"data\": 179}",
+      "payloadType":"json",
+      "repeat":"",
+      "crontab":"",
+      "once":false,
+      "onceDelay":"",
+      "x":230,
+      "y":120,
+      "wires":[
+         [
+            "fdc12a88.fbdcb8"
+         ]
       ]
    }
 ]
