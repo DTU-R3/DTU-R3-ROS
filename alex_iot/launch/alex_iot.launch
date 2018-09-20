@@ -1,0 +1,8 @@
+<launch>
+  <!-- iot -->
+  <node pkg="alex_iot" type="mqtt.py" name="alex_iot_ctrl"/>
+  
+  <!-- mqtt -->
+  <include file="$(find mqtt)/src/alex-iot.launch" />
+
+</launch>
