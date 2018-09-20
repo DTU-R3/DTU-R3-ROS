@@ -1,66 +1,95 @@
 [
    {
-      "id":"e5ab4c28.30757",
+      "id":"44aafa48.6dc6d4",
       "type":"tab",
       "label":"waypoint_control",
       "disabled":false,
       "info":""
    },
    {
-      "id":"c21d2fe0.d12df8",
+      "id":"9af8863e.7645e8",
       "type":"tab",
       "label":"odometry_control",
       "disabled":false,
       "info":""
    },
    {
-      "id":"ef228b48.e71a58",
+      "id":"53d2ec5b.06b504",
       "type":"tab",
       "label":"Vel_control",
       "disabled":false,
       "info":""
    },
    {
-      "id":"af1f59f0.7c1ad",
+      "id":"b32abdca.b4f898",
+      "type":"tab",
+      "label":"MQTT",
+      "disabled":false,
+      "info":""
+   },
+   {
+      "id":"ab0d497f.095068",
       "type":"ros-server",
       "z":"",
       "url":"ws://raspi-ros00:9090/"
    },
    {
-      "id":"3825884d.6a1c98",
+      "id":"edfcd702.5a67e8",
       "type":"ros-server",
       "z":"",
       "url":"ws://ROS-desktop:9090/"
    },
    {
-      "id":"a0557972.1fef88",
+      "id":"18b7da3d.43f1e6",
       "type":"ros-server",
       "z":"",
       "url":"ws://pi-desktop:9090/"
    },
    {
-      "id":"7dfe1673.aa17d",
+      "id":"3b333869.f59f08",
       "type":"ros-server",
       "z":"",
       "url":"ws://raspi-ros01:9090/"
    },
    {
-      "id":"38329431.b9fffc",
+      "id":"9677a723.15a5d8",
       "type":"ros-server",
       "z":"",
       "url":"ws://ROS-Jetson:9090/"
    },
    {
-      "id":"10675bcf.36aea4",
+      "id":"29f936a2.130aaa",
       "type":"ros-server",
       "z":"",
       "url":"ws://Raspi-ROS-02:9090/"
    },
    {
-      "id":"216edf74.149fc",
+      "id":"69f8ec92.eedf54",
+      "type":"mqtt-broker",
+      "z":"",
+      "name":"",
+      "broker":"localhost",
+      "port":"1883",
+      "clientid":"",
+      "usetls":false,
+      "compatmode":true,
+      "keepalive":"60",
+      "cleansession":true,
+      "birthTopic":"",
+      "birthQos":"0",
+      "birthPayload":"",
+      "closeTopic":"",
+      "closeQos":"0",
+      "closePayload":"",
+      "willTopic":"",
+      "willQos":"0",
+      "willPayload":""
+   },
+   {
+      "id":"cd5249b6.458968",
       "type":"ros-publish",
-      "z":"c21d2fe0.d12df8",
-      "server":"38329431.b9fffc",
+      "z":"9af8863e.7645e8",
+      "server":"9677a723.15a5d8",
       "topicname":"/odometry_control/state",
       "msgtype":"std_msgs/String",
       "x":610,
@@ -70,9 +99,9 @@
       ]
    },
    {
-      "id":"9d320498.120fd8",
+      "id":"5719afaa.cf28b",
       "type":"inject",
-      "z":"c21d2fe0.d12df8",
+      "z":"9af8863e.7645e8",
       "name":"RUNNING",
       "topic":"",
       "payload":"{\"data\":\"RUNNING\"}",
@@ -85,14 +114,14 @@
       "y":40,
       "wires":[
          [
-            "216edf74.149fc"
+            "cd5249b6.458968"
          ]
       ]
    },
    {
-      "id":"fe6419f8.2afad",
+      "id":"8481dcd0.13033",
       "type":"inject",
-      "z":"c21d2fe0.d12df8",
+      "z":"9af8863e.7645e8",
       "name":"STOP",
       "topic":"",
       "payload":"{\"data\":\"STOP\"}",
@@ -105,15 +134,15 @@
       "y":340,
       "wires":[
          [
-            "216edf74.149fc"
+            "cd5249b6.458968"
          ]
       ]
    },
    {
-      "id":"1428da5c.8f9d1e",
+      "id":"98597528.baddc8",
       "type":"ros-publish",
-      "z":"c21d2fe0.d12df8",
-      "server":"38329431.b9fffc",
+      "z":"9af8863e.7645e8",
+      "server":"9677a723.15a5d8",
       "topicname":"/odometry_control/cmd",
       "msgtype":"std_msgs/String",
       "x":620,
@@ -123,9 +152,9 @@
       ]
    },
    {
-      "id":"302d256b.dbf6da",
+      "id":"d3201e68.b44c6",
       "type":"inject",
-      "z":"c21d2fe0.d12df8",
+      "z":"9af8863e.7645e8",
       "name":"forward 1 meter",
       "topic":"",
       "payload":"{\"data\":\"fwd,1\"}",
@@ -138,14 +167,14 @@
       "y":100,
       "wires":[
          [
-            "1428da5c.8f9d1e"
+            "98597528.baddc8"
          ]
       ]
    },
    {
-      "id":"cdbf7dc0.1d83f",
+      "id":"e1f084a8.0ecc08",
       "type":"inject",
-      "z":"c21d2fe0.d12df8",
+      "z":"9af8863e.7645e8",
       "name":"backward 1 meter",
       "topic":"",
       "payload":"{\"data\":\"fwd,-1\"}",
@@ -158,14 +187,14 @@
       "y":160,
       "wires":[
          [
-            "1428da5c.8f9d1e"
+            "98597528.baddc8"
          ]
       ]
    },
    {
-      "id":"559cfe3a.a418d8",
+      "id":"288551d0.312fee",
       "type":"inject",
-      "z":"c21d2fe0.d12df8",
+      "z":"9af8863e.7645e8",
       "name":"turn counter-clockwise 90 degree",
       "topic":"",
       "payload":"{\"data\":\"turn,90\"}",
@@ -178,14 +207,14 @@
       "y":220,
       "wires":[
          [
-            "1428da5c.8f9d1e"
+            "98597528.baddc8"
          ]
       ]
    },
    {
-      "id":"e9d9f641.bdb448",
+      "id":"f13a2b13.965e88",
       "type":"inject",
-      "z":"c21d2fe0.d12df8",
+      "z":"9af8863e.7645e8",
       "name":"turn clockwise 90 degree",
       "topic":"",
       "payload":"{\"data\":\"turn,-93\"}",
@@ -198,15 +227,15 @@
       "y":280,
       "wires":[
          [
-            "1428da5c.8f9d1e"
+            "98597528.baddc8"
          ]
       ]
    },
    {
-      "id":"7a584f5f.4a60f8",
+      "id":"48c1283.97e33d8",
       "type":"ros-publish",
-      "z":"c21d2fe0.d12df8",
-      "server":"7dfe1673.aa17d",
+      "z":"9af8863e.7645e8",
+      "server":"3b333869.f59f08",
       "topicname":"/odometry_control/control_parameters",
       "msgtype":"std_msgs/String",
       "x":690,
@@ -216,9 +245,9 @@
       ]
    },
    {
-      "id":"6f9695ab.8f2ab4",
+      "id":"25c95e22.61ea82",
       "type":"inject",
-      "z":"c21d2fe0.d12df8",
+      "z":"9af8863e.7645e8",
       "name":"params",
       "topic":"",
       "payload":"{\"data\":\"0.3,0.8,0.8,0.8\"}",
@@ -231,15 +260,15 @@
       "y":500,
       "wires":[
          [
-            "7a584f5f.4a60f8"
+            "48c1283.97e33d8"
          ]
       ]
    },
    {
-      "id":"8938c7b1.e957c",
+      "id":"bc8a0945.e29478",
       "type":"ros-publish",
-      "z":"c21d2fe0.d12df8",
-      "server":"7dfe1673.aa17d",
+      "z":"9af8863e.7645e8",
+      "server":"3b333869.f59f08",
       "topicname":"/odometry_control/acceleration",
       "msgtype":"std_msgs/String",
       "x":670,
@@ -249,9 +278,9 @@
       ]
    },
    {
-      "id":"6f7baec3.72717",
+      "id":"9f0a59f4.d1dd18",
       "type":"inject",
-      "z":"c21d2fe0.d12df8",
+      "z":"9af8863e.7645e8",
       "name":"acceleration",
       "topic":"",
       "payload":"{\"data\":\"0.1,0.1\"}",
@@ -264,15 +293,15 @@
       "y":580,
       "wires":[
          [
-            "8938c7b1.e957c"
+            "bc8a0945.e29478"
          ]
       ]
    },
    {
-      "id":"ce75bfa3.8bb7b",
+      "id":"1d76f18d.7a8a8e",
       "type":"ros-publish",
-      "z":"c21d2fe0.d12df8",
-      "server":"7dfe1673.aa17d",
+      "z":"9af8863e.7645e8",
+      "server":"3b333869.f59f08",
       "topicname":"/odometry_control/max_linear_speed",
       "msgtype":"std_msgs/Float32",
       "x":690,
@@ -282,9 +311,9 @@
       ]
    },
    {
-      "id":"fe398c4a.ff7ef8",
+      "id":"c359db8a.e2abe8",
       "type":"inject",
-      "z":"c21d2fe0.d12df8",
+      "z":"9af8863e.7645e8",
       "name":"Max linear speed",
       "topic":"",
       "payload":"{\"data\":1.0}",
@@ -297,15 +326,15 @@
       "y":660,
       "wires":[
          [
-            "ce75bfa3.8bb7b"
+            "1d76f18d.7a8a8e"
          ]
       ]
    },
    {
-      "id":"8030f306.9f51d",
+      "id":"7ed08149.583b5",
       "type":"ros-publish",
-      "z":"c21d2fe0.d12df8",
-      "server":"7dfe1673.aa17d",
+      "z":"9af8863e.7645e8",
+      "server":"3b333869.f59f08",
       "topicname":"/odometry_control/max_angular_speed",
       "msgtype":"std_msgs/Float32",
       "x":690,
@@ -315,9 +344,9 @@
       ]
    },
    {
-      "id":"5d763650.f6d028",
+      "id":"66ba6eb1.c92c7",
       "type":"inject",
-      "z":"c21d2fe0.d12df8",
+      "z":"9af8863e.7645e8",
       "name":"Max angular speed",
       "topic":"",
       "payload":"{\"data\":1.0}",
@@ -330,15 +359,15 @@
       "y":740,
       "wires":[
          [
-            "8030f306.9f51d"
+            "7ed08149.583b5"
          ]
       ]
    },
    {
-      "id":"5c1de37b.d3c944",
+      "id":"45a30948.29c978",
       "type":"ros-publish",
-      "z":"c21d2fe0.d12df8",
-      "server":"7dfe1673.aa17d",
+      "z":"9af8863e.7645e8",
+      "server":"3b333869.f59f08",
       "topicname":"/odometry_control/forwarding_thres",
       "msgtype":"std_msgs/Float32",
       "x":680,
@@ -348,9 +377,9 @@
       ]
    },
    {
-      "id":"a60b3c3c.349f58",
+      "id":"93299871.6ed298",
       "type":"inject",
-      "z":"c21d2fe0.d12df8",
+      "z":"9af8863e.7645e8",
       "name":"Forward threshold",
       "topic":"",
       "payload":"{\"data\":0.1}",
@@ -363,15 +392,15 @@
       "y":820,
       "wires":[
          [
-            "5c1de37b.d3c944"
+            "45a30948.29c978"
          ]
       ]
    },
    {
-      "id":"161a7787.02796",
+      "id":"6a721042.0dc26",
       "type":"ros-publish",
-      "z":"c21d2fe0.d12df8",
-      "server":"7dfe1673.aa17d",
+      "z":"9af8863e.7645e8",
+      "server":"3b333869.f59f08",
       "topicname":"/odometry_control/turning_thres",
       "msgtype":"std_msgs/Float32",
       "x":670,
@@ -381,9 +410,9 @@
       ]
    },
    {
-      "id":"5d8a7767.d1c17",
+      "id":"92bff07e.dab01",
       "type":"inject",
-      "z":"c21d2fe0.d12df8",
+      "z":"9af8863e.7645e8",
       "name":"Turning threshold",
       "topic":"",
       "payload":"{\"data\":0.2}",
@@ -396,27 +425,27 @@
       "y":900,
       "wires":[
          [
-            "161a7787.02796"
+            "6a721042.0dc26"
          ]
       ]
    },
    {
-      "id":"975a48a.ce49cb8",
+      "id":"f4240494.bf8d18",
       "type":"ros-publish",
-      "z":"ef228b48.e71a58",
-      "server":"10675bcf.36aea4",
+      "z":"53d2ec5b.06b504",
+      "server":"29f936a2.130aaa",
       "topicname":"/cmd_vel",
       "msgtype":"geometry_msgs/Twist",
-      "x":760,
-      "y":140,
+      "x":620,
+      "y":160,
       "wires":[
 
       ]
    },
    {
-      "id":"9e67768.92e5488",
+      "id":"7a0caed1.b788b",
       "type":"inject",
-      "z":"ef228b48.e71a58",
+      "z":"53d2ec5b.06b504",
       "name":"Inject forward",
       "topic":"",
       "payload":"{\"linear\":{\"x\":1,\"y\":0,\"z\":0},\"angular\":{\"x\":0,\"y\":0,\"z\":0}}",
@@ -426,33 +455,33 @@
       "once":false,
       "onceDelay":"",
       "x":230,
-      "y":160,
+      "y":100,
       "wires":[
          [
-            "975a48a.ce49cb8"
+            "f4240494.bf8d18"
          ]
       ]
    },
    {
-      "id":"c9ab2437.776c5",
+      "id":"9bb9c686.1901f8",
       "type":"function",
-      "z":"ef228b48.e71a58",
+      "z":"53d2ec5b.06b504",
       "name":"Square",
       "func":"let twist = {\n    \"linear\": {\n        \"x\": 0.0,\n        \"y\": 0.0,\n        \"z\": 0.0\n    },\n    \"angular\": {\n        \"x\": 0.0,\n        \"y\": 0.0,\n        \"z\": 0.0\n    }\n};\n\nfunction square(state) {\n    switch (state) {\n        case 0:\n        case 2:\n        case 4:\n        case 6:\n            twist.linear.x = 0.4;\n            twist.angular.z = 0.0;\n            ms = 2000;\n            break;\n        case 1:\n        case 3:\n        case 5:\n        case 7:\n            twist.linear.x = 0.0;\n            twist.angular.z = -1.4;\n            ms = 1150;\n            break;\n        default:\n            twist.linear.x = 0.0;\n            twist.angular.z = 0.0;\n            ms = 1000;\n    }\n    msg.payload = twist;\n    node.send(msg);\n    state++;\n    if (state < 9) {\n        setTimeout(() => {\n            square(state, ms);\n            }, ms)\n    }\n}\n\nsquare(0);\n",
       "outputs":1,
       "noerr":0,
       "x":440,
-      "y":420,
+      "y":260,
       "wires":[
          [
-            "975a48a.ce49cb8"
+            "f4240494.bf8d18"
          ]
       ]
    },
    {
-      "id":"8da4c91c.ee585",
+      "id":"f543bb61.48d488",
       "type":"inject",
-      "z":"ef228b48.e71a58",
+      "z":"53d2ec5b.06b504",
       "name":"Inject start scenario",
       "topic":"",
       "payload":"",
@@ -461,17 +490,17 @@
       "crontab":"",
       "once":false,
       "x":210,
-      "y":420,
+      "y":260,
       "wires":[
          [
-            "c9ab2437.776c5"
+            "9bb9c686.1901f8"
          ]
       ]
    },
    {
-      "id":"713dc252.769a34",
+      "id":"63415b34.c099b4",
       "type":"inject",
-      "z":"ef228b48.e71a58",
+      "z":"53d2ec5b.06b504",
       "name":"Inject stop",
       "topic":"",
       "payload":"{\"linear\":{\"x\":0,\"y\":0,\"z\":0},\"angular\":{\"x\":0,\"y\":0,\"z\":0}}",
@@ -480,17 +509,17 @@
       "crontab":"",
       "once":false,
       "x":240,
-      "y":360,
+      "y":220,
       "wires":[
          [
-            "975a48a.ce49cb8"
+            "f4240494.bf8d18"
          ]
       ]
    },
    {
-      "id":"36f3158a.ffb1ca",
+      "id":"1b8c9c23.da7c34",
       "type":"inject",
-      "z":"ef228b48.e71a58",
+      "z":"53d2ec5b.06b504",
       "name":"Inject backward",
       "topic":"",
       "payload":"{\"linear\":{\"x\":-0.3,\"y\":0,\"z\":0},\"angular\":{\"x\":0,\"y\":0,\"z\":0}}",
@@ -500,17 +529,18 @@
       "once":false,
       "onceDelay":"",
       "x":220,
-      "y":100,
+      "y":60,
       "wires":[
          [
-            "975a48a.ce49cb8"
+            "f4240494.bf8d18",
+            "dc75b0aa.0820d"
          ]
       ]
    },
    {
-      "id":"1e64d7b2.4812a8",
+      "id":"34c45c95.beaea4",
       "type":"inject",
-      "z":"ef228b48.e71a58",
+      "z":"53d2ec5b.06b504",
       "name":"Turn counter-clockwise",
       "topic":"",
       "payload":"{\"linear\":{\"x\":0,\"y\":0,\"z\":0},\"angular\":{\"x\":0,\"y\":0,\"z\":1}}",
@@ -520,17 +550,17 @@
       "once":false,
       "onceDelay":"",
       "x":200,
-      "y":240,
+      "y":140,
       "wires":[
          [
-            "975a48a.ce49cb8"
+            "f4240494.bf8d18"
          ]
       ]
    },
    {
-      "id":"2c685f4f.5cc26",
+      "id":"9f82f11e.220c7",
       "type":"inject",
-      "z":"ef228b48.e71a58",
+      "z":"53d2ec5b.06b504",
       "name":"Turn clockwise",
       "topic":"",
       "payload":"{\"linear\":{\"x\":0,\"y\":0,\"z\":0},\"angular\":{\"x\":0,\"y\":0,\"z\":-1}}",
@@ -540,18 +570,18 @@
       "once":false,
       "onceDelay":"",
       "x":220,
-      "y":300,
+      "y":180,
       "wires":[
          [
-            "975a48a.ce49cb8"
+            "f4240494.bf8d18"
          ]
       ]
    },
    {
-      "id":"6842bb86.8983a4",
+      "id":"fb300cd2.8d21c",
       "type":"ros-publish",
-      "z":"e5ab4c28.30757",
-      "server":"10675bcf.36aea4",
+      "z":"44aafa48.6dc6d4",
+      "server":"29f936a2.130aaa",
       "topicname":"/waypoint/state",
       "msgtype":"std_msgs/String",
       "x":500.00000381469727,
@@ -561,9 +591,9 @@
       ]
    },
    {
-      "id":"e66d150b.fdc58",
+      "id":"7acb3dbe.9faa14",
       "type":"inject",
-      "z":"e5ab4c28.30757",
+      "z":"44aafa48.6dc6d4",
       "name":"RUNNING",
       "topic":"",
       "payload":"{\"data\":\"RUNNING\"}",
@@ -576,14 +606,14 @@
       "y":170.00000190734863,
       "wires":[
          [
-            "6842bb86.8983a4"
+            "fb300cd2.8d21c"
          ]
       ]
    },
    {
-      "id":"42b80236.1c87fc",
+      "id":"4a37c271.13319c",
       "type":"inject",
-      "z":"e5ab4c28.30757",
+      "z":"44aafa48.6dc6d4",
       "name":"STOP",
       "topic":"",
       "payload":"{\"data\":\"STOP\"}",
@@ -596,15 +626,15 @@
       "y":230.00000190734863,
       "wires":[
          [
-            "6842bb86.8983a4"
+            "fb300cd2.8d21c"
          ]
       ]
    },
    {
-      "id":"d7439166.328a08",
+      "id":"f9b2d79.48b8028",
       "type":"ros-publish",
-      "z":"e5ab4c28.30757",
-      "server":"7dfe1673.aa17d",
+      "z":"44aafa48.6dc6d4",
+      "server":"3b333869.f59f08",
       "topicname":"/waypoint",
       "msgtype":"sensor_msgs/NavSatFix",
       "x":840,
@@ -614,10 +644,10 @@
       ]
    },
    {
-      "id":"af7f13f2.49338",
+      "id":"5e85412c.15b1a",
       "type":"ros-publish",
-      "z":"e5ab4c28.30757",
-      "server":"7dfe1673.aa17d",
+      "z":"44aafa48.6dc6d4",
+      "server":"3b333869.f59f08",
       "topicname":"/waypoint/control_parameters",
       "msgtype":"std_msgs/String",
       "x":590,
@@ -627,9 +657,9 @@
       ]
    },
    {
-      "id":"89392810.e33c8",
+      "id":"9d4b36d5.9f5638",
       "type":"inject",
-      "z":"e5ab4c28.30757",
+      "z":"44aafa48.6dc6d4",
       "name":"params",
       "topic":"",
       "payload":"{\"data\":\"0.3,0.8,0.8,0.8\"}",
@@ -642,15 +672,15 @@
       "y":640,
       "wires":[
          [
-            "af7f13f2.49338"
+            "5e85412c.15b1a"
          ]
       ]
    },
    {
-      "id":"d1c62d7a.788498",
+      "id":"1d75a1bb.d74b4e",
       "type":"ros-publish",
-      "z":"e5ab4c28.30757",
-      "server":"7dfe1673.aa17d",
+      "z":"44aafa48.6dc6d4",
+      "server":"3b333869.f59f08",
       "topicname":"/waypoint/acceleration",
       "msgtype":"std_msgs/String",
       "x":560,
@@ -660,9 +690,9 @@
       ]
    },
    {
-      "id":"42424bcc.7da284",
+      "id":"539a436a.693aec",
       "type":"inject",
-      "z":"e5ab4c28.30757",
+      "z":"44aafa48.6dc6d4",
       "name":"acceleration",
       "topic":"",
       "payload":"{\"data\":\"0.1,0.1\"}",
@@ -675,15 +705,15 @@
       "y":720,
       "wires":[
          [
-            "d1c62d7a.788498"
+            "1d75a1bb.d74b4e"
          ]
       ]
    },
    {
-      "id":"3570bac1.f54746",
+      "id":"4d42c2d1.909bac",
       "type":"ros-publish",
-      "z":"e5ab4c28.30757",
-      "server":"af1f59f0.7c1ad",
+      "z":"44aafa48.6dc6d4",
+      "server":"ab0d497f.095068",
       "topicname":"/waypoint/max_linear_speed",
       "msgtype":"std_msgs/Float32",
       "x":580,
@@ -693,9 +723,9 @@
       ]
    },
    {
-      "id":"17e0e403.c611cc",
+      "id":"d4132a46.b60b48",
       "type":"inject",
-      "z":"e5ab4c28.30757",
+      "z":"44aafa48.6dc6d4",
       "name":"Max linear speed",
       "topic":"",
       "payload":"{\"data\":1.0}",
@@ -708,15 +738,15 @@
       "y":800,
       "wires":[
          [
-            "3570bac1.f54746"
+            "4d42c2d1.909bac"
          ]
       ]
    },
    {
-      "id":"44966651.872c5",
+      "id":"12e85d05.e97df3",
       "type":"ros-publish",
-      "z":"e5ab4c28.30757",
-      "server":"af1f59f0.7c1ad",
+      "z":"44aafa48.6dc6d4",
+      "server":"ab0d497f.095068",
       "topicname":"/waypoint/max_angular_speed",
       "msgtype":"std_msgs/Float32",
       "x":590,
@@ -726,9 +756,9 @@
       ]
    },
    {
-      "id":"23525758.1bbec",
+      "id":"40a02a29.e25f24",
       "type":"inject",
-      "z":"e5ab4c28.30757",
+      "z":"44aafa48.6dc6d4",
       "name":"Max angular speed",
       "topic":"",
       "payload":"{\"data\":1.0}",
@@ -741,15 +771,15 @@
       "y":880,
       "wires":[
          [
-            "44966651.872c5"
+            "12e85d05.e97df3"
          ]
       ]
    },
    {
-      "id":"f6c191c6.691d9",
+      "id":"109f9840.4962a8",
       "type":"ros-publish",
-      "z":"e5ab4c28.30757",
-      "server":"af1f59f0.7c1ad",
+      "z":"44aafa48.6dc6d4",
+      "server":"ab0d497f.095068",
       "topicname":"/waypoint/forwarding_thres",
       "msgtype":"std_msgs/Float32",
       "x":580,
@@ -759,9 +789,9 @@
       ]
    },
    {
-      "id":"3c382176.1d4336",
+      "id":"61f1dc9c.e87c44",
       "type":"inject",
-      "z":"e5ab4c28.30757",
+      "z":"44aafa48.6dc6d4",
       "name":"Forward threshold",
       "topic":"",
       "payload":"{\"data\":0.1}",
@@ -774,15 +804,15 @@
       "y":960,
       "wires":[
          [
-            "f6c191c6.691d9"
+            "109f9840.4962a8"
          ]
       ]
    },
    {
-      "id":"e6b87a1f.e3728",
+      "id":"4659c80e.c59d38",
       "type":"ros-publish",
-      "z":"e5ab4c28.30757",
-      "server":"af1f59f0.7c1ad",
+      "z":"44aafa48.6dc6d4",
+      "server":"ab0d497f.095068",
       "topicname":"/waypoint/turning_thres",
       "msgtype":"std_msgs/Float32",
       "x":570,
@@ -792,9 +822,9 @@
       ]
    },
    {
-      "id":"e22a5d16.8f40d",
+      "id":"63c8d301.ba16bc",
       "type":"inject",
-      "z":"e5ab4c28.30757",
+      "z":"44aafa48.6dc6d4",
       "name":"Turning threshold",
       "topic":"",
       "payload":"{\"data\":0.2}",
@@ -807,14 +837,14 @@
       "y":1040,
       "wires":[
          [
-            "e6b87a1f.e3728"
+            "4659c80e.c59d38"
          ]
       ]
    },
    {
-      "id":"aafc2618.c09a3",
+      "id":"8c4d90e2.5625d",
       "type":"inject",
-      "z":"e5ab4c28.30757",
+      "z":"44aafa48.6dc6d4",
       "name":"Initial robot pose",
       "topic":"",
       "payload":"{\"pose\":{\"pose\":{\"position\":{\"x\":0,\"y\":0,\"z\":0},\"orientation\":{\"x\":0,\"y\":0,\"z\":0,\"w\":1}}}}",
@@ -827,15 +857,15 @@
       "y":280,
       "wires":[
          [
-            "5385b975.666a28"
+            "a46a6d09.dff1c"
          ]
       ]
    },
    {
-      "id":"5385b975.666a28",
+      "id":"a46a6d09.dff1c",
       "type":"ros-publish",
-      "z":"e5ab4c28.30757",
-      "server":"10675bcf.36aea4",
+      "z":"44aafa48.6dc6d4",
+      "server":"29f936a2.130aaa",
       "topicname":"/odo_calib_pose",
       "msgtype":"nav_msgs/Odometry",
       "x":380,
@@ -845,9 +875,9 @@
       ]
    },
    {
-      "id":"a1aba4fa.830b",
+      "id":"2e2e4234.06e89e",
       "type":"inject",
-      "z":"e5ab4c28.30757",
+      "z":"44aafa48.6dc6d4",
       "name":"Initial waypoint",
       "topic":"",
       "payload":"{\"longitude\":0,\"latitude\":0,\"altitude\":0}",
@@ -860,14 +890,14 @@
       "y":280,
       "wires":[
          [
-            "d7439166.328a08"
+            "f9b2d79.48b8028"
          ]
       ]
    },
    {
-      "id":"9c48ffd1.a2e3e8",
+      "id":"51aa786f.e97e28",
       "type":"inject",
-      "z":"e5ab4c28.30757",
+      "z":"44aafa48.6dc6d4",
       "name":"Second waypoint",
       "topic":"",
       "payload":"{\"longitude\":1,\"latitude\":0,\"altitude\":0}",
@@ -880,14 +910,14 @@
       "y":340,
       "wires":[
          [
-            "d7439166.328a08"
+            "f9b2d79.48b8028"
          ]
       ]
    },
    {
-      "id":"78e71f16.92a15",
+      "id":"66aeba6d.32c454",
       "type":"inject",
-      "z":"e5ab4c28.30757",
+      "z":"44aafa48.6dc6d4",
       "name":"Set waypoint",
       "topic":"",
       "payload":"{\"longitude\":0.00001,\"latitude\":0,\"altitude\":0}",
@@ -900,15 +930,15 @@
       "y":440,
       "wires":[
          [
-            "f027fda1.44bcf"
+            "3e126a07.816ee6"
          ]
       ]
    },
    {
-      "id":"f027fda1.44bcf",
+      "id":"3e126a07.816ee6",
       "type":"ros-publish",
-      "z":"e5ab4c28.30757",
-      "server":"7dfe1673.aa17d",
+      "z":"44aafa48.6dc6d4",
+      "server":"3b333869.f59f08",
       "topicname":"/waypoint",
       "msgtype":"sensor_msgs/NavSatFix",
       "x":500,
@@ -918,9 +948,9 @@
       ]
    },
    {
-      "id":"d32f69f.a377a98",
+      "id":"90488785.ec0bc8",
       "type":"inject",
-      "z":"e5ab4c28.30757",
+      "z":"44aafa48.6dc6d4",
       "name":"Set waypoint",
       "topic":"",
       "payload":"{\"longitude\":0.00001,\"latitude\":0.00001,\"altitude\":0}",
@@ -933,14 +963,14 @@
       "y":480,
       "wires":[
          [
-            "f027fda1.44bcf"
+            "3e126a07.816ee6"
          ]
       ]
    },
    {
-      "id":"4bdc1d8b.0c43fc",
+      "id":"8682ad43.f270c",
       "type":"inject",
-      "z":"e5ab4c28.30757",
+      "z":"44aafa48.6dc6d4",
       "name":"Set waypoint",
       "topic":"",
       "payload":"{\"longitude\":0,\"latitude\":0.00001,\"altitude\":0}",
@@ -953,14 +983,14 @@
       "y":520,
       "wires":[
          [
-            "f027fda1.44bcf"
+            "3e126a07.816ee6"
          ]
       ]
    },
    {
-      "id":"6faf85d4.f4d374",
+      "id":"3dab994a.c6abc6",
       "type":"inject",
-      "z":"e5ab4c28.30757",
+      "z":"44aafa48.6dc6d4",
       "name":"Set waypoint",
       "topic":"",
       "payload":"{\"longitude\":0,\"latitude\":0,\"altitude\":0}",
@@ -973,61 +1003,61 @@
       "y":560,
       "wires":[
          [
-            "f027fda1.44bcf"
+            "3e126a07.816ee6"
          ]
       ]
    },
    {
-      "id":"7e982ae6.e66594",
+      "id":"5a44061.9715bf8",
       "type":"ros-subscribe",
-      "z":"ef228b48.e71a58",
-      "server":"38329431.b9fffc",
+      "z":"53d2ec5b.06b504",
+      "server":"9677a723.15a5d8",
       "topicname":"/cmd_vel",
-      "x":180,
-      "y":520,
+      "x":160,
+      "y":340,
       "wires":[
          [
-            "f2b7602e.f4bb3"
+            "523cf422.ead0ac"
          ]
       ]
    },
    {
-      "id":"259af752.268a18",
+      "id":"489ea507.1f94bc",
       "type":"debug",
-      "z":"ef228b48.e71a58",
+      "z":"53d2ec5b.06b504",
       "name":"",
       "active":false,
       "tosidebar":true,
       "console":false,
       "tostatus":false,
       "complete":"payload",
-      "x":470,
-      "y":520,
+      "x":450,
+      "y":340,
       "wires":[
 
       ]
    },
    {
-      "id":"f2b7602e.f4bb3",
+      "id":"523cf422.ead0ac",
       "type":"function",
-      "z":"ef228b48.e71a58",
+      "z":"53d2ec5b.06b504",
       "name":"JSON",
       "func":"msg.payload = JSON.stringify(msg.payload);\nreturn msg;",
       "outputs":1,
       "noerr":0,
-      "x":330,
-      "y":520,
+      "x":310,
+      "y":340,
       "wires":[
          [
-            "259af752.268a18"
+            "489ea507.1f94bc"
          ]
       ]
    },
    {
-      "id":"34bc35ff.a37bca",
+      "id":"c1c17f8c.c7e96",
       "type":"ros-publish",
-      "z":"c21d2fe0.d12df8",
-      "server":"7dfe1673.aa17d",
+      "z":"9af8863e.7645e8",
+      "server":"3b333869.f59f08",
       "topicname":"/arlobot/reset_motorBoard",
       "msgtype":"std_msgs/Bool",
       "x":650,
@@ -1037,9 +1067,9 @@
       ]
    },
    {
-      "id":"92fdacc5.1b99e8",
+      "id":"f9c834ee.c54fa8",
       "type":"inject",
-      "z":"c21d2fe0.d12df8",
+      "z":"9af8863e.7645e8",
       "name":"Reset MotorBoard",
       "topic":"",
       "payload":"{\"data\":true}",
@@ -1052,15 +1082,15 @@
       "y":420,
       "wires":[
          [
-            "34bc35ff.a37bca"
+            "c1c17f8c.c7e96"
          ]
       ]
    },
    {
-      "id":"5962a801.8c779",
+      "id":"27c76223.031b9e",
       "type":"ros-publish",
-      "z":"e5ab4c28.30757",
-      "server":"7dfe1673.aa17d",
+      "z":"44aafa48.6dc6d4",
+      "server":"3b333869.f59f08",
       "topicname":"/arlobot/reset_motorBoard",
       "msgtype":"std_msgs/Bool",
       "x":530,
@@ -1070,9 +1100,9 @@
       ]
    },
    {
-      "id":"28839e23.3373ba",
+      "id":"2e274a00.9b4df6",
       "type":"inject",
-      "z":"e5ab4c28.30757",
+      "z":"44aafa48.6dc6d4",
       "name":"Reset MotorBoard",
       "topic":"",
       "payload":"{\"data\":true}",
@@ -1085,106 +1115,106 @@
       "y":400,
       "wires":[
          [
-            "5962a801.8c779"
+            "27c76223.031b9e"
          ]
       ]
    },
    {
-      "id":"5c5f714c.c45438",
+      "id":"c3000873.d2b048",
       "type":"ros-subscribe",
-      "z":"ef228b48.e71a58",
-      "server":"38329431.b9fffc",
+      "z":"53d2ec5b.06b504",
+      "server":"9677a723.15a5d8",
       "topicname":"/odom",
-      "x":190,
-      "y":580,
+      "x":170,
+      "y":400,
       "wires":[
          [
-            "3aa3bf4c.f1c958"
+            "776ffc4c.2ba454"
          ]
       ]
    },
    {
-      "id":"ac2cbc90.3becc8",
+      "id":"17262cf2.192b83",
       "type":"debug",
-      "z":"ef228b48.e71a58",
+      "z":"53d2ec5b.06b504",
       "name":"",
       "active":false,
       "tosidebar":true,
       "console":false,
       "tostatus":false,
       "complete":"payload",
-      "x":480,
-      "y":580,
+      "x":460,
+      "y":400,
       "wires":[
 
       ]
    },
    {
-      "id":"3aa3bf4c.f1c958",
+      "id":"776ffc4c.2ba454",
       "type":"function",
-      "z":"ef228b48.e71a58",
+      "z":"53d2ec5b.06b504",
       "name":"JSON",
       "func":"msg.payload = JSON.stringify(msg.payload);\nreturn msg;",
       "outputs":1,
       "noerr":0,
-      "x":340,
-      "y":580,
+      "x":320,
+      "y":400,
       "wires":[
          [
-            "ac2cbc90.3becc8"
+            "17262cf2.192b83"
          ]
       ]
    },
    {
-      "id":"d2c049e.61ca2b8",
+      "id":"7e962fc8.5cc5a",
       "type":"ros-subscribe",
-      "z":"ef228b48.e71a58",
-      "server":"38329431.b9fffc",
+      "z":"53d2ec5b.06b504",
+      "server":"9677a723.15a5d8",
       "topicname":"/robot_gps_pose",
-      "x":160,
-      "y":640,
+      "x":140,
+      "y":460,
       "wires":[
          [
-            "d5ad2ee7.29f1d"
+            "acbcb34b.ce1b"
          ]
       ]
    },
    {
-      "id":"d036e8a3.a2bb18",
+      "id":"4ad0798d.972ba8",
       "type":"debug",
-      "z":"ef228b48.e71a58",
+      "z":"53d2ec5b.06b504",
       "name":"",
       "active":false,
       "tosidebar":true,
       "console":false,
       "tostatus":false,
       "complete":"payload",
-      "x":480,
-      "y":640,
+      "x":460,
+      "y":460,
       "wires":[
 
       ]
    },
    {
-      "id":"d5ad2ee7.29f1d",
+      "id":"acbcb34b.ce1b",
       "type":"function",
-      "z":"ef228b48.e71a58",
+      "z":"53d2ec5b.06b504",
       "name":"JSON",
       "func":"msg.payload = JSON.stringify(msg.payload);\nreturn msg;",
       "outputs":1,
       "noerr":0,
-      "x":340,
-      "y":640,
+      "x":320,
+      "y":460,
       "wires":[
          [
-            "d036e8a3.a2bb18"
+            "4ad0798d.972ba8"
          ]
       ]
    },
    {
-      "id":"a2ebebc.e3c9018",
+      "id":"b37dd7ab.cb90a8",
       "type":"inject",
-      "z":"e5ab4c28.30757",
+      "z":"44aafa48.6dc6d4",
       "name":"Initial fiducial map 89",
       "topic":"",
       "payload":"{\"fiducials\":[{\"y\":55.7827023488895,\"z\":10.2530002593994,\"x\":12.5141731917683,\"rx\":0,\"ry\":180,\"rz\":276.5,\"fiducial_id\":100},{\"y\":55.7826913621249,\"z\":10.8999996185303,\"x\":12.5142383914115,\"rx\":6.10666519521713e-13,\"ry\":180,\"rz\":204.907989501953,\"fiducial_id\":124},{\"y\":55.7827030087058,\"z\":10.1400003433228,\"x\":12.5141939157732,\"rx\":0,\"ry\":180,\"rz\":114.908004760742,\"fiducial_id\":118},{\"y\":55.7826788192313,\"z\":10.2530002593994,\"x\":12.5141565871093,\"rx\":0,\"ry\":180,\"rz\":114.908004760742,\"fiducial_id\":150},{\"y\":55.7826268681538,\"z\":10.2530002593994,\"x\":12.514126610999,\"rx\":0,\"ry\":180,\"rz\":114.908004760742,\"fiducial_id\":151},{\"y\":55.7825286244069,\"z\":10.2530002593994,\"x\":12.5140748829797,\"rx\":0,\"ry\":180,\"rz\":114.908004760742,\"fiducial_id\":152},{\"y\":55.7824561121478,\"z\":10.2530002593994,\"x\":12.5140331926298,\"rx\":4.07111003979457e-13,\"ry\":180,\"rz\":115.000007629395,\"fiducial_id\":153},{\"y\":55.7823734933141,\"z\":10.2530002593994,\"x\":12.5139859846002,\"rx\":4.07111003979457e-13,\"ry\":180,\"rz\":115.000007629395,\"fiducial_id\":154},{\"y\":55.7823196086569,\"z\":10.2530002593994,\"x\":12.5139544447294,\"rx\":4.07111003979457e-13,\"ry\":180,\"rz\":115.000007629395,\"fiducial_id\":155},{\"y\":55.7822373160491,\"z\":10.2530002593994,\"x\":12.5139074910966,\"rx\":4.07111003979457e-13,\"ry\":180,\"rz\":115.000007629395,\"fiducial_id\":156},{\"y\":55.7821519031233,\"z\":10.2530002593994,\"x\":12.5138611153848,\"rx\":4.07111003979457e-13,\"ry\":180,\"rz\":115.000007629395,\"fiducial_id\":157},{\"y\":55.7821051250662,\"z\":10.2530002593994,\"x\":12.5138364390989,\"rx\":4.07111003979457e-13,\"ry\":180,\"rz\":115.000007629395,\"fiducial_id\":158},{\"y\":55.7820465675116,\"z\":10.7419996261597,\"x\":12.513851384089,\"rx\":4.07111003979457e-13,\"ry\":180,\"rz\":115.000007629395,\"fiducial_id\":159},{\"y\":55.6617074878224,\"z\":15,\"x\":12.5863218280206,\"rx\":-0.00000500895657751244,\"ry\":180,\"rz\":197,\"fiducial_id\":201}]}",
@@ -1197,15 +1227,15 @@
       "y":40,
       "wires":[
          [
-            "4c7d55fa.1777cc"
+            "5d7653dd.f0234c"
          ]
       ]
    },
    {
-      "id":"4c7d55fa.1777cc",
+      "id":"5d7653dd.f0234c",
       "type":"ros-publish",
-      "z":"e5ab4c28.30757",
-      "server":"7dfe1673.aa17d",
+      "z":"44aafa48.6dc6d4",
+      "server":"3b333869.f59f08",
       "topicname":"/fiducial_map_gps",
       "msgtype":"fiducial_msgs/FiducialMapEntryArray",
       "x":490,
@@ -1215,23 +1245,23 @@
       ]
    },
    {
-      "id":"bb1f90a4.c959d",
+      "id":"6b83af81.82f72",
       "type":"ros-subscribe",
-      "z":"e5ab4c28.30757",
-      "server":"10675bcf.36aea4",
+      "z":"44aafa48.6dc6d4",
+      "server":"29f936a2.130aaa",
       "topicname":"/robot_gps_pose",
       "x":140,
       "y":1120,
       "wires":[
          [
-            "dad6e4ab.8c266"
+            "10cc17cb.b29e68"
          ]
       ]
    },
    {
-      "id":"6557b174.ea76b",
+      "id":"9a769ae4.203c18",
       "type":"debug",
-      "z":"e5ab4c28.30757",
+      "z":"44aafa48.6dc6d4",
       "name":"",
       "active":false,
       "tosidebar":true,
@@ -1245,9 +1275,9 @@
       ]
    },
    {
-      "id":"dad6e4ab.8c266",
+      "id":"10cc17cb.b29e68",
       "type":"function",
-      "z":"e5ab4c28.30757",
+      "z":"44aafa48.6dc6d4",
       "name":"JSON",
       "func":"msg.payload = JSON.stringify(msg.payload);\nreturn msg;",
       "outputs":1,
@@ -1256,28 +1286,28 @@
       "y":1120,
       "wires":[
          [
-            "6557b174.ea76b"
+            "9a769ae4.203c18"
          ]
       ]
    },
    {
-      "id":"92cd1851.080c48",
+      "id":"f79b30d.1b504d",
       "type":"ros-subscribe",
-      "z":"e5ab4c28.30757",
-      "server":"10675bcf.36aea4",
+      "z":"44aafa48.6dc6d4",
+      "server":"29f936a2.130aaa",
       "topicname":"/debug_output",
       "x":140,
       "y":1180,
       "wires":[
          [
-            "c54b101d.2b9a3"
+            "d3c0ba35.17aad8"
          ]
       ]
    },
    {
-      "id":"7d71baf9.876ca4",
+      "id":"ff4257ff.378de8",
       "type":"debug",
-      "z":"e5ab4c28.30757",
+      "z":"44aafa48.6dc6d4",
       "name":"",
       "active":false,
       "tosidebar":true,
@@ -1291,9 +1321,9 @@
       ]
    },
    {
-      "id":"c54b101d.2b9a3",
+      "id":"d3c0ba35.17aad8",
       "type":"function",
-      "z":"e5ab4c28.30757",
+      "z":"44aafa48.6dc6d4",
       "name":"JSON",
       "func":"msg.payload = JSON.stringify(msg.payload);\nreturn msg;",
       "outputs":1,
@@ -1302,14 +1332,14 @@
       "y":1180,
       "wires":[
          [
-            "7d71baf9.876ca4"
+            "ff4257ff.378de8"
          ]
       ]
    },
    {
-      "id":"c6a59bd0.1a7118",
+      "id":"8e78ebaa.95ae58",
       "type":"inject",
-      "z":"e5ab4c28.30757",
+      "z":"44aafa48.6dc6d4",
       "name":"Initial campus id 89",
       "topic":"",
       "payload":"{\"data\":89}",
@@ -1322,15 +1352,15 @@
       "y":80,
       "wires":[
          [
-            "fdc12a88.fbdcb8"
+            "6f7cb48b.69e6ac"
          ]
       ]
    },
    {
-      "id":"fdc12a88.fbdcb8",
+      "id":"6f7cb48b.69e6ac",
       "type":"ros-publish",
-      "z":"e5ab4c28.30757",
-      "server":"10675bcf.36aea4",
+      "z":"44aafa48.6dc6d4",
+      "server":"29f936a2.130aaa",
       "topicname":"//mazemap/campusId",
       "msgtype":"std_msgs/Int32",
       "x":500,
@@ -1340,9 +1370,9 @@
       ]
    },
    {
-      "id":"4a39a3ed.6f020c",
+      "id":"8c428267.e720e",
       "type":"inject",
-      "z":"e5ab4c28.30757",
+      "z":"44aafa48.6dc6d4",
       "name":"Initial campus id 179",
       "topic":"",
       "payload":"{\"data\": 179}",
@@ -1355,8 +1385,225 @@
       "y":120,
       "wires":[
          [
-            "fdc12a88.fbdcb8"
+            "6f7cb48b.69e6ac"
          ]
+      ]
+   },
+   {
+      "id":"29cb5c5b.0fdd74",
+      "type":"mqtt in",
+      "z":"b32abdca.b4f898",
+      "name":"",
+      "topic":"#",
+      "qos":"0",
+      "broker":"69f8ec92.eedf54",
+      "x":150,
+      "y":80,
+      "wires":[
+         [
+            "38d4897.be915f6",
+            "f3480f2b.e15b9"
+         ]
+      ]
+   },
+   {
+      "id":"f3480f2b.e15b9",
+      "type":"switch",
+      "z":"b32abdca.b4f898",
+      "name":"MQTT_hdl",
+      "property":"payload",
+      "propertyType":"msg",
+      "rules":[
+         {
+            "t":"eq",
+            "v":"STOP",
+            "vt":"str"
+         },
+         {
+            "t":"eq",
+            "v":"FWD",
+            "vt":"str"
+         },
+         {
+            "t":"eq",
+            "v":"BACK",
+            "vt":"str"
+         },
+         {
+            "t":"eq",
+            "v":"LEFT",
+            "vt":"str"
+         },
+         {
+            "t":"eq",
+            "v":"RIGHT",
+            "vt":"str"
+         }
+      ],
+      "checkall":"false",
+      "repair":false,
+      "outputs":5,
+      "x":370,
+      "y":240,
+      "wires":[
+         [
+            "c12d15f0.7b4cc8"
+         ],
+         [
+            "69755edf.b1461"
+         ],
+         [
+            "5df10df3.6e811c"
+         ],
+         [
+            "4db97a15.1849a4"
+         ],
+         [
+            "5aca00ac.e29c5"
+         ]
+      ]
+   },
+   {
+      "id":"c9708475.cafea8",
+      "type":"ros-publish",
+      "z":"b32abdca.b4f898",
+      "server":"29f936a2.130aaa",
+      "topicname":"/cmd_vel",
+      "msgtype":"geometry_msgs/Twist",
+      "x":840,
+      "y":260,
+      "wires":[
+
+      ]
+   },
+   {
+      "id":"38d4897.be915f6",
+      "type":"debug",
+      "z":"b32abdca.b4f898",
+      "name":"",
+      "active":false,
+      "tosidebar":true,
+      "console":false,
+      "tostatus":false,
+      "complete":"false",
+      "x":360,
+      "y":100,
+      "wires":[
+
+      ]
+   },
+   {
+      "id":"69755edf.b1461",
+      "type":"function",
+      "z":"b32abdca.b4f898",
+      "name":"Forward",
+      "func":"msg.payload = {\n    \"linear\": {\n        \"x\": 0.5,\n        \"y\": 0.0,\n        \"z\": 0.0\n    },\n    \"angular\": {\n        \"x\": 0.0,\n        \"y\": 0.0,\n        \"z\": 0.0\n    }\n};\nreturn msg",
+      "outputs":1,
+      "noerr":0,
+      "x":600,
+      "y":220,
+      "wires":[
+         [
+            "c9708475.cafea8",
+            "63f742a0.1c7fc4"
+         ]
+      ]
+   },
+   {
+      "id":"c12d15f0.7b4cc8",
+      "type":"function",
+      "z":"b32abdca.b4f898",
+      "name":"Stop",
+      "func":"msg.payload = {\n    \"linear\": {\n        \"x\": 0.0,\n        \"y\": 0.0,\n        \"z\": 0.0\n    },\n    \"angular\": {\n        \"x\": 0.0,\n        \"y\": 0.0,\n        \"z\": 0.0\n    }\n};\nreturn msg\n",
+      "outputs":1,
+      "noerr":0,
+      "x":590,
+      "y":160,
+      "wires":[
+         [
+            "c9708475.cafea8",
+            "63f742a0.1c7fc4"
+         ]
+      ]
+   },
+   {
+      "id":"5df10df3.6e811c",
+      "type":"function",
+      "z":"b32abdca.b4f898",
+      "name":"Backward",
+      "func":"msg.payload = {\n    \"linear\": {\n        \"x\": -0.5,\n        \"y\": 0.0,\n        \"z\": 0.0\n    },\n    \"angular\": {\n        \"x\": 0.0,\n        \"y\": 0.0,\n        \"z\": 0.0\n    }\n};\nreturn msg;\n",
+      "outputs":1,
+      "noerr":0,
+      "x":600,
+      "y":280,
+      "wires":[
+         [
+            "c9708475.cafea8"
+         ]
+      ]
+   },
+   {
+      "id":"4db97a15.1849a4",
+      "type":"function",
+      "z":"b32abdca.b4f898",
+      "name":"Left",
+      "func":"msg.payload = {\n    \"linear\": {\n        \"x\": 0.0,\n        \"y\": 0.0,\n        \"z\": 0.0\n    },\n    \"angular\": {\n        \"x\": 0.0,\n        \"y\": 0.0,\n        \"z\": 1.0\n    }\n};\nreturn msg;\n",
+      "outputs":1,
+      "noerr":0,
+      "x":590,
+      "y":340,
+      "wires":[
+         [
+            "c9708475.cafea8"
+         ]
+      ]
+   },
+   {
+      "id":"5aca00ac.e29c5",
+      "type":"function",
+      "z":"b32abdca.b4f898",
+      "name":"Right",
+      "func":"msg.payload = {\n    \"linear\": {\n        \"x\": 0.0,\n        \"y\": 0.0,\n        \"z\": 0.0\n    },\n    \"angular\": {\n        \"x\": 0.0,\n        \"y\": 0.0,\n        \"z\": -1.0\n    }\n};\nreturn msg;\n",
+      "outputs":1,
+      "noerr":0,
+      "x":590,
+      "y":400,
+      "wires":[
+         [
+            "c9708475.cafea8"
+         ]
+      ]
+   },
+   {
+      "id":"63f742a0.1c7fc4",
+      "type":"debug",
+      "z":"b32abdca.b4f898",
+      "name":"",
+      "active":true,
+      "tosidebar":true,
+      "console":false,
+      "tostatus":false,
+      "complete":"false",
+      "x":840,
+      "y":180,
+      "wires":[
+
+      ]
+   },
+   {
+      "id":"dc75b0aa.0820d",
+      "type":"debug",
+      "z":"53d2ec5b.06b504",
+      "name":"",
+      "active":true,
+      "tosidebar":true,
+      "console":false,
+      "tostatus":false,
+      "complete":"false",
+      "x":540,
+      "y":80,
+      "wires":[
+
       ]
    }
 ]
