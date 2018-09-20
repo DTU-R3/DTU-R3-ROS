@@ -23,7 +23,7 @@ class alex_mqtt(object):
       self.rate.sleep()
             
   def mqttCB(self, str): 
-    if str.data = "START":
+    if str.data == "START":
       self.vel.linear.x = 0.5
     else:
       self.vel.linear.x = 0
