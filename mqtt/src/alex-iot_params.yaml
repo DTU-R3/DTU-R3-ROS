@@ -1,0 +1,14 @@
+mqtt:
+  client:
+    protocol: 4 # MQTTv311
+  connection:
+    host: 172.30.0.1
+    port: 1883
+    keepalive: 60
+serializer: json:dumps
+deserializer: json:loads
+bridge:
+  - factory: mqtt_bridge.bridge:MqttToRosBridge
+    msg_type: std_msgs.msg:String
+    topic_from: /iot/commands/control/cc/Raspi-ros01/test
+    topic_to: /iot/commands/control/test
