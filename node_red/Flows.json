@@ -1397,11 +1397,10 @@
       "topic":"#",
       "qos":"0",
       "broker":"69f8ec92.eedf54",
-      "x":150,
-      "y":80,
+      "x":70,
+      "y":280,
       "wires":[
          [
-            "38d4897.be915f6",
             "f3480f2b.e15b9"
          ]
       ]
@@ -1438,28 +1437,60 @@
             "t":"eq",
             "v":"RIGHT",
             "vt":"str"
+         },
+         {
+            "t":"eq",
+            "v":"START",
+            "vt":"str"
+         },
+         {
+            "t":"eq",
+            "v":"CHANGE",
+            "vt":"str"
+         },
+         {
+            "t":"eq",
+            "v":"FASTER",
+            "vt":"str"
+         },
+         {
+            "t":"eq",
+            "v":"SLOWER",
+            "vt":"str"
          }
       ],
       "checkall":"false",
       "repair":false,
-      "outputs":5,
-      "x":370,
-      "y":240,
+      "outputs":9,
+      "x":270,
+      "y":280,
       "wires":[
          [
-            "c12d15f0.7b4cc8"
+            "90964ca3.353e3"
          ],
          [
-            "69755edf.b1461"
+            "aa6ce168.79beb8"
          ],
          [
-            "5df10df3.6e811c"
+            "ca3320fb.822438"
          ],
          [
-            "4db97a15.1849a4"
+            "5c0e4d74.015994"
          ],
          [
-            "5aca00ac.e29c5"
+            "13586c09.7002ec"
+         ],
+         [
+            "d4455312.ad5a"
+         ],
+         [
+            "6494ab3.7986554"
+         ],
+         [
+            "85f77f2c.aa12e"
+         ],
+         [
+            "23841dfa.8bc5aa"
          ]
       ]
    },
@@ -1470,24 +1501,8 @@
       "server":"29f936a2.130aaa",
       "topicname":"/cmd_vel",
       "msgtype":"geometry_msgs/Twist",
-      "x":840,
-      "y":260,
-      "wires":[
-
-      ]
-   },
-   {
-      "id":"38d4897.be915f6",
-      "type":"debug",
-      "z":"b32abdca.b4f898",
-      "name":"",
-      "active":false,
-      "tosidebar":true,
-      "console":false,
-      "tostatus":false,
-      "complete":"false",
-      "x":360,
-      "y":100,
+      "x":1240,
+      "y":320,
       "wires":[
 
       ]
@@ -1497,15 +1512,14 @@
       "type":"function",
       "z":"b32abdca.b4f898",
       "name":"Forward",
-      "func":"msg.payload = {\n    \"linear\": {\n        \"x\": 0.5,\n        \"y\": 0.0,\n        \"z\": 0.0\n    },\n    \"angular\": {\n        \"x\": 0.0,\n        \"y\": 0.0,\n        \"z\": 0.0\n    }\n};\nreturn msg",
+      "func":"msg.payload = {\n    \"linear\": {\n        \"x\": global.get('speed'),\n        \"y\": 0.0,\n        \"z\": 0.0\n    },\n    \"angular\": {\n        \"x\": 0.0,\n        \"y\": 0.0,\n        \"z\": 0.0\n    }\n};\nreturn msg",
       "outputs":1,
       "noerr":0,
-      "x":600,
+      "x":1040,
       "y":220,
       "wires":[
          [
-            "c9708475.cafea8",
-            "63f742a0.1c7fc4"
+            "c9708475.cafea8"
          ]
       ]
    },
@@ -1517,12 +1531,11 @@
       "func":"msg.payload = {\n    \"linear\": {\n        \"x\": 0.0,\n        \"y\": 0.0,\n        \"z\": 0.0\n    },\n    \"angular\": {\n        \"x\": 0.0,\n        \"y\": 0.0,\n        \"z\": 0.0\n    }\n};\nreturn msg\n",
       "outputs":1,
       "noerr":0,
-      "x":590,
+      "x":1030,
       "y":160,
       "wires":[
          [
-            "c9708475.cafea8",
-            "63f742a0.1c7fc4"
+            "c9708475.cafea8"
          ]
       ]
    },
@@ -1531,10 +1544,10 @@
       "type":"function",
       "z":"b32abdca.b4f898",
       "name":"Backward",
-      "func":"msg.payload = {\n    \"linear\": {\n        \"x\": -0.5,\n        \"y\": 0.0,\n        \"z\": 0.0\n    },\n    \"angular\": {\n        \"x\": 0.0,\n        \"y\": 0.0,\n        \"z\": 0.0\n    }\n};\nreturn msg;\n",
+      "func":"msg.payload = {\n    \"linear\": {\n        \"x\": -global.get('speed'),\n        \"y\": 0.0,\n        \"z\": 0.0\n    },\n    \"angular\": {\n        \"x\": 0.0,\n        \"y\": 0.0,\n        \"z\": 0.0\n    }\n};\nreturn msg;\n",
       "outputs":1,
       "noerr":0,
-      "x":600,
+      "x":1040,
       "y":280,
       "wires":[
          [
@@ -1547,10 +1560,10 @@
       "type":"function",
       "z":"b32abdca.b4f898",
       "name":"Left",
-      "func":"msg.payload = {\n    \"linear\": {\n        \"x\": 0.0,\n        \"y\": 0.0,\n        \"z\": 0.0\n    },\n    \"angular\": {\n        \"x\": 0.0,\n        \"y\": 0.0,\n        \"z\": 1.0\n    }\n};\nreturn msg;\n",
+      "func":"msg.payload = {\n    \"linear\": {\n        \"x\": 0.0,\n        \"y\": 0.0,\n        \"z\": 0.0\n    },\n    \"angular\": {\n        \"x\": 0.0,\n        \"y\": 0.0,\n        \"z\": global.get('speed')\n    }\n};\nreturn msg;\n",
       "outputs":1,
       "noerr":0,
-      "x":590,
+      "x":1030,
       "y":340,
       "wires":[
          [
@@ -1563,31 +1576,15 @@
       "type":"function",
       "z":"b32abdca.b4f898",
       "name":"Right",
-      "func":"msg.payload = {\n    \"linear\": {\n        \"x\": 0.0,\n        \"y\": 0.0,\n        \"z\": 0.0\n    },\n    \"angular\": {\n        \"x\": 0.0,\n        \"y\": 0.0,\n        \"z\": -1.0\n    }\n};\nreturn msg;\n",
+      "func":"msg.payload = {\n    \"linear\": {\n        \"x\": 0.0,\n        \"y\": 0.0,\n        \"z\": 0.0\n    },\n    \"angular\": {\n        \"x\": 0.0,\n        \"y\": 0.0,\n        \"z\": -global.get('speed')\n    }\n};\nreturn msg;\n",
       "outputs":1,
       "noerr":0,
-      "x":590,
+      "x":1030,
       "y":400,
       "wires":[
          [
             "c9708475.cafea8"
          ]
-      ]
-   },
-   {
-      "id":"63f742a0.1c7fc4",
-      "type":"debug",
-      "z":"b32abdca.b4f898",
-      "name":"",
-      "active":true,
-      "tosidebar":true,
-      "console":false,
-      "tostatus":false,
-      "complete":"false",
-      "x":840,
-      "y":180,
-      "wires":[
-
       ]
    },
    {
@@ -1604,6 +1601,456 @@
       "y":80,
       "wires":[
 
+      ]
+   },
+   {
+      "id":"6721c0d.838164",
+      "type":"function",
+      "z":"b32abdca.b4f898",
+      "name":"START",
+      "func":"msg.payload = {\n    \"linear\": {\n        \"x\": global.get('speed'),\n        \"y\": 0.0,\n        \"z\": 0.0\n    },\n    \"angular\": {\n        \"x\": 0.0,\n        \"y\": 0.0,\n        \"z\": 0.0\n    }\n};\nreturn msg",
+      "outputs":1,
+      "noerr":0,
+      "x":1040,
+      "y":460,
+      "wires":[
+         [
+            "c9708475.cafea8"
+         ]
+      ]
+   },
+   {
+      "id":"90964ca3.353e3",
+      "type":"change",
+      "z":"b32abdca.b4f898",
+      "name":"Set direction",
+      "rules":[
+         {
+            "t":"set",
+            "p":"dir",
+            "pt":"global",
+            "to":"STOP",
+            "tot":"str"
+         }
+      ],
+      "action":"",
+      "property":"",
+      "from":"",
+      "to":"",
+      "reg":false,
+      "x":870,
+      "y":160,
+      "wires":[
+         [
+            "c12d15f0.7b4cc8"
+         ]
+      ]
+   },
+   {
+      "id":"aa6ce168.79beb8",
+      "type":"change",
+      "z":"b32abdca.b4f898",
+      "name":"Set direction",
+      "rules":[
+         {
+            "t":"set",
+            "p":"dir",
+            "pt":"global",
+            "to":"FWD",
+            "tot":"str"
+         }
+      ],
+      "action":"",
+      "property":"",
+      "from":"",
+      "to":"",
+      "reg":false,
+      "x":870,
+      "y":220,
+      "wires":[
+         [
+            "69755edf.b1461"
+         ]
+      ]
+   },
+   {
+      "id":"ca3320fb.822438",
+      "type":"change",
+      "z":"b32abdca.b4f898",
+      "name":"Set direction",
+      "rules":[
+         {
+            "t":"set",
+            "p":"dir",
+            "pt":"global",
+            "to":"BACK",
+            "tot":"str"
+         }
+      ],
+      "action":"",
+      "property":"",
+      "from":"",
+      "to":"",
+      "reg":false,
+      "x":870,
+      "y":280,
+      "wires":[
+         [
+            "5df10df3.6e811c"
+         ]
+      ]
+   },
+   {
+      "id":"5c0e4d74.015994",
+      "type":"change",
+      "z":"b32abdca.b4f898",
+      "name":"Set direction",
+      "rules":[
+         {
+            "t":"set",
+            "p":"dir",
+            "pt":"global",
+            "to":"LEFT",
+            "tot":"str"
+         }
+      ],
+      "action":"",
+      "property":"",
+      "from":"",
+      "to":"",
+      "reg":false,
+      "x":870,
+      "y":340,
+      "wires":[
+         [
+            "4db97a15.1849a4"
+         ]
+      ]
+   },
+   {
+      "id":"13586c09.7002ec",
+      "type":"change",
+      "z":"b32abdca.b4f898",
+      "name":"Set direction",
+      "rules":[
+         {
+            "t":"set",
+            "p":"dir",
+            "pt":"global",
+            "to":"RIGHT",
+            "tot":"str"
+         }
+      ],
+      "action":"",
+      "property":"",
+      "from":"",
+      "to":"",
+      "reg":false,
+      "x":870,
+      "y":400,
+      "wires":[
+         [
+            "5aca00ac.e29c5"
+         ]
+      ]
+   },
+   {
+      "id":"d4455312.ad5a",
+      "type":"change",
+      "z":"b32abdca.b4f898",
+      "name":"Set direction",
+      "rules":[
+         {
+            "t":"set",
+            "p":"dir",
+            "pt":"global",
+            "to":"FWD",
+            "tot":"str"
+         }
+      ],
+      "action":"",
+      "property":"",
+      "from":"",
+      "to":"",
+      "reg":false,
+      "x":870,
+      "y":460,
+      "wires":[
+         [
+            "6721c0d.838164"
+         ]
+      ]
+   },
+   {
+      "id":"6494ab3.7986554",
+      "type":"switch",
+      "z":"b32abdca.b4f898",
+      "name":"Change",
+      "property":"dir",
+      "propertyType":"global",
+      "rules":[
+         {
+            "t":"eq",
+            "v":"STOP",
+            "vt":"str"
+         },
+         {
+            "t":"eq",
+            "v":"BACK",
+            "vt":"str"
+         },
+         {
+            "t":"eq",
+            "v":"FWD",
+            "vt":"str"
+         },
+         {
+            "t":"eq",
+            "v":"RIGHT",
+            "vt":"str"
+         },
+         {
+            "t":"eq",
+            "v":"LEFT",
+            "vt":"str"
+         }
+      ],
+      "checkall":"true",
+      "repair":false,
+      "outputs":5,
+      "x":480,
+      "y":400,
+      "wires":[
+         [
+            "90964ca3.353e3"
+         ],
+         [
+            "aa6ce168.79beb8"
+         ],
+         [
+            "ca3320fb.822438"
+         ],
+         [
+            "5c0e4d74.015994"
+         ],
+         [
+            "13586c09.7002ec"
+         ]
+      ]
+   },
+   {
+      "id":"11d46532.08257b",
+      "type":"inject",
+      "z":"b32abdca.b4f898",
+      "name":"Set speed as 1",
+      "topic":"",
+      "payload":"1.0",
+      "payloadType":"num",
+      "repeat":"",
+      "crontab":"",
+      "once":false,
+      "onceDelay":0.1,
+      "x":120,
+      "y":100,
+      "wires":[
+         [
+            "e6d2e08b.cedc7"
+         ]
+      ]
+   },
+   {
+      "id":"c0c9bc57.75557",
+      "type":"debug",
+      "z":"b32abdca.b4f898",
+      "name":"",
+      "active":true,
+      "tosidebar":true,
+      "console":false,
+      "tostatus":false,
+      "complete":"payload",
+      "x":480,
+      "y":100,
+      "wires":[
+
+      ]
+   },
+   {
+      "id":"e6d2e08b.cedc7",
+      "type":"change",
+      "z":"b32abdca.b4f898",
+      "name":"Set speed",
+      "rules":[
+         {
+            "t":"set",
+            "p":"speed",
+            "pt":"global",
+            "to":"1",
+            "tot":"num"
+         }
+      ],
+      "action":"",
+      "property":"",
+      "from":"",
+      "to":"",
+      "reg":false,
+      "x":310,
+      "y":100,
+      "wires":[
+         [
+            "c0c9bc57.75557"
+         ]
+      ]
+   },
+   {
+      "id":"4b80c46f.778d54",
+      "type":"inject",
+      "z":"b32abdca.b4f898",
+      "name":"Set speed as 0.5",
+      "topic":"",
+      "payload":"0.5",
+      "payloadType":"num",
+      "repeat":"",
+      "crontab":"",
+      "once":false,
+      "onceDelay":0.1,
+      "x":120,
+      "y":40,
+      "wires":[
+         [
+            "4fed1a10.3164a4"
+         ]
+      ]
+   },
+   {
+      "id":"4fb2ef48.de99f8",
+      "type":"debug",
+      "z":"b32abdca.b4f898",
+      "name":"",
+      "active":true,
+      "tosidebar":true,
+      "console":false,
+      "tostatus":false,
+      "complete":"payload",
+      "x":480,
+      "y":40,
+      "wires":[
+
+      ]
+   },
+   {
+      "id":"4fed1a10.3164a4",
+      "type":"change",
+      "z":"b32abdca.b4f898",
+      "name":"Set speed",
+      "rules":[
+         {
+            "t":"set",
+            "p":"speed",
+            "pt":"global",
+            "to":"0.5",
+            "tot":"num"
+         }
+      ],
+      "action":"",
+      "property":"",
+      "from":"",
+      "to":"",
+      "reg":false,
+      "x":310,
+      "y":40,
+      "wires":[
+         [
+            "4fb2ef48.de99f8"
+         ]
+      ]
+   },
+   {
+      "id":"85f77f2c.aa12e",
+      "type":"function",
+      "z":"b32abdca.b4f898",
+      "name":"Faster",
+      "func":"vel = global.get('speed') * 1.2;\nglobal.set('speed', vel);\nreturn msg;",
+      "outputs":1,
+      "noerr":0,
+      "x":470,
+      "y":480,
+      "wires":[
+         [
+            "b3d0dde.60cda2"
+         ]
+      ]
+   },
+   {
+      "id":"23841dfa.8bc5aa",
+      "type":"function",
+      "z":"b32abdca.b4f898",
+      "name":"Slower",
+      "func":"vel = global.get('speed') / 1.2;\nglobal.set('speed', vel);\nreturn msg;",
+      "outputs":1,
+      "noerr":0,
+      "x":470,
+      "y":540,
+      "wires":[
+         [
+            "b3d0dde.60cda2"
+         ]
+      ]
+   },
+   {
+      "id":"b3d0dde.60cda2",
+      "type":"switch",
+      "z":"b32abdca.b4f898",
+      "name":"Keep Moving",
+      "property":"dir",
+      "propertyType":"global",
+      "rules":[
+         {
+            "t":"eq",
+            "v":"STOP",
+            "vt":"str"
+         },
+         {
+            "t":"eq",
+            "v":"FWD",
+            "vt":"str"
+         },
+         {
+            "t":"eq",
+            "v":"BACK",
+            "vt":"str"
+         },
+         {
+            "t":"eq",
+            "v":"LEFT",
+            "vt":"str"
+         },
+         {
+            "t":"eq",
+            "v":"RIGHT",
+            "vt":"str"
+         }
+      ],
+      "checkall":"true",
+      "repair":false,
+      "outputs":5,
+      "x":650,
+      "y":500,
+      "wires":[
+         [
+            "90964ca3.353e3"
+         ],
+         [
+            "aa6ce168.79beb8"
+         ],
+         [
+            "ca3320fb.822438"
+         ],
+         [
+            "5c0e4d74.015994"
+         ],
+         [
+            "13586c09.7002ec"
+         ]
       ]
    }
 ]
