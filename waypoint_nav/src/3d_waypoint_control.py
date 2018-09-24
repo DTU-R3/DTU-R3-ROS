@@ -162,6 +162,7 @@ class waypoint_control(object):
             if self.reached.data != True:
               self.reached.data = True
               self.reached_pub.publish(self.reached) 
+              self.goal_set = False
             self.StopRobot()
           
           # If the orientation off too much, enter TURNING mode
@@ -272,8 +273,8 @@ class waypoint_control(object):
     self.goal.y = y
     self.goal.z = z
     self.goal_set = True 
-    self.reached.data = False
     debug_info(self.debug_output, "Waypoint received")
+    self.reached.data = False
     if self.orentation_get:
       return
     dx = x - self.robot_pose.position.x
