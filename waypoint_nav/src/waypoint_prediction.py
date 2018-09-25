@@ -26,7 +26,7 @@ class waypoint_prediction(object):
 
     # Init ROS node
     rospy.init_node('waypoint_prediction')
-    self.freq = 10  # 10 Hz
+    self.freq = 1  # 1 Hz
     self.rate = rospy.Rate(self.freq)	
     
     # Publishers
