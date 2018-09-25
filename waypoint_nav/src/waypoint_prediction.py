@@ -16,7 +16,7 @@ from nav_msgs.msg import Odometry
 class waypoint_prediction(object):
   def __init__(self):       
     # Variables
-    self.dt = 5    # Predict pose in 5 seconds
+    self.dt = 3    # Predict pose in 3 seconds
     self.vel = Twist()
     self.robot_pose = Pose()
     self.robot_prediction = Odometry()
@@ -53,8 +53,8 @@ class waypoint_prediction(object):
       else:
         r = v / w
         d = 2 * r * math.sin(alpha)
-      pose.position.x += d * cos(alpha + theta)
-      pose.position.y += d * sin(alpha + theta)     
+      pose.position.x += d * math.cos(alpha + theta)
+      pose.position.y += d * math.sin(alpha + theta)     
       pose.orientation = quat_rot(pose.orientation,0,0, math.degrees(alpha))
       pose.orientation.x = -pose.orientation.x
       pose.orientation.y = -pose.orientation.y

@@ -17,4 +17,5 @@
     <param name="robot_ry_config" value="False"/>
     <param name="robot_rz_config" value="True"/>
   </node>
+  <node pkg="waypoint_nav" type="waypoint_prediction.py" name="waypoint_prediction"/>
 </launch>
