@@ -61,7 +61,7 @@ class waypoint_prediction(object):
       pose.orientation.z = -pose.orientation.z   
       pose.orientation = quat_rot(pose.orientation,0,0,90)
       self.robot_prediction.pose.pose = pose
-      robot_prediction.pose.pose.position.x,robot_prediction.pose.pose.position.y = self.projection(pose.position.x,pose.position.y,inverse=True)
+      self.robot_prediction.pose.pose.position.x,self.robot_prediction.pose.pose.position.y = self.projection(pose.position.x,pose.position.y,inverse=True)
       self.pred_pub.publish(self.robot_prediction)
       self.rate.sleep()
   
