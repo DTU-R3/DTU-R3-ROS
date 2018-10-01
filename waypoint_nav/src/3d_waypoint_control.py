@@ -160,10 +160,9 @@ class waypoint_control(object):
             finished_forwarding = False
           # When reach the waypoint, stop the robot and wait for new command
           if finished_forwarding:
-            if self.goal_set:
-              self.reached_pub.publish(self.reached) 
-              self.StopRobot()
-              self.goal_set = False
+            self.goal_set = False
+            self.reached_pub.publish(self.reached) 
+            self.StopRobot()
           
           # If the orientation off too much, enter TURNING mode
           turning_needed = False
