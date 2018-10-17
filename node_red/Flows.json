@@ -1,5 +1,12 @@
 [
    {
+      "id":"f4b52f46.1b09b",
+      "type":"tab",
+      "label":"route_univate",
+      "disabled":false,
+      "info":""
+   },
+   {
       "id":"44aafa48.6dc6d4",
       "type":"tab",
       "label":"waypoint_control",
@@ -436,8 +443,8 @@
       "server":"29f936a2.130aaa",
       "topicname":"/cmd_vel",
       "msgtype":"geometry_msgs/Twist",
-      "x":620,
-      "y":160,
+      "x":680,
+      "y":180,
       "wires":[
 
       ]
@@ -1363,7 +1370,7 @@
       "server":"29f936a2.130aaa",
       "topicname":"//mazemap/campusId",
       "msgtype":"std_msgs/Int32",
-      "x":500,
+      "x":560,
       "y":100,
       "wires":[
 
@@ -1597,8 +1604,8 @@
       "console":false,
       "tostatus":false,
       "complete":"false",
-      "x":540,
-      "y":80,
+      "x":530,
+      "y":60,
       "wires":[
 
       ]
@@ -1931,7 +1938,7 @@
       "console":false,
       "tostatus":false,
       "complete":"payload",
-      "x":480,
+      "x":510,
       "y":40,
       "wires":[
 
@@ -2050,6 +2057,205 @@
          ],
          [
             "13586c09.7002ec"
+         ]
+      ]
+   },
+   {
+      "id":"c8ab1f1e.0493b",
+      "type":"inject",
+      "z":"f4b52f46.1b09b",
+      "name":"Set waypoint",
+      "topic":"",
+      "payload":"{\"longitude\":12.5863203941,\"latitude\":55.6622787141,\"altitude\":0}",
+      "payloadType":"json",
+      "repeat":"",
+      "crontab":"",
+      "once":false,
+      "onceDelay":0.1,
+      "x":190,
+      "y":180,
+      "wires":[
+         [
+            "d8bbfdb0.c06b1"
+         ]
+      ]
+   },
+   {
+      "id":"d8bbfdb0.c06b1",
+      "type":"ros-publish",
+      "z":"f4b52f46.1b09b",
+      "server":"29f936a2.130aaa",
+      "topicname":"/waypoint",
+      "msgtype":"sensor_msgs/NavSatFix",
+      "x":380,
+      "y":200,
+      "wires":[
+
+      ]
+   },
+   {
+      "id":"e03c3e61.41a0c",
+      "type":"inject",
+      "z":"f4b52f46.1b09b",
+      "name":"Set waypoint",
+      "topic":"",
+      "payload":"{\"longitude\":12.5863133426,\"latitude\":55.6622569695,\"altitude\":0}",
+      "payloadType":"json",
+      "repeat":"",
+      "crontab":"",
+      "once":false,
+      "onceDelay":0.1,
+      "x":190,
+      "y":220,
+      "wires":[
+         [
+            "d8bbfdb0.c06b1"
+         ]
+      ]
+   },
+   {
+      "id":"713770ae.15fcc",
+      "type":"ros-publish",
+      "z":"f4b52f46.1b09b",
+      "server":"29f936a2.130aaa",
+      "topicname":"/waypoint/state",
+      "msgtype":"std_msgs/String",
+      "x":400,
+      "y":100,
+      "wires":[
+
+      ]
+   },
+   {
+      "id":"8447b377.7a54f",
+      "type":"inject",
+      "z":"f4b52f46.1b09b",
+      "name":"RUNNING",
+      "topic":"",
+      "payload":"{\"data\":\"RUNNING\"}",
+      "payloadType":"json",
+      "repeat":"",
+      "crontab":"",
+      "once":false,
+      "onceDelay":0.1,
+      "x":180,
+      "y":80,
+      "wires":[
+         [
+            "713770ae.15fcc"
+         ]
+      ]
+   },
+   {
+      "id":"e71ce057.bb078",
+      "type":"inject",
+      "z":"f4b52f46.1b09b",
+      "name":"STOP",
+      "topic":"",
+      "payload":"{\"data\":\"STOP\"}",
+      "payloadType":"json",
+      "repeat":"",
+      "crontab":"",
+      "once":false,
+      "onceDelay":0.1,
+      "x":170,
+      "y":120,
+      "wires":[
+         [
+            "713770ae.15fcc"
+         ]
+      ]
+   },
+   {
+      "id":"927fe84b.59af58",
+      "type":"inject",
+      "z":"f4b52f46.1b09b",
+      "name":"Set waypoint",
+      "topic":"",
+      "payload":"{\"longitude\":12.5863203941,\"latitude\":55.6622787141,\"altitude\":0}",
+      "payloadType":"json",
+      "repeat":"",
+      "crontab":"",
+      "once":false,
+      "onceDelay":0.1,
+      "x":190,
+      "y":280,
+      "wires":[
+         [
+            "ac7ed2fb.95974"
+         ]
+      ]
+   },
+   {
+      "id":"ac7ed2fb.95974",
+      "type":"ros-publish",
+      "z":"f4b52f46.1b09b",
+      "server":"29f936a2.130aaa",
+      "topicname":"/waypoint",
+      "msgtype":"sensor_msgs/NavSatFix",
+      "x":380,
+      "y":340,
+      "wires":[
+
+      ]
+   },
+   {
+      "id":"fe8b298c.c69068",
+      "type":"inject",
+      "z":"f4b52f46.1b09b",
+      "name":"Set waypoint",
+      "topic":"",
+      "payload":"{\"longitude\":12.5864306614,\"latitude\":55.6622700669,\"altitude\":0}",
+      "payloadType":"json",
+      "repeat":"",
+      "crontab":"",
+      "once":false,
+      "onceDelay":0.1,
+      "x":190,
+      "y":320,
+      "wires":[
+         [
+            "ac7ed2fb.95974"
+         ]
+      ]
+   },
+   {
+      "id":"4cdbd21b.4aed3c",
+      "type":"inject",
+      "z":"f4b52f46.1b09b",
+      "name":"Set waypoint",
+      "topic":"",
+      "payload":"{\"longitude\":12.586440611,\"latitude\":55.6622917358,\"altitude\":0}",
+      "payloadType":"json",
+      "repeat":"",
+      "crontab":"",
+      "once":false,
+      "onceDelay":0.1,
+      "x":190,
+      "y":360,
+      "wires":[
+         [
+            "ac7ed2fb.95974"
+         ]
+      ]
+   },
+   {
+      "id":"98153079.1cfeb",
+      "type":"inject",
+      "z":"f4b52f46.1b09b",
+      "name":"Set waypoint",
+      "topic":"",
+      "payload":"{\"longitude\":12.5863945757,\"latitude\":55.6622963998,\"altitude\":0}",
+      "payloadType":"json",
+      "repeat":"",
+      "crontab":"",
+      "once":false,
+      "onceDelay":0.1,
+      "x":190,
+      "y":400,
+      "wires":[
+         [
+            "ac7ed2fb.95974"
          ]
       ]
    }
