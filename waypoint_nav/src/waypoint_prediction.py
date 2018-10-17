@@ -43,6 +43,11 @@ class waypoint_prediction(object):
       if not self.pose_received:
         continue
       pose = self.robot_pose
+      pose.position.x, pose.position.y = self.projection(self.robot_pose.position.x, self.robot_pose.position.y)
+      pose.orientation.x = -self.robot_pose.orientation.x
+      pose.orientation.y = -self.robot_pose.orientation.y
+      pose.orientation.z = -self.robot_pose.orientation.z
+      pose.orientation = quat_rot(pose.orientation, 0, 0, 90)
       v = self.vel.linear.x
       w = self.vel.angular.z
       alpha = w * self.dt / 2
@@ -72,11 +77,6 @@ class waypoint_prediction(object):
     
   def poseCB(self, p):
     self.robot_pose = p.pose.pose
-    self.robot_pose.position.x, self.robot_pose.position.y = self.projection(p.pose.pose.position.x, p.pose.pose.position.y)
-    self.robot_pose.orientation.x = -p.pose.pose.orientation.x
-    self.robot_pose.orientation.y = -p.pose.pose.orientation.y
-    self.robot_pose.orientation.z = -p.pose.pose.orientation.z
-    self.robot_pose.orientation = quat_rot(self.robot_pose.orientation, 0, 0, 90)
     self.pose_received = True
 
 if __name__ == '__main__': 
