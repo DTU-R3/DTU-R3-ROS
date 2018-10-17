@@ -39,8 +39,10 @@ class waypoint_prediction(object):
   def Start(self):
     while not rospy.is_shutdown():
       if not self.vel_received:
+        self.rate.sleep()
         continue
       if not self.pose_received:
+        self.rate.sleep()
         continue
       pose = self.robot_pose
       pose.position.x, pose.position.y = self.projection(self.robot_pose.position.x, self.robot_pose.position.y)
