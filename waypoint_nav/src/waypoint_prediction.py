@@ -70,6 +70,7 @@ class waypoint_prediction(object):
       self.robot_prediction.pose.pose = pose
       self.robot_prediction.pose.pose.position.x,self.robot_prediction.pose.pose.position.y = self.projection(pose.position.x,pose.position.y,inverse=True)
       self.pred_pub.publish(self.robot_prediction)
+      self.vel_received = False
       self.rate.sleep()
   
   # Control functions
