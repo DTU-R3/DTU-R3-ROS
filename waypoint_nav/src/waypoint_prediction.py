@@ -39,10 +39,17 @@ class waypoint_prediction(object):
   def Start(self):
     while not rospy.is_shutdown():
       if not self.vel_received:
+        self.rate.sleep()
         continue
       if not self.pose_received:
+        self.rate.sleep()
         continue
       pose = self.robot_pose
+      pose.position.x, pose.position.y = self.projection(self.robot_pose.position.x, self.robot_pose.position.y)
+      pose.orientation.x = -self.robot_pose.orientation.x
+      pose.orientation.y = -self.robot_pose.orientation.y
+      pose.orientation.z = -self.robot_pose.orientation.z
+      pose.orientation = quat_rot(pose.orientation, 0, 0, 90)
       v = self.vel.linear.x
       w = self.vel.angular.z
       alpha = w * self.dt / 2
@@ -63,6 +70,7 @@ class waypoint_prediction(object):
       self.robot_prediction.pose.pose = pose
       self.robot_prediction.pose.pose.position.x,self.robot_prediction.pose.pose.position.y = self.projection(pose.position.x,pose.position.y,inverse=True)
       self.pred_pub.publish(self.robot_prediction)
+      self.vel_received = False
       self.rate.sleep()
   
   # Control functions
@@ -72,11 +80,6 @@ class waypoint_prediction(object):
     
   def poseCB(self, p):
     self.robot_pose = p.pose.pose
-    self.robot_pose.position.x, self.robot_pose.position.y = self.projection(p.pose.pose.position.x, p.pose.pose.position.y)
-    self.robot_pose.orientation.x = -p.pose.pose.orientation.x
-    self.robot_pose.orientation.y = -p.pose.pose.orientation.y
-    self.robot_pose.orientation.z = -p.pose.pose.orientation.z
-    self.robot_pose.orientation = quat_rot(self.robot_pose.orientation, 0, 0, 90)
     self.pose_received = True
 
 if __name__ == '__main__': 
