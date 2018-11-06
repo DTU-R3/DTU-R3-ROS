@@ -42,7 +42,7 @@ catkin_make
 source devel/setup.bash
 ```
 
-# Install dependencies
+## Install dependencies
 ### Arlobot
 ```
 sudo apt update
@@ -77,6 +77,26 @@ sudo apt install ros-kinetic-rosserial*
 roslaunch arlobot_bringup arlobot.launch		# Run arlobot
 roslaunch padbot padbot_u1.launch			# Run padbot
 roslaunch wheelchair-jetson wheelchair_jetson.launch	# Run wheelchair
+```
+
+## Use two serial port device on Raspberry Pi
+The Raspberry Pi has two serial ports on board, however, one is used by bluetooth by default. So in order to use two serial port device at the same time, we need to change the functionality of that port.
+
+
+```
+sudo raspi-config		# Enable serial port
+sudo apt-get update		# Update the system
+sudo apt-get upgrade
+sudo nano /boot/config.txt	# Add device tree
+```
+
+In /boot/config.txt, we can disable the bluetooth by
+```
+dtoverlay=pi3-disable-bt
+```
+Or change the port functionality to miniusart if we want to have two device at the same time
+```
+dtoverlay=pi3-miniuart-bt
 ```
 
 ## License
