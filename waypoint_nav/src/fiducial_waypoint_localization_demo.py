@@ -132,8 +132,8 @@ class fiducial_localization(object):
           tf_fid_utm.transform.translation.x, tf_fid_utm.transform.translation.y = self.projection(fid_gps.x, fid_gps.y)
           tf_fid_utm.transform.translation.z = fid_gps.z
           quat = tf.transformations.quaternion_from_euler(-math.radians(fid_gps.rx), -math.radians(fid_gps.ry), -math.radians(fid_gps.rz))
-          tf_fid_utm.transform.rotation.x = quat[0] 
-          tf_fid_utm.transform.rotation.y = quat[1] 
+          tf_fid_utm.transform.rotation.x = 0 
+          tf_fid_utm.transform.rotation.y = 0
           tf_fid_utm.transform.rotation.z = quat[2] 
           tf_fid_utm.transform.rotation.w = quat[3] 
           tfmsg_fid_utm = tf2_msgs.msg.TFMessage([tf_fid_utm])
@@ -164,8 +164,8 @@ class fiducial_localization(object):
             robot_gps_pose.header.stamp = t.header.stamp # Important to apply offset
             robot_gps_pose.pose.pose.position.z = robot_utm_trans.transform.translation.z
             robot_gps_pose.pose.pose.position.x,robot_gps_pose.pose.pose.position.y = self.projection(robot_utm_trans.transform.translation.x, robot_utm_trans.transform.translation.y, inverse=True)
-            robot_gps_pose.pose.pose.orientation.x = -robot_utm_trans.transform.rotation.x
-            robot_gps_pose.pose.pose.orientation.y = -robot_utm_trans.transform.rotation.y
+            robot_gps_pose.pose.pose.orientation.x = 0
+            robot_gps_pose.pose.pose.orientation.y = 0
             robot_gps_pose.pose.pose.orientation.z = -robot_utm_trans.transform.rotation.z
             robot_gps_pose.pose.pose.orientation.w = robot_utm_trans.transform.rotation.w
             robot_gps_pose.pose.pose.orientation = quat_rot(robot_gps_pose.pose.pose.orientation,0,0,90)
