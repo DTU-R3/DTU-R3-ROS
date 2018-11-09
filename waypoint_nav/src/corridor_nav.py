@@ -74,7 +74,7 @@ class corridor_nav(object):
         debug_info(self.debug_output, "Failed to create circle based sampled points")
         continue
       xc = (c*e-b*f)/flag
-      yc = (c*d-a*f)/flag
+      yc = -(c*d-a*f)/flag
 
       # Check if the circle is qualified
       qualified = True
