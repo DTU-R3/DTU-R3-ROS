@@ -25,8 +25,6 @@
     <param name="robot_rx_config" value="False"/>
     <param name="robot_ry_config" value="False"/>
     <param name="robot_rz_config" value="True"/>
-    <remap from="cmd_vel" to="central_mass/cmd_vel"/>
   </node>
-  <node pkg="waypoint_nav" type="central_mass.py" name="corridor_nav"/>
   <node pkg="waypoint_nav" type="waypoint_prediction.py" name="waypoint_prediction"/>
 </launch>
