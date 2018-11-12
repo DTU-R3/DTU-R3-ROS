@@ -24,7 +24,7 @@ class corridor_nav(object):
     self.y_right = 0
 
     # Control parameters
-    self.K = 0.8
+    self.K = 0.1
     self.VEL_MAX_LIN = 0.5
     self.VEL_MAX_ANG = 1.0
 
