@@ -76,25 +76,29 @@ class corridor_nav(object):
       self.rate.sleep()
   
   def velCB(self, v):
-    if self.corridorMode:
-      # Correct the vel based on central mass
-      if self.y_left == 0 and self.y_right == 0:
-        self.vel_pub.publish(v)
-        return
-      self.vel = v
-      if self.y_left == 0:
-        self.vel.linear.x = 0
-        self.vel.angular.z = -0.2
-      elif self.y_right == 0:
-        self.vel.linear.x = 0
-        self.vel.angular.z = 0.2
-      else:
-        self.vel.angular.z += self.K/(self.y_right**2) - self.K/(self.y_left**2)
+    if v.linear.x == 0 and v.angular.z == 0:
+      self.vel_pub.publish(v)
+      return
+    if not self.corridorMode:
+      self.vel_pub.publish(v)
+      return
+
+    # Correct the vel based on central mass
+    if self.y_left == 0 and self.y_right == 0:
+      self.vel_pub.publish(v)
+      return
+    self.vel = v
+    if self.y_left == 0:
+      self.vel.linear.x = 0
+      self.vel.angular.z = -0.2
+    elif self.y_right == 0:
+      self.vel.linear.x = 0
+      self.vel.angular.z = 0.2
+    else:
+      self.vel.angular.z += self.K/(self.y_right**2) - self.K/(self.y_left**2)
       self.vel.linear.x = self.LimitRange(self.vel.linear.x, self.VEL_MAX_LIN)
       self.vel.angular.z = self.LimitRange(self.vel.angular.z, self.VEL_MAX_ANG)
       self.vel_pub.publish(self.vel)
-    else:
-      self.vel_pub.publish(v)
   
   def scanCB(self, s):
     if self.corridorMode:
