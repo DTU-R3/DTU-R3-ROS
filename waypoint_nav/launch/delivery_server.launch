@@ -1,0 +1,3 @@
+<launch>
+  <node pkg="waypoint_nav" type="delivery_server.py" name="delivery_server"></node>  
+</launch>
