@@ -1,0 +1,8 @@
+#goal definition
+int32 task
+---
+#result definition
+string task_status
+---
+# feedback
+string current_task
