@@ -41,6 +41,7 @@ class delivery_server(object):
     rospy.Subscriber('fiducial_transforms', FiducialTransformArray, self.transCB)
     rospy.Subscriber('robot_gps_pose', Odometry, self.poseCB)
     rospy.Subscriber('waypoint/reached', Int32, self.reachCB)
+    rospy.Subscriber('/delivery/stop', Bool, self.stopCB) 
 
   def Start(self):
     self.server.start()
@@ -181,6 +182,13 @@ class delivery_server(object):
       else:
         self.StopRobot()
       return
+
+  def stopCB(self, s):
+    if s.data:
+      self.current_task = 100
+      self.StopRobot() 
+      self.result.task_status = "Task stopped"
+      self.server.set_succeeded(self.result, "Delivery Completed")
 
   def statePub(self, s):
     stateMsg = String()
