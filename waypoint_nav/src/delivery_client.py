@@ -15,23 +15,16 @@ class delivery_client(object):
     rospy.init_node('delivery_action_client')
     self.client = actionlib.SimpleActionClient('delivery', DeliveryAction)
     self.client.wait_for_server()
-    
-    # Subscribers
-    rospy.Subscriber('/delivery/stop', Bool, self.stopCB)    
 
   def Start(self):
     self.goal.start_task = 0
-    self.goal.task = 1
+    self.goal.task = 2
     self.client.send_goal(self.goal, feedback_cb = self.feedbackCB)
     self.client.wait_for_result()
     print self.client.get_result().task_status
 
   def feedbackCB(self, fb):
     print fb.feedback
-
-  def stopCB(self, s):
-    if s.data:
-      client.cancel_goal() 
 
 if __name__ == '__main__': 
   c = delivery_client() 
