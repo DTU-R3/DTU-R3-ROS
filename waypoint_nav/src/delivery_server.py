@@ -5,6 +5,7 @@ import actionlib
 from waypoint_nav.msg import DeliveryAction, DeliveryGoal, DeliveryResult, DeliveryFeedback
 from std_msgs.msg import String, Bool, Int32
 from sensor_msgs.msg import NavSatFix
+from nav_msgs.msg import Odometry
 from fiducial_msgs.msg import FiducialTransformArray
 
 class delivery_server(object):
@@ -16,9 +17,9 @@ class delivery_server(object):
     self.current_task = 0
     self.robot_pose = [0,0]
     self.office_corridor = [[12.5863292679,55.6617404801],[12.5862673177,55.6617452098],[12.5862676492,55.6617671639]]
-    self.corridor_logistic = []
-    self.logistic_corridor = []
-    self.corridor_office = []
+    self.corridor_logistic = [[12.5863292679,55.6617404801],[12.5862673177,55.6617452098],[12.5862676492,55.6617671639]]
+    self.logistic_corridor = [[12.5863292679,55.6617404801],[12.5862673177,55.6617452098],[12.5862676492,55.6617671639]]
+    self.corridor_office = [[12.5863292679,55.6617404801],[12.5862673177,55.6617452098],[12.5862676492,55.6617671639]]
 
     # Init ROS node
     rospy.init_node('delivery_action_server')
@@ -52,16 +53,16 @@ class delivery_server(object):
       self.server.set_aborted(self.result, "Task undefined")
       return
   
-    self.current_task = self.goal.start_task
+    self.current_task = goal.start_task
     # Set the first waypoint to drive the robot
     if self.current_task == 0:
-      self.waypointPub(self.office_corridor[0])
+      self.pointPub(self.office_corridor[0])
       self.statePub("RUNNING")
       self.feedbackPub("Task 1: Moving out of the office")
 
     # Start the delivery tasks
     while self.current_task < goal.task:
-      self.feedbackPub(self.tasks(self.current_task))
+      self.feedbackPub(self.tasks[self.current_task])
       self.rate.sleep()
       if self.server.is_preempt_requested():
         self.result.task_status = self.tasks[self.current_task]
@@ -86,7 +87,7 @@ class delivery_server(object):
         if self.detected_fid == 209:
           self.current_task = 2
           self.modePub(False)
-          self.waypointPub(self.corridor_logistic[0])
+          self.pointPub(self.corridor_logistic[0])
           self.statePub("RUNNING")
           self.feedbackPub("Task 3: Move to logistic room")
         continue
@@ -94,11 +95,11 @@ class delivery_server(object):
       # Enter logistic room and wait for load
       if self.current_task == 2:
         # If fiducial 210 is seen
-        if self.detected_fid == 210
+        if self.detected_fid == 210:
           self.current_task = 3
           self.modePub(False)
           rospy.sleep(1)
-          self.waypointPub(self.logistic_corridor[0])
+          self.pointPub(self.logistic_corridor[0])
           self.statePub("RUNNING")
           self.feedbackPub("Task 4: Back to corridor")
         continue
@@ -109,21 +110,26 @@ class delivery_server(object):
         if self.detected_fid == 209:
           self.current_task = 4
           self.statePub("STOP")
-          rospy.sleep(1)
           self.modePub(True)
           self.feedbackPub("Task 5: corridor mode to office")
         continue
     
       # Corridor mode, to office    
       if self.current_task == 4:
-        # If fiducial 209 is seen
+        # If fiducial 208 is seen
         if self.detected_fid == 208:
           self.current_task = 5
           self.modePub(False)
-          rospy.sleep(1)
-          self.waypointPub(self.corridor_office[0])
+          self.pointPub(self.corridor_office[0])
           self.statePub("RUNNING")
           self.feedbackPub("Task 6: back to the office")
+        continue
+      
+      if self.current_task == 5:
+        # If fiducial 201 is seen
+        if self.detected_fid == 201:
+          self.current_task = 6
+          self.StopRobot()
         continue
 
     self.result.task_status = "Task Completed"
@@ -133,44 +139,46 @@ class delivery_server(object):
     for fid_trans in t.transforms:
       self.detected_fid = fid_trans.fiducial_id
 
-  def poseCB(self, p)
+  def poseCB(self, p):
     self.robot_pose = [p.pose.pose.position.x, p.pose.pose.position.y]    
 
   def reachCB(self, i):
-    if self.current_task = 0:
+    if self.current_task == 0:
       index = self.GetClosestWaypoint(self.robot_pose, self.office_corridor)
       if index >= (len(self.office_corridor) - 1):
         self.current_task = 1
         self.statePub("STOP")
         self.modePub(True)
       else:       
-        self.waypointPub(self.office_corridor[index+1])
+        self.pointPub(self.office_corridor[index+1])
         self.statePub("RUNNING")
       return
 
-    if self.current_task = 2:
+    if self.current_task == 2:
       index = self.GetClosestWaypoint(self.robot_pose, self.corridor_logistic)
       if index < (len(self.corridor_logistic) - 1):
-        self.waypointPub(self.corridor_logistic[index+1])
+        self.pointPub(self.corridor_logistic[index+1])
         self.statePub("RUNNING")
       return
 
-    if self.current_task = 3:
+    if self.current_task == 3:
       index = self.GetClosestWaypoint(self.robot_pose, self.logistic_corridor)
       if index >= (len(self.logistic_corridor) - 1):
-        self.current_task = 4
+        self.current_task == 4
         self.statePub("STOP")
         self.modePub(True)
       else:       
-        self.waypointPub(self.logistic_corridor[index+1])
+        self.pointPub(self.logistic_corridor[index+1])
         self.statePub("RUNNING")
       return
         
-    if self.current_task = 5:
+    if self.current_task == 5:
       index = self.GetClosestWaypoint(self.robot_pose, self.corridor_office)
       if index < (len(self.corridor_office) - 1):
-        self.waypointPub(self.corridor_office[index+1])
+        self.pointPub(self.corridor_office[index+1])
         self.statePub("RUNNING")
+      else:
+        self.StopRobot()
       return
 
   def statePub(self, s):
@@ -183,21 +191,21 @@ class delivery_server(object):
     modeMsg.data = b
     self.corridorPub.publish(modeMsg)
 
-  def waypointPub(self, p):
+  def pointPub(self, p):
     waypointMsg = NavSatFix()
     waypointMsg.longitude = p[0]
     waypointMsg.latitude = p[1]
     waypointMsg.altitude = 0
-    self.waypointPub.publsih(waypointMsg)
+    self.waypointPub.publish(waypointMsg)
 
   def speakPub(self, s):
     speakMsg = String()
     speakMsg.data = s
     self.speakPub.publish(stateMsg)
 
-  def feedbackPub(self, s)
-    feedback.feedback = s
-    self.server.publish_feedback(feedback)
+  def feedbackPub(self, s):
+    self.feedback.feedback = s
+    self.server.publish_feedback(self.feedback)
 
   def StopRobot(self):
     self.statePub("STOP")

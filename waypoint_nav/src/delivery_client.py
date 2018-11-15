@@ -27,7 +27,7 @@ class delivery_client(object):
     print self.client.get_result().task_status
 
   def feedbackCB(self, fb):
-    print fb.current_task
+    print fb.feedback
 
   def stopCB(self, s):
     if s.data:
