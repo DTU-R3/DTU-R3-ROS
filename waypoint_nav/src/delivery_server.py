@@ -132,6 +132,7 @@ class delivery_server(object):
           self.StopRobot()
         continue
 
+    self.StopRobot()
     self.result.task_status = "Task Completed"
     self.server.set_succeeded(self.result, "Delivery Completed")
  
