@@ -3,13 +3,12 @@ import rospy
 
 import actionlib
 from waypoint_nav.msg import DeliveryAction, DeliveryGoal, DeliveryResult, DeliveryFeedback
-from std_msgs.msg import Bool
+from std_msgs.msg import Bool, Int32
 
 class delivery_client(object):
   def __init__(self):
 
     # Variables
-    self.tasks = ["Go to corridor", "Navigate in corridor", "Enter logistic room", "Wait for load", "Exit logistic room", "Back in corridor", "Back to Office"]
     self.goal = DeliveryGoal()
 
     # Init ROS node
@@ -21,7 +20,8 @@ class delivery_client(object):
     rospy.Subscriber('/delivery/stop', Bool, self.stopCB)    
 
   def Start(self):
-    self.goal.task = len(self.tasks)
+    self.goal.start_task = 0
+    self.goal.task = 6
     self.client.send_goal(self.goal, feedback_cb = self.feedbackCB)
     self.client.wait_for_result()
     print self.client.get_result().task_status
