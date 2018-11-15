@@ -21,7 +21,7 @@ class delivery_client(object):
 
   def Start(self):
     self.goal.start_task = 0
-    self.goal.task = 6
+    self.goal.task = 1
     self.client.send_goal(self.goal, feedback_cb = self.feedbackCB)
     self.client.wait_for_result()
     print self.client.get_result().task_status
