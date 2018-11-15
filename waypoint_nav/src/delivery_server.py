@@ -75,17 +75,17 @@ class delivery_server(object):
       # From office to corridor    
       if self.current_task == 0:
         # If fiducial 208 is seen
-        if self.detected_fid == 208:
-          self.current_task = 1
+        if self.detected_fid == 209:
           self.statePub("STOP")
           self.modePub(True)
+          self.current_task = 1
           self.feedbackPub("Task 2: corridor mode to logistic room")
         continue
 
       # Corridor mode, to logistic room  
       if self.current_task == 1:
         # If fiducial 209 is seen
-        if self.detected_fid == 209:
+        if self.detected_fid == 208:
           self.current_task = 2
           self.modePub(False)
           self.pointPub(self.corridor_logistic[0])
@@ -108,7 +108,7 @@ class delivery_server(object):
       # Exit logistic room   
       if self.current_task == 3:
         # If fiducial 209 is seen
-        if self.detected_fid == 209:
+        if self.detected_fid == 208:
           self.current_task = 4
           self.statePub("STOP")
           self.modePub(True)
@@ -118,7 +118,7 @@ class delivery_server(object):
       # Corridor mode, to office    
       if self.current_task == 4:
         # If fiducial 208 is seen
-        if self.detected_fid == 208:
+        if self.detected_fid == 209:
           self.current_task = 5
           self.modePub(False)
           self.pointPub(self.corridor_office[0])
