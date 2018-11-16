@@ -181,6 +181,32 @@
             "heading":197.0
          },
          "Id":201
+      },
+      {
+         "Position":{
+            "latitude":55.6620066745,
+            "altitude":15.0,
+            "longitude":12.5863652749
+         },
+         "Rotation":{
+            "east":0,
+            "north":180.0,
+            "heading":107.0
+         },
+         "Id":208
+      },
+      {
+         "Position":{
+            "latitude":55.66176227870919,
+            "altitude":15.0,
+            "longitude":12.586266103452332
+         },
+         "Rotation":{
+            "east":0,
+            "north":180.0,
+            "heading":107.0
+         },
+         "Id":209
       }
    ]
 }
