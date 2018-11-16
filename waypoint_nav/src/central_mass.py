@@ -8,7 +8,7 @@ from R3_functions import fit_in_rad, debug_info
 import tf
 
 from geometry_msgs.msg import Twist
-from std_msgs.msg import String, Bool
+from std_msgs.msg import String
 from sensor_msgs.msg import LaserScan
 
 # Control Class
@@ -18,13 +18,14 @@ class corridor_nav(object):
     # Variables
     self.vel = Twist()
     self.scan = LaserScan()
-    self.corridorMode = False
+    self.corridorMode = "STOP"
+    self.thres = 1
     self.scan_received = False
     self.y_left = 0 
     self.y_right = 0
 
     # Control parameters
-    self.K = 0.1
+    self.K = 0.2
     self.VEL_MAX_LIN = 0.5
     self.VEL_MAX_ANG = 1.0
 
@@ -39,13 +40,13 @@ class corridor_nav(object):
 
     # Subscribers
     rospy.Subscriber('/scan', LaserScan, self.scanCB)
-    rospy.Subscriber('/corridor_mode', Bool, self.modeCB)
+    rospy.Subscriber('/corridor_mode', String, self.modeCB)
   
   def Start(self):
     while not rospy.is_shutdown():
       laser_scan = self.scan
       # If corridor mode is not enable, do nothing
-      if not self.corridorMode or not self.scan_received:
+      if self.corridorMode == "STOP" or not self.scan_received:
         self.rate.sleep()
         continue
       
@@ -71,34 +72,52 @@ class corridor_nav(object):
       self.y_right = right / num_right
       
       # Control the robot based on central mass
-      if self.y_left == 0 and self.y_right == 0:
+      if self.corridorMode = "MID":
+        self.vel.linear.x = 0.5
+        if math.fabs(self.y_right - self.y_left) > self.thres:
+          self.vel.angular.z = 0
+        else:
+          self.vel.angular.z = self.K * (self.y_right - self.y_left)
+      elif self.corridorMode = "LEFT":
+        self.vel.linear.x = 0.5
+        self.vel.angular.z = self.K * (self.thres - self.y_left)
+        if self.y_right < 0.3:
+          self.vel.angular.z = 0.1
+      elif self.corridorMode = "RIGHT":
+        self.vel.linear.x = 0.5
+        self.vel.angular.z = self.K * (self.y_right - self.thres)
+        if self.y_left < 0.3:
+          self.vel.angular.z = -0.1
+      else:
         self.vel.linear.x = 0
         self.vel.angular.z = 0
-      elif self.y_left == 0:
-        self.vel.linear.x = 0
-        self.vel.angular.z = -0.2
-      elif self.y_right == 0:
-        self.vel.linear.x = 0
-        self.vel.angular.z = 0.2
-      else:
-        self.vel.linear.x = 0.5
-        self.vel.angular.z = self.K/(self.y_right**2) - self.K/(self.y_left**2)
-        self.vel.linear.x = self.LimitRange(self.vel.linear.x, self.VEL_MAX_LIN)
-        self.vel.angular.z = self.LimitRange(self.vel.angular.z, self.VEL_MAX_ANG)
-        self.vel_pub.publish(self.vel)
-        self.rate.sleep()
+
+      self.vel.linear.x = self.LimitRange(self.vel.linear.x, self.VEL_MAX_LIN)
+      self.vel.angular.z = self.LimitRange(self.vel.angular.z, self.VEL_MAX_ANG)
+      self.vel_pub.publish(self.vel)
+      self.rate.sleep()
   
   def scanCB(self, s):
-    if self.corridorMode:
+    if not self.corridorMode == "STOP":
       self.scan = s 
       self.scan_received = True
 
-  def modeCB(self, b):
-    self.corridorMode = b.data
-    if not b.data:
+  def modeCB(self, s):
+    if s.data == "STOP":
+      self.corridorMode = s.data
       self.vel.linear.x = 0
       self.vel.angular.z = 0
       self.vel_pub.publish(self.vel)
+    else:
+      parts = s.data.split(',')
+      if len(parts) != 2:
+        return
+      try:
+        self.corridorMode = parts[0]
+        self.thres = float(parts[1])
+        self.K_PITCH = float(parts[2])
+      except:
+        return
 
   def LimitRange(self, v, l):
     if v > 0:

@@ -34,7 +34,7 @@ class delivery_server(object):
     # Publishers
     self.waypoint_statePub = rospy.Publisher('waypoint/state', String, queue_size = 10)
     self.waypointPub = rospy.Publisher('waypoint', NavSatFix, queue_size = 10)
-    self.corridorPub = rospy.Publisher('corridor_mode', Bool, queue_size = 10)
+    self.corridorPub = rospy.Publisher('corridor_mode', String, queue_size = 10)
     self.speakPub = rospy.Publisher('espeak', String, queue_size = 10)
 
     # Subscribers
@@ -77,7 +77,7 @@ class delivery_server(object):
         # If fiducial 208 is seen
         if self.detected_fid == 209:
           self.statePub("STOP")
-          self.modePub(True)
+          self.modePub("LEFT,1")
           self.current_task = 1
           self.feedbackPub("Task 2: corridor mode to logistic room")
         continue
@@ -87,7 +87,7 @@ class delivery_server(object):
         # If fiducial 209 is seen
         if self.detected_fid == 208:
           self.current_task = 2
-          self.modePub(False)
+          self.modePub("STOP")
           self.pointPub(self.corridor_logistic[0])
           self.statePub("RUNNING")
           self.feedbackPub("Task 3: Move to logistic room")
@@ -98,7 +98,7 @@ class delivery_server(object):
         # If fiducial 210 is seen
         if self.detected_fid == 210:
           self.current_task = 3
-          self.modePub(False)
+          self.modePub("STOP")
           rospy.sleep(1)
           self.pointPub(self.logistic_corridor[0])
           self.statePub("RUNNING")
@@ -111,7 +111,7 @@ class delivery_server(object):
         if self.detected_fid == 208:
           self.current_task = 4
           self.statePub("STOP")
-          self.modePub(True)
+          self.modePub("RIGHT,1")
           self.feedbackPub("Task 5: corridor mode to office")
         continue
     
@@ -120,7 +120,7 @@ class delivery_server(object):
         # If fiducial 208 is seen
         if self.detected_fid == 209:
           self.current_task = 5
-          self.modePub(False)
+          self.modePub("STOP")
           self.pointPub(self.corridor_office[0])
           self.statePub("RUNNING")
           self.feedbackPub("Task 6: back to the office")
@@ -150,7 +150,7 @@ class delivery_server(object):
       if index >= (len(self.office_corridor) - 1):
         self.current_task = 1
         self.statePub("STOP")
-        self.modePub(True)
+        self.modePub("LEFT,1")
       else:       
         self.pointPub(self.office_corridor[index+1])
         self.statePub("RUNNING")
@@ -168,7 +168,7 @@ class delivery_server(object):
       if index >= (len(self.logistic_corridor) - 1):
         self.current_task == 4
         self.statePub("STOP")
-        self.modePub(True)
+        self.modePub("RIGHT,1")
       else:       
         self.pointPub(self.logistic_corridor[index+1])
         self.statePub("RUNNING")
@@ -218,7 +218,7 @@ class delivery_server(object):
 
   def StopRobot(self):
     self.statePub("STOP")
-    self.modePub(False)
+    self.modePub("STOP")
 
   def GetClosestWaypoint(self, p, p_arr):
     res = 0
