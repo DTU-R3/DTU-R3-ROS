@@ -70,27 +70,36 @@ class corridor_nav(object):
 
       self.y_left = left / num_left
       self.y_right = right / num_right
+      print "---"
+      print self.y_left
+      print self.y_right
       
       # Control the robot based on central mass
-      if self.corridorMode = "MID":
+      if self.corridorMode == "MID":
         self.vel.linear.x = 0.5
-        if math.fabs(self.y_right - self.y_left) > self.thres:
-          self.vel.angular.z = 0
+        if (self.y_right - self.y_left) > self.thres:
+          self.vel.angular.z = self.K * (self.y_left - self.thres*2)
+        elif (self.y_left - self.y_right) > self.thres:
+          self.vel.angular.z = self.K * (self.thres*2 - self.y_right)
         else:
-          self.vel.angular.z = self.K * (self.y_right - self.y_left)
-      elif self.corridorMode = "LEFT":
+          self.vel.angular.z = self.K * (self.y_left - self.y_right)
+      elif self.corridorMode == "LEFT":
         self.vel.linear.x = 0.5
-        self.vel.angular.z = self.K * (self.thres - self.y_left)
-        if self.y_right < 0.3:
-          self.vel.angular.z = 0.1
-      elif self.corridorMode = "RIGHT":
+        self.vel.angular.z = self.K * (self.y_left - self.thres)
+      elif self.corridorMode == "RIGHT":
         self.vel.linear.x = 0.5
-        self.vel.angular.z = self.K * (self.y_right - self.thres)
-        if self.y_left < 0.3:
-          self.vel.angular.z = -0.1
+        self.vel.angular.z = self.K * (self.thres - self.y_right)
       else:
         self.vel.linear.x = 0
         self.vel.angular.z = 0
+
+      # Obstacle avoidance
+      if min(laser_scan.ranges[181:270]) < 0.3:
+        self.vel.linear.x = 0
+        self.vel.angular.z = -0.2
+      elif min(laser_scan.ranges[90:180]) < 0.3:
+        self.vel.linear.x = 0
+        self.vel.angular.z = 0.2
 
       self.vel.linear.x = self.LimitRange(self.vel.linear.x, self.VEL_MAX_LIN)
       self.vel.angular.z = self.LimitRange(self.vel.angular.z, self.VEL_MAX_ANG)
@@ -115,7 +124,6 @@ class corridor_nav(object):
       try:
         self.corridorMode = parts[0]
         self.thres = float(parts[1])
-        self.K_PITCH = float(parts[2])
       except:
         return
 
@@ -128,4 +136,5 @@ class corridor_nav(object):
 if __name__ == '__main__': 
   nav = corridor_nav() 
   nav.Start()  
+
 

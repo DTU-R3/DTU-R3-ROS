@@ -77,7 +77,7 @@ class delivery_server(object):
         # If fiducial 208 is seen
         if self.detected_fid == 209:
           self.statePub("STOP")
-          self.modePub("LEFT,1")
+          self.modePub("MID,0.4")
           self.current_task = 1
           self.feedbackPub("Task 2: corridor mode to logistic room")
         continue
@@ -111,7 +111,7 @@ class delivery_server(object):
         if self.detected_fid == 208:
           self.current_task = 4
           self.statePub("STOP")
-          self.modePub("RIGHT,1")
+          self.modePub("MID,0.4")
           self.feedbackPub("Task 5: corridor mode to office")
         continue
     
@@ -150,7 +150,7 @@ class delivery_server(object):
       if index >= (len(self.office_corridor) - 1):
         self.current_task = 1
         self.statePub("STOP")
-        self.modePub("LEFT,1")
+        self.modePub("MID,0.4")
       else:       
         self.pointPub(self.office_corridor[index+1])
         self.statePub("RUNNING")
@@ -168,7 +168,7 @@ class delivery_server(object):
       if index >= (len(self.logistic_corridor) - 1):
         self.current_task == 4
         self.statePub("STOP")
-        self.modePub("RIGHT,1")
+        self.modePub("MID,0.4")
       else:       
         self.pointPub(self.logistic_corridor[index+1])
         self.statePub("RUNNING")
