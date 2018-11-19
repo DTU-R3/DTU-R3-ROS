@@ -3,7 +3,7 @@ import rospy
 
 import actionlib
 from waypoint_nav.msg import DeliveryAction, DeliveryGoal, DeliveryResult, DeliveryFeedback
-from std_msgs.msg import Bool, Int32
+from std_msgs.msg import Int32, String
 
 class delivery_client(object):
   def __init__(self):

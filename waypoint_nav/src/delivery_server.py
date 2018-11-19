@@ -36,7 +36,7 @@ class delivery_server(object):
     self.waypoint_statePub = rospy.Publisher('waypoint/state', String, queue_size = 10)
     self.waypointPub = rospy.Publisher('waypoint', NavSatFix, queue_size = 10)
     self.corridorPub = rospy.Publisher('corridor_mode', String, queue_size = 10)
-    self.speakPub = rospy.Publisher('espeak', String, queue_size = 10)
+    self.espeakPub = rospy.Publisher('espeak', String, queue_size = 10)
 
     # Subscribers
     rospy.Subscriber('fiducial_transforms', FiducialTransformArray, self.transCB)
@@ -203,9 +203,9 @@ class delivery_server(object):
     stateMsg.data = s
     self.waypoint_statePub.publish(stateMsg)
 
-  def modePub(self, b):
-    modeMsg = Bool()
-    modeMsg.data = b
+  def modePub(self, s):
+    modeMsg = String()
+    modeMsg.data = s
     self.corridorPub.publish(modeMsg)
 
   def pointPub(self, p):
@@ -218,7 +218,7 @@ class delivery_server(object):
   def speakPub(self, s):
     speakMsg = String()
     speakMsg.data = s
-    self.speakPub.publish(stateMsg)
+    self.espeakPub.publish(speakMsg)
 
   def feedbackPub(self, s):
     self.feedback.feedback = s
