@@ -1,6 +1,7 @@
 #goal definition
 int32 task
 int32 start_task
+string target
 ---
 #result definition
 string task_status
