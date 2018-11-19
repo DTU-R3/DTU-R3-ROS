@@ -44,12 +44,12 @@ class corridor_nav(object):
   
   def Start(self):
     while not rospy.is_shutdown():
-      laser_scan = self.scan
       # If corridor mode is not enable, do nothing
       if self.corridorMode == "STOP" or not self.scan_received:
         self.rate.sleep()
         continue
       
+      laser_scan = self.scan
       # Calculate the central mass of left side
       left = 0
       num_left = 0
@@ -70,10 +70,7 @@ class corridor_nav(object):
 
       self.y_left = left / num_left
       self.y_right = right / num_right
-      print "---"
-      print self.y_left
-      print self.y_right
-      
+
       # Control the robot based on central mass
       if self.corridorMode == "MID":
         self.vel.linear.x = 0.5
