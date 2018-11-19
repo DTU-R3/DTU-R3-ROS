@@ -20,6 +20,7 @@ class delivery_server(object):
     self.corridor_logistic = [[12.5863693975,55.6620229956],[12.5863464813,55.6620239392]]
     self.logistic_corridor = [[12.5863693975,55.6620229956],[12.5863652749,55.6620066745]]
     self.corridor_office = [[12.5862597695,55.6617436063],[12.5863317767,55.6617403463],[12.5863346108,55.6617017139]]
+    self.target = ""
 
     # Init ROS node
     rospy.init_node('delivery_action_server')
@@ -53,7 +54,9 @@ class delivery_server(object):
       self.result.task_status = "Task not find"
       self.server.set_aborted(self.result, "Task undefined")
       return
-  
+    
+    self.target = goal.target
+    self.speakPub("Command received " + self.target)
     self.current_task = goal.start_task
     # Set the first waypoint to drive the robot
     if self.current_task == 0:
@@ -97,6 +100,7 @@ class delivery_server(object):
       if self.current_task == 2:
         # If fiducial 210 is seen
         if self.detected_fid == 210:
+          self.speakPub("Thank you")
           self.current_task = 3
           self.modePub("STOP")
           rospy.sleep(1)
@@ -129,6 +133,7 @@ class delivery_server(object):
       if self.current_task == 5:
         # If fiducial 201 is seen
         if self.detected_fid == 201:
+          self.speakPub(self.target + " arrives")
           self.current_task = 6
           self.StopRobot()
         continue
@@ -161,6 +166,8 @@ class delivery_server(object):
       if index < (len(self.corridor_logistic) - 1):
         self.pointPub(self.corridor_logistic[index+1])
         self.statePub("RUNNING")
+      else:
+        self.speakPub(self.target + " please")
       return
 
     if self.current_task == 3:
@@ -180,6 +187,7 @@ class delivery_server(object):
         self.pointPub(self.corridor_office[index+1])
         self.statePub("RUNNING")
       else:
+        self.speakPub(self.target + " arrives")
         self.StopRobot()
       return
 
