@@ -71,11 +71,11 @@ class encoder_localization(object):
     
     # Align odometry with odom_calib and calculate offset
     current_stamp = p.header.stamp
-    i = bisect_left(self.odom_list[0], current_stamp)
-    if i == len(self.odom_list[0]):
-      i -= 1
-    if i >= len(self.odom_list[1]):
+    if len(self.odom_list[1]) <= 0:
       return
+    i = bisect_left(self.odom_list[0], current_stamp)
+    if i >= len(self.odom_list[1]):
+      i = len(self.odom_list[1]) - 1
     current_euler = tf.transformations.euler_from_quaternion((self.robot_odom.pose.pose.orientation.x, self.robot_odom.pose.pose.orientation.y, self.robot_odom.pose.pose.orientation.z, self.robot_odom.pose.pose.orientation.w))
     bench_euler = tf.transformations.euler_from_quaternion((self.odom_list[1][i].orientation.x, self.odom_list[1][i].orientation.y, self.odom_list[1][i].orientation.z, self.odom_list[1][i].orientation.w))
     offset_odom_x = self.robot_odom.pose.pose.position.x - self.odom_list[1][i].position.x
