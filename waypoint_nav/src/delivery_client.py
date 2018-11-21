@@ -16,6 +16,7 @@ class delivery_client(object):
     rospy.init_node('delivery_action_client')
     self.client = actionlib.SimpleActionClient('delivery', DeliveryAction)
     self.client.wait_for_server()
+    print "Action server starts"
     
     # Subscriber
     rospy.Subscriber('mqtt/commands/voice_kit', String, self.mqttCB)
@@ -37,6 +38,7 @@ class delivery_client(object):
   def mqttCB(self, m):
     self.goal.target = m.data
     self.goalset = True
+    print "Command received"
 
 if __name__ == '__main__': 
   c = delivery_client() 
