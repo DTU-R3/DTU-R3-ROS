@@ -20,6 +20,9 @@ from fiducial_msgs.msg import FiducialMapEntryArray, FiducialMapEntry, FiducialT
 # Class
 class fiducial_localization(object):
   def __init__(self):
+    # Init ROS node
+    rospy.init_node('fiducial_waypoint_localization')    
+
     # Variables
     self.projection = Proj(proj="utm", zone="34", ellps='WGS84')
     self.tfBuffer = tf2_ros.Buffer()
@@ -28,9 +31,6 @@ class fiducial_localization(object):
     self.fiducial_gps_map = FiducialMapEntryArray()
     self.pre_odom = Odometry()
     self.pre_odom_get = False
-    
-    # Init ROS node
-    rospy.init_node('fiducial_waypoint_localization')
 
     # rosparams
     self.robot_frame = rospy.get_param("~waypoint_control/base_frame", "base_footprint")

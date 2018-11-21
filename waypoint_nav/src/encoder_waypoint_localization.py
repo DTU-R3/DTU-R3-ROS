@@ -21,6 +21,11 @@ from geometry_msgs.msg import Pose, PoseStamped, TransformStamped
 # Class
 class encoder_localization(object):
   def __init__(self):
+
+    # Init ROS node
+    rospy.init_node('encoder_waypoint_localization')
+    self.verify_stamp = rospy.Time.now()
+
     # Variables
     self.projection = Proj(proj="utm", zone="34", ellps='WGS84')
     self.tfBuffer = tf2_ros.Buffer()
@@ -29,10 +34,6 @@ class encoder_localization(object):
     self.odom_list = [[],[]] # a list contains timestamp list and odom_pose list
     self.odom_calibrating = False
     self.list_cleaning = False
-    
-    # Init ROS node
-    rospy.init_node('encoder_waypoint_localization')
-    self.verify_stamp = rospy.Time.now()
 
     # rosparams
     self.robot_frame = rospy.get_param("~waypoint_control/base_frame", "base_footprint")
@@ -70,9 +71,11 @@ class encoder_localization(object):
     
     # Align odometry with odom_calib and calculate offset
     current_stamp = p.header.stamp
+    if len(self.odom_list[1]) <= 0:
+      return
     i = bisect_left(self.odom_list[0], current_stamp)
-    if i == len(self.odom_list[0]):
-      i -= 1
+    if i >= len(self.odom_list[1]):
+      i = len(self.odom_list[1]) - 1
     current_euler = tf.transformations.euler_from_quaternion((self.robot_odom.pose.pose.orientation.x, self.robot_odom.pose.pose.orientation.y, self.robot_odom.pose.pose.orientation.z, self.robot_odom.pose.pose.orientation.w))
     bench_euler = tf.transformations.euler_from_quaternion((self.odom_list[1][i].orientation.x, self.odom_list[1][i].orientation.y, self.odom_list[1][i].orientation.z, self.odom_list[1][i].orientation.w))
     offset_odom_x = self.robot_odom.pose.pose.position.x - self.odom_list[1][i].position.x
