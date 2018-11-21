@@ -17,8 +17,8 @@ class delivery_server(object):
     self.current_task = 0
     self.robot_pose = [0,0]
     self.office_corridor = [[12.5863292679,55.6617404801],[12.5862673177,55.6617452098],[12.5862676492,55.6617671639]]
-    self.corridor_logistic = [[12.5863693975,55.6620229956],[12.5863464813,55.6620239392]]
-    self.logistic_corridor = [[12.5863693975,55.6620229956],[12.5863652749,55.6620066745]]
+    self.corridor_logistic = [[12.5863684147,55.662021616],[12.5863494406,55.662022251]]
+    self.logistic_corridor = [[12.5863684147,55.662021616],[12.5863652749,55.6620066745]]
     self.corridor_office = [[12.5862597695,55.6617436063],[12.5863317767,55.6617403463],[12.5863346108,55.6617017139]]
     self.target = ""
 
@@ -57,6 +57,7 @@ class delivery_server(object):
     
     self.target = goal.target
     self.speakPub("Command received " + self.target)
+    rospy.sleep(3)
     self.current_task = goal.start_task
     # Set the first waypoint to drive the robot
     if self.current_task == 0:
@@ -66,7 +67,6 @@ class delivery_server(object):
 
     # Start the delivery tasks
     while self.current_task < goal.task:
-      self.feedbackPub(self.tasks[self.current_task])
       self.rate.sleep()
       if self.server.is_preempt_requested():
         self.result.task_status = self.tasks[self.current_task]
@@ -156,9 +156,11 @@ class delivery_server(object):
         self.current_task = 1
         self.statePub("STOP")
         self.modePub("MID,0.4")
+        self.feedbackPub("Task 2: corridor mode to logistic room")
       else:       
         self.pointPub(self.office_corridor[index+1])
         self.statePub("RUNNING")
+        self.feedbackPub("Moving to the waypoint " + str(index))
       return
 
     if self.current_task == 2:
@@ -166,8 +168,10 @@ class delivery_server(object):
       if index < (len(self.corridor_logistic) - 1):
         self.pointPub(self.corridor_logistic[index+1])
         self.statePub("RUNNING")
+        self.feedbackPub("Moving to the waypoint " + str(index))
       else:
         self.speakPub(self.target + " please")
+        self.feedbackPub("Wait for items")
       return
 
     if self.current_task == 3:
@@ -176,9 +180,11 @@ class delivery_server(object):
         self.current_task == 4
         self.statePub("STOP")
         self.modePub("MID,0.4")
+        self.feedbackPub("Task 5: corridor mode to office")
       else:       
         self.pointPub(self.logistic_corridor[index+1])
         self.statePub("RUNNING")
+        self.feedbackPub("Moving to the waypoint " + str(index))
       return
         
     if self.current_task == 5:
@@ -186,6 +192,7 @@ class delivery_server(object):
       if index < (len(self.corridor_office) - 1):
         self.pointPub(self.corridor_office[index+1])
         self.statePub("RUNNING")
+        self.feedbackPub("Moving to the waypoint " + str(index))
       else:
         self.speakPub(self.target + " arrives")
         self.StopRobot()
@@ -196,7 +203,7 @@ class delivery_server(object):
       self.current_task = 100
       self.StopRobot() 
       self.result.task_status = "Task stopped"
-      self.server.set_succeeded(self.result, "Delivery Completed")
+      self.server.set_preempted(self.result, "Task preempted")
 
   def statePub(self, s):
     stateMsg = String()
