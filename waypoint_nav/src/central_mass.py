@@ -91,10 +91,10 @@ class corridor_nav(object):
         self.vel.angular.z = 0
 
       # Obstacle avoidance
-      if min(laser_scan.ranges[181:270]) < 0.3:
+      if min(laser_scan.ranges[181:270]) < 0.4:
         self.vel.linear.x = 0
         self.vel.angular.z = -0.2
-      elif min(laser_scan.ranges[90:180]) < 0.3:
+      elif min(laser_scan.ranges[90:180]) < 0.4:
         self.vel.linear.x = 0
         self.vel.angular.z = 0.2
 
