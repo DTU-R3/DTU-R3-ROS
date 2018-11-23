@@ -160,7 +160,7 @@ class delivery_server(object):
       else:       
         self.pointPub(self.office_corridor[index+1])
         self.statePub("RUNNING")
-        self.feedbackPub("Moving to the waypoint " + str(index))
+        self.feedbackPub("Moving to the waypoint " + str(index+1))
       return
 
     if self.current_task == 2:
@@ -168,7 +168,7 @@ class delivery_server(object):
       if index < (len(self.corridor_logistic) - 1):
         self.pointPub(self.corridor_logistic[index+1])
         self.statePub("RUNNING")
-        self.feedbackPub("Moving to the waypoint " + str(index))
+        self.feedbackPub("Moving to the waypoint " + str(index+1))
       else:
         self.speakPub(self.target + " please")
         self.feedbackPub("Wait for items")
@@ -184,7 +184,7 @@ class delivery_server(object):
       else:       
         self.pointPub(self.logistic_corridor[index+1])
         self.statePub("RUNNING")
-        self.feedbackPub("Moving to the waypoint " + str(index))
+        self.feedbackPub("Moving to the waypoint " + str(index+1))
       return
         
     if self.current_task == 5:
@@ -192,7 +192,7 @@ class delivery_server(object):
       if index < (len(self.corridor_office) - 1):
         self.pointPub(self.corridor_office[index+1])
         self.statePub("RUNNING")
-        self.feedbackPub("Moving to the waypoint " + str(index))
+        self.feedbackPub("Moving to the waypoint " + str(index+1))
       else:
         self.speakPub(self.target + " arrives")
         self.StopRobot()
