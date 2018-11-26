@@ -162,7 +162,7 @@ class waypoint_control(object):
             finished_forwarding = False
           # When reach the waypoint, stop the robot and wait for new command
           if finished_forwarding:
-            self.reached_pub.publish(self.reachedpoint)
+            self.reached_pub.publish(self.waypoint)
             self.goal_set = False 
             self.StopRobot()
           

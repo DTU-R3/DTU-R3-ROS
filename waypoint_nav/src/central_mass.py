@@ -25,7 +25,7 @@ class corridor_nav(object):
     self.y_right = 0
 
     # Control parameters
-    self.K = 0.2
+    self.K = 1.0
     self.VEL_MAX_LIN = 0.5
     self.VEL_MAX_ANG = 1.0
 
@@ -51,25 +51,23 @@ class corridor_nav(object):
       
       laser_scan = self.scan
       # Calculate the central mass of left side
-      left = 0
-      num_left = 0
-      min_left = min(laser_scan.ranges[181:270])
+      left = []
       for i in range(181,270):
-        if not math.isinf(laser_scan.ranges[i]) and laser_scan.ranges[i] < min_left+1:
-          left += laser_scan.ranges[i]*math.sin(math.radians(i-180))
-          num_left += 1
+        if not math.isinf(laser_scan.ranges[i]):
+          left.append(laser_scan.ranges[i]*math.sin(math.radians(i-180)))
 
       # Calculate the central mass of right side
-      right = 0
-      num_right = 0
-      min_right = min(laser_scan.ranges[90:180])
+      right = []
       for i in range(90,180):
-        if not math.isinf(laser_scan.ranges[i]) and laser_scan.ranges[i] < min_right+1:
-          right += laser_scan.ranges[i]*math.sin(math.radians(180-i))
-          num_right += 1
+        if not math.isinf(laser_scan.ranges[i]):
+          right.append(laser_scan.ranges[i]*math.sin(math.radians(180-i)))
 
-      self.y_left = left / num_left
-      self.y_right = right / num_right
+      sorted_left = sorted(left, key=int)
+      left_sample = min(10,len(sorted_left))
+      sorted_right = sorted(right, key=int)
+      right_sample = min(10,len(sorted_right))
+      self.y_left = sorted_left(:left_sample) / left_sample
+      self.y_right = sorted_right(:right_sample) / right_sample
 
       # Control the robot based on central mass
       if self.corridorMode == "MID":
@@ -91,10 +89,13 @@ class corridor_nav(object):
         self.vel.angular.z = 0
 
       # Obstacle avoidance
-      if min(laser_scan.ranges[181:270]) < 0.4:
+      if min(laser_scan.ranges[135:225]) < 0.5:
+        self.vel.linear.x = min(laser_scan.ranges[135:225])
+
+      if min(laser_scan.ranges[181:240]) < 0.5:
         self.vel.linear.x = 0
         self.vel.angular.z = -0.2
-      elif min(laser_scan.ranges[90:180]) < 0.4:
+      elif min(laser_scan.ranges[120:180]) < 0.5:
         self.vel.linear.x = 0
         self.vel.angular.z = 0.2
 
