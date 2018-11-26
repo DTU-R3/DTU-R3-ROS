@@ -170,6 +170,7 @@ class delivery_server(object):
         self.statePub("RUNNING")
         self.feedbackPub("Moving to the waypoint " + str(index+1))
       else:
+        self.statePub("STOP")
         self.speakPub(self.target + " please")
         self.feedbackPub("Wait for items")
       return
