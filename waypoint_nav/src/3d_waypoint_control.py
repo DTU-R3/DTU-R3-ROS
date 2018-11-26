@@ -55,7 +55,7 @@ class waypoint_control(object):
     self.yaw = 0.0
     self.goal = Point()
     self.vel = Twist()
-    self.reachedpoint = NavSatFix()
+    self.waypoint = NavSatFix()
     self.robot_pose = Pose()
     
     # Init ROS node
@@ -95,6 +95,7 @@ class waypoint_control(object):
       if not self.goal_set:
         self.rate.sleep()
         continue
+
       # When the waypoint is activated
       if self.state == self.RUNNING:  
         # When the robot is turning
@@ -116,6 +117,7 @@ class waypoint_control(object):
             self.vel.angular.z = self.Accelerate(self.vel.angular.z, self.K_YAW * self.yaw, self.ACC_R/self.freq)
           else:
             self.vel.angular.z = 0
+          
           # Check whether turning process is finished
           finished_turning = True
           if self.rx_config and math.fabs(self.roll) > self.TURNING_THRES:  
@@ -129,7 +131,8 @@ class waypoint_control(object):
             self.vel.angular.x = 0
             self.vel.angular.y = 0
             self.vel.angular.z = 0
-            self.robot_state = self.FORWARDING     
+            self.robot_state = self.FORWARDING
+    
         # When the robot is moving forwarding    
         elif self.robot_state == self.FORWARDING:
           # TODO: movement in x-y plane should be optimised
@@ -159,8 +162,8 @@ class waypoint_control(object):
             finished_forwarding = False
           # When reach the waypoint, stop the robot and wait for new command
           if finished_forwarding:
-            self.goal_set = False
-            self.reached_pub.publish(self.reachedpoint) 
+            self.reached_pub.publish(self.reachedpoint)
+            self.goal_set = False 
             self.StopRobot()
           
           # If the orientation off too much, enter TURNING mode
@@ -199,7 +202,7 @@ class waypoint_control(object):
           self.StopRobot()
         else:
           self.robot_state = self.IDLE      
-    
+      
       self.prestate = self.state       
       self.rate.sleep()
   
@@ -246,19 +249,22 @@ class waypoint_control(object):
     self.robot_pose.orientation = quat_rot(self.robot_pose.orientation, 0, 0, 90)
     self.pose_get = True
     self.orentation_get = True
-    if not self.goal_set:
+    try: 
+      self.distance = math.sqrt( (self.goal.x-self.robot_pose.position.x)**2 + (self.goal.y-self.robot_pose.position.y)**2 )
+      self.z_dist = self.robot_pose.position.z - self.goal.z
+      robot_euler = tf.transformations.euler_from_quaternion((self.robot_pose.orientation.x, self.robot_pose.orientation.y, self.robot_pose.orientation.z, self.robot_pose.orientation.w))
+      self.roll = 0
+      self.pitch = math.atan2(self.goal.z-self.robot_pose.position.z, math.sqrt((self.goal.x-self.robot_pose.position.x)**2 + (self.goal.y-self.robot_pose.position.y)**2)) - robot_euler[1]
+      self.yaw = math.atan2(self.goal.y-self.robot_pose.position.y, self.goal.x-self.robot_pose.position.x) - robot_euler[2]
+      self.roll = fit_in_rad(self.roll)
+      self.pitch = fit_in_rad(self.pitch)
+      self.yaw = fit_in_rad(self.yaw)
+      self.goal_set = True
+    except:
       return
-    self.distance = math.sqrt( (self.goal.x-self.robot_pose.position.x)**2 + (self.goal.y-self.robot_pose.position.y)**2 )
-    self.z_dist = self.robot_pose.position.z - self.goal.z
-    robot_euler = tf.transformations.euler_from_quaternion((self.robot_pose.orientation.x, self.robot_pose.orientation.y, self.robot_pose.orientation.z, self.robot_pose.orientation.w))
-    self.roll = 0
-    self.pitch = math.atan2(self.goal.z-self.robot_pose.position.z, math.sqrt((self.goal.x-self.robot_pose.position.x)**2 + (self.goal.y-self.robot_pose.position.y)**2)) - robot_euler[1]
-    self.yaw = math.atan2(self.goal.y-self.robot_pose.position.y, self.goal.x-self.robot_pose.position.x) - robot_euler[2]
-    self.roll = fit_in_rad(self.roll)
-    self.pitch = fit_in_rad(self.pitch)
-    self.yaw = fit_in_rad(self.yaw)
   
   def goalCB(self, g):
+    self.goal_set = False
     x,y = self.projection(g.longitude, g.latitude)
     z = g.altitude
     if not self.pose_get:
@@ -270,9 +276,8 @@ class waypoint_control(object):
     self.goal.x = x
     self.goal.y = y
     self.goal.z = z
-    self.goal_set = True 
+    self.waypoint = g
     debug_info(self.debug_output, "Waypoint received")
-    self.reachedpoint = g
     if self.orentation_get:
       return
     dx = x - self.robot_pose.position.x
