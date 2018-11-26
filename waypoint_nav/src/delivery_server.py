@@ -41,8 +41,8 @@ class delivery_server(object):
     # Subscribers
     rospy.Subscriber('fiducial_transforms', FiducialTransformArray, self.transCB)
     rospy.Subscriber('robot_gps_pose', Odometry, self.poseCB)
-    rospy.Subscriber('waypoint/reached', Int32, self.reachCB)
-    rospy.Subscriber('/delivery/stop', Bool, self.stopCB) 
+    rospy.Subscriber('waypoint/reached', NavSatFix, self.reachCB)
+    rospy.Subscriber('delivery/stop', Bool, self.stopCB) 
 
   def Start(self):
     self.server.start()
@@ -149,9 +149,9 @@ class delivery_server(object):
   def poseCB(self, p):
     self.robot_pose = [p.pose.pose.position.x, p.pose.pose.position.y]    
 
-  def reachCB(self, i):
+  def reachCB(self, nat):
     if self.current_task == 0:
-      index = self.GetClosestWaypoint(self.robot_pose, self.office_corridor)
+      index = self.GetClosestWaypoint(nat, self.office_corridor)
       if index >= (len(self.office_corridor) - 1):
         self.current_task = 1
         self.statePub("STOP")
@@ -160,22 +160,22 @@ class delivery_server(object):
       else:       
         self.pointPub(self.office_corridor[index+1])
         self.statePub("RUNNING")
-        self.feedbackPub("Moving to the waypoint " + str(index))
+        self.feedbackPub("Moving to the waypoint " + str(index+1))
       return
 
     if self.current_task == 2:
-      index = self.GetClosestWaypoint(self.robot_pose, self.corridor_logistic)
+      index = self.GetClosestWaypoint(nat, self.corridor_logistic)
       if index < (len(self.corridor_logistic) - 1):
         self.pointPub(self.corridor_logistic[index+1])
         self.statePub("RUNNING")
-        self.feedbackPub("Moving to the waypoint " + str(index))
+        self.feedbackPub("Moving to the waypoint " + str(index+1))
       else:
         self.speakPub(self.target + " please")
         self.feedbackPub("Wait for items")
       return
 
     if self.current_task == 3:
-      index = self.GetClosestWaypoint(self.robot_pose, self.logistic_corridor)
+      index = self.GetClosestWaypoint(nat, self.logistic_corridor)
       if index >= (len(self.logistic_corridor) - 1):
         self.current_task == 4
         self.statePub("STOP")
@@ -184,15 +184,15 @@ class delivery_server(object):
       else:       
         self.pointPub(self.logistic_corridor[index+1])
         self.statePub("RUNNING")
-        self.feedbackPub("Moving to the waypoint " + str(index))
+        self.feedbackPub("Moving to the waypoint " + str(index+1))
       return
         
     if self.current_task == 5:
-      index = self.GetClosestWaypoint(self.robot_pose, self.corridor_office)
+      index = self.GetClosestWaypoint(nat, self.corridor_office)
       if index < (len(self.corridor_office) - 1):
         self.pointPub(self.corridor_office[index+1])
         self.statePub("RUNNING")
-        self.feedbackPub("Moving to the waypoint " + str(index))
+        self.feedbackPub("Moving to the waypoint " + str(index+1))
       else:
         self.speakPub(self.target + " arrives")
         self.StopRobot()
@@ -239,7 +239,7 @@ class delivery_server(object):
     res = 0
     min_dis = 259201.0 # The biggest possible value
     for i in range(0,len(p_arr)-1):
-      dis = (p_arr[i][0] - p[0])**2 + (p_arr[i][1] - p[1])**2
+      dis = (p_arr[i][0] - p.longitude)**2 + (p_arr[i][1] - p.latitude)**2
       if dis < min_dis:
         res = i
         min_dis = dis
