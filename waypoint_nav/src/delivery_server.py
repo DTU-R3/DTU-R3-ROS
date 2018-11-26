@@ -236,14 +236,7 @@ class delivery_server(object):
     self.modePub("STOP")
 
   def GetClosestWaypoint(self, p, p_arr):
-    res = 0
-    min_dis = 259201.0 # The biggest possible value
-    for i in range(0,len(p_arr)-1):
-      dis = (p_arr[i][0] - p.longitude)**2 + (p_arr[i][1] - p.latitude)**2
-      if dis < min_dis:
-        res = i
-        min_dis = dis
-    return res        
+    return p_arr.index([p.longitude,p.latitude])
 
 if __name__ == '__main__': 
   s = delivery_server() 
