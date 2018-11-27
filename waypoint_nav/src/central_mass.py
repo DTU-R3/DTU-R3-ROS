@@ -66,8 +66,8 @@ class corridor_nav(object):
       left_sample = min(10,len(sorted_left))
       sorted_right = sorted(right, key=int)
       right_sample = min(10,len(sorted_right))
-      self.y_left = sorted_left(:left_sample) / left_sample
-      self.y_right = sorted_right(:right_sample) / right_sample
+      self.y_left = sum(sorted_left[:left_sample]) / left_sample
+      self.y_right = sum(sorted_right[:right_sample]) / right_sample
 
       # Control the robot based on central mass
       if self.corridorMode == "MID":
