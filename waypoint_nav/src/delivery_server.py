@@ -21,6 +21,7 @@ class delivery_server(object):
     self.logistic_corridor = [[12.5863684147,55.662021616],[12.5863652749,55.6620066745]]
     self.corridor_office = [[12.5862597695,55.6617436063],[12.5863317767,55.6617403463],[12.5863346108,55.6617017139]]
     self.target = ""
+    self.target_recived = False
 
     # Init ROS node
     rospy.init_node('delivery_action_server')
@@ -44,7 +45,8 @@ class delivery_server(object):
     rospy.Subscriber('fiducial_transforms', FiducialTransformArray, self.transCB)
     rospy.Subscriber('robot_gps_pose', Odometry, self.poseCB)
     rospy.Subscriber('waypoint/reached', NavSatFix, self.reachCB)
-    rospy.Subscriber('delivery/stop', Bool, self.stopCB) 
+    rospy.Subscriber('delivery/stop', Bool, self.stopCB)
+    rospy.Subscriber('mqtt/commands/vision_kit', String, self.mqttCB)
 
   def Start(self):
     self.server.start()
@@ -102,7 +104,7 @@ class delivery_server(object):
       # Enter logistic room and wait for load
       if self.current_task == 2:
         # If fiducial 210 is seen
-        if self.detected_fid == 210:
+        if self.target_recived:
           self.speakPub("Thank you")
           self.current_task = 3
           self.modePub("STOP")
@@ -210,6 +212,12 @@ class delivery_server(object):
       self.StopRobot() 
       self.result.task_status = "Task stopped"
       self.server.set_preempted(self.result, "Task preempted")
+
+  def mqttCB(self, m):
+    if m.date == self.target:
+      self.target_recived = True
+    else:
+      self.target_recived = False
 
   def statePub(self, s):
     stateMsg = String()
