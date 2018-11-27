@@ -106,12 +106,11 @@ class delivery_server(object):
         # If target is seen
         if self.target_recived:
           self.speakPub("Thank you")
-          self.current_task = 3
-          self.modePub("STOP")
-          rospy.sleep(1)
+          rospy.sleep(3)
           self.pointPub(self.logistic_corridor[0])
           self.statePub("RUNNING")
           self.feedbackPub("Task 4: Back to corridor")
+          self.current_task = 3
         continue
 
       # Exit logistic room   
@@ -216,7 +215,7 @@ class delivery_server(object):
   def mqttCB(self, m):
     if not self.current_task == 2:
       return
-    if m.date == self.target:
+    if m.data == self.target:
       self.target_recived = True
     else:
       self.target_recived = False
