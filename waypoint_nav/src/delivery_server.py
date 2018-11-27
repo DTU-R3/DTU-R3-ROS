@@ -37,6 +37,8 @@ class delivery_server(object):
     self.waypointPub = rospy.Publisher('waypoint', NavSatFix, queue_size = 10)
     self.corridorPub = rospy.Publisher('corridor_mode', String, queue_size = 10)
     self.espeakPub = rospy.Publisher('espeak', String, queue_size = 10)
+    self.thresPub = rospy.Publisher('waypoint/forwarding_thres', Float32, queue_size = 10)
+    self.paramPub = rospy.Publisher('waypoint/control_parameters', String, queue_size = 10)
 
     # Subscribers
     rospy.Subscriber('fiducial_transforms', FiducialTransformArray, self.transCB)
@@ -59,6 +61,7 @@ class delivery_server(object):
     self.speakPub("Command received " + self.target)
     rospy.sleep(3)
     self.current_task = goal.start_task
+    self.parameterPub("2.0,1.0,1.0,1.0")
     # Set the first waypoint to drive the robot
     if self.current_task == 0:
       self.pointPub(self.office_corridor[0])
@@ -169,10 +172,12 @@ class delivery_server(object):
         self.pointPub(self.corridor_logistic[index+1])
         self.statePub("RUNNING")
         self.feedbackPub("Moving to the waypoint " + str(index+1))
+        self.thresholdPub(0.2)
       else:
         self.statePub("STOP")
         self.speakPub(self.target + " please")
         self.feedbackPub("Wait for items")
+        self.thresholdPub(0.1)
       return
 
     if self.current_task == 3:
@@ -231,6 +236,16 @@ class delivery_server(object):
   def feedbackPub(self, s):
     self.feedback.feedback = s
     self.server.publish_feedback(self.feedback)
+
+  def thresholdPub(self, f):
+    thresMsg = Float32()
+    thresMsg.data = f
+    self.thresPub.publish(thresMsg)
+
+  def parameterPub(self, s):
+    paramMsg = String()
+    paramMsg.data = s
+    self.paramPub.publish(paramMsg)
 
   def StopRobot(self):
     self.statePub("STOP")
