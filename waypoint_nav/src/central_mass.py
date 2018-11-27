@@ -19,10 +19,8 @@ class corridor_nav(object):
     self.vel = Twist()
     self.scan = LaserScan()
     self.corridorMode = "STOP"
-    self.thres = 1
+    self.thres = 1.0
     self.scan_received = False
-    self.y_left = 0 
-    self.y_right = 0
 
     # Control parameters
     self.K = 1.0
@@ -36,7 +34,6 @@ class corridor_nav(object):
     
     # Publishers
     self.vel_pub = rospy.Publisher('cmd_vel', Twist, queue_size = 10)
-    self.debug_output = rospy.Publisher('debug_output', String, queue_size = 10)
 
     # Subscribers
     rospy.Subscriber('/scan', LaserScan, self.scanCB)
@@ -53,37 +50,37 @@ class corridor_nav(object):
       # Calculate the central mass of left side
       left = []
       for i in range(181,270):
-        if not math.isinf(laser_scan.ranges[i]):
+        if not math.isinf(laser_scan.ranges[i]) and laser_scan.ranges[i] < min(laser_scan.ranges[181:270]) + 0.5:
           left.append(laser_scan.ranges[i]*math.sin(math.radians(i-180)))
 
       # Calculate the central mass of right side
       right = []
       for i in range(90,180):
-        if not math.isinf(laser_scan.ranges[i]):
+        if not math.isinf(laser_scan.ranges[i]) and laser_scan.ranges[i] < min(laser_scan.ranges[90:180]) + 0.5:
           right.append(laser_scan.ranges[i]*math.sin(math.radians(180-i)))
 
       sorted_left = sorted(left, key=int)
       left_sample = min(10,len(sorted_left))
       sorted_right = sorted(right, key=int)
       right_sample = min(10,len(sorted_right))
-      self.y_left = sum(sorted_left[:left_sample]) / left_sample
-      self.y_right = sum(sorted_right[:right_sample]) / right_sample
+      y_left = sum(sorted_left[:left_sample]) / left_sample
+      y_right = sum(sorted_right[:right_sample]) / right_sample
 
       # Control the robot based on central mass
       if self.corridorMode == "MID":
         self.vel.linear.x = 0.5
-        if (self.y_right - self.y_left) > self.thres:
-          self.vel.angular.z = self.K * (self.y_left - self.thres*2)
-        elif (self.y_left - self.y_right) > self.thres:
-          self.vel.angular.z = self.K * (self.thres*2 - self.y_right)
+        if (y_right - y_left) > self.thres:
+          self.vel.angular.z = self.K * (y_left - self.thres*2)
+        elif (y_left - y_right) > self.thres:
+          self.vel.angular.z = self.K * (self.thres*2 - y_right)
         else:
-          self.vel.angular.z = self.K * (self.y_left - self.y_right)
+          self.vel.angular.z = self.K * (y_left - y_right)
       elif self.corridorMode == "LEFT":
         self.vel.linear.x = 0.5
-        self.vel.angular.z = self.K * (self.y_left - self.thres)
+        self.vel.angular.z = self.K * (y_left - self.thres)
       elif self.corridorMode == "RIGHT":
         self.vel.linear.x = 0.5
-        self.vel.angular.z = self.K * (self.thres - self.y_right)
+        self.vel.angular.z = self.K * (self.thres - y_right)
       else:
         self.vel.linear.x = 0
         self.vel.angular.z = 0
