@@ -82,23 +82,23 @@ class delivery_server(object):
       ### Carry out the task ###
       # From office to corridor    
       if self.current_task == 0:
-        # If fiducial 208 is seen
+        # If fiducial 209 is seen
         if self.detected_fid == 209:
           self.statePub("STOP")
           self.modePub("MID,0.4")
-          self.current_task = 1
           self.feedbackPub("Task 2: corridor mode to logistic room")
+          self.current_task = 1
         continue
 
       # Corridor mode, to logistic room  
       if self.current_task == 1:
-        # If fiducial 209 is seen
+        # If fiducial 208 is seen
         if self.detected_fid == 208:
-          self.current_task = 2
           self.modePub("STOP")
           self.pointPub(self.corridor_logistic[0])
           self.statePub("RUNNING")
           self.feedbackPub("Task 3: Move to logistic room")
+          self.current_task = 2
         continue
 
       # Enter logistic room and wait for load
@@ -106,7 +106,6 @@ class delivery_server(object):
         # If target is seen
         if self.target_recived:
           self.speakPub("Thank you")
-          rospy.sleep(3)
           self.pointPub(self.logistic_corridor[0])
           self.statePub("RUNNING")
           self.feedbackPub("Task 4: Back to corridor")
@@ -115,31 +114,31 @@ class delivery_server(object):
 
       # Exit logistic room   
       if self.current_task == 3:
-        # If fiducial 209 is seen
+        # If fiducial 208 is seen
         if self.detected_fid == 208:
-          self.current_task = 4
           self.statePub("STOP")
           self.modePub("MID,0.4")
           self.feedbackPub("Task 5: corridor mode to office")
+          self.current_task = 4
         continue
     
       # Corridor mode, to office    
       if self.current_task == 4:
         # If fiducial 208 is seen
         if self.detected_fid == 209:
-          self.current_task = 5
           self.modePub("STOP")
           self.pointPub(self.corridor_office[0])
           self.statePub("RUNNING")
           self.feedbackPub("Task 6: back to the office")
+          self.current_task = 5
         continue
       
       if self.current_task == 5:
         # If fiducial 201 is seen
         if self.detected_fid == 201:
           self.speakPub(self.target + " arrives")
-          self.current_task = 6
           self.StopRobot()
+          self.current_task = 6
         continue
 
     self.StopRobot()
@@ -147,6 +146,9 @@ class delivery_server(object):
     self.server.set_succeeded(self.result, "Delivery Completed")
  
   def transCB(self, t):
+    if len(t.transforms) < 1:
+      self.detected_fid = 0
+      return
     for fid_trans in t.transforms:
       self.detected_fid = fid_trans.fiducial_id
 
@@ -266,4 +268,5 @@ class delivery_server(object):
 if __name__ == '__main__': 
   s = delivery_server() 
   s.Start()
+
 
