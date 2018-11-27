@@ -3,7 +3,7 @@ import rospy
 
 import actionlib
 from waypoint_nav.msg import DeliveryAction, DeliveryGoal, DeliveryResult, DeliveryFeedback
-from std_msgs.msg import String, Bool, Int32
+from std_msgs.msg import String, Bool, Int32, Float32
 from sensor_msgs.msg import NavSatFix
 from nav_msgs.msg import Odometry
 from fiducial_msgs.msg import FiducialTransformArray
