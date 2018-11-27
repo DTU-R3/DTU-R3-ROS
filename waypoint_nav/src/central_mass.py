@@ -23,7 +23,7 @@ class corridor_nav(object):
     self.scan_received = False
 
     # Control parameters
-    self.K = 1.0
+    self.K = 0.5
     self.VEL_MAX_LIN = 0.5
     self.VEL_MAX_ANG = 1.0
 
