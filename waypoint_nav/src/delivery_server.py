@@ -103,7 +103,7 @@ class delivery_server(object):
 
       # Enter logistic room and wait for load
       if self.current_task == 2:
-        # If fiducial 210 is seen
+        # If target is seen
         if self.target_recived:
           self.speakPub("Thank you")
           self.current_task = 3
@@ -214,6 +214,8 @@ class delivery_server(object):
       self.server.set_preempted(self.result, "Task preempted")
 
   def mqttCB(self, m):
+    if not self.current_task == 2:
+      return
     if m.date == self.target:
       self.target_recived = True
     else:
