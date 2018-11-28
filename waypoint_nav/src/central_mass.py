@@ -21,6 +21,7 @@ class corridor_nav(object):
     self.corridorMode = "STOP"
     self.thres = 1.0
     self.scan_received = False
+    self.robot_stop = True
 
     # Control parameters
     self.K = 0.5
@@ -36,13 +37,26 @@ class corridor_nav(object):
     self.vel_pub = rospy.Publisher('cmd_vel', Twist, queue_size = 10)
 
     # Subscribers
-    rospy.Subscriber('/scan', LaserScan, self.scanCB)
-    rospy.Subscriber('/corridor_mode', String, self.modeCB)
+    rospy.Subscriber('scan', LaserScan, self.scanCB)
+    rospy.Subscriber('corridor_mode', String, self.modeCB)
+    rospy.Subscriber('cmd_vel', Twist, self.velCB)
   
   def Start(self):
     while not rospy.is_shutdown():
       # If corridor mode is not enable, do nothing
-      if self.corridorMode == "STOP" or not self.scan_received:
+      if not self.scan_received:
+        self.rate.sleep()
+        continue
+
+      if self.corridorMode == "STOP":
+        if not self.robot_stop:
+          if min(laser_scan.ranges[195:240]) < 0.5:
+            self.vel.linear.x = 0
+            self.vel.angular.z = -0.2
+          elif min(laser_scan.ranges[120:165]) < 0.5:
+            self.vel.linear.x = 0
+            self.vel.angular.z = 0.2
+          self.vel_pub.publish(self.vel)
         self.rate.sleep()
         continue
       
@@ -121,6 +135,12 @@ class corridor_nav(object):
         self.thres = float(parts[1])
       except:
         return
+
+  def velCB(self, v):
+    if v.linear.x == 0 and v.angular.z == 0:
+      self.robot_stop = True
+    else:
+      self.robot_stop = False
 
   def LimitRange(self, v, l):
     if v > 0:
