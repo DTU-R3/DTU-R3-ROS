@@ -64,6 +64,7 @@ class delivery_server(object):
     rospy.sleep(3)
     self.current_task = goal.start_task
     self.parameterPub("2.0,1.0,1.0,1.0")
+    self.thresholdPub(0.2)
     # Set the first waypoint to drive the robot
     if self.current_task == 0:
       self.pointPub(self.office_corridor[0])
@@ -175,12 +176,10 @@ class delivery_server(object):
         self.pointPub(self.corridor_logistic[index+1])
         self.statePub("RUNNING")
         self.feedbackPub("Moving to the waypoint " + str(index+1))
-        self.thresholdPub(0.2)
       else:
-        self.statePub("STOP")
         self.speakPub(self.target + " please")
         self.feedbackPub("Wait for items")
-        self.thresholdPub(0.1)
+        rospy.sleep(3)
       return
 
     if self.current_task == 3:
@@ -203,7 +202,6 @@ class delivery_server(object):
         self.statePub("RUNNING")
         self.feedbackPub("Moving to the waypoint " + str(index+1))
       else:
-        self.speakPub(self.target + " arrives")
         self.StopRobot()
       return
 
