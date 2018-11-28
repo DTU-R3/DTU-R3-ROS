@@ -15,13 +15,14 @@ class delivery_server(object):
     self.tasks = ["Go to corridor", "Navigate in corridor", "Enter logistic room", "Exit logistic room", "Back in corridor", "Back to Office"]
     self.detected_fid = 0
     self.current_task = 0
-    self.robot_pose = [0,0]
     self.office_corridor = [[12.5863292679,55.6617404801],[12.5862673177,55.6617452098],[12.5862676492,55.6617671639]]
     self.corridor_logistic = [[12.5863684147,55.662021616],[12.5863494406,55.662022251]]
     self.logistic_corridor = [[12.5863684147,55.662021616],[12.5863652749,55.6620066745]]
     self.corridor_office = [[12.5862597695,55.6617436063],[12.5863317767,55.6617403463],[12.5863346108,55.6617017139]]
     self.target = ""
     self.target_recived = False
+    self.stop = False
+    self.pause = False
 
     # Init ROS node
     rospy.init_node('delivery_action_server')
@@ -43,9 +44,9 @@ class delivery_server(object):
 
     # Subscribers
     rospy.Subscriber('fiducial_transforms', FiducialTransformArray, self.transCB)
-    rospy.Subscriber('robot_gps_pose', Odometry, self.poseCB)
     rospy.Subscriber('waypoint/reached', NavSatFix, self.reachCB)
     rospy.Subscriber('delivery/stop', Bool, self.stopCB)
+    rospy.Subscriber('delivery/pause', Bool, self.pauseCB)
     rospy.Subscriber('mqtt/commands/vision_kit', String, self.mqttCB)
 
   def Start(self):
@@ -74,11 +75,14 @@ class delivery_server(object):
     # Start the delivery tasks
     while self.current_task < goal.task:
       self.rate.sleep()
-      if self.server.is_preempt_requested():
-        self.result.task_status = self.tasks[self.current_task]
+      # Stop the action if requested
+      if self.stop:
         self.StopRobot()
-        self.server.set_preempted(self.result, "Task preempted")
         return
+
+      # Pause the action if requested
+      if self.pause:
+        continue
 
       ### Carry out the task ###
       # From office to corridor    
@@ -143,18 +147,13 @@ class delivery_server(object):
         continue
 
     self.StopRobot()
-    self.result.task_status = "Task Completed"
-    self.server.set_succeeded(self.result, "Delivery Completed")
  
   def transCB(self, t):
     if len(t.transforms) < 1:
       self.detected_fid = 0
       return
     for fid_trans in t.transforms:
-      self.detected_fid = fid_trans.fiducial_id
-
-  def poseCB(self, p):
-    self.robot_pose = [p.pose.pose.position.x, p.pose.pose.position.y]    
+      self.detected_fid = fid_trans.fiducial_id  
 
   def reachCB(self, nat):
     if self.current_task == 0:
@@ -166,7 +165,6 @@ class delivery_server(object):
         self.feedbackPub("Task 2: corridor mode to logistic room")
       else:       
         self.pointPub(self.office_corridor[index+1])
-        self.statePub("RUNNING")
         self.feedbackPub("Moving to the waypoint " + str(index+1))
       return
 
@@ -174,7 +172,6 @@ class delivery_server(object):
       index = self.GetClosestWaypoint(nat, self.corridor_logistic)
       if index < (len(self.corridor_logistic) - 1):
         self.pointPub(self.corridor_logistic[index+1])
-        self.statePub("RUNNING")
         self.feedbackPub("Moving to the waypoint " + str(index+1))
       else:
         self.speakPub(self.target + " please")
@@ -191,7 +188,6 @@ class delivery_server(object):
         self.feedbackPub("Task 5: corridor mode to office")
       else:       
         self.pointPub(self.logistic_corridor[index+1])
-        self.statePub("RUNNING")
         self.feedbackPub("Moving to the waypoint " + str(index+1))
       return
         
@@ -199,18 +195,18 @@ class delivery_server(object):
       index = self.GetClosestWaypoint(nat, self.corridor_office)
       if index < (len(self.corridor_office) - 1):
         self.pointPub(self.corridor_office[index+1])
-        self.statePub("RUNNING")
         self.feedbackPub("Moving to the waypoint " + str(index+1))
       else:
         self.StopRobot()
       return
 
   def stopCB(self, s):
-    if s.data:
-      self.current_task = 100
-      self.StopRobot() 
-      self.result.task_status = "Task stopped"
-      self.server.set_preempted(self.result, "Task preempted")
+    self.stop = s.data
+
+  def pauseCB(self, p):
+    self.stop = p.data
+    if p.data:
+      self.StopRobot()
 
   def mqttCB(self, m):
     if not self.current_task == 2:
