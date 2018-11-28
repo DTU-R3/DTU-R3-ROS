@@ -18,7 +18,7 @@ class delivery_client(object):
     rospy.init_node('delivery_action_client')
     
     # Publisher
-    self.fbPub = rospy.Publisher('delivery/feedback', String, queue_size = 10)
+    self.fbPub = rospy.Publisher('delivery/output', String, queue_size = 10)
     self.cmdPub = rospy.Publisher('delivery/command', String, queue_size = 10)
     self.espeakPub = rospy.Publisher('espeak', String, queue_size = 10)
 
