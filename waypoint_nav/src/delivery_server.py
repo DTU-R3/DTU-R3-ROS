@@ -23,6 +23,8 @@ class delivery_server(object):
     self.target_recived = False
     self.stop = False
     self.pause = False
+    self.waypoint_tasks = [0,2,3,5]
+    self.waypoint_tasks = [1,4]
 
     # Init ROS node
     rospy.init_node('delivery_action_server')
@@ -202,6 +204,10 @@ class delivery_server(object):
   def cmdCB(self, s):
     if s.data == "start":
       self.pause = False
+      if self.current_task in self.waypoint_tasks:
+        self.statePub("RUNNING")
+      elif self.current_task in self.corridor_tasks:
+        self.modePub("MID,0.4")
     elif s.data == "pause":
       self.pause = True
       self.StopRobot()
