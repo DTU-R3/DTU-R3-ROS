@@ -24,7 +24,8 @@ class delivery_server(object):
     self.stop = False
     self.pause = False
     self.waypoint_tasks = [0,2,3,5]
-    self.waypoint_tasks = [1,4]
+    self.corridor_tasks = [1,4]
+    self.waiting = False
 
     # Init ROS node
     rospy.init_node('delivery_action_server')
@@ -109,9 +110,14 @@ class delivery_server(object):
 
       # Enter logistic room and wait for load
       if self.current_task == 2:
+        if self.waiting:
+          self.speakPub(self.target + " please")
+          self.feedbackPub("Wait for items")
+          rospy.sleep(3)
         # If target is seen
         if self.target_recived:
           self.speakPub("Thank you")
+          self.waiting = False
           self.pointPub(self.logistic_corridor[0])
           self.statePub("RUNNING")
           self.feedbackPub("Task 4: Back to corridor")
@@ -166,6 +172,7 @@ class delivery_server(object):
         self.feedbackPub("Task 2: corridor mode to logistic room")
       else:       
         self.pointPub(self.office_corridor[index+1])
+        self.statePub("RUNNING")
         self.feedbackPub("Moving to the waypoint " + str(index+1))
       return
 
@@ -173,11 +180,11 @@ class delivery_server(object):
       index = self.GetClosestWaypoint(nat, self.corridor_logistic)
       if index < (len(self.corridor_logistic) - 1):
         self.pointPub(self.corridor_logistic[index+1])
+        self.statePub("RUNNING")
         self.feedbackPub("Moving to the waypoint " + str(index+1))
       else:
-        self.speakPub(self.target + " please")
-        self.feedbackPub("Wait for items")
-        rospy.sleep(3)
+        self.statePub("STOP")
+        self.waiting = True
       return
 
     if self.current_task == 3:
@@ -189,6 +196,7 @@ class delivery_server(object):
         self.feedbackPub("Task 5: corridor mode to office")
       else:       
         self.pointPub(self.logistic_corridor[index+1])
+        self.statePub("RUNNING")
         self.feedbackPub("Moving to the waypoint " + str(index+1))
       return
         
@@ -196,6 +204,7 @@ class delivery_server(object):
       index = self.GetClosestWaypoint(nat, self.corridor_office)
       if index < (len(self.corridor_office) - 1):
         self.pointPub(self.corridor_office[index+1])
+        self.statePub("RUNNING")
         self.feedbackPub("Moving to the waypoint " + str(index+1))
       else:
         self.StopRobot()
