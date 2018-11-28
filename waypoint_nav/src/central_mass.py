@@ -50,13 +50,14 @@ class corridor_nav(object):
 
       if self.corridorMode == "STOP":
         if not self.robot_stop:
-          if min(laser_scan.ranges[195:240]) < 0.5:
+          if min(laser_scan.ranges[185:240]) < 0.6:
             self.vel.linear.x = 0
             self.vel.angular.z = -0.2
-          elif min(laser_scan.ranges[120:165]) < 0.5:
+            self.vel_pub.publish(self.vel)
+          elif min(laser_scan.ranges[120:175]) < 0.6:
             self.vel.linear.x = 0
             self.vel.angular.z = 0.2
-          self.vel_pub.publish(self.vel)
+            self.vel_pub.publish(self.vel)
         self.rate.sleep()
         continue
       

@@ -63,6 +63,7 @@ class delivery_server(object):
       return
     
     self.target = goal.target
+    self.target_recived = False
     self.speakPub("Command received " + self.target)
     rospy.sleep(3)
     self.current_task = goal.start_task
