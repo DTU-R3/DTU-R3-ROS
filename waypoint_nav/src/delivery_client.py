@@ -12,12 +12,14 @@ class delivery_client(object):
     self.goal = DeliveryGoal()
     self.goalset = False
     self.started = False
+    self.command_list = ["start", "stop", "pause"]
 
     # Init ROS node
     rospy.init_node('delivery_action_client')
     
     # Publisher
     self.fbPub = rospy.Publisher('delivery/feedback', String, queue_size = 10)
+    self.cmdPub = rospy.Publisher('delivery/command', String, queue_size = 10)
     self.espeakPub = rospy.Publisher('espeak', String, queue_size = 10)
 
     # Subscriber
@@ -46,6 +48,9 @@ class delivery_client(object):
   def mqttCB(self, m):
     if not self.started:
       self.speakPub("Action server has not started")
+    if m.data in self.command_list:
+      self.commandPub(m.data)
+      return
     self.goal.target = m.data
     self.goalset = True
     self.feedbackPub("Command received")
@@ -54,6 +59,11 @@ class delivery_client(object):
     fbMsg = String()
     fbMsg.data = s
     self.fbPub.publish(fbMsg)
+
+  def commandPub(self, s):
+    cmdMsg = String()
+    cmdMsg.data = s
+    self.cmdPub.publish(cmdMsg)
 
   def speakPub(self, s):
     speakMsg = String()

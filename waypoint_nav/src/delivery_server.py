@@ -45,8 +45,7 @@ class delivery_server(object):
     # Subscribers
     rospy.Subscriber('fiducial_transforms', FiducialTransformArray, self.transCB)
     rospy.Subscriber('waypoint/reached', NavSatFix, self.reachCB)
-    rospy.Subscriber('delivery/stop', Bool, self.stopCB)
-    rospy.Subscriber('delivery/pause', Bool, self.pauseCB)
+    rospy.Subscriber('delivery/command', String, self.cmdCB)
     rospy.Subscriber('mqtt/commands/vision_kit', String, self.mqttCB)
 
   def Start(self):
@@ -200,14 +199,16 @@ class delivery_server(object):
         self.StopRobot()
       return
 
-  def stopCB(self, s):
-    self.stop = s.data
-
-  def pauseCB(self, p):
-    self.stop = p.data
-    if p.data:
+  def cmdCB(self, s):
+    if s.data == "start":
+      self.pause = False
+    elif s.data == "pause":
+      self.pause = True
       self.StopRobot()
-
+    elif s.data == "stop":
+      self.stop = True
+      self.StopRobot()
+    
   def mqttCB(self, m):
     if not self.current_task == 2:
       return
