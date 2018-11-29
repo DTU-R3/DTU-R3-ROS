@@ -75,6 +75,7 @@ sudo apt install ros-kinetic-rosserial*
 ## RUN codes
 ```
 roslaunch arlobot_bringup arlobot.launch		# Run arlobot
+roslaunch arlobot_bringup arlobot_laser.launch		# Run arlobot with RPLidar
 roslaunch padbot padbot_u1.launch			# Run padbot
 roslaunch wheelchair-jetson wheelchair_jetson.launch	# Run wheelchair
 ```
