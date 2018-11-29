@@ -8,7 +8,7 @@ sudo apt-get install python-pip
 sudo pip install pyproj
 ```
 
-## Navigation
+## Waypoint navigation
 When a waypoint is set, the robot movement is devided into two phases: turining to the waypoint and forwarding to the waypoint. For each phases, the robot follows below equations.
 
 **While turning**
@@ -25,6 +25,13 @@ vel.linear.x = K_RHO * distance
 vel.angular.y = K_PITCH * pitch
 vel.angular.z = K_YAW * yaw
 ```
+
+## Corridor mode
+Corridor mode is a specific mode that enables the robot drive in the middle of the corridor based on lidar measurements. It calculates the average of 10 measurements from each side which are closest to the centerline of the robot. And then adjust the robot angular speed based on the difference of both measurements. Commands should be published to "corridor_mode"([std_msgs/String](http://docs.ros.org/api/std_msgs/html/msg/String.html)). The valid commands are:
+* 'STOP': Stop the corridor mode.
+* 'MID,n': Keep the robot stay in the middle of the corridor. The robot will move forward if the difference of both side is bigger than n meters.
+* 'LEFT,n': Let the robot run along the left wall with a distance n meters.
+* 'RIGHT,n': Let the robot run along the right wall with a distance n meters.
 
 ## Delivery scenario
 The demo is designed to ask the robot fetch the object and deliver it back to the user. Several technologies are involved in this demo such as voice/vision recognition, robot control, localisation, navigation and speech synthesis. The vision and voice recognition are done by the Google AIY Vision and Voice, respectively.
