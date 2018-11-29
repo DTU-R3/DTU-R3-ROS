@@ -30,10 +30,10 @@ vel.angular.z = K_YAW * yaw
 The demo is designed to ask the robot fetch the object and deliver it back to the user. Several technologies are involved in this demo such as voice/vision recognition, robot control, localisation, navigation and speech synthesis. The vision and voice recognition are done by the Google AIY Vision and Voice, respectively.
 
 ### [Google AIY Vision Kit](https://aiyprojects.withgoogle.com/vision)
-![Vision Kit](/../docs/vision_kit.png "Vision Kit")
+![Vision Kit](../docs/vision_kit.png "Vision Kit")
 
 ### [Google AIY Voice Kit](https://aiyprojects.withgoogle.com/voice)
-![Voice Kit](/../docs/voice_kit.png "Voice Kit")
+![Voice Kit](../docs/voice_kit.png "Voice Kit")
 
 ### Run the demo
 
