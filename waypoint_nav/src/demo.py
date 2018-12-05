@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 import rospy
-
+import json
 from std_msgs.msg import String
 
 class demo(object):
@@ -26,8 +26,9 @@ class demo(object):
     rospy.Subscriber('demo/tasks', String, self.tasksCB)
 
   def Start(self):
-    json_tasks = json.load(open(task_file))
-    self.task = = json.dumps(json_tasks)
+    json_tasks = json.load(open(self.task_file))
+    self.task = json.dumps(json_tasks)
+    rospy.sleep(3)
     while not rospy.is_shutdown():
       if self.ready:
         self.pubTask(self.task)
@@ -35,11 +36,14 @@ class demo(object):
       rospy.sleep(1)
 
   def ChangeTarget(self):
-    json =json.dumps(self.target)
-    for task in json["Tasks"]:
+    data_json = json.loads(self.task)
+    tasks = []
+    for task in data_json["Tasks"]:
       if task["Name"] == "speak_cmd":
-        task["Command"] = self.target + "please"
+        task["Command"] = self.target + " please"
         task["Target"] = self.target
+      tasks.append(task)
+    self.task = json.dumps({"Tasks": tasks})
 
   def pubTask(self, s):
     taskMsg = String()
