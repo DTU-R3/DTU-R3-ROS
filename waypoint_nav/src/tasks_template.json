@@ -1,0 +1,32 @@
+{
+   "Tasks":[
+      {
+         "Points":[[0,0],[1,1]],
+         "Name": "waypoint",
+         "Id":1
+      },
+      {
+         "Points":[[0,0],[1,1]],
+         "Fid": 201,
+         "Name": "waypoint_fid",
+         "Id":2
+      },
+      {
+         "Command":"test",
+         "Fid": 201,
+         "Name": "corridor_fid",
+         "Id":3
+      },
+      {
+         "Command":"test",
+         "Name": "speak",
+         "Id":4
+      },
+      {
+         "Command":"test",
+       	 "Target":"stop",
+         "Name": "speak_cmd",
+         "Id":5
+      }
+   ]
+}
