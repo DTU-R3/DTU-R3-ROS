@@ -1,0 +1,63 @@
+#!/usr/bin/env python
+import rospy
+
+from std_msgs.msg import String
+
+class demo(object):
+  def __init__(self):
+
+    # Init ROS node
+    rospy.init_node('demo')
+
+    # Variables
+    self.target = "" 
+    self.task = "" 
+    self.ready = False   
+
+    # rosparams
+    self.task_file = rospy.get_param("~demo/task_file", "tasks.json")     
+
+    # Publisher
+    self.taskPub = rospy.Publisher('delivery/scenario', String, queue_size = 10, latch=True)
+
+    # Subscriber
+    rospy.Subscriber('mqtt/commands/voice_kit', String, self.mqttCB)
+    rospy.Subscriber('demo/command', String, self.demoCB)
+    rospy.Subscriber('demo/tasks', String, self.tasksCB)
+
+  def Start(self):
+    json_tasks = json.load(open(task_file))
+    self.task = = json.dumps(json_tasks)
+    while not rospy.is_shutdown():
+      if self.ready:
+        self.pubTask(self.task)
+        self.ready = False
+      rospy.sleep(1)
+
+  def ChangeTarget(self):
+    json =json.dumps(self.target)
+    for task in json["Tasks"]:
+      if task["Name"] == "speak_cmd":
+        task["Command"] = self.target + "please"
+        task["Target"] = self.target
+
+  def pubTask(self, s):
+    taskMsg = String()
+    taskMsg.data = s
+    self.taskPub.publish(taskMsg)
+
+  def mqttCB(self, m):
+    self.target = m.data
+    self.ChangeTarget()
+    self.ready = True
+  
+  def demoCB(self, s):
+    if s.data == "START":
+      self.ready = True
+
+  def tasksCB(self, s):
+    self.task = s.data
+
+if __name__ == '__main__': 
+  c = demo() 
+  c.Start()  

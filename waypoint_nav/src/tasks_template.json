@@ -12,8 +12,8 @@
          "Id":2
       },
       {
-         "Command":"test",
-         "Fid": 201,
+         "Command":"MID,0.4",
+         "Fid": 208,
          "Name": "corridor_fid",
          "Id":3
       },
