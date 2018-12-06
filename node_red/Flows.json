@@ -1,83 +1,90 @@
-[
-   {
+[  
+   {  
+      "id":"409e6b4.8de1b94",
+      "type":"tab",
+      "label":"Banana Demo",
+      "disabled":false,
+      "info":""
+   },
+   {  
       "id":"dd50d548.d4606",
       "type":"tab",
       "label":"route_univate",
       "disabled":false,
       "info":""
    },
-   {
-      "id":"9eb4b930.403ec",
-      "type":"tab",
-      "label":"waypoint_control",
-      "disabled":false,
-      "info":""
-   },
-   {
-      "id":"641844a0.c16274",
-      "type":"tab",
-      "label":"odometry_control",
-      "disabled":false,
-      "info":""
-   },
-   {
-      "id":"fb46d18a.aa74",
-      "type":"tab",
-      "label":"Vel_control",
-      "disabled":false,
-      "info":""
-   },
-   {
-      "id":"84cfe408.5d7b2",
-      "type":"tab",
-      "label":"MQTT",
-      "disabled":false,
-      "info":""
-   },
-   {
+   {  
       "id":"bd3c803a.a5815",
       "type":"tab",
       "label":"Lidar",
       "disabled":false,
       "info":""
    },
-   {
+   {  
+      "id":"9eb4b930.403ec",
+      "type":"tab",
+      "label":"waypoint_control",
+      "disabled":false,
+      "info":""
+   },
+   {  
+      "id":"641844a0.c16274",
+      "type":"tab",
+      "label":"odometry_control",
+      "disabled":false,
+      "info":""
+   },
+   {  
+      "id":"fb46d18a.aa74",
+      "type":"tab",
+      "label":"Vel_control",
+      "disabled":false,
+      "info":""
+   },
+   {  
+      "id":"84cfe408.5d7b2",
+      "type":"tab",
+      "label":"MQTT",
+      "disabled":false,
+      "info":""
+   },
+   {  
       "id":"a5ac4a4d.48e9d",
       "type":"ros-server",
       "z":"",
       "url":"ws://raspi-ros00:9090/"
    },
-   {
+   {  
       "id":"5e6a20f4.3224b8",
       "type":"ros-server",
       "z":"",
       "url":"ws://ROS-desktop:9090/"
    },
-   {
+   {  
       "id":"508a3895.39264",
       "type":"ros-server",
       "z":"",
       "url":"ws://pi-desktop:9090/"
    },
-   {
+   {  
       "id":"74d5e9f2.7376e8",
       "type":"ros-server",
       "z":"",
       "url":"ws://raspi-ros01:9090/"
    },
-   {
+   {  
       "id":"ae7ad7bc.dd90d",
       "type":"ros-server",
       "z":"",
       "url":"ws://ROS-Jetson:9090/"
    },
-   {
+   {  
       "id":"3f0006b2.243452",
       "type":"ros-server",
       "z":"",
       "url":"ws://Raspi-ROS-02:9090/"
    },
-   {
+   {  
       "id":"ae90fe4c.6d6908",
       "type":"mqtt-broker",
       "z":"",
@@ -99,13 +106,13 @@
       "willQos":"0",
       "willPayload":""
    },
-   {
+   {  
       "id":"d3704dfd.2bbe38",
       "type":"ros-server",
       "z":"",
       "url":"ws://alex-raspi-ros:9090/"
    },
-   {
+   {  
       "id":"b8d43442.9d6068",
       "type":"ros-publish",
       "z":"641844a0.c16274",
@@ -114,11 +121,11 @@
       "msgtype":"std_msgs/String",
       "x":610,
       "y":80,
-      "wires":[
+      "wires":[  
 
       ]
    },
-   {
+   {  
       "id":"75da1fe9.353c18",
       "type":"inject",
       "z":"641844a0.c16274",
@@ -132,13 +139,13 @@
       "onceDelay":0.1,
       "x":360,
       "y":40,
-      "wires":[
-         [
+      "wires":[  
+         [  
             "b8d43442.9d6068"
          ]
       ]
    },
-   {
+   {  
       "id":"9a8bd05d.979868",
       "type":"inject",
       "z":"641844a0.c16274",
@@ -152,26 +159,26 @@
       "onceDelay":0.1,
       "x":370,
       "y":340,
-      "wires":[
-         [
+      "wires":[  
+         [  
             "b8d43442.9d6068"
          ]
       ]
    },
-   {
+   {  
       "id":"1a070d2c.7b788b",
       "type":"ros-publish",
       "z":"641844a0.c16274",
       "server":"ae7ad7bc.dd90d",
       "topicname":"/odometry_control/cmd",
       "msgtype":"std_msgs/String",
-      "x":620,
+      "x":610,
       "y":200,
-      "wires":[
+      "wires":[  
 
       ]
    },
-   {
+   {  
       "id":"2e5aadbf.1f839a",
       "type":"inject",
       "z":"641844a0.c16274",
@@ -185,13 +192,13 @@
       "onceDelay":"",
       "x":340,
       "y":100,
-      "wires":[
-         [
+      "wires":[  
+         [  
             "1a070d2c.7b788b"
          ]
       ]
    },
-   {
+   {  
       "id":"fb754e14.2d479",
       "type":"inject",
       "z":"641844a0.c16274",
@@ -205,13 +212,13 @@
       "onceDelay":"",
       "x":330,
       "y":160,
-      "wires":[
-         [
+      "wires":[  
+         [  
             "1a070d2c.7b788b"
          ]
       ]
    },
-   {
+   {  
       "id":"ecddc6e0.dee3d",
       "type":"inject",
       "z":"641844a0.c16274",
@@ -225,13 +232,13 @@
       "onceDelay":"",
       "x":290,
       "y":220,
-      "wires":[
-         [
+      "wires":[  
+         [  
             "1a070d2c.7b788b"
          ]
       ]
    },
-   {
+   {  
       "id":"fdbdcd1d.6620e",
       "type":"inject",
       "z":"641844a0.c16274",
@@ -245,13 +252,13 @@
       "onceDelay":"",
       "x":310,
       "y":280,
-      "wires":[
-         [
+      "wires":[  
+         [  
             "1a070d2c.7b788b"
          ]
       ]
    },
-   {
+   {  
       "id":"a1dde2f3.7bcb6",
       "type":"ros-publish",
       "z":"641844a0.c16274",
@@ -260,11 +267,11 @@
       "msgtype":"std_msgs/String",
       "x":690,
       "y":500,
-      "wires":[
+      "wires":[  
 
       ]
    },
-   {
+   {  
       "id":"19296372.36cead",
       "type":"inject",
       "z":"641844a0.c16274",
@@ -278,13 +285,13 @@
       "onceDelay":0.1,
       "x":370,
       "y":500,
-      "wires":[
-         [
+      "wires":[  
+         [  
             "a1dde2f3.7bcb6"
          ]
       ]
    },
-   {
+   {  
       "id":"cfe87fbe.b15d78",
       "type":"ros-publish",
       "z":"641844a0.c16274",
@@ -293,11 +300,11 @@
       "msgtype":"std_msgs/String",
       "x":670,
       "y":580,
-      "wires":[
+      "wires":[  
 
       ]
    },
-   {
+   {  
       "id":"dfd92801.83a528",
       "type":"inject",
       "z":"641844a0.c16274",
@@ -311,13 +318,13 @@
       "onceDelay":0.1,
       "x":350,
       "y":580,
-      "wires":[
-         [
+      "wires":[  
+         [  
             "cfe87fbe.b15d78"
          ]
       ]
    },
-   {
+   {  
       "id":"f24d761a.fd18",
       "type":"ros-publish",
       "z":"641844a0.c16274",
@@ -326,11 +333,11 @@
       "msgtype":"std_msgs/Float32",
       "x":690,
       "y":660,
-      "wires":[
+      "wires":[  
 
       ]
    },
-   {
+   {  
       "id":"10db234a.3500e5",
       "type":"inject",
       "z":"641844a0.c16274",
@@ -344,13 +351,13 @@
       "onceDelay":0.1,
       "x":340,
       "y":660,
-      "wires":[
-         [
+      "wires":[  
+         [  
             "f24d761a.fd18"
          ]
       ]
    },
-   {
+   {  
       "id":"131ba5be.5ab762",
       "type":"ros-publish",
       "z":"641844a0.c16274",
@@ -359,11 +366,11 @@
       "msgtype":"std_msgs/Float32",
       "x":690,
       "y":740,
-      "wires":[
+      "wires":[  
 
       ]
    },
-   {
+   {  
       "id":"29d2258d.b1ad8a",
       "type":"inject",
       "z":"641844a0.c16274",
@@ -377,13 +384,13 @@
       "onceDelay":0.1,
       "x":330,
       "y":740,
-      "wires":[
-         [
+      "wires":[  
+         [  
             "131ba5be.5ab762"
          ]
       ]
    },
-   {
+   {  
       "id":"3568c2eb.2458e6",
       "type":"ros-publish",
       "z":"641844a0.c16274",
@@ -392,11 +399,11 @@
       "msgtype":"std_msgs/Float32",
       "x":680,
       "y":820,
-      "wires":[
+      "wires":[  
 
       ]
    },
-   {
+   {  
       "id":"c2d166d3.34a71",
       "type":"inject",
       "z":"641844a0.c16274",
@@ -410,13 +417,13 @@
       "onceDelay":0.1,
       "x":330,
       "y":820,
-      "wires":[
-         [
+      "wires":[  
+         [  
             "3568c2eb.2458e6"
          ]
       ]
    },
-   {
+   {  
       "id":"a2956e62.2f4e8",
       "type":"ros-publish",
       "z":"641844a0.c16274",
@@ -425,11 +432,11 @@
       "msgtype":"std_msgs/Float32",
       "x":670,
       "y":900,
-      "wires":[
+      "wires":[  
 
       ]
    },
-   {
+   {  
       "id":"382a74a7.6570e4",
       "type":"inject",
       "z":"641844a0.c16274",
@@ -443,13 +450,13 @@
       "onceDelay":0.1,
       "x":340,
       "y":900,
-      "wires":[
-         [
+      "wires":[  
+         [  
             "a2956e62.2f4e8"
          ]
       ]
    },
-   {
+   {  
       "id":"86a1e1c8.f83ed8",
       "type":"ros-publish",
       "z":"fb46d18a.aa74",
@@ -458,11 +465,11 @@
       "msgtype":"geometry_msgs/Twist",
       "x":680,
       "y":180,
-      "wires":[
+      "wires":[  
 
       ]
    },
-   {
+   {  
       "id":"ffe05c5d.9e6a8",
       "type":"inject",
       "z":"fb46d18a.aa74",
@@ -476,13 +483,13 @@
       "onceDelay":"",
       "x":230,
       "y":100,
-      "wires":[
-         [
+      "wires":[  
+         [  
             "86a1e1c8.f83ed8"
          ]
       ]
    },
-   {
+   {  
       "id":"96fe421d.db60a8",
       "type":"function",
       "z":"fb46d18a.aa74",
@@ -492,13 +499,13 @@
       "noerr":0,
       "x":440,
       "y":260,
-      "wires":[
-         [
+      "wires":[  
+         [  
             "86a1e1c8.f83ed8"
          ]
       ]
    },
-   {
+   {  
       "id":"3b733e31.ed87ba",
       "type":"inject",
       "z":"fb46d18a.aa74",
@@ -509,15 +516,16 @@
       "repeat":"",
       "crontab":"",
       "once":false,
+      "onceDelay":"",
       "x":210,
       "y":260,
-      "wires":[
-         [
+      "wires":[  
+         [  
             "96fe421d.db60a8"
          ]
       ]
    },
-   {
+   {  
       "id":"9f6d1362.70f9",
       "type":"inject",
       "z":"fb46d18a.aa74",
@@ -530,13 +538,13 @@
       "once":false,
       "x":240,
       "y":220,
-      "wires":[
-         [
+      "wires":[  
+         [  
             "86a1e1c8.f83ed8"
          ]
       ]
    },
-   {
+   {  
       "id":"8e162f24.9dd24",
       "type":"inject",
       "z":"fb46d18a.aa74",
@@ -550,14 +558,14 @@
       "onceDelay":"",
       "x":220,
       "y":60,
-      "wires":[
-         [
+      "wires":[  
+         [  
             "86a1e1c8.f83ed8",
             "a33b1977.cf3d98"
          ]
       ]
    },
-   {
+   {  
       "id":"1d4042ac.f9983d",
       "type":"inject",
       "z":"fb46d18a.aa74",
@@ -571,13 +579,13 @@
       "onceDelay":"",
       "x":200,
       "y":140,
-      "wires":[
-         [
+      "wires":[  
+         [  
             "86a1e1c8.f83ed8"
          ]
       ]
    },
-   {
+   {  
       "id":"c0713ef8.541f",
       "type":"inject",
       "z":"fb46d18a.aa74",
@@ -591,13 +599,13 @@
       "onceDelay":"",
       "x":220,
       "y":180,
-      "wires":[
-         [
+      "wires":[  
+         [  
             "86a1e1c8.f83ed8"
          ]
       ]
    },
-   {
+   {  
       "id":"4fa8b2e9.ba6664",
       "type":"ros-publish",
       "z":"9eb4b930.403ec",
@@ -606,11 +614,11 @@
       "msgtype":"std_msgs/String",
       "x":500.00000381469727,
       "y":190.00000190734863,
-      "wires":[
+      "wires":[  
 
       ]
    },
-   {
+   {  
       "id":"146d38b2.b34e37",
       "type":"inject",
       "z":"9eb4b930.403ec",
@@ -624,13 +632,13 @@
       "onceDelay":0.1,
       "x":300.00000381469727,
       "y":170.00000190734863,
-      "wires":[
-         [
+      "wires":[  
+         [  
             "4fa8b2e9.ba6664"
          ]
       ]
    },
-   {
+   {  
       "id":"49a32d60.2ca594",
       "type":"inject",
       "z":"9eb4b930.403ec",
@@ -644,13 +652,13 @@
       "onceDelay":0.1,
       "x":310.00000381469727,
       "y":230.00000190734863,
-      "wires":[
-         [
+      "wires":[  
+         [  
             "4fa8b2e9.ba6664"
          ]
       ]
    },
-   {
+   {  
       "id":"cb0d3f05.b77c6",
       "type":"ros-publish",
       "z":"9eb4b930.403ec",
@@ -659,11 +667,11 @@
       "msgtype":"sensor_msgs/NavSatFix",
       "x":840,
       "y":280,
-      "wires":[
+      "wires":[  
 
       ]
    },
-   {
+   {  
       "id":"325e8b71.5c85a4",
       "type":"ros-publish",
       "z":"9eb4b930.403ec",
@@ -672,11 +680,11 @@
       "msgtype":"std_msgs/String",
       "x":590,
       "y":640,
-      "wires":[
+      "wires":[  
 
       ]
    },
-   {
+   {  
       "id":"e88bfc3e.b8d2e",
       "type":"inject",
       "z":"9eb4b930.403ec",
@@ -690,13 +698,13 @@
       "onceDelay":0.1,
       "x":290,
       "y":640,
-      "wires":[
-         [
+      "wires":[  
+         [  
             "325e8b71.5c85a4"
          ]
       ]
    },
-   {
+   {  
       "id":"ec911271.b6fc08",
       "type":"ros-publish",
       "z":"9eb4b930.403ec",
@@ -705,11 +713,11 @@
       "msgtype":"std_msgs/String",
       "x":560,
       "y":720,
-      "wires":[
+      "wires":[  
 
       ]
    },
-   {
+   {  
       "id":"a1dde409.ca00a",
       "type":"inject",
       "z":"9eb4b930.403ec",
@@ -723,13 +731,13 @@
       "onceDelay":0.1,
       "x":270,
       "y":720,
-      "wires":[
-         [
+      "wires":[  
+         [  
             "ec911271.b6fc08"
          ]
       ]
    },
-   {
+   {  
       "id":"fdc247b0.c67f7",
       "type":"ros-publish",
       "z":"9eb4b930.403ec",
@@ -738,11 +746,11 @@
       "msgtype":"std_msgs/Float32",
       "x":580,
       "y":800,
-      "wires":[
+      "wires":[  
 
       ]
    },
-   {
+   {  
       "id":"5834312e.6e2fe",
       "type":"inject",
       "z":"9eb4b930.403ec",
@@ -756,13 +764,13 @@
       "onceDelay":0.1,
       "x":260,
       "y":800,
-      "wires":[
-         [
+      "wires":[  
+         [  
             "fdc247b0.c67f7"
          ]
       ]
    },
-   {
+   {  
       "id":"fe58b12.0409f5",
       "type":"ros-publish",
       "z":"9eb4b930.403ec",
@@ -771,11 +779,11 @@
       "msgtype":"std_msgs/Float32",
       "x":590,
       "y":880,
-      "wires":[
+      "wires":[  
 
       ]
    },
-   {
+   {  
       "id":"3dfd8273.bc4b2e",
       "type":"inject",
       "z":"9eb4b930.403ec",
@@ -789,13 +797,13 @@
       "onceDelay":0.1,
       "x":250,
       "y":880,
-      "wires":[
-         [
+      "wires":[  
+         [  
             "fe58b12.0409f5"
          ]
       ]
    },
-   {
+   {  
       "id":"a7509f44.d831e",
       "type":"ros-publish",
       "z":"9eb4b930.403ec",
@@ -804,11 +812,11 @@
       "msgtype":"std_msgs/Float32",
       "x":580,
       "y":960,
-      "wires":[
+      "wires":[  
 
       ]
    },
-   {
+   {  
       "id":"a01633d7.42045",
       "type":"inject",
       "z":"9eb4b930.403ec",
@@ -822,13 +830,13 @@
       "onceDelay":0.1,
       "x":250,
       "y":960,
-      "wires":[
-         [
+      "wires":[  
+         [  
             "a7509f44.d831e"
          ]
       ]
    },
-   {
+   {  
       "id":"983ec1b2.f850d8",
       "type":"ros-publish",
       "z":"9eb4b930.403ec",
@@ -837,11 +845,11 @@
       "msgtype":"std_msgs/Float32",
       "x":570,
       "y":1040,
-      "wires":[
+      "wires":[  
 
       ]
    },
-   {
+   {  
       "id":"e0615f48.59e758",
       "type":"inject",
       "z":"9eb4b930.403ec",
@@ -855,13 +863,13 @@
       "onceDelay":0.1,
       "x":260,
       "y":1040,
-      "wires":[
-         [
+      "wires":[  
+         [  
             "983ec1b2.f850d8"
          ]
       ]
    },
-   {
+   {  
       "id":"2f7652e3.ddaac6",
       "type":"inject",
       "z":"9eb4b930.403ec",
@@ -875,13 +883,13 @@
       "onceDelay":"",
       "x":180,
       "y":280,
-      "wires":[
-         [
+      "wires":[  
+         [  
             "ed171e12.31e15"
          ]
       ]
    },
-   {
+   {  
       "id":"ed171e12.31e15",
       "type":"ros-publish",
       "z":"9eb4b930.403ec",
@@ -890,11 +898,11 @@
       "msgtype":"nav_msgs/Odometry",
       "x":380,
       "y":280,
-      "wires":[
+      "wires":[  
 
       ]
    },
-   {
+   {  
       "id":"2dc97fb1.4b2e8",
       "type":"inject",
       "z":"9eb4b930.403ec",
@@ -908,13 +916,13 @@
       "onceDelay":0.1,
       "x":620,
       "y":280,
-      "wires":[
-         [
+      "wires":[  
+         [  
             "cb0d3f05.b77c6"
          ]
       ]
    },
-   {
+   {  
       "id":"5a32a2e4.4f6b74",
       "type":"inject",
       "z":"9eb4b930.403ec",
@@ -928,13 +936,13 @@
       "onceDelay":0.1,
       "x":620,
       "y":340,
-      "wires":[
-         [
+      "wires":[  
+         [  
             "cb0d3f05.b77c6"
          ]
       ]
    },
-   {
+   {  
       "id":"c6245ba1.35309",
       "type":"inject",
       "z":"9eb4b930.403ec",
@@ -948,13 +956,13 @@
       "onceDelay":0.1,
       "x":230,
       "y":440,
-      "wires":[
-         [
+      "wires":[  
+         [  
             "fe56d31c.b681c"
          ]
       ]
    },
-   {
+   {  
       "id":"fe56d31c.b681c",
       "type":"ros-publish",
       "z":"9eb4b930.403ec",
@@ -963,11 +971,11 @@
       "msgtype":"sensor_msgs/NavSatFix",
       "x":500,
       "y":500,
-      "wires":[
+      "wires":[  
 
       ]
    },
-   {
+   {  
       "id":"697f353b.bf46ac",
       "type":"inject",
       "z":"9eb4b930.403ec",
@@ -981,13 +989,13 @@
       "onceDelay":0.1,
       "x":230,
       "y":480,
-      "wires":[
-         [
+      "wires":[  
+         [  
             "fe56d31c.b681c"
          ]
       ]
    },
-   {
+   {  
       "id":"fd20db23.431a6",
       "type":"inject",
       "z":"9eb4b930.403ec",
@@ -1001,13 +1009,13 @@
       "onceDelay":0.1,
       "x":230,
       "y":520,
-      "wires":[
-         [
+      "wires":[  
+         [  
             "fe56d31c.b681c"
          ]
       ]
    },
-   {
+   {  
       "id":"f55eaaea.3996e",
       "type":"inject",
       "z":"9eb4b930.403ec",
@@ -1021,13 +1029,13 @@
       "onceDelay":0.1,
       "x":230,
       "y":560,
-      "wires":[
-         [
+      "wires":[  
+         [  
             "fe56d31c.b681c"
          ]
       ]
    },
-   {
+   {  
       "id":"4d45430c.55ce9c",
       "type":"ros-subscribe",
       "z":"fb46d18a.aa74",
@@ -1035,13 +1043,13 @@
       "topicname":"/cmd_vel",
       "x":160,
       "y":340,
-      "wires":[
-         [
+      "wires":[  
+         [  
             "595bc2b.ac827bc"
          ]
       ]
    },
-   {
+   {  
       "id":"de2b053b.82304",
       "type":"debug",
       "z":"fb46d18a.aa74",
@@ -1053,11 +1061,11 @@
       "complete":"payload",
       "x":450,
       "y":340,
-      "wires":[
+      "wires":[  
 
       ]
    },
-   {
+   {  
       "id":"595bc2b.ac827bc",
       "type":"function",
       "z":"fb46d18a.aa74",
@@ -1067,13 +1075,13 @@
       "noerr":0,
       "x":310,
       "y":340,
-      "wires":[
-         [
+      "wires":[  
+         [  
             "de2b053b.82304"
          ]
       ]
    },
-   {
+   {  
       "id":"8458581f.02076",
       "type":"ros-publish",
       "z":"641844a0.c16274",
@@ -1082,11 +1090,11 @@
       "msgtype":"std_msgs/Bool",
       "x":650,
       "y":420,
-      "wires":[
+      "wires":[  
 
       ]
    },
-   {
+   {  
       "id":"7244caaa.31f554",
       "type":"inject",
       "z":"641844a0.c16274",
@@ -1100,13 +1108,13 @@
       "onceDelay":0.1,
       "x":330,
       "y":420,
-      "wires":[
-         [
+      "wires":[  
+         [  
             "8458581f.02076"
          ]
       ]
    },
-   {
+   {  
       "id":"fe318359.2931",
       "type":"ros-publish",
       "z":"9eb4b930.403ec",
@@ -1115,11 +1123,11 @@
       "msgtype":"std_msgs/Bool",
       "x":530,
       "y":400,
-      "wires":[
+      "wires":[  
 
       ]
    },
-   {
+   {  
       "id":"38ddd419.79b74c",
       "type":"inject",
       "z":"9eb4b930.403ec",
@@ -1133,13 +1141,13 @@
       "onceDelay":0.1,
       "x":210,
       "y":400,
-      "wires":[
-         [
+      "wires":[  
+         [  
             "fe318359.2931"
          ]
       ]
    },
-   {
+   {  
       "id":"1cc06935.99618f",
       "type":"ros-subscribe",
       "z":"fb46d18a.aa74",
@@ -1147,13 +1155,13 @@
       "topicname":"/odom",
       "x":170,
       "y":400,
-      "wires":[
-         [
+      "wires":[  
+         [  
             "6bf4dca6.d038cc"
          ]
       ]
    },
-   {
+   {  
       "id":"df69f7c5.279e98",
       "type":"debug",
       "z":"fb46d18a.aa74",
@@ -1165,11 +1173,11 @@
       "complete":"payload",
       "x":460,
       "y":400,
-      "wires":[
+      "wires":[  
 
       ]
    },
-   {
+   {  
       "id":"6bf4dca6.d038cc",
       "type":"function",
       "z":"fb46d18a.aa74",
@@ -1179,13 +1187,13 @@
       "noerr":0,
       "x":320,
       "y":400,
-      "wires":[
-         [
+      "wires":[  
+         [  
             "df69f7c5.279e98"
          ]
       ]
    },
-   {
+   {  
       "id":"6a96a425.8309a4",
       "type":"ros-subscribe",
       "z":"fb46d18a.aa74",
@@ -1193,13 +1201,13 @@
       "topicname":"/robot_gps_pose",
       "x":140,
       "y":460,
-      "wires":[
-         [
+      "wires":[  
+         [  
             "f2e4c1f6.97807"
          ]
       ]
    },
-   {
+   {  
       "id":"4cfb9adb.a7646c",
       "type":"debug",
       "z":"fb46d18a.aa74",
@@ -1211,11 +1219,11 @@
       "complete":"payload",
       "x":460,
       "y":460,
-      "wires":[
+      "wires":[  
 
       ]
    },
-   {
+   {  
       "id":"f2e4c1f6.97807",
       "type":"function",
       "z":"fb46d18a.aa74",
@@ -1225,13 +1233,13 @@
       "noerr":0,
       "x":320,
       "y":460,
-      "wires":[
-         [
+      "wires":[  
+         [  
             "4cfb9adb.a7646c"
          ]
       ]
    },
-   {
+   {  
       "id":"8fab9726.28442",
       "type":"inject",
       "z":"9eb4b930.403ec",
@@ -1245,13 +1253,13 @@
       "onceDelay":"",
       "x":240,
       "y":40,
-      "wires":[
-         [
+      "wires":[  
+         [  
             "9e03b995.a41b8"
          ]
       ]
    },
-   {
+   {  
       "id":"9e03b995.a41b8",
       "type":"ros-publish",
       "z":"9eb4b930.403ec",
@@ -1260,11 +1268,11 @@
       "msgtype":"fiducial_msgs/FiducialMapEntryArray",
       "x":490,
       "y":40,
-      "wires":[
+      "wires":[  
 
       ]
    },
-   {
+   {  
       "id":"3a1ae465.27ca74",
       "type":"ros-subscribe",
       "z":"9eb4b930.403ec",
@@ -1272,13 +1280,13 @@
       "topicname":"/robot_gps_pose",
       "x":140,
       "y":1120,
-      "wires":[
-         [
+      "wires":[  
+         [  
             "29cf72ec.acd63e"
          ]
       ]
    },
-   {
+   {  
       "id":"579b4808.cd781",
       "type":"debug",
       "z":"9eb4b930.403ec",
@@ -1290,11 +1298,11 @@
       "complete":"payload",
       "x":430,
       "y":1120,
-      "wires":[
+      "wires":[  
 
       ]
    },
-   {
+   {  
       "id":"29cf72ec.acd63e",
       "type":"function",
       "z":"9eb4b930.403ec",
@@ -1304,13 +1312,13 @@
       "noerr":0,
       "x":290,
       "y":1120,
-      "wires":[
-         [
+      "wires":[  
+         [  
             "579b4808.cd781"
          ]
       ]
    },
-   {
+   {  
       "id":"cd4d34c1.7f24b8",
       "type":"ros-subscribe",
       "z":"9eb4b930.403ec",
@@ -1318,13 +1326,13 @@
       "topicname":"/debug_output",
       "x":140,
       "y":1180,
-      "wires":[
-         [
+      "wires":[  
+         [  
             "2b420810.cfbc98"
          ]
       ]
    },
-   {
+   {  
       "id":"175e8766.a212d9",
       "type":"debug",
       "z":"9eb4b930.403ec",
@@ -1336,11 +1344,11 @@
       "complete":"payload",
       "x":460,
       "y":1180,
-      "wires":[
+      "wires":[  
 
       ]
    },
-   {
+   {  
       "id":"2b420810.cfbc98",
       "type":"function",
       "z":"9eb4b930.403ec",
@@ -1350,13 +1358,13 @@
       "noerr":0,
       "x":320,
       "y":1180,
-      "wires":[
-         [
+      "wires":[  
+         [  
             "175e8766.a212d9"
          ]
       ]
    },
-   {
+   {  
       "id":"a62f1167.27dd68",
       "type":"inject",
       "z":"9eb4b930.403ec",
@@ -1370,13 +1378,13 @@
       "onceDelay":"",
       "x":230,
       "y":80,
-      "wires":[
-         [
+      "wires":[  
+         [  
             "80a858bb.19053"
          ]
       ]
    },
-   {
+   {  
       "id":"80a858bb.19053",
       "type":"ros-publish",
       "z":"9eb4b930.403ec",
@@ -1385,11 +1393,11 @@
       "msgtype":"std_msgs/Int32",
       "x":560,
       "y":100,
-      "wires":[
+      "wires":[  
 
       ]
    },
-   {
+   {  
       "id":"2f8f3941.3e5f2e",
       "type":"inject",
       "z":"9eb4b930.403ec",
@@ -1403,13 +1411,13 @@
       "onceDelay":"",
       "x":230,
       "y":120,
-      "wires":[
-         [
+      "wires":[  
+         [  
             "80a858bb.19053"
          ]
       ]
    },
-   {
+   {  
       "id":"12b031aa.092f3e",
       "type":"mqtt in",
       "z":"84cfe408.5d7b2",
@@ -1419,61 +1427,61 @@
       "broker":"ae90fe4c.6d6908",
       "x":70,
       "y":280,
-      "wires":[
-         [
+      "wires":[  
+         [  
             "421c56a6.abce6"
          ]
       ]
    },
-   {
+   {  
       "id":"421c56a6.abce6",
       "type":"switch",
       "z":"84cfe408.5d7b2",
       "name":"MQTT_hdl",
       "property":"payload",
       "propertyType":"msg",
-      "rules":[
-         {
+      "rules":[  
+         {  
             "t":"eq",
             "v":"STOP",
             "vt":"str"
          },
-         {
+         {  
             "t":"eq",
             "v":"FWD",
             "vt":"str"
          },
-         {
+         {  
             "t":"eq",
             "v":"BACK",
             "vt":"str"
          },
-         {
+         {  
             "t":"eq",
             "v":"LEFT",
             "vt":"str"
          },
-         {
+         {  
             "t":"eq",
             "v":"RIGHT",
             "vt":"str"
          },
-         {
+         {  
             "t":"eq",
             "v":"START",
             "vt":"str"
          },
-         {
+         {  
             "t":"eq",
             "v":"CHANGE",
             "vt":"str"
          },
-         {
+         {  
             "t":"eq",
             "v":"FASTER",
             "vt":"str"
          },
-         {
+         {  
             "t":"eq",
             "v":"SLOWER",
             "vt":"str"
@@ -1484,37 +1492,37 @@
       "outputs":9,
       "x":270,
       "y":280,
-      "wires":[
-         [
+      "wires":[  
+         [  
             "8a1dc90f.dcd8c8"
          ],
-         [
+         [  
             "52e0302c.fe7288"
          ],
-         [
+         [  
             "3fac95a2.4cd92a"
          ],
-         [
+         [  
             "d6ba490c.dde1c"
          ],
-         [
+         [  
             "c8b43629.348b4"
          ],
-         [
+         [  
             "7a5125d7.32d58c"
          ],
-         [
+         [  
             "8b50aa77.237158"
          ],
-         [
+         [  
             "ce2d83e.89cce8"
          ],
-         [
+         [  
             "e879b311.c655f8"
          ]
       ]
    },
-   {
+   {  
       "id":"d9d9ae5a.620c6",
       "type":"ros-publish",
       "z":"84cfe408.5d7b2",
@@ -1523,11 +1531,11 @@
       "msgtype":"geometry_msgs/Twist",
       "x":1240,
       "y":320,
-      "wires":[
+      "wires":[  
 
       ]
    },
-   {
+   {  
       "id":"842bd89a.6f674",
       "type":"function",
       "z":"84cfe408.5d7b2",
@@ -1537,13 +1545,13 @@
       "noerr":0,
       "x":1040,
       "y":220,
-      "wires":[
-         [
+      "wires":[  
+         [  
             "d9d9ae5a.620c6"
          ]
       ]
    },
-   {
+   {  
       "id":"56aa2661.24a598",
       "type":"function",
       "z":"84cfe408.5d7b2",
@@ -1553,13 +1561,13 @@
       "noerr":0,
       "x":1030,
       "y":160,
-      "wires":[
-         [
+      "wires":[  
+         [  
             "d9d9ae5a.620c6"
          ]
       ]
    },
-   {
+   {  
       "id":"36ad202a.b463e8",
       "type":"function",
       "z":"84cfe408.5d7b2",
@@ -1569,13 +1577,13 @@
       "noerr":0,
       "x":1040,
       "y":280,
-      "wires":[
-         [
+      "wires":[  
+         [  
             "d9d9ae5a.620c6"
          ]
       ]
    },
-   {
+   {  
       "id":"30a4c85f.8f97a",
       "type":"function",
       "z":"84cfe408.5d7b2",
@@ -1585,13 +1593,13 @@
       "noerr":0,
       "x":1030,
       "y":340,
-      "wires":[
-         [
+      "wires":[  
+         [  
             "d9d9ae5a.620c6"
          ]
       ]
    },
-   {
+   {  
       "id":"4509402.6f4ce4",
       "type":"function",
       "z":"84cfe408.5d7b2",
@@ -1601,13 +1609,13 @@
       "noerr":0,
       "x":1030,
       "y":400,
-      "wires":[
-         [
+      "wires":[  
+         [  
             "d9d9ae5a.620c6"
          ]
       ]
    },
-   {
+   {  
       "id":"a33b1977.cf3d98",
       "type":"debug",
       "z":"fb46d18a.aa74",
@@ -1619,11 +1627,11 @@
       "complete":"false",
       "x":530,
       "y":60,
-      "wires":[
+      "wires":[  
 
       ]
    },
-   {
+   {  
       "id":"a400e1d7.6c933",
       "type":"function",
       "z":"84cfe408.5d7b2",
@@ -1633,19 +1641,19 @@
       "noerr":0,
       "x":1040,
       "y":460,
-      "wires":[
-         [
+      "wires":[  
+         [  
             "d9d9ae5a.620c6"
          ]
       ]
    },
-   {
+   {  
       "id":"8a1dc90f.dcd8c8",
       "type":"change",
       "z":"84cfe408.5d7b2",
       "name":"Set direction",
-      "rules":[
-         {
+      "rules":[  
+         {  
             "t":"set",
             "p":"dir",
             "pt":"global",
@@ -1660,19 +1668,19 @@
       "reg":false,
       "x":870,
       "y":160,
-      "wires":[
-         [
+      "wires":[  
+         [  
             "56aa2661.24a598"
          ]
       ]
    },
-   {
+   {  
       "id":"52e0302c.fe7288",
       "type":"change",
       "z":"84cfe408.5d7b2",
       "name":"Set direction",
-      "rules":[
-         {
+      "rules":[  
+         {  
             "t":"set",
             "p":"dir",
             "pt":"global",
@@ -1687,19 +1695,19 @@
       "reg":false,
       "x":870,
       "y":220,
-      "wires":[
-         [
+      "wires":[  
+         [  
             "842bd89a.6f674"
          ]
       ]
    },
-   {
+   {  
       "id":"3fac95a2.4cd92a",
       "type":"change",
       "z":"84cfe408.5d7b2",
       "name":"Set direction",
-      "rules":[
-         {
+      "rules":[  
+         {  
             "t":"set",
             "p":"dir",
             "pt":"global",
@@ -1714,19 +1722,19 @@
       "reg":false,
       "x":870,
       "y":280,
-      "wires":[
-         [
+      "wires":[  
+         [  
             "36ad202a.b463e8"
          ]
       ]
    },
-   {
+   {  
       "id":"d6ba490c.dde1c",
       "type":"change",
       "z":"84cfe408.5d7b2",
       "name":"Set direction",
-      "rules":[
-         {
+      "rules":[  
+         {  
             "t":"set",
             "p":"dir",
             "pt":"global",
@@ -1741,19 +1749,19 @@
       "reg":false,
       "x":870,
       "y":340,
-      "wires":[
-         [
+      "wires":[  
+         [  
             "30a4c85f.8f97a"
          ]
       ]
    },
-   {
+   {  
       "id":"c8b43629.348b4",
       "type":"change",
       "z":"84cfe408.5d7b2",
       "name":"Set direction",
-      "rules":[
-         {
+      "rules":[  
+         {  
             "t":"set",
             "p":"dir",
             "pt":"global",
@@ -1768,19 +1776,19 @@
       "reg":false,
       "x":870,
       "y":400,
-      "wires":[
-         [
+      "wires":[  
+         [  
             "4509402.6f4ce4"
          ]
       ]
    },
-   {
+   {  
       "id":"7a5125d7.32d58c",
       "type":"change",
       "z":"84cfe408.5d7b2",
       "name":"Set direction",
-      "rules":[
-         {
+      "rules":[  
+         {  
             "t":"set",
             "p":"dir",
             "pt":"global",
@@ -1795,41 +1803,41 @@
       "reg":false,
       "x":870,
       "y":460,
-      "wires":[
-         [
+      "wires":[  
+         [  
             "a400e1d7.6c933"
          ]
       ]
    },
-   {
+   {  
       "id":"8b50aa77.237158",
       "type":"switch",
       "z":"84cfe408.5d7b2",
       "name":"Change",
       "property":"dir",
       "propertyType":"global",
-      "rules":[
-         {
+      "rules":[  
+         {  
             "t":"eq",
             "v":"STOP",
             "vt":"str"
          },
-         {
+         {  
             "t":"eq",
             "v":"BACK",
             "vt":"str"
          },
-         {
+         {  
             "t":"eq",
             "v":"FWD",
             "vt":"str"
          },
-         {
+         {  
             "t":"eq",
             "v":"RIGHT",
             "vt":"str"
          },
-         {
+         {  
             "t":"eq",
             "v":"LEFT",
             "vt":"str"
@@ -1840,25 +1848,25 @@
       "outputs":5,
       "x":480,
       "y":400,
-      "wires":[
-         [
+      "wires":[  
+         [  
             "8a1dc90f.dcd8c8"
          ],
-         [
+         [  
             "52e0302c.fe7288"
          ],
-         [
+         [  
             "3fac95a2.4cd92a"
          ],
-         [
+         [  
             "d6ba490c.dde1c"
          ],
-         [
+         [  
             "c8b43629.348b4"
          ]
       ]
    },
-   {
+   {  
       "id":"f87460b2.4ff508",
       "type":"inject",
       "z":"84cfe408.5d7b2",
@@ -1872,13 +1880,13 @@
       "onceDelay":0.1,
       "x":120,
       "y":100,
-      "wires":[
-         [
+      "wires":[  
+         [  
             "475a138e.04ca9c"
          ]
       ]
    },
-   {
+   {  
       "id":"27c1fc6a.388514",
       "type":"debug",
       "z":"84cfe408.5d7b2",
@@ -1890,17 +1898,17 @@
       "complete":"payload",
       "x":480,
       "y":100,
-      "wires":[
+      "wires":[  
 
       ]
    },
-   {
+   {  
       "id":"475a138e.04ca9c",
       "type":"change",
       "z":"84cfe408.5d7b2",
       "name":"Set speed",
-      "rules":[
-         {
+      "rules":[  
+         {  
             "t":"set",
             "p":"speed",
             "pt":"global",
@@ -1915,13 +1923,13 @@
       "reg":false,
       "x":310,
       "y":100,
-      "wires":[
-         [
+      "wires":[  
+         [  
             "27c1fc6a.388514"
          ]
       ]
    },
-   {
+   {  
       "id":"d1e8fb23.ddd538",
       "type":"inject",
       "z":"84cfe408.5d7b2",
@@ -1935,13 +1943,13 @@
       "onceDelay":0.1,
       "x":120,
       "y":40,
-      "wires":[
-         [
+      "wires":[  
+         [  
             "675a6d85.aaaf0c"
          ]
       ]
    },
-   {
+   {  
       "id":"c6be02c7.41aa",
       "type":"debug",
       "z":"84cfe408.5d7b2",
@@ -1953,17 +1961,17 @@
       "complete":"payload",
       "x":510,
       "y":40,
-      "wires":[
+      "wires":[  
 
       ]
    },
-   {
+   {  
       "id":"675a6d85.aaaf0c",
       "type":"change",
       "z":"84cfe408.5d7b2",
       "name":"Set speed",
-      "rules":[
-         {
+      "rules":[  
+         {  
             "t":"set",
             "p":"speed",
             "pt":"global",
@@ -1978,13 +1986,13 @@
       "reg":false,
       "x":310,
       "y":40,
-      "wires":[
-         [
+      "wires":[  
+         [  
             "c6be02c7.41aa"
          ]
       ]
    },
-   {
+   {  
       "id":"ce2d83e.89cce8",
       "type":"function",
       "z":"84cfe408.5d7b2",
@@ -1994,13 +2002,13 @@
       "noerr":0,
       "x":470,
       "y":480,
-      "wires":[
-         [
+      "wires":[  
+         [  
             "fc2641ec.ea553"
          ]
       ]
    },
-   {
+   {  
       "id":"e879b311.c655f8",
       "type":"function",
       "z":"84cfe408.5d7b2",
@@ -2010,41 +2018,41 @@
       "noerr":0,
       "x":470,
       "y":540,
-      "wires":[
-         [
+      "wires":[  
+         [  
             "fc2641ec.ea553"
          ]
       ]
    },
-   {
+   {  
       "id":"fc2641ec.ea553",
       "type":"switch",
       "z":"84cfe408.5d7b2",
       "name":"Keep Moving",
       "property":"dir",
       "propertyType":"global",
-      "rules":[
-         {
+      "rules":[  
+         {  
             "t":"eq",
             "v":"STOP",
             "vt":"str"
          },
-         {
+         {  
             "t":"eq",
             "v":"FWD",
             "vt":"str"
          },
-         {
+         {  
             "t":"eq",
             "v":"BACK",
             "vt":"str"
          },
-         {
+         {  
             "t":"eq",
             "v":"LEFT",
             "vt":"str"
          },
-         {
+         {  
             "t":"eq",
             "v":"RIGHT",
             "vt":"str"
@@ -2055,91 +2063,71 @@
       "outputs":5,
       "x":650,
       "y":500,
-      "wires":[
-         [
+      "wires":[  
+         [  
             "8a1dc90f.dcd8c8"
          ],
-         [
+         [  
             "52e0302c.fe7288"
          ],
-         [
+         [  
             "3fac95a2.4cd92a"
          ],
-         [
+         [  
             "d6ba490c.dde1c"
          ],
-         [
+         [  
             "c8b43629.348b4"
          ]
       ]
    },
-   {
+   {  
       "id":"8ca042df.30a7a",
       "type":"inject",
       "z":"dd50d548.d4606",
-      "name":"Set waypoint",
+      "name":"Point in the office",
       "topic":"",
-      "payload":"{\"longitude\":12.5863203941,\"latitude\":55.6622787141,\"altitude\":0}",
+      "payload":"{\"longitude\":12.5863292679,\"latitude\":55.6617404801,\"altitude\":0}",
       "payloadType":"json",
       "repeat":"",
       "crontab":"",
       "once":false,
       "onceDelay":0.1,
-      "x":190,
-      "y":180,
-      "wires":[
-         [
+      "x":140,
+      "y":420,
+      "wires":[  
+         [  
             "9667e06a.3828d8"
          ]
       ]
    },
-   {
+   {  
       "id":"9667e06a.3828d8",
       "type":"ros-publish",
       "z":"dd50d548.d4606",
-      "server":"3f0006b2.243452",
+      "server":"d3704dfd.2bbe38",
       "topicname":"/waypoint",
       "msgtype":"sensor_msgs/NavSatFix",
-      "x":380,
-      "y":200,
-      "wires":[
+      "x":320,
+      "y":460,
+      "wires":[  
 
       ]
    },
-   {
-      "id":"ba5d5afe.793a98",
-      "type":"inject",
-      "z":"dd50d548.d4606",
-      "name":"Set waypoint",
-      "topic":"",
-      "payload":"{\"longitude\":12.5863133426,\"latitude\":55.6622569695,\"altitude\":0}",
-      "payloadType":"json",
-      "repeat":"",
-      "crontab":"",
-      "once":false,
-      "onceDelay":0.1,
-      "x":190,
-      "y":220,
-      "wires":[
-         [
-            "9667e06a.3828d8"
-         ]
-      ]
-   },
-   {
+   {  
       "id":"dc71c762.87f018",
       "type":"ros-publish",
       "z":"dd50d548.d4606",
-      "server":"3f0006b2.243452",
+      "server":"d3704dfd.2bbe38",
       "topicname":"/waypoint/state",
       "msgtype":"std_msgs/String",
-      "x":400,
-      "y":100,
-      "wires":[
+      "x":380,
+      "y":320,
+      "wires":[  
 
       ]
    },
-   {
+   {  
       "id":"a1b2dedb.171a9",
       "type":"inject",
       "z":"dd50d548.d4606",
@@ -2151,15 +2139,15 @@
       "crontab":"",
       "once":false,
       "onceDelay":0.1,
-      "x":180,
-      "y":80,
-      "wires":[
-         [
+      "x":160,
+      "y":320,
+      "wires":[  
+         [  
             "dc71c762.87f018"
          ]
       ]
    },
-   {
+   {  
       "id":"95dd8bca.4f0e4",
       "type":"inject",
       "z":"dd50d548.d4606",
@@ -2172,107 +2160,54 @@
       "once":false,
       "onceDelay":0.1,
       "x":170,
-      "y":120,
-      "wires":[
-         [
+      "y":359,
+      "wires":[  
+         [  
             "dc71c762.87f018"
          ]
       ]
    },
-   {
+   {  
       "id":"883a4213.107a48",
       "type":"inject",
       "z":"dd50d548.d4606",
-      "name":"Set waypoint",
+      "name":"Outside the door",
       "topic":"",
-      "payload":"{\"longitude\":12.5863203941,\"latitude\":55.6622787141,\"altitude\":0}",
+      "payload":"{\"longitude\":12.5862673177,\"latitude\":55.6617452098,\"altitude\":0}",
       "payloadType":"json",
       "repeat":"",
       "crontab":"",
       "once":false,
       "onceDelay":0.1,
-      "x":190,
-      "y":280,
-      "wires":[
-         [
-            "dd2a1dd2.412f48"
+      "x":140,
+      "y":460,
+      "wires":[  
+         [  
+            "9667e06a.3828d8"
          ]
       ]
    },
-   {
-      "id":"dd2a1dd2.412f48",
-      "type":"ros-publish",
-      "z":"dd50d548.d4606",
-      "server":"3f0006b2.243452",
-      "topicname":"/waypoint",
-      "msgtype":"sensor_msgs/NavSatFix",
-      "x":380,
-      "y":340,
-      "wires":[
-
-      ]
-   },
-   {
+   {  
       "id":"7d5f8e8c.c6895",
       "type":"inject",
       "z":"dd50d548.d4606",
-      "name":"Set waypoint",
+      "name":"Start of the corridor",
       "topic":"",
-      "payload":"{\"longitude\":12.5864306614,\"latitude\":55.6622700669,\"altitude\":0}",
+      "payload":"{\"longitude\":12.5862676492,\"latitude\":55.6617671639,\"altitude\":0}",
       "payloadType":"json",
       "repeat":"",
       "crontab":"",
       "once":false,
       "onceDelay":0.1,
-      "x":190,
-      "y":320,
-      "wires":[
-         [
-            "dd2a1dd2.412f48"
+      "x":130,
+      "y":500,
+      "wires":[  
+         [  
+            "9667e06a.3828d8"
          ]
       ]
    },
-   {
-      "id":"a7ba7084.5914f",
-      "type":"inject",
-      "z":"dd50d548.d4606",
-      "name":"Set waypoint",
-      "topic":"",
-      "payload":"{\"longitude\":12.586440611,\"latitude\":55.6622917358,\"altitude\":0}",
-      "payloadType":"json",
-      "repeat":"",
-      "crontab":"",
-      "once":false,
-      "onceDelay":0.1,
-      "x":190,
-      "y":360,
-      "wires":[
-         [
-            "dd2a1dd2.412f48"
-         ]
-      ]
-   },
-   {
-      "id":"72acf059.aa92e8",
-      "type":"inject",
-      "z":"dd50d548.d4606",
-      "name":"Set waypoint",
-      "topic":"",
-      "payload":"{\"longitude\":12.5863945757,\"latitude\":55.6622963998,\"altitude\":0}",
-      "payloadType":"json",
-      "repeat":"",
-      "crontab":"",
-      "once":false,
-      "onceDelay":0.1,
-      "x":190,
-      "y":400,
-      "wires":[
-         [
-            "dd2a1dd2.412f48"
-         ]
-      ]
-   },
-   {
+   {  
       "id":"df7c3333.0476b",
       "type":"ros-publish",
       "z":"bd3c803a.a5815",
@@ -2281,11 +2216,11 @@
       "msgtype":"geometry_msgs/Twist",
       "x":380,
       "y":220,
-      "wires":[
+      "wires":[  
 
       ]
    },
-   {
+   {  
       "id":"1ca0fedf.53e3b9",
       "type":"inject",
       "z":"bd3c803a.a5815",
@@ -2299,13 +2234,13 @@
       "onceDelay":"",
       "x":170,
       "y":240,
-      "wires":[
-         [
+      "wires":[  
+         [  
             "df7c3333.0476b"
          ]
       ]
    },
-   {
+   {  
       "id":"769ea9c4.cba6b8",
       "type":"inject",
       "z":"bd3c803a.a5815",
@@ -2318,13 +2253,13 @@
       "once":false,
       "x":180,
       "y":160,
-      "wires":[
-         [
+      "wires":[  
+         [  
             "df7c3333.0476b"
          ]
       ]
    },
-   {
+   {  
       "id":"2f85f7be.f38728",
       "type":"inject",
       "z":"bd3c803a.a5815",
@@ -2338,13 +2273,13 @@
       "onceDelay":"",
       "x":160,
       "y":200,
-      "wires":[
-         [
+      "wires":[  
+         [  
             "df7c3333.0476b"
          ]
       ]
    },
-   {
+   {  
       "id":"d961b026.b36ad8",
       "type":"inject",
       "z":"bd3c803a.a5815",
@@ -2358,13 +2293,13 @@
       "onceDelay":"",
       "x":140,
       "y":280,
-      "wires":[
-         [
+      "wires":[  
+         [  
             "df7c3333.0476b"
          ]
       ]
    },
-   {
+   {  
       "id":"5c33e9d4.edd378",
       "type":"inject",
       "z":"bd3c803a.a5815",
@@ -2378,32 +2313,32 @@
       "onceDelay":"",
       "x":160,
       "y":320,
-      "wires":[
-         [
+      "wires":[  
+         [  
             "df7c3333.0476b"
          ]
       ]
    },
-   {
+   {  
       "id":"cf0e42ab.e31b6",
       "type":"ros-publish",
       "z":"bd3c803a.a5815",
       "server":"d3704dfd.2bbe38",
       "topicname":"/corridor_mode",
       "msgtype":"std_msgs/Bool",
-      "x":400,
+      "x":380,
       "y":80,
-      "wires":[
+      "wires":[  
 
       ]
    },
-   {
+   {  
       "id":"dbc0188f.73c26",
       "type":"inject",
       "z":"bd3c803a.a5815",
       "name":"TRUE",
       "topic":"",
-      "payload":"{\"data\":\"true\"}",
+      "payload":"{\"data\": true}",
       "payloadType":"json",
       "repeat":"",
       "crontab":"",
@@ -2411,19 +2346,19 @@
       "onceDelay":0.1,
       "x":190,
       "y":60,
-      "wires":[
-         [
+      "wires":[  
+         [  
             "cf0e42ab.e31b6"
          ]
       ]
    },
-   {
+   {  
       "id":"c3aab9.0bcd5548",
       "type":"inject",
       "z":"bd3c803a.a5815",
       "name":"FALSE",
       "topic":"",
-      "payload":"{\"data\":\"false\"}",
+      "payload":"{\"data\":false}",
       "payloadType":"json",
       "repeat":"",
       "crontab":"",
@@ -2431,9 +2366,980 @@
       "onceDelay":0.1,
       "x":190,
       "y":100,
-      "wires":[
-         [
+      "wires":[  
+         [  
             "cf0e42ab.e31b6"
+         ]
+      ]
+   },
+   {  
+      "id":"26f8e094.e2f278",
+      "type":"ros-publish",
+      "z":"dd50d548.d4606",
+      "server":"d3704dfd.2bbe38",
+      "topicname":"/corridor_mode",
+      "msgtype":"std_msgs/String",
+      "x":420,
+      "y":180,
+      "wires":[  
+
+      ]
+   },
+   {  
+      "id":"9d5dbae6.04dcb8",
+      "type":"inject",
+      "z":"dd50d548.d4606",
+      "name":"STOP",
+      "topic":"",
+      "payload":"{\"data\": \"STOP\"}",
+      "payloadType":"json",
+      "repeat":"",
+      "crontab":"",
+      "once":false,
+      "onceDelay":0.1,
+      "x":170,
+      "y":140,
+      "wires":[  
+         [  
+            "26f8e094.e2f278"
+         ]
+      ]
+   },
+   {  
+      "id":"2a771957.21074e",
+      "type":"inject",
+      "z":"dd50d548.d4606",
+      "name":"MID,0.4",
+      "topic":"",
+      "payload":"{\"data\":\"MID,0.4\"}",
+      "payloadType":"json",
+      "repeat":"",
+      "crontab":"",
+      "once":false,
+      "onceDelay":0.1,
+      "x":170,
+      "y":180,
+      "wires":[  
+         [  
+            "26f8e094.e2f278"
+         ]
+      ]
+   },
+   {  
+      "id":"7c8a57ec.b5fae",
+      "type":"ros-publish",
+      "z":"dd50d548.d4606",
+      "server":"d3704dfd.2bbe38",
+      "topicname":"/delivery/stop",
+      "msgtype":"std_msgs/Bool",
+      "x":420,
+      "y":40,
+      "wires":[  
+
+      ]
+   },
+   {  
+      "id":"90ace2.c18c432",
+      "type":"inject",
+      "z":"dd50d548.d4606",
+      "name":"TRUE",
+      "topic":"",
+      "payload":"{\"data\": true}",
+      "payloadType":"json",
+      "repeat":"",
+      "crontab":"",
+      "once":false,
+      "onceDelay":0.1,
+      "x":170,
+      "y":40,
+      "wires":[  
+         [  
+            "7c8a57ec.b5fae"
+         ]
+      ]
+   },
+   {  
+      "id":"a32e3387.9ff058",
+      "type":"inject",
+      "z":"dd50d548.d4606",
+      "name":"Left,1",
+      "topic":"",
+      "payload":"{\"data\":\"LEFT,1\"}",
+      "payloadType":"json",
+      "repeat":"",
+      "crontab":"",
+      "once":false,
+      "onceDelay":0.1,
+      "x":170,
+      "y":220,
+      "wires":[  
+         [  
+            "26f8e094.e2f278"
+         ]
+      ]
+   },
+   {  
+      "id":"bdc20a35.f32bf",
+      "type":"inject",
+      "z":"dd50d548.d4606",
+      "name":"RIGHT,1",
+      "topic":"",
+      "payload":"{\"data\":\"RIGHT,1\"}",
+      "payloadType":"json",
+      "repeat":"",
+      "crontab":"",
+      "once":false,
+      "onceDelay":0.1,
+      "x":160,
+      "y":260,
+      "wires":[  
+         [  
+            "26f8e094.e2f278"
+         ]
+      ]
+   },
+   {  
+      "id":"e29b5171.3890d",
+      "type":"inject",
+      "z":"dd50d548.d4606",
+      "name":"Under fid 208",
+      "topic":"",
+      "payload":"{\"longitude\":12.5863652749,\"latitude\":55.6620066745,\"altitude\":12}",
+      "payloadType":"json",
+      "repeat":"",
+      "crontab":"",
+      "once":false,
+      "onceDelay":0.1,
+      "x":150,
+      "y":560,
+      "wires":[  
+         [  
+            "f9a6a60c.18f7"
+         ]
+      ]
+   },
+   {  
+      "id":"f9a6a60c.18f7",
+      "type":"ros-publish",
+      "z":"dd50d548.d4606",
+      "server":"d3704dfd.2bbe38",
+      "topicname":"/waypoint",
+      "msgtype":"sensor_msgs/NavSatFix",
+      "x":340,
+      "y":600,
+      "wires":[  
+
+      ]
+   },
+   {  
+      "id":"711e451a.a97d74",
+      "type":"inject",
+      "z":"dd50d548.d4606",
+      "name":"Outside the door",
+      "topic":"",
+      "payload":"{\"longitude\":12.5863684147,\"latitude\":55.662021616,\"altitude\":12}",
+      "payloadType":"json",
+      "repeat":"",
+      "crontab":"",
+      "once":false,
+      "onceDelay":0.1,
+      "x":140,
+      "y":600,
+      "wires":[  
+         [  
+            "f9a6a60c.18f7"
+         ]
+      ]
+   },
+   {  
+      "id":"70e8a972.71ac58",
+      "type":"inject",
+      "z":"dd50d548.d4606",
+      "name":"Inside the logistic",
+      "topic":"",
+      "payload":"{\"longitude\":12.5863494406,\"latitude\":55.662022251,\"altitude\":12}",
+      "payloadType":"json",
+      "repeat":"",
+      "crontab":"",
+      "once":false,
+      "onceDelay":0.1,
+      "x":140,
+      "y":640,
+      "wires":[  
+         [  
+            "f9a6a60c.18f7"
+         ]
+      ]
+   },
+   {  
+      "id":"629c2adc.6dec14",
+      "type":"inject",
+      "z":"dd50d548.d4606",
+      "name":"Point in the office",
+      "topic":"",
+      "payload":"{\"longitude\":12.5863317767,\"latitude\":55.6617403463,\"altitude\":12}",
+      "payloadType":"json",
+      "repeat":"",
+      "crontab":"",
+      "once":false,
+      "onceDelay":0.1,
+      "x":500,
+      "y":460,
+      "wires":[  
+         [  
+            "87c0dd7f.d158f8"
+         ]
+      ]
+   },
+   {  
+      "id":"87c0dd7f.d158f8",
+      "type":"ros-publish",
+      "z":"dd50d548.d4606",
+      "server":"d3704dfd.2bbe38",
+      "topicname":"/waypoint",
+      "msgtype":"sensor_msgs/NavSatFix",
+      "x":680,
+      "y":460,
+      "wires":[  
+
+      ]
+   },
+   {  
+      "id":"cc71a1bb.980a98",
+      "type":"inject",
+      "z":"dd50d548.d4606",
+      "name":"Outside the door",
+      "topic":"",
+      "payload":"{\"longitude\":12.5862597695,\"latitude\":55.6617436063,\"altitude\":0}",
+      "payloadType":"json",
+      "repeat":"",
+      "crontab":"",
+      "once":false,
+      "onceDelay":0.1,
+      "x":500,
+      "y":420,
+      "wires":[  
+         [  
+            "87c0dd7f.d158f8"
+         ]
+      ]
+   },
+   {  
+      "id":"3011efa4.74228",
+      "type":"inject",
+      "z":"dd50d548.d4606",
+      "name":"office",
+      "topic":"",
+      "payload":"{\"longitude\":12.5863346108,\"latitude\":55.6617017139,\"altitude\":0}",
+      "payloadType":"json",
+      "repeat":"",
+      "crontab":"",
+      "once":false,
+      "onceDelay":0.1,
+      "x":530,
+      "y":500,
+      "wires":[  
+         [  
+            "87c0dd7f.d158f8"
+         ]
+      ]
+   },
+   {  
+      "id":"68e93e31.eb6568",
+      "type":"ros-publish",
+      "z":"dd50d548.d4606",
+      "server":"d3704dfd.2bbe38",
+      "topicname":"/mqtt/commands/voice_kit",
+      "msgtype":"std_msgs/String",
+      "x":380,
+      "y":100,
+      "wires":[  
+
+      ]
+   },
+   {  
+      "id":"c936c926.7ac18",
+      "type":"inject",
+      "z":"dd50d548.d4606",
+      "name":"Banana",
+      "topic":"",
+      "payload":"{\"data\": \"banana\"}",
+      "payloadType":"json",
+      "repeat":"",
+      "crontab":"",
+      "once":false,
+      "onceDelay":0.1,
+      "x":170,
+      "y":100,
+      "wires":[  
+         [  
+            "68e93e31.eb6568"
+         ]
+      ]
+   },
+   {  
+      "id":"31408048.942f2",
+      "type":"ros-publish",
+      "z":"409e6b4.8de1b94",
+      "server":"d3704dfd.2bbe38",
+      "topicname":"/mqtt/commands/voice_kit",
+      "msgtype":"std_msgs/String",
+      "x":340,
+      "y":60,
+      "wires":[  
+
+      ]
+   },
+   {  
+      "id":"48ce5307.6937ec",
+      "type":"inject",
+      "z":"409e6b4.8de1b94",
+      "name":"Banana",
+      "topic":"",
+      "payload":"{\"data\": \"banana\"}",
+      "payloadType":"json",
+      "repeat":"",
+      "crontab":"",
+      "once":false,
+      "onceDelay":0.1,
+      "x":130,
+      "y":80,
+      "wires":[  
+         [  
+            "31408048.942f2"
+         ]
+      ]
+   },
+   {  
+      "id":"e5459f39.f766f8",
+      "type":"ros-publish",
+      "z":"409e6b4.8de1b94",
+      "server":"d3704dfd.2bbe38",
+      "topicname":"/mqtt/commands/vision_kit",
+      "msgtype":"std_msgs/String",
+      "x":340,
+      "y":140,
+      "wires":[  
+
+      ]
+   },
+   {  
+      "id":"1f13a5ce.011aca",
+      "type":"inject",
+      "z":"409e6b4.8de1b94",
+      "name":"Apple",
+      "topic":"",
+      "payload":"{\"data\": \"apple\"}",
+      "payloadType":"json",
+      "repeat":"",
+      "crontab":"",
+      "once":false,
+      "onceDelay":0.1,
+      "x":130,
+      "y":120,
+      "wires":[  
+         [  
+            "e5459f39.f766f8"
+         ]
+      ]
+   },
+   {  
+      "id":"2bbf15fb.a6475a",
+      "type":"ros-publish",
+      "z":"409e6b4.8de1b94",
+      "server":"d3704dfd.2bbe38",
+      "topicname":"/demo/command",
+      "msgtype":"std_msgs/String",
+      "x":310,
+      "y":200,
+      "wires":[  
+
+      ]
+   },
+   {  
+      "id":"c7266b0f.d94ca8",
+      "type":"inject",
+      "z":"409e6b4.8de1b94",
+      "name":"Start",
+      "topic":"",
+      "payload":"{\"data\": \"START\"}",
+      "payloadType":"json",
+      "repeat":"",
+      "crontab":"",
+      "once":false,
+      "onceDelay":0.1,
+      "x":130,
+      "y":200,
+      "wires":[  
+         [  
+            "2bbf15fb.a6475a"
+         ]
+      ]
+   },
+   {  
+      "id":"19eee67f.50bf42",
+      "type":"inject",
+      "z":"409e6b4.8de1b94",
+      "name":"Banana",
+      "topic":"",
+      "payload":"{\"data\": \"banana\"}",
+      "payloadType":"json",
+      "repeat":"",
+      "crontab":"",
+      "once":false,
+      "onceDelay":0.1,
+      "x":130,
+      "y":160,
+      "wires":[  
+         [  
+            "e5459f39.f766f8"
+         ]
+      ]
+   },
+   {  
+      "id":"6119ec05.329324",
+      "type":"inject",
+      "z":"409e6b4.8de1b94",
+      "name":"Apple",
+      "topic":"",
+      "payload":"{\"data\": \"apple\"}",
+      "payloadType":"json",
+      "repeat":"",
+      "crontab":"",
+      "once":false,
+      "onceDelay":0.1,
+      "x":130,
+      "y":40,
+      "wires":[  
+         [  
+            "31408048.942f2"
+         ]
+      ]
+   },
+   {  
+      "id":"2159847.959067c",
+      "type":"debug",
+      "z":"409e6b4.8de1b94",
+      "name":"",
+      "active":true,
+      "tosidebar":true,
+      "console":false,
+      "tostatus":false,
+      "complete":"payload",
+      "x":1070,
+      "y":320,
+      "wires":[  
+
+      ]
+   },
+   {  
+      "id":"92542f6f.0608",
+      "type":"join",
+      "z":"409e6b4.8de1b94",
+      "name":"",
+      "mode":"custom",
+      "build":"string",
+      "property":"payload",
+      "propertyType":"msg",
+      "key":"topic",
+      "joiner":",",
+      "joinerType":"str",
+      "accumulate":false,
+      "timeout":"5",
+      "count":"",
+      "reduceRight":false,
+      "reduceExp":"",
+      "reduceInit":"",
+      "reduceInitType":"",
+      "reduceFixup":"",
+      "x":690,
+      "y":320,
+      "wires":[  
+         [  
+            "a3146b7.11ff418"
+         ]
+      ]
+   },
+   {  
+      "id":"83f44728.684648",
+      "type":"inject",
+      "z":"409e6b4.8de1b94",
+      "name":"Command received",
+      "topic":"task1",
+      "payload":"{\"Command\":\"Command received\",\"Name\":\"speak\",\"Id\":1}",
+      "payloadType":"json",
+      "repeat":"",
+      "crontab":"",
+      "once":false,
+      "onceDelay":0.1,
+      "x":170,
+      "y":280,
+      "wires":[  
+         [  
+            "7709839e.277f2c"
+         ]
+      ]
+   },
+   {  
+      "id":"fb63d94e.53868",
+      "type":"inject",
+      "z":"409e6b4.8de1b94",
+      "name":"Go to corridor",
+      "topic":"task2",
+      "payload":"{\"Points\":[[12.5863292679,55.6617404801],[12.5862673177,55.6617452098],[12.5862676492,55.6617671639]],\"Fid\":209,\"Name\":\"waypoint_fid\",\"Id\":2}",
+      "payloadType":"json",
+      "repeat":"",
+      "crontab":"",
+      "once":false,
+      "onceDelay":0.1,
+      "x":150,
+      "y":320,
+      "wires":[  
+         [  
+            "c4f334cb.1691f"
+         ]
+      ]
+   },
+   {  
+      "id":"7709839e.277f2c",
+      "type":"json",
+      "z":"409e6b4.8de1b94",
+      "name":"",
+      "property":"payload",
+      "action":"",
+      "pretty":false,
+      "x":410,
+      "y":280,
+      "wires":[  
+         [  
+            "92542f6f.0608"
+         ]
+      ]
+   },
+   {  
+      "id":"c4f334cb.1691f",
+      "type":"json",
+      "z":"409e6b4.8de1b94",
+      "name":"",
+      "property":"payload",
+      "action":"",
+      "pretty":false,
+      "x":410,
+      "y":320,
+      "wires":[  
+         [  
+            "92542f6f.0608"
+         ]
+      ]
+   },
+   {  
+      "id":"f36ffe52.f58108",
+      "type":"json",
+      "z":"409e6b4.8de1b94",
+      "name":"",
+      "property":"payload",
+      "action":"",
+      "pretty":false,
+      "x":410,
+      "y":640,
+      "wires":[  
+         [  
+            "357a02ec.e70166"
+         ]
+      ]
+   },
+   {  
+      "id":"c4ad43bb.c1c34",
+      "type":"ros-publish",
+      "z":"409e6b4.8de1b94",
+      "server":"d3704dfd.2bbe38",
+      "topicname":"/demo/tasks",
+      "msgtype":"std_msgs/String",
+      "x":1090,
+      "y":260,
+      "wires":[  
+
+      ]
+   },
+   {  
+      "id":"a3146b7.11ff418",
+      "type":"function",
+      "z":"409e6b4.8de1b94",
+      "name":"Covert to json",
+      "func":"head = '{\"Tasks\":[';\nend =  ']}';\nstr = head + msg.payload + end;\nobj = JSON.parse('{\"data\": \"\" }');\nobj[\"data\"] = str;\nmsg.payload = obj;\nreturn msg;",
+      "outputs":1,
+      "noerr":0,
+      "x":860,
+      "y":320,
+      "wires":[  
+         [  
+            "c4ad43bb.c1c34",
+            "2159847.959067c"
+         ]
+      ]
+   },
+   {  
+      "id":"b0c0d951.c933a8",
+      "type":"ros-publish",
+      "z":"409e6b4.8de1b94",
+      "server":"d3704dfd.2bbe38",
+      "topicname":"/waypoint/state",
+      "msgtype":"std_msgs/String",
+      "x":740,
+      "y":120,
+      "wires":[  
+
+      ]
+   },
+   {  
+      "id":"a3f1985a.563a",
+      "type":"inject",
+      "z":"409e6b4.8de1b94",
+      "name":"STOP",
+      "topic":"",
+      "payload":"{\"data\":\"STOP\"}",
+      "payloadType":"json",
+      "repeat":"",
+      "crontab":"",
+      "once":false,
+      "onceDelay":0.1,
+      "x":590,
+      "y":120,
+      "wires":[  
+         [  
+            "b0c0d951.c933a8"
+         ]
+      ]
+   },
+   {  
+      "id":"c556c7c.ffdf238",
+      "type":"ros-publish",
+      "z":"409e6b4.8de1b94",
+      "server":"d3704dfd.2bbe38",
+      "topicname":"/corridor_mode",
+      "msgtype":"std_msgs/String",
+      "x":760,
+      "y":60,
+      "wires":[  
+
+      ]
+   },
+   {  
+      "id":"9484290a.119518",
+      "type":"inject",
+      "z":"409e6b4.8de1b94",
+      "name":"STOP",
+      "topic":"",
+      "payload":"{\"data\": \"STOP\"}",
+      "payloadType":"json",
+      "repeat":"",
+      "crontab":"",
+      "once":false,
+      "onceDelay":0.1,
+      "x":590,
+      "y":60,
+      "wires":[  
+         [  
+            "c556c7c.ffdf238"
+         ]
+      ]
+   },
+   {  
+      "id":"357a02ec.e70166",
+      "type":"change",
+      "z":"409e6b4.8de1b94",
+      "name":"Start the task",
+      "rules":[  
+         {  
+            "t":"set",
+            "p":"complete",
+            "pt":"msg",
+            "to":"true",
+            "tot":"bool"
+         }
+      ],
+      "action":"",
+      "property":"",
+      "from":"",
+      "to":"",
+      "reg":false,
+      "x":560,
+      "y":640,
+      "wires":[  
+         [  
+            "92542f6f.0608"
+         ]
+      ]
+   },
+   {  
+      "id":"14065ff5.95e71",
+      "type":"inject",
+      "z":"409e6b4.8de1b94",
+      "name":"Corridor mode to logistic",
+      "topic":"task2",
+      "payload":"{\"Command\":\"MID,0.4\",\"Fid\":208,\"Name\":\"corridor_fid\",\"Id\":3}",
+      "payloadType":"json",
+      "repeat":"",
+      "crontab":"",
+      "once":false,
+      "onceDelay":0.1,
+      "x":190,
+      "y":360,
+      "wires":[  
+         [  
+            "3d15a1e2.4c978e"
+         ]
+      ]
+   },
+   {  
+      "id":"e9b03288.6396f8",
+      "type":"inject",
+      "z":"409e6b4.8de1b94",
+      "name":"Enter logistic",
+      "topic":"task2",
+      "payload":"{\"Points\":[[12.5863684147,55.662021616],[12.5863494406,55.662022251]],\"Name\":\"waypoint\",\"Id\":4}",
+      "payloadType":"json",
+      "repeat":"",
+      "crontab":"",
+      "once":false,
+      "onceDelay":0.1,
+      "x":150,
+      "y":400,
+      "wires":[  
+         [  
+            "d5568b45.cff01"
+         ]
+      ]
+   },
+   {  
+      "id":"3d15a1e2.4c978e",
+      "type":"json",
+      "z":"409e6b4.8de1b94",
+      "name":"",
+      "property":"payload",
+      "action":"",
+      "pretty":false,
+      "x":410,
+      "y":360,
+      "wires":[  
+         [  
+            "92542f6f.0608"
+         ]
+      ]
+   },
+   {  
+      "id":"cf318f4e.83208",
+      "type":"inject",
+      "z":"409e6b4.8de1b94",
+      "name":"Ask for thing",
+      "topic":"task2",
+      "payload":"{\"Command\":\"banana please\",\"Target\":\"banana\",\"Name\":\"speak_cmd\",\"Id\":5}",
+      "payloadType":"json",
+      "repeat":"",
+      "crontab":"",
+      "once":false,
+      "onceDelay":0.1,
+      "x":150,
+      "y":440,
+      "wires":[  
+         [  
+            "f0af2fd8.7ae1c"
+         ]
+      ]
+   },
+   {  
+      "id":"2940be4b.80a0ba",
+      "type":"inject",
+      "z":"409e6b4.8de1b94",
+      "name":"Say thank you",
+      "topic":"task2",
+      "payload":"{\"Command\":\"thank you\",\"Name\":\"speak\",\"Id\":6}",
+      "payloadType":"json",
+      "repeat":"",
+      "crontab":"",
+      "once":false,
+      "onceDelay":0.1,
+      "x":150,
+      "y":480,
+      "wires":[  
+         [  
+            "4fc4ccec.b2b8ec"
+         ]
+      ]
+   },
+   {  
+      "id":"e34c1a01.18a05",
+      "type":"inject",
+      "z":"409e6b4.8de1b94",
+      "name":"Logistic to corridor",
+      "topic":"task2",
+      "payload":"{\"Points\":[[12.5863684147,55.662021616],[12.5863652749,55.6620066745]],\"Fid\":208,\"Name\":\"waypoint_fid\",\"Id\":7}",
+      "payloadType":"json",
+      "repeat":"",
+      "crontab":"",
+      "once":false,
+      "onceDelay":0.1,
+      "x":170,
+      "y":520,
+      "wires":[  
+         [  
+            "7f8a69df.f9389"
+         ]
+      ]
+   },
+   {  
+      "id":"d5568b45.cff01",
+      "type":"json",
+      "z":"409e6b4.8de1b94",
+      "name":"",
+      "property":"payload",
+      "action":"",
+      "pretty":false,
+      "x":410,
+      "y":400,
+      "wires":[  
+         [  
+            "92542f6f.0608"
+         ]
+      ]
+   },
+   {  
+      "id":"f0af2fd8.7ae1c",
+      "type":"json",
+      "z":"409e6b4.8de1b94",
+      "name":"",
+      "property":"payload",
+      "action":"",
+      "pretty":false,
+      "x":410,
+      "y":440,
+      "wires":[  
+         [  
+            "92542f6f.0608"
+         ]
+      ]
+   },
+   {  
+      "id":"ea631d0a.7985c8",
+      "type":"inject",
+      "z":"409e6b4.8de1b94",
+      "name":"Corridor mode back",
+      "topic":"task2",
+      "payload":"{\"Command\":\"MID,0.4\",\"Fid\":209,\"Name\":\"corridor_fid\",\"Id\":8}",
+      "payloadType":"json",
+      "repeat":"",
+      "crontab":"",
+      "once":false,
+      "onceDelay":0.1,
+      "x":170,
+      "y":560,
+      "wires":[  
+         [  
+            "bacf8d7d.cdd0e8"
+         ]
+      ]
+   },
+   {  
+      "id":"790ecadd.435e84",
+      "type":"inject",
+      "z":"409e6b4.8de1b94",
+      "name":"Get in the office",
+      "topic":"task2",
+      "payload":"{\"Points\":[[12.5862597695,55.6617436063],[12.5863317767,55.6617403463],[12.5863346108,55.6617017139]],\"Fid\":201,\"Name\":\"waypoint_fid\",\"Id\":9}",
+      "payloadType":"json",
+      "repeat":"",
+      "crontab":"",
+      "once":false,
+      "onceDelay":0.1,
+      "x":160,
+      "y":600,
+      "wires":[  
+         [  
+            "c89adbe7.86f708"
+         ]
+      ]
+   },
+   {  
+      "id":"aab282d2.e99658",
+      "type":"inject",
+      "z":"409e6b4.8de1b94",
+      "name":"Task complete",
+      "topic":"task2",
+      "payload":"{\"Command\":\"task completed\",\"Name\":\"speak\",\"Id\":10}",
+      "payloadType":"json",
+      "repeat":"",
+      "crontab":"",
+      "once":false,
+      "onceDelay":0.1,
+      "x":160,
+      "y":640,
+      "wires":[  
+         [  
+            "f36ffe52.f58108"
+         ]
+      ]
+   },
+   {  
+      "id":"4fc4ccec.b2b8ec",
+      "type":"json",
+      "z":"409e6b4.8de1b94",
+      "name":"",
+      "property":"payload",
+      "action":"",
+      "pretty":false,
+      "x":410,
+      "y":480,
+      "wires":[  
+         [  
+            "92542f6f.0608"
+         ]
+      ]
+   },
+   {  
+      "id":"7f8a69df.f9389",
+      "type":"json",
+      "z":"409e6b4.8de1b94",
+      "name":"",
+      "property":"payload",
+      "action":"",
+      "pretty":false,
+      "x":410,
+      "y":520,
+      "wires":[  
+         [  
+            "92542f6f.0608"
+         ]
+      ]
+   },
+   {  
+      "id":"bacf8d7d.cdd0e8",
+      "type":"json",
+      "z":"409e6b4.8de1b94",
+      "name":"",
+      "property":"payload",
+      "action":"",
+      "pretty":false,
+      "x":410,
+      "y":560,
+      "wires":[  
+         [  
+            "92542f6f.0608"
+         ]
+      ]
+   },
+   {  
+      "id":"c89adbe7.86f708",
+      "type":"json",
+      "z":"409e6b4.8de1b94",
+      "name":"",
+      "property":"payload",
+      "action":"",
+      "pretty":false,
+      "x":410,
+      "y":600,
+      "wires":[  
+         [  
+            "92542f6f.0608"
          ]
       ]
    }
