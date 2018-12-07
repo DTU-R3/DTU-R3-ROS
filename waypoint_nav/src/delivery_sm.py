@@ -17,6 +17,7 @@ class Publishers(object):
     self.espeakPub = rospy.Publisher('espeak', String, queue_size = 10)
     self.thresPub = rospy.Publisher('waypoint/forwarding_thres', Float32, queue_size = 10)
     self.paramPub = rospy.Publisher('waypoint/control_parameters', String, queue_size = 10)
+    self.cmdPub = rospy.Publisher('delivery/cmd', String, queue_size = 10)
 
   def statePub(self, s):
     stateMsg = String()
@@ -50,6 +51,11 @@ class Publishers(object):
     paramMsg = String()
     paramMsg.data = s
     self.paramPub.publish(paramMsg)
+
+  def commandPub(self, s):
+    cmdMsg = String()
+    cmdMsg.data = s
+    self.cmdPub.publish(cmdMsg)
 
 # Waypoint mode, stop when last waypoint is reached
 class Waypoint(State):
@@ -240,9 +246,12 @@ class Delivery(object):
     pub.statePub("STOP")
 
   def scenCB(self, s):
+    if self.sm.is_running():
+      pub.commandPub("STOP")
     json_data = json.loads(s.data)
     self.Stop()  
     self.sm = StateMachine(outcomes=['success'])
+    print json_data
     with self.sm:
       try:
         for task in json_data["Tasks"]:
