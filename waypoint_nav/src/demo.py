@@ -19,6 +19,7 @@ class demo(object):
 
     # Publisher
     self.taskPub = rospy.Publisher('delivery/scenario', String, queue_size = 10, latch=True)
+    self.cmdPub = rospy.Publisher('delivery/cmd', String, queue_size = 10, latch=True)
 
     # Subscriber
     rospy.Subscriber('mqtt/commands/voice_kit', String, self.mqttCB)
@@ -50,6 +51,11 @@ class demo(object):
     taskMsg.data = s
     self.taskPub.publish(taskMsg)
 
+  def pubCmd(self, s):
+    cmdMsg = String()
+    cmdMsg.data = s
+    self.cmdPub.publish(cmdMsg)
+
   def mqttCB(self, m):
     self.target = m.data
     self.ChangeTarget()
@@ -58,6 +64,8 @@ class demo(object):
   def demoCB(self, s):
     if s.data == "START":
       self.ready = True
+    else:
+      self.pubCmd(s.data)  
 
   def tasksCB(self, s):
     self.task = s.data
