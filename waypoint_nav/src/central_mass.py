@@ -21,7 +21,6 @@ class corridor_nav(object):
     self.corridorMode = "STOP"
     self.thres = 1.0
     self.scan_received = False
-    self.reactive = False
 
     # Control parameters
     self.K = 0.5
@@ -39,19 +38,11 @@ class corridor_nav(object):
     # Subscribers
     rospy.Subscriber('scan', LaserScan, self.scanCB)
     rospy.Subscriber('corridor_mode', String, self.modeCB)
-    rospy.Subscriber('cmd_vel', Twist, self.velCB)
   
   def Start(self):
     while not rospy.is_shutdown():
       # If corridor mode is not enable, do nothing
       if not self.scan_received:
-        self.rate.sleep()
-        continue
-
-      laser_scan = self.scan
-      if self.corridorMode == "STOP":
-        if self.reactive:
-          self.Reactive(laser_scan)
         self.rate.sleep()
         continue
             
@@ -93,36 +84,10 @@ class corridor_nav(object):
         self.vel.linear.x = 0
         self.vel.angular.z = 0
 
-      # Obstacle avoidance
-      self.Reactive(laser_scan)
-
       self.vel.linear.x = self.LimitRange(self.vel.linear.x, self.VEL_MAX_LIN)
       self.vel.angular.z = self.LimitRange(self.vel.angular.z, self.VEL_MAX_ANG)
       self.vel_pub.publish(self.vel)
       self.rate.sleep()
-
-  def Reactive(self, scan):
-    min_f = min(scan.ranges[135:225])
-    min_l = min(scan.ranges[181:240])
-    min_r = min(scan.ranges[120:180])
-    
-    vel_changed = False
-    if min_f < 0.5:
-      self.vel.linear.x = min(min_f - 0.4, 0)
-      vel_changed = True
-
-    if min_l < 0.5:
-      self.vel.linear.x = 0
-      self.vel.angular.z = -0.2
-      vel_changed = True
-    elif min_r < 0.5:
-      self.vel.linear.x = 0
-      self.vel.angular.z = 0.2
-      vel_changed = True
-
-    if vel_changed:
-      self.vel_pub.publish(self.vel)
-      vel_changed = False
 
   def scanCB(self, s):
     self.scan = s 
@@ -143,12 +108,6 @@ class corridor_nav(object):
         self.thres = float(parts[1])
       except:
         return
-
-  def velCB(self, v):
-    if v.linear.x > 0:
-      self.reactive = True
-    else:
-      self.reactive = False
 
   def LimitRange(self, v, l):
     if v > 0:
