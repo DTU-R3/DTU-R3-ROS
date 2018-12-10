@@ -1,0 +1,7 @@
+<launch>
+
+  <node pkg="waypoint_nav" type="demo.py" name="demo">
+    <param name="demo/task_file" value="$(find waypoint_nav)/src/tasks.json"/>
+  </node>  
+  <node pkg="waypoint_nav" type="delivery_sm.py" name="state_machine"/>
+</launch>
