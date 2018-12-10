@@ -45,7 +45,8 @@ class corridor_nav(object):
       if not self.scan_received:
         self.rate.sleep()
         continue
-            
+      
+      laser_scan = self.scan
       # Calculate the central mass of left side
       left = []
       for i in range(181,270):
