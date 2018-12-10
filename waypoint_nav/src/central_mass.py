@@ -90,8 +90,11 @@ class corridor_nav(object):
       self.rate.sleep()
 
   def scanCB(self, s):
+    if self.corridorMode == "STOP": 
+      self.scan_received = False
+      return
     self.scan = s 
-    self.scan_received = True
+    self.scan_received = True   
 
   def modeCB(self, s):
     if s.data == "STOP":
