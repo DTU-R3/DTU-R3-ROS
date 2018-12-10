@@ -74,6 +74,7 @@ class Waypoint(State):
     pub.statePub("RUNNING")
     while not self.finished:
       if self.stop:
+        self.stop = False
         pub.statePub("STOP")
         return 'stop'
       rospy.sleep(0.1)
@@ -113,6 +114,7 @@ class Waypoint_fid(State):
     pub.statePub("RUNNING")
     while not self.finished:
       if self.stop:
+        self.stop = False
         pub.statePub("STOP")
         return 'stop'
       if self.detected_fid == self.fid_id:
@@ -158,6 +160,7 @@ class Corridor_fid(State):
     pub.modePub(self.cmd)
     while not self.fid_id == self.detected_fid:
       if self.stop:
+        self.stop = False
         pub.modePub("STOP")
         return 'stop'
       rospy.sleep(0.1)
@@ -202,6 +205,7 @@ class Speak_cmd(State):
   def execute(self, userdata):
     while not self.target_recived:
       if self.stop:
+        self.stop = False
         return 'stop'
       pub.speakPub(self.cmd)
       rospy.sleep(3)
@@ -239,6 +243,7 @@ class Delivery(object):
     while not rospy.is_shutdown():
       if self.state_machine_ready:
         self.sm.execute()
+        self.state_machine_ready = False
       self.rate.sleep()
 
   def Stop(self):
@@ -248,10 +253,8 @@ class Delivery(object):
   def scenCB(self, s):
     if self.sm.is_running():
       pub.commandPub("STOP")
-    json_data = json.loads(s.data)
-    self.Stop()  
+    json_data = json.loads(s.data)    
     self.sm = StateMachine(outcomes=['success'])
-    print json_data
     with self.sm:
       try:
         for task in json_data["Tasks"]:
@@ -276,6 +279,9 @@ class Delivery(object):
 
   def cmdCB(self, s):
     if s.data == "STOP":
+      if self.sm.is_running():
+        pub.commandPub("STOP")
+        rospy.sleep(3)
       self.state_machine_ready = False
     if s.data == "DEBUG":
       print self.sm.get_active_states()
