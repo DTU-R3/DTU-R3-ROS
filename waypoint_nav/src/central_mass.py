@@ -21,7 +21,7 @@ class corridor_nav(object):
     self.corridorMode = "STOP"
     self.thres = 1.0
     self.scan_received = False
-    self.robot_stop = True
+    self.reactive = False
 
     # Control parameters
     self.K = 0.5
@@ -48,20 +48,13 @@ class corridor_nav(object):
         self.rate.sleep()
         continue
 
+      laser_scan = self.scan
       if self.corridorMode == "STOP":
-        if not self.robot_stop:
-          if min(laser_scan.ranges[185:240]) < 0.6:
-            self.vel.linear.x = 0
-            self.vel.angular.z = -0.2
-            self.vel_pub.publish(self.vel)
-          elif min(laser_scan.ranges[120:175]) < 0.6:
-            self.vel.linear.x = 0
-            self.vel.angular.z = 0.2
-            self.vel_pub.publish(self.vel)
+        if self.reactive:
+          self.Reactive(laser_scan)
         self.rate.sleep()
         continue
-      
-      laser_scan = self.scan
+            
       # Calculate the central mass of left side
       left = []
       for i in range(181,270):
@@ -101,25 +94,39 @@ class corridor_nav(object):
         self.vel.angular.z = 0
 
       # Obstacle avoidance
-      if min(laser_scan.ranges[135:225]) < 0.5:
-        self.vel.linear.x = min(laser_scan.ranges[135:225])
-
-      if min(laser_scan.ranges[181:240]) < 0.5:
-        self.vel.linear.x = 0
-        self.vel.angular.z = -0.2
-      elif min(laser_scan.ranges[120:180]) < 0.5:
-        self.vel.linear.x = 0
-        self.vel.angular.z = 0.2
+      self.Reactive(laser_scan)
 
       self.vel.linear.x = self.LimitRange(self.vel.linear.x, self.VEL_MAX_LIN)
       self.vel.angular.z = self.LimitRange(self.vel.angular.z, self.VEL_MAX_ANG)
       self.vel_pub.publish(self.vel)
       self.rate.sleep()
-  
+
+  def Reactive(self, scan):
+    min_f = min(scan.ranges[135:225])
+    min_l = min(scan.ranges[181:240])
+    min_r = min(scan.ranges[120:180])
+    
+    vel_changed = False
+    if min_f < 0.5:
+      self.vel.linear.x = min(min_f - 0.4, 0)
+      vel_changed = True
+
+    if min_l < 0.5:
+      self.vel.linear.x = 0
+      self.vel.angular.z = -0.2
+      vel_changed = True
+    elif min_r < 0.5:
+      self.vel.linear.x = 0
+      self.vel.angular.z = 0.2
+      vel_changed = True
+
+    if vel_changed:
+      self.vel_pub.publish(self.vel)
+      vel_changed = False
+
   def scanCB(self, s):
-    if not self.corridorMode == "STOP":
-      self.scan = s 
-      self.scan_received = True
+    self.scan = s 
+    self.scan_received = True
 
   def modeCB(self, s):
     if s.data == "STOP":
@@ -138,10 +145,10 @@ class corridor_nav(object):
         return
 
   def velCB(self, v):
-    if v.linear.x == 0 and v.angular.z == 0:
-      self.robot_stop = True
+    if v.linear.x > 0:
+      self.reactive = True
     else:
-      self.robot_stop = False
+      self.reactive = False
 
   def LimitRange(self, v, l):
     if v > 0:
