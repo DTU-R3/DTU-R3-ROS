@@ -2684,7 +2684,7 @@
       "server":"d3704dfd.2bbe38",
       "topicname":"/mqtt/commands/voice_kit",
       "msgtype":"std_msgs/String",
-      "x":340,
+      "x":360,
       "y":60,
       "wires":[  
 
@@ -2717,7 +2717,7 @@
       "server":"d3704dfd.2bbe38",
       "topicname":"/mqtt/commands/vision_kit",
       "msgtype":"std_msgs/String",
-      "x":340,
+      "x":360,
       "y":140,
       "wires":[  
 
@@ -2751,7 +2751,7 @@
       "topicname":"/demo/command",
       "msgtype":"std_msgs/String",
       "x":310,
-      "y":200,
+      "y":220,
       "wires":[  
 
       ]
@@ -2817,50 +2817,6 @@
       ]
    },
    {  
-      "id":"2159847.959067c",
-      "type":"debug",
-      "z":"409e6b4.8de1b94",
-      "name":"",
-      "active":true,
-      "tosidebar":true,
-      "console":false,
-      "tostatus":false,
-      "complete":"payload",
-      "x":1070,
-      "y":320,
-      "wires":[  
-
-      ]
-   },
-   {  
-      "id":"92542f6f.0608",
-      "type":"join",
-      "z":"409e6b4.8de1b94",
-      "name":"",
-      "mode":"custom",
-      "build":"string",
-      "property":"payload",
-      "propertyType":"msg",
-      "key":"topic",
-      "joiner":",",
-      "joinerType":"str",
-      "accumulate":false,
-      "timeout":"5",
-      "count":"",
-      "reduceRight":false,
-      "reduceExp":"",
-      "reduceInit":"",
-      "reduceInitType":"",
-      "reduceFixup":"",
-      "x":690,
-      "y":320,
-      "wires":[  
-         [  
-            "a3146b7.11ff418"
-         ]
-      ]
-   },
-   {  
       "id":"83f44728.684648",
       "type":"inject",
       "z":"409e6b4.8de1b94",
@@ -2873,10 +2829,10 @@
       "once":false,
       "onceDelay":0.1,
       "x":170,
-      "y":280,
+      "y":420,
       "wires":[  
          [  
-            "7709839e.277f2c"
+            "603c6228.638f64"
          ]
       ]
    },
@@ -2886,65 +2842,17 @@
       "z":"409e6b4.8de1b94",
       "name":"Go to corridor",
       "topic":"task2",
-      "payload":"{\"Points\":[[12.5863292679,55.6617404801],[12.5862673177,55.6617452098],[12.5862676492,55.6617671639]],\"Fid\":209,\"Name\":\"waypoint_fid\",\"Id\":2}",
+      "payload":"{\"Points\":[[12.5863292679,55.6617404801],[12.5862673177,55.6617452098],[12.5862676492,55.6617671639]],\"Fid\":209,\"Name\":\"waypoint_fid\",\"Id\":9}",
       "payloadType":"json",
       "repeat":"",
       "crontab":"",
       "once":false,
       "onceDelay":0.1,
       "x":150,
-      "y":320,
+      "y":460,
       "wires":[  
          [  
-            "c4f334cb.1691f"
-         ]
-      ]
-   },
-   {  
-      "id":"7709839e.277f2c",
-      "type":"json",
-      "z":"409e6b4.8de1b94",
-      "name":"",
-      "property":"payload",
-      "action":"",
-      "pretty":false,
-      "x":410,
-      "y":280,
-      "wires":[  
-         [  
-            "92542f6f.0608"
-         ]
-      ]
-   },
-   {  
-      "id":"c4f334cb.1691f",
-      "type":"json",
-      "z":"409e6b4.8de1b94",
-      "name":"",
-      "property":"payload",
-      "action":"",
-      "pretty":false,
-      "x":410,
-      "y":320,
-      "wires":[  
-         [  
-            "92542f6f.0608"
-         ]
-      ]
-   },
-   {  
-      "id":"f36ffe52.f58108",
-      "type":"json",
-      "z":"409e6b4.8de1b94",
-      "name":"",
-      "property":"payload",
-      "action":"",
-      "pretty":false,
-      "x":410,
-      "y":640,
-      "wires":[  
-         [  
-            "357a02ec.e70166"
+            "603c6228.638f64"
          ]
       ]
    },
@@ -2956,26 +2864,9 @@
       "topicname":"/demo/tasks",
       "msgtype":"std_msgs/String",
       "x":1090,
-      "y":260,
+      "y":640,
       "wires":[  
 
-      ]
-   },
-   {  
-      "id":"a3146b7.11ff418",
-      "type":"function",
-      "z":"409e6b4.8de1b94",
-      "name":"Covert to json",
-      "func":"head = '{\"Tasks\":[';\nend =  ']}';\nstr = head + msg.payload + end;\nobj = JSON.parse('{\"data\": \"\" }');\nobj[\"data\"] = str;\nmsg.payload = obj;\nreturn msg;",
-      "outputs":1,
-      "noerr":0,
-      "x":860,
-      "y":320,
-      "wires":[  
-         [  
-            "c4ad43bb.c1c34",
-            "2159847.959067c"
-         ]
       ]
    },
    {  
@@ -3045,7 +2936,363 @@
       ]
    },
    {  
-      "id":"357a02ec.e70166",
+      "id":"14065ff5.95e71",
+      "type":"inject",
+      "z":"409e6b4.8de1b94",
+      "name":"Corridor mode to logistic",
+      "topic":"task2",
+      "payload":"{\"Command\":\"MID,0.4\",\"Fid\":208,\"Name\":\"corridor_fid\",\"Id\":3}",
+      "payloadType":"json",
+      "repeat":"",
+      "crontab":"",
+      "once":false,
+      "onceDelay":0.1,
+      "x":190,
+      "y":500,
+      "wires":[  
+         [  
+            "603c6228.638f64"
+         ]
+      ]
+   },
+   {  
+      "id":"e9b03288.6396f8",
+      "type":"inject",
+      "z":"409e6b4.8de1b94",
+      "name":"Enter logistic",
+      "topic":"task2",
+      "payload":"{\"Points\":[[12.5863684147,55.662021616],[12.5863494406,55.662022251]],\"Name\":\"waypoint\",\"Id\":4}",
+      "payloadType":"json",
+      "repeat":"",
+      "crontab":"",
+      "once":false,
+      "onceDelay":0.1,
+      "x":150,
+      "y":540,
+      "wires":[  
+         [  
+            "603c6228.638f64"
+         ]
+      ]
+   },
+   {  
+      "id":"cf318f4e.83208",
+      "type":"inject",
+      "z":"409e6b4.8de1b94",
+      "name":"Ask for thing",
+      "topic":"task2",
+      "payload":"{\"Command\":\"banana please\",\"Target\":\"banana\",\"Name\":\"speak_cmd\",\"Id\":5}",
+      "payloadType":"json",
+      "repeat":"",
+      "crontab":"",
+      "once":false,
+      "onceDelay":0.1,
+      "x":150,
+      "y":580,
+      "wires":[  
+         [  
+            "603c6228.638f64"
+         ]
+      ]
+   },
+   {  
+      "id":"2940be4b.80a0ba",
+      "type":"inject",
+      "z":"409e6b4.8de1b94",
+      "name":"Say thank you",
+      "topic":"task2",
+      "payload":"{\"Command\":\"thank you\",\"Name\":\"speak\",\"Id\":6}",
+      "payloadType":"json",
+      "repeat":"",
+      "crontab":"",
+      "once":false,
+      "onceDelay":0.1,
+      "x":150,
+      "y":620,
+      "wires":[  
+         [  
+            "603c6228.638f64"
+         ]
+      ]
+   },
+   {  
+      "id":"e34c1a01.18a05",
+      "type":"inject",
+      "z":"409e6b4.8de1b94",
+      "name":"Logistic to corridor",
+      "topic":"task2",
+      "payload":"{\"Points\":[[12.5863684147,55.662021616],[12.5863652749,55.6620066745]],\"Fid\":208,\"Name\":\"waypoint_fid\",\"Id\":7}",
+      "payloadType":"json",
+      "repeat":"",
+      "crontab":"",
+      "once":false,
+      "onceDelay":0.1,
+      "x":170,
+      "y":660,
+      "wires":[  
+         [  
+            "603c6228.638f64"
+         ]
+      ]
+   },
+   {  
+      "id":"ea631d0a.7985c8",
+      "type":"inject",
+      "z":"409e6b4.8de1b94",
+      "name":"Corridor mode back",
+      "topic":"task2",
+      "payload":"{\"Command\":\"MID,0.4\",\"Fid\":209,\"Name\":\"corridor_fid\",\"Id\":8}",
+      "payloadType":"json",
+      "repeat":"",
+      "crontab":"",
+      "once":false,
+      "onceDelay":0.1,
+      "x":170,
+      "y":700,
+      "wires":[  
+         [  
+            "603c6228.638f64"
+         ]
+      ]
+   },
+   {  
+      "id":"790ecadd.435e84",
+      "type":"inject",
+      "z":"409e6b4.8de1b94",
+      "name":"Get in the office",
+      "topic":"task2",
+      "payload":"{\"Points\":[[12.5862597695,55.6617436063],[12.5863317767,55.6617403463],[12.5863346108,55.6617017139]],\"Fid\":201,\"Name\":\"waypoint_fid\",\"Id\":9}",
+      "payloadType":"json",
+      "repeat":"",
+      "crontab":"",
+      "once":false,
+      "onceDelay":0.1,
+      "x":160,
+      "y":740,
+      "wires":[  
+         [  
+            "603c6228.638f64"
+         ]
+      ]
+   },
+   {  
+      "id":"aab282d2.e99658",
+      "type":"inject",
+      "z":"409e6b4.8de1b94",
+      "name":"Task complete",
+      "topic":"task2",
+      "payload":"{\"Command\":\"task completed\",\"Name\":\"speak\",\"Id\":3}",
+      "payloadType":"json",
+      "repeat":"",
+      "crontab":"",
+      "once":false,
+      "onceDelay":0.1,
+      "x":160,
+      "y":780,
+      "wires":[  
+         [  
+            "603c6228.638f64"
+         ]
+      ]
+   },
+   {  
+      "id":"3ba429a0.5893a6",
+      "type":"inject",
+      "z":"409e6b4.8de1b94",
+      "name":"Stop",
+      "topic":"",
+      "payload":"{\"data\": \"STOP\"}",
+      "payloadType":"json",
+      "repeat":"",
+      "crontab":"",
+      "once":false,
+      "onceDelay":0.1,
+      "x":130,
+      "y":240,
+      "wires":[  
+         [  
+            "2bbf15fb.a6475a"
+         ]
+      ]
+   },
+   {  
+      "id":"568cde74.a2ead",
+      "type":"inject",
+      "z":"409e6b4.8de1b94",
+      "name":"Debug",
+      "topic":"",
+      "payload":"{\"data\": \"DEBUG\"}",
+      "payloadType":"json",
+      "repeat":"",
+      "crontab":"",
+      "once":false,
+      "onceDelay":0.1,
+      "x":130,
+      "y":280,
+      "wires":[  
+         [  
+            "2bbf15fb.a6475a"
+         ]
+      ]
+   },
+   {  
+      "id":"603c6228.638f64",
+      "type":"function",
+      "z":"409e6b4.8de1b94",
+      "name":"Format tasks",
+      "func":"if(msg.complete) {\n    msg.payload = flow.get(\"tasks\");\n    return msg;\n}\n\nfunction formatTask(s) {\n    obj = s;\n    obj[\"Id\"] = flow.get(\"index\");\n    flow.set(\"index\", flow.get(\"index\")+1);\n    return JSON.stringify(obj);\n}\n\nvar task = flow.get(\"tasks\");\nstr = formatTask(msg.payload);\n\nif(task === \"\") {\n    task = str;\n}\nelse {\n    task = task + ',' + str;\n}\n\nflow.set(\"tasks\", task);\n\n",
+      "outputs":1,
+      "noerr":0,
+      "x":650,
+      "y":600,
+      "wires":[  
+         [  
+            "fff27629.f2487"
+         ]
+      ]
+   },
+   {  
+      "id":"b8e9889b.933428",
+      "type":"inject",
+      "z":"409e6b4.8de1b94",
+      "name":"Init tasks",
+      "topic":"",
+      "payload":"",
+      "payloadType":"date",
+      "repeat":"",
+      "crontab":"",
+      "once":false,
+      "onceDelay":0.1,
+      "x":140,
+      "y":340,
+      "wires":[  
+         [  
+            "1a204aee.ca2e6d",
+            "1977a222.fed4ce"
+         ]
+      ]
+   },
+   {  
+      "id":"1a204aee.ca2e6d",
+      "type":"change",
+      "z":"409e6b4.8de1b94",
+      "name":"Init task index",
+      "rules":[  
+         {  
+            "t":"set",
+            "p":"index",
+            "pt":"flow",
+            "to":"1",
+            "tot":"num"
+         }
+      ],
+      "action":"",
+      "property":"",
+      "from":"",
+      "to":"",
+      "reg":false,
+      "x":360,
+      "y":340,
+      "wires":[  
+         [  
+            "a0355a89.c1fb8"
+         ]
+      ]
+   },
+   {  
+      "id":"a0355a89.c1fb8",
+      "type":"debug",
+      "z":"409e6b4.8de1b94",
+      "name":"",
+      "active":false,
+      "tosidebar":true,
+      "console":false,
+      "tostatus":false,
+      "complete":"payload",
+      "x":590,
+      "y":340,
+      "wires":[  
+
+      ]
+   },
+   {  
+      "id":"1977a222.fed4ce",
+      "type":"change",
+      "z":"409e6b4.8de1b94",
+      "name":"Init tasks",
+      "rules":[  
+         {  
+            "t":"set",
+            "p":"tasks",
+            "pt":"flow",
+            "to":"",
+            "tot":"str"
+         }
+      ],
+      "action":"",
+      "property":"",
+      "from":"",
+      "to":"",
+      "reg":false,
+      "x":340,
+      "y":300,
+      "wires":[  
+         [  
+            "568a43e6.632d54"
+         ]
+      ]
+   },
+   {  
+      "id":"568a43e6.632d54",
+      "type":"debug",
+      "z":"409e6b4.8de1b94",
+      "name":"",
+      "active":false,
+      "tosidebar":true,
+      "console":false,
+      "tostatus":false,
+      "complete":"payload",
+      "x":590,
+      "y":300,
+      "wires":[  
+
+      ]
+   },
+   {  
+      "id":"fff27629.f2487",
+      "type":"function",
+      "z":"409e6b4.8de1b94",
+      "name":"Covert to json",
+      "func":"head = '{\"Tasks\":[';\nend =  ']}';\nstr = head + msg.payload + end;\nobj = JSON.parse('{\"data\": \"\" }');\nobj[\"data\"] = str;\nmsg.payload = obj;\nreturn msg;",
+      "outputs":1,
+      "noerr":0,
+      "x":840,
+      "y":600,
+      "wires":[  
+         [  
+            "dfffc19d.5abbc",
+            "c4ad43bb.c1c34"
+         ]
+      ]
+   },
+   {  
+      "id":"dfffc19d.5abbc",
+      "type":"debug",
+      "z":"409e6b4.8de1b94",
+      "name":"",
+      "active":true,
+      "tosidebar":true,
+      "console":false,
+      "tostatus":false,
+      "complete":"payload",
+      "x":1090,
+      "y":600,
+      "wires":[  
+
+      ]
+   },
+   {  
+      "id":"3d45f4c8.2dcb0c",
       "type":"change",
       "z":"409e6b4.8de1b94",
       "name":"Start the task",
@@ -3063,283 +3310,31 @@
       "from":"",
       "to":"",
       "reg":false,
-      "x":560,
-      "y":640,
+      "x":360,
+      "y":380,
       "wires":[  
          [  
-            "92542f6f.0608"
+            "603c6228.638f64"
          ]
       ]
    },
    {  
-      "id":"14065ff5.95e71",
+      "id":"5124dcc.96fc3a4",
       "type":"inject",
       "z":"409e6b4.8de1b94",
-      "name":"Corridor mode to logistic",
-      "topic":"task2",
-      "payload":"{\"Command\":\"MID,0.4\",\"Fid\":208,\"Name\":\"corridor_fid\",\"Id\":3}",
-      "payloadType":"json",
+      "name":"Start tasks",
+      "topic":"",
+      "payload":"",
+      "payloadType":"date",
       "repeat":"",
       "crontab":"",
       "once":false,
       "onceDelay":0.1,
-      "x":190,
-      "y":360,
+      "x":140,
+      "y":380,
       "wires":[  
          [  
-            "3d15a1e2.4c978e"
-         ]
-      ]
-   },
-   {  
-      "id":"e9b03288.6396f8",
-      "type":"inject",
-      "z":"409e6b4.8de1b94",
-      "name":"Enter logistic",
-      "topic":"task2",
-      "payload":"{\"Points\":[[12.5863684147,55.662021616],[12.5863494406,55.662022251]],\"Name\":\"waypoint\",\"Id\":4}",
-      "payloadType":"json",
-      "repeat":"",
-      "crontab":"",
-      "once":false,
-      "onceDelay":0.1,
-      "x":150,
-      "y":400,
-      "wires":[  
-         [  
-            "d5568b45.cff01"
-         ]
-      ]
-   },
-   {  
-      "id":"3d15a1e2.4c978e",
-      "type":"json",
-      "z":"409e6b4.8de1b94",
-      "name":"",
-      "property":"payload",
-      "action":"",
-      "pretty":false,
-      "x":410,
-      "y":360,
-      "wires":[  
-         [  
-            "92542f6f.0608"
-         ]
-      ]
-   },
-   {  
-      "id":"cf318f4e.83208",
-      "type":"inject",
-      "z":"409e6b4.8de1b94",
-      "name":"Ask for thing",
-      "topic":"task2",
-      "payload":"{\"Command\":\"banana please\",\"Target\":\"banana\",\"Name\":\"speak_cmd\",\"Id\":5}",
-      "payloadType":"json",
-      "repeat":"",
-      "crontab":"",
-      "once":false,
-      "onceDelay":0.1,
-      "x":150,
-      "y":440,
-      "wires":[  
-         [  
-            "f0af2fd8.7ae1c"
-         ]
-      ]
-   },
-   {  
-      "id":"2940be4b.80a0ba",
-      "type":"inject",
-      "z":"409e6b4.8de1b94",
-      "name":"Say thank you",
-      "topic":"task2",
-      "payload":"{\"Command\":\"thank you\",\"Name\":\"speak\",\"Id\":6}",
-      "payloadType":"json",
-      "repeat":"",
-      "crontab":"",
-      "once":false,
-      "onceDelay":0.1,
-      "x":150,
-      "y":480,
-      "wires":[  
-         [  
-            "4fc4ccec.b2b8ec"
-         ]
-      ]
-   },
-   {  
-      "id":"e34c1a01.18a05",
-      "type":"inject",
-      "z":"409e6b4.8de1b94",
-      "name":"Logistic to corridor",
-      "topic":"task2",
-      "payload":"{\"Points\":[[12.5863684147,55.662021616],[12.5863652749,55.6620066745]],\"Fid\":208,\"Name\":\"waypoint_fid\",\"Id\":7}",
-      "payloadType":"json",
-      "repeat":"",
-      "crontab":"",
-      "once":false,
-      "onceDelay":0.1,
-      "x":170,
-      "y":520,
-      "wires":[  
-         [  
-            "7f8a69df.f9389"
-         ]
-      ]
-   },
-   {  
-      "id":"d5568b45.cff01",
-      "type":"json",
-      "z":"409e6b4.8de1b94",
-      "name":"",
-      "property":"payload",
-      "action":"",
-      "pretty":false,
-      "x":410,
-      "y":400,
-      "wires":[  
-         [  
-            "92542f6f.0608"
-         ]
-      ]
-   },
-   {  
-      "id":"f0af2fd8.7ae1c",
-      "type":"json",
-      "z":"409e6b4.8de1b94",
-      "name":"",
-      "property":"payload",
-      "action":"",
-      "pretty":false,
-      "x":410,
-      "y":440,
-      "wires":[  
-         [  
-            "92542f6f.0608"
-         ]
-      ]
-   },
-   {  
-      "id":"ea631d0a.7985c8",
-      "type":"inject",
-      "z":"409e6b4.8de1b94",
-      "name":"Corridor mode back",
-      "topic":"task2",
-      "payload":"{\"Command\":\"MID,0.4\",\"Fid\":209,\"Name\":\"corridor_fid\",\"Id\":8}",
-      "payloadType":"json",
-      "repeat":"",
-      "crontab":"",
-      "once":false,
-      "onceDelay":0.1,
-      "x":170,
-      "y":560,
-      "wires":[  
-         [  
-            "bacf8d7d.cdd0e8"
-         ]
-      ]
-   },
-   {  
-      "id":"790ecadd.435e84",
-      "type":"inject",
-      "z":"409e6b4.8de1b94",
-      "name":"Get in the office",
-      "topic":"task2",
-      "payload":"{\"Points\":[[12.5862597695,55.6617436063],[12.5863317767,55.6617403463],[12.5863346108,55.6617017139]],\"Fid\":201,\"Name\":\"waypoint_fid\",\"Id\":9}",
-      "payloadType":"json",
-      "repeat":"",
-      "crontab":"",
-      "once":false,
-      "onceDelay":0.1,
-      "x":160,
-      "y":600,
-      "wires":[  
-         [  
-            "c89adbe7.86f708"
-         ]
-      ]
-   },
-   {  
-      "id":"aab282d2.e99658",
-      "type":"inject",
-      "z":"409e6b4.8de1b94",
-      "name":"Task complete",
-      "topic":"task2",
-      "payload":"{\"Command\":\"task completed\",\"Name\":\"speak\",\"Id\":10}",
-      "payloadType":"json",
-      "repeat":"",
-      "crontab":"",
-      "once":false,
-      "onceDelay":0.1,
-      "x":160,
-      "y":640,
-      "wires":[  
-         [  
-            "f36ffe52.f58108"
-         ]
-      ]
-   },
-   {  
-      "id":"4fc4ccec.b2b8ec",
-      "type":"json",
-      "z":"409e6b4.8de1b94",
-      "name":"",
-      "property":"payload",
-      "action":"",
-      "pretty":false,
-      "x":410,
-      "y":480,
-      "wires":[  
-         [  
-            "92542f6f.0608"
-         ]
-      ]
-   },
-   {  
-      "id":"7f8a69df.f9389",
-      "type":"json",
-      "z":"409e6b4.8de1b94",
-      "name":"",
-      "property":"payload",
-      "action":"",
-      "pretty":false,
-      "x":410,
-      "y":520,
-      "wires":[  
-         [  
-            "92542f6f.0608"
-         ]
-      ]
-   },
-   {  
-      "id":"bacf8d7d.cdd0e8",
-      "type":"json",
-      "z":"409e6b4.8de1b94",
-      "name":"",
-      "property":"payload",
-      "action":"",
-      "pretty":false,
-      "x":410,
-      "y":560,
-      "wires":[  
-         [  
-            "92542f6f.0608"
-         ]
-      ]
-   },
-   {  
-      "id":"c89adbe7.86f708",
-      "type":"json",
-      "z":"409e6b4.8de1b94",
-      "name":"",
-      "property":"payload",
-      "action":"",
-      "pretty":false,
-      "x":410,
-      "y":600,
-      "wires":[  
-         [  
-            "92542f6f.0608"
+            "3d45f4c8.2dcb0c"
          ]
       ]
    }
