@@ -2,7 +2,6 @@
 import rospy
 import json
 
-from smach import State, StateMachine
 from std_msgs.msg import String, Bool, Int32, Float32
 from sensor_msgs.msg import NavSatFix
 from fiducial_msgs.msg import FiducialTransformArray
@@ -57,9 +56,8 @@ class Publishers(object):
     self.cmdPub.publish(cmdMsg)
 
 # Waypoint mode, stop when last waypoint is reached
-class Waypoint(State):
+class Waypoint(object):
   def __init__(self, p_arr):
-    State.__init__(self, outcomes=['success', 'stop'])
     self.finished = False
     self.stop = False
     self.points = p_arr
@@ -68,17 +66,17 @@ class Waypoint(State):
     rospy.Subscriber('waypoint/reached', NavSatFix, self.reachCB)
     rospy.Subscriber('delivery/cmd', String, self.cmdCB)
 
-  def execute(self, userdata):
+  def execute(self):
     pub.pointPub(self.points[0])
     pub.statePub("RUNNING")
     while not self.finished:
       if self.stop:
         self.stop = False
         pub.statePub("STOP")
-        return 'stop'
+        return False
       rospy.sleep(0.1)
     pub.statePub("STOP")
-    return 'success'
+    return True
 
   def reachCB(self, nat):
     index = self.points.index([nat.longitude,nat.latitude])
@@ -94,9 +92,8 @@ class Waypoint(State):
       self.stop = True
 
 # Waypoint mode, stop when detects target fiducial
-class Waypoint_fid(State):
+class Waypoint_fid(object):
   def __init__(self, p_arr, fid):
-    State.__init__(self, outcomes=['success', 'stop'])
     self.finished = False
     self.stop = False
     self.points = p_arr
@@ -108,19 +105,19 @@ class Waypoint_fid(State):
     rospy.Subscriber('fiducial_transforms', FiducialTransformArray, self.transCB)
     rospy.Subscriber('delivery/cmd', String, self.cmdCB)
 
-  def execute(self, userdata):
+  def execute(self):
     pub.pointPub(self.points[0])
     pub.statePub("RUNNING")
     while not self.finished:
       if self.stop:
         self.stop = False
         pub.statePub("STOP")
-        return 'stop'
+        return False
       if self.detected_fid == self.fid_id:
         break
       rospy.sleep(0.1)
     pub.statePub("STOP")
-    return 'success'
+    return True
 
   def reachCB(self, nat):
     index = self.points.index([nat.longitude,nat.latitude])
@@ -143,9 +140,8 @@ class Waypoint_fid(State):
       self.stop = True
 
 # Corridor, stop when detects target fiducial
-class Corridor_fid(State):
+class Corridor_fid(object):
   def __init__(self, corridor_cmd, fid):
-    State.__init__(self, outcomes=['success', 'stop'])
     self.stop = False
     self.cmd = corridor_cmd
     self.fid_id = fid
@@ -155,16 +151,16 @@ class Corridor_fid(State):
     rospy.Subscriber('fiducial_transforms', FiducialTransformArray, self.transCB)
     rospy.Subscriber('delivery/cmd', String, self.cmdCB)
     
-  def execute(self, userdata):
+  def execute(self):
     pub.modePub(self.cmd)
     while not self.fid_id == self.detected_fid:
       if self.stop:
         self.stop = False
         pub.modePub("STOP")
-        return 'stop'
+        return False
       rospy.sleep(0.1)
     pub.modePub("STOP")
-    return 'success'
+    return True
 
   def transCB(self, t):
     if len(t.transforms) < 1:
@@ -178,20 +174,18 @@ class Corridor_fid(State):
       self.stop = True
 
 # Espeak, only once
-class Speak(State):
+class Speak(object):
   def __init__(self, speak_cmd):
-    State.__init__(self, outcomes=['success', 'stop'])
     self.cmd = speak_cmd
 
-  def execute(self, userdata):
+  def execute(self):
     pub.speakPub(self.cmd)
     rospy.sleep(3)
-    return 'success'
+    return True
 
 # Espeak, stop when target is detected by the vision kit
-class Speak_cmd(State):
+class Speak_cmd(object):
   def __init__(self, speak_cmd, target_cmd):
-    State.__init__(self, outcomes=['success', 'stop'])
     self.cmd = speak_cmd
     self.target = target_cmd
     self.target_recived = False    
@@ -201,14 +195,14 @@ class Speak_cmd(State):
     rospy.Subscriber('mqtt/commands/vision_kit', String, self.mqttCB)
     rospy.Subscriber('delivery/cmd', String, self.cmdCB)
 
-  def execute(self, userdata):
+  def execute(self):
     while not self.target_recived:
       if self.stop:
         self.stop = False
-        return 'stop'
+        return False
       pub.speakPub(self.cmd)
       rospy.sleep(3)
-    return 'success'
+    return True
 
   def mqttCB(self, m):
     if m.data == self.target:
@@ -227,8 +221,7 @@ class Delivery(object):
     rospy.init_node('delivery_state_machine')
     self.freq = 10
     self.rate = rospy.Rate(self.freq)  
-    self.sm = StateMachine(outcomes=['success'])
-    self.state_machine_ready = False
+    self.classes = []
 
     # Subscrber
     rospy.Subscriber('delivery/scenario', String, self.scenCB)
@@ -240,9 +233,9 @@ class Delivery(object):
 
   def Start(self):
     while not rospy.is_shutdown():
-      if self.state_machine_ready:
-        self.sm.execute()
-        self.state_machine_ready = False
+      for i in Range(0,len(self.classes)-1):
+        if not self.classes.execute():
+          break
       self.rate.sleep()
 
   def Stop(self):
@@ -250,40 +243,30 @@ class Delivery(object):
     pub.statePub("STOP")
 
   def scenCB(self, s):
-    if self.sm.is_running():
-      pub.commandPub("STOP")
+    pub.commandPub("STOP")
+    self.classes = []
     json_data = json.loads(s.data)    
-    self.sm = StateMachine(outcomes=['success'])
-    with self.sm:
-      try:
-        for task in json_data["Tasks"]:
-          if task["Id"] == len(json_data["Tasks"]):
-            next_state = 'success'
-          else:
-            next_state = str(task["Id"]+1)
-
-          if task["Name"] == "waypoint":
-            StateMachine.add(str(task["Id"]), Waypoint(task["Points"]), transitions={'success':next_state, 'stop':'success'})
-          elif task["Name"] == "waypoint_fid":
-            StateMachine.add(str(task["Id"]), Waypoint_fid(task["Points"],task["Fid"]), transitions={'success':next_state, 'stop':'success'})
-          elif task["Name"] == "corridor_fid":
-            StateMachine.add(str(task["Id"]), Corridor_fid(task["Command"],task["Fid"]), transitions={'success':next_state, 'stop':'success'})
-          elif task["Name"] == "speak":
-            StateMachine.add(str(task["Id"]), Speak(task["Command"]), transitions={'success':next_state, 'stop':'success'})
-          elif task["Name"] == "speak_cmd":
-            StateMachine.add(str(task["Id"]), Speak_cmd(task["Command"],task["Target"]), transitions={'success':next_state, 'stop':'success'})
-        self.state_machine_ready = True
-      except:
-        return
+    try:
+      # Can be optimised by index
+      for task in json_data["Tasks"]:
+        if task["Name"] == "waypoint":
+          c = Waypoint(task["Points"])
+        elif task["Name"] == "waypoint_fid":
+          c = Waypoint_fid(task["Points"],task["Fid"])
+        elif task["Name"] == "corridor_fid":
+          c = Corridor_fid(task["Command"],task["Fid"])
+        elif task["Name"] == "speak":
+          c = Speak(task["Command"])
+        elif task["Name"] == "speak_cmd":
+          c = Speak_cmd(task["Command"],task["Target"])
+        
+        self.classes.append(c)
+    except:
+      return
 
   def cmdCB(self, s):
     if s.data == "STOP":
-      if self.sm.is_running():
-        pub.commandPub("STOP")
-        rospy.sleep(3)
-      self.state_machine_ready = False
-    if s.data == "DEBUG":
-      print self.sm.get_active_states()
+      pub.commandPub("STOP")
 
 if __name__ == '__main__':
   pub = Publishers()
