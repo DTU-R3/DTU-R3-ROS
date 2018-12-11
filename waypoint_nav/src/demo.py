@@ -59,6 +59,7 @@ class demo(object):
   def mqttCB(self, m):
     if m.data == "stop":
       self.pubCmd("STOP") 
+      return
     self.target = m.data
     self.ChangeTarget()
     self.ready = True
