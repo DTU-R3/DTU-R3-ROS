@@ -222,10 +222,10 @@ class Delivery(object):
     self.freq = 10
     self.rate = rospy.Rate(self.freq)  
     self.classes = []
+    self.class_init = False
 
     # Subscrber
     rospy.Subscriber('delivery/scenario', String, self.scenCB)
-    rospy.Subscriber('delivery/cmd', String, self.cmdCB)
 
     # Publish waypoint parameters
     pub.parameterPub("2.0,1.0,1.0,1.0")
@@ -233,9 +233,15 @@ class Delivery(object):
 
   def Start(self):
     while not rospy.is_shutdown():
-      for i in Range(0,len(self.classes)-1):
-        if not self.classes.execute():
+      if not self.class_init:
+        self.rate.sleep()
+        continue
+      for i in range(0,len(self.classes)):
+        print self.classes[i]
+        if not self.classes[i].execute():
           break
+      self.classes = []
+      self.class_init = False
       self.rate.sleep()
 
   def Stop(self):
@@ -243,30 +249,28 @@ class Delivery(object):
     pub.statePub("STOP")
 
   def scenCB(self, s):
-    pub.commandPub("STOP")
-    self.classes = []
-    json_data = json.loads(s.data)    
+    self.class_init = False
+    if len(self.classes) > 0:
+      pub.commandPub("STOP")
+      while len(self.classes) > 0:
+        self.rate.sleep() 
+    json_data = json.loads(s.data)
     try:
       # Can be optimised by index
       for task in json_data["Tasks"]:
         if task["Name"] == "waypoint":
-          c = Waypoint(task["Points"])
+          self.classes.append(Waypoint(task["Points"]))
         elif task["Name"] == "waypoint_fid":
-          c = Waypoint_fid(task["Points"],task["Fid"])
+          self.classes.append(Waypoint_fid(task["Points"],task["Fid"]))
         elif task["Name"] == "corridor_fid":
-          c = Corridor_fid(task["Command"],task["Fid"])
+          self.classes.append(Corridor_fid(task["Command"],task["Fid"]))
         elif task["Name"] == "speak":
-          c = Speak(task["Command"])
+          self.classes.append(Speak(task["Command"]))
         elif task["Name"] == "speak_cmd":
-          c = Speak_cmd(task["Command"],task["Target"])
-        
-        self.classes.append(c)
+          self.classes.append(Speak_cmd(task["Command"],task["Target"]))  
+      self.class_init =True
     except:
       return
-
-  def cmdCB(self, s):
-    if s.data == "STOP":
-      pub.commandPub("STOP")
 
 if __name__ == '__main__':
   pub = Publishers()
