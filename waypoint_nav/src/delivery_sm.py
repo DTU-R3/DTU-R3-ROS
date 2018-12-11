@@ -67,6 +67,7 @@ class Waypoint(object):
     rospy.Subscriber('delivery/cmd', String, self.cmdCB)
 
   def execute(self):
+    print self.points
     pub.pointPub(self.points[0])
     pub.statePub("RUNNING")
     while not self.finished:
@@ -108,6 +109,7 @@ class Waypoint_fid(object):
     rospy.Subscriber('delivery/cmd', String, self.cmdCB)
 
   def execute(self):
+    print self.points
     self.detected_fid = 0
     pub.pointPub(self.points[0])
     pub.statePub("RUNNING")
@@ -247,15 +249,15 @@ class Delivery(object):
       try:
         for task in self.json_data["Tasks"]:
           if task["Name"] == "waypoint":
-            c = Waypoint(task["Points"])        
+            c = Waypoint().__init__(task["Points"])
           elif task["Name"] == "waypoint_fid":
-            c = Waypoint_fid(task["Points"],task["Fid"])
+            c = Waypoint_fid.__init__(task["Points"],task["Fid"])
           elif task["Name"] == "corridor_fid":
-            c = Corridor_fid(task["Command"],task["Fid"])
+            c = Corridor_fid.__init__(task["Command"],task["Fid"])
           elif task["Name"] == "speak":
-            c = Speak(task["Command"])
+            c = Speak.__init__(task["Command"])
           elif task["Name"] == "speak_cmd":
-            c = Speak_cmd(task["Command"],task["Target"])
+            c = Speak_cmd.__init__(task["Command"],task["Target"])
           print c
           if not c.execute():
             break
