@@ -256,8 +256,12 @@ class Delivery(object):
         self.rate.sleep() 
     json_data = json.loads(s.data)
     try:
-      # Can be optimised by index
-      for task in json_data["Tasks"]:
+      for index in range(1,len(json_data["Tasks"])+1):
+        for t in json_data["Tasks"]:
+          if t["Id"] == index:
+            task = t
+            break
+
         if task["Name"] == "waypoint":
           self.classes.append(Waypoint(task["Points"]))
         elif task["Name"] == "waypoint_fid":
