@@ -261,6 +261,8 @@ class Delivery(object):
           if t["Id"] == index:
             task = t
             break
+          print "index not found in  the tasks"
+          return
 
         if task["Name"] == "waypoint":
           self.classes.append(Waypoint(task["Points"]))
