@@ -79,6 +79,8 @@ class Waypoint(object):
     return True
 
   def reachCB(self, nat):
+    print [nat.longitude,nat.latitude]
+    print self.points
     index = self.points.index([nat.longitude,nat.latitude])
     if index >= (len(self.points) - 1):
       self.finished = True
@@ -106,6 +108,7 @@ class Waypoint_fid(object):
     rospy.Subscriber('delivery/cmd', String, self.cmdCB)
 
   def execute(self):
+    self.detected_fid = 0
     pub.pointPub(self.points[0])
     pub.statePub("RUNNING")
     while not self.finished:
@@ -114,12 +117,16 @@ class Waypoint_fid(object):
         pub.statePub("STOP")
         return False
       if self.detected_fid == self.fid_id:
+        print self.detected_fid
         break
       rospy.sleep(0.1)
+    self.detected_fid = 0
     pub.statePub("STOP")
     return True
 
   def reachCB(self, nat):
+    print [nat.longitude,nat.latitude]
+    print self.points
     index = self.points.index([nat.longitude,nat.latitude])
     if index >= (len(self.points) - 1):
       self.finished = True
@@ -159,6 +166,7 @@ class Corridor_fid(object):
         pub.modePub("STOP")
         return False
       rospy.sleep(0.1)
+    self.detected_fid = 0
     pub.modePub("STOP")
     return True
 
@@ -221,8 +229,8 @@ class Delivery(object):
     rospy.init_node('delivery_state_machine')
     self.freq = 10
     self.rate = rospy.Rate(self.freq)  
-    self.classes = []
     self.class_init = False
+    self.json_data = ""
 
     # Subscrber
     rospy.Subscriber('delivery/scenario', String, self.scenCB)
@@ -236,11 +244,23 @@ class Delivery(object):
       if not self.class_init:
         self.rate.sleep()
         continue
-      for i in range(0,len(self.classes)):
-        print self.classes[i]
-        if not self.classes[i].execute():
-          break
-      self.classes = []
+      try:
+        for task in self.json_data["Tasks"]:
+          if task["Name"] == "waypoint":
+            c = Waypoint(task["Points"])        
+          elif task["Name"] == "waypoint_fid":
+            c = Waypoint_fid(task["Points"],task["Fid"])
+          elif task["Name"] == "corridor_fid":
+            c = Corridor_fid(task["Command"],task["Fid"])
+          elif task["Name"] == "speak":
+            c = Speak(task["Command"])
+          elif task["Name"] == "speak_cmd":
+            c = Speak_cmd(task["Command"],task["Target"])
+          print c
+          if not c.execute():
+            break
+      except:
+        continue
       self.class_init = False
       self.rate.sleep()
 
@@ -249,28 +269,12 @@ class Delivery(object):
     pub.statePub("STOP")
 
   def scenCB(self, s):
-    self.class_init = False
-    if len(self.classes) > 0:
+    if self.class_init:
       pub.commandPub("STOP")
-      while len(self.classes) > 0:
+      while self.class_init:
         self.rate.sleep() 
-    json_data = json.loads(s.data)
-    try:
-      # Can be optimised by index
-      for task in json_data["Tasks"]:
-        if task["Name"] == "waypoint":
-          self.classes.append(Waypoint(task["Points"]))
-        elif task["Name"] == "waypoint_fid":
-          self.classes.append(Waypoint_fid(task["Points"],task["Fid"]))
-        elif task["Name"] == "corridor_fid":
-          self.classes.append(Corridor_fid(task["Command"],task["Fid"]))
-        elif task["Name"] == "speak":
-          self.classes.append(Speak(task["Command"]))
-        elif task["Name"] == "speak_cmd":
-          self.classes.append(Speak_cmd(task["Command"],task["Target"]))  
-      self.class_init =True
-    except:
-      return
+    self.json_data = json.loads(s.data)
+    self.class_init = True
 
 if __name__ == '__main__':
   pub = Publishers()
