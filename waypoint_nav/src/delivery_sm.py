@@ -40,7 +40,6 @@ class Publishers(object):
     speakMsg = String()
     speakMsg.data = s
     self.espeakPub.publish(speakMsg)
-  
 
   def thresholdPub(self, f):
     thresMsg = Float32()
@@ -64,8 +63,6 @@ class Waypoint(State):
     self.finished = False
     self.stop = False
     self.points = p_arr
-    print "Waypoint"
-    print self.points
 
     # Subscirber
     rospy.Subscriber('waypoint/reached', NavSatFix, self.reachCB)
@@ -105,8 +102,6 @@ class Waypoint_fid(State):
     self.points = p_arr
     self.fid_id = fid
     self.detected_fid = 0
-    print "Waypoint Fid"
-    print self.points
 
     # Subscirber
     rospy.Subscriber('waypoint/reached', NavSatFix, self.reachCB)
