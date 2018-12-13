@@ -57,16 +57,17 @@ class Publishers(object):
 
 # Waypoint mode, stop when last waypoint is reached
 class Waypoint(object):
-  def __init__(self, p_arr):
+  def __init__(self):
     self.finished = False
     self.stop = False
-    self.points = p_arr
+    self.points = []
 
     # Subscirber
     rospy.Subscriber('waypoint/reached', NavSatFix, self.reachCB)
     rospy.Subscriber('delivery/cmd', String, self.cmdCB)
 
   def execute(self):
+    print self.points
     pub.pointPub(self.points[0])
     pub.statePub("RUNNING")
     while not self.finished:
@@ -95,11 +96,11 @@ class Waypoint(object):
 
 # Waypoint mode, stop when detects target fiducial
 class Waypoint_fid(object):
-  def __init__(self, p_arr, fid):
+  def __init__(self):
     self.finished = False
     self.stop = False
-    self.points = p_arr
-    self.fid_id = fid
+    self.points = []
+    self.fid_id = 0
     self.detected_fid = 0
 
     # Subscirber
@@ -108,6 +109,7 @@ class Waypoint_fid(object):
     rospy.Subscriber('delivery/cmd', String, self.cmdCB)
 
   def execute(self):
+    print self.points
     self.detected_fid = 0
     pub.pointPub(self.points[0])
     pub.statePub("RUNNING")
@@ -148,10 +150,10 @@ class Waypoint_fid(object):
 
 # Corridor, stop when detects target fiducial
 class Corridor_fid(object):
-  def __init__(self, corridor_cmd, fid):
+  def __init__(self):
     self.stop = False
-    self.cmd = corridor_cmd
-    self.fid_id = fid
+    self.cmd = "STOP"
+    self.fid_id = 0
     self.detected_fid = 0
 
     # Subscirber
@@ -183,8 +185,8 @@ class Corridor_fid(object):
 
 # Espeak, only once
 class Speak(object):
-  def __init__(self, speak_cmd):
-    self.cmd = speak_cmd
+  def __init__(self):
+    self.cmd = ""
 
   def execute(self):
     pub.speakPub(self.cmd)
@@ -193,9 +195,9 @@ class Speak(object):
 
 # Espeak, stop when target is detected by the vision kit
 class Speak_cmd(object):
-  def __init__(self, speak_cmd, target_cmd):
-    self.cmd = speak_cmd
-    self.target = target_cmd
+  def __init__(self):
+    self.cmd = ""
+    self.target = ""
     self.target_recived = False    
     self.stop = False
 
@@ -247,15 +249,23 @@ class Delivery(object):
       try:
         for task in self.json_data["Tasks"]:
           if task["Name"] == "waypoint":
-            c = Waypoint(task["Points"])        
+            c = Waypoint()
+            c.points = task["Points"]
           elif task["Name"] == "waypoint_fid":
-            c = Waypoint_fid(task["Points"],task["Fid"])
+            c = Waypoint_fid()
+            c.points = task["Points"]
+            c.fid_id = task["Fid"]
           elif task["Name"] == "corridor_fid":
-            c = Corridor_fid(task["Command"],task["Fid"])
+            c = Corridor_fid()
+            c.cmd = task["Command"]
+            c.fid_id = task["Fid"]
           elif task["Name"] == "speak":
-            c = Speak(task["Command"])
+            c = Speak()
+            c.cmd = task["Command"]
           elif task["Name"] == "speak_cmd":
-            c = Speak_cmd(task["Command"],task["Target"])
+            c = Speak_cmd()
+            c.cmd = task["Command"]
+            c.target = task["Target"]
           print c
           if not c.execute():
             break
