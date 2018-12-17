@@ -162,10 +162,10 @@ class fiducial_localization(object):
               continue
             robot_gps_pose = Odometry()
             robot_gps_pose.header.stamp = t.header.stamp # Important to apply offset
-            robot_gps_pose.pose.pose.position.z = math.floor(robot_utm_trans.transform.translation.z)
+            robot_gps_pose.pose.pose.position.z = robot_utm_trans.transform.translation.z
             robot_gps_pose.pose.pose.position.x,robot_gps_pose.pose.pose.position.y = self.projection(robot_utm_trans.transform.translation.x, robot_utm_trans.transform.translation.y, inverse=True)
-            robot_gps_pose.pose.pose.orientation.x = 0
-            robot_gps_pose.pose.pose.orientation.y = 0
+            robot_gps_pose.pose.pose.orientation.x = -robot_utm_trans.transform.rotation.x
+            robot_gps_pose.pose.pose.orientation.y = -robot_utm_trans.transform.rotation.y
             robot_gps_pose.pose.pose.orientation.z = -robot_utm_trans.transform.rotation.z
             robot_gps_pose.pose.pose.orientation.w = robot_utm_trans.transform.rotation.w
             robot_gps_pose.pose.pose.orientation = quat_rot(robot_gps_pose.pose.pose.orientation,0,0,90)
