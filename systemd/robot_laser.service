@@ -1,0 +1,12 @@
+[Unit]
+Description=Start arlobot with lidar
+
+[Service]
+Environment=XDG_RUNTIME_DIR=/run/user/1000
+ExecStart=/bin/bash -c 'source /home/pi/catkin_ws/devel/setup.bash && roslaunch arlobot_bringup arlobot_laser.launch'
+WorkingDirectory=/home/pi/catkin_ws/src
+Restart=always
+User=pi
+
+[Install]
+WantedBy=multi-user.target
