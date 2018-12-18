@@ -1,0 +1,12 @@
+[Unit]
+Description=Voice kit for demo
+
+[Service]
+Environment=XDG_RUNTIME_DIR=/run/user/1000
+ExecStart=/bin/bash -c 'python3 -u workspace/demo.py'
+WorkingDirectory=/home/pi
+Restart=always
+User=pi
+
+[Install]
+WantedBy=multi-user.target
