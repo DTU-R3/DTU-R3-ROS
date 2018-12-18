@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-
 import rospy
 import math
 import json
@@ -21,7 +20,7 @@ from fiducial_msgs.msg import FiducialMapEntryArray, FiducialMapEntry, FiducialT
 class fiducial_localization(object):
   def __init__(self):
     # Init ROS node
-    rospy.init_node('fiducial_waypoint_localization')    
+    rospy.init_node('fiducial_waypoint_localization')
 
     # Variables
     self.projection = Proj(proj="utm", zone="34", ellps='WGS84')
@@ -43,6 +42,7 @@ class fiducial_localization(object):
     self.robot_gps_pub = rospy.Publisher('robot_gps_pose', Odometry, queue_size = 10, latch = True)
     self.tf_pub = rospy.Publisher("tf", tf2_msgs.msg.TFMessage, queue_size=30, latch = True)
     self.debug_output = rospy.Publisher('debug_output', String, queue_size = 10)
+    self.fid_gps_pub = rospy.Publisher('fiducial_gps_pose', FiducialMapEntry, queue_size = 10)
 
     # Subscribers
     rospy.Subscriber('fiducial_map_gps', FiducialMapEntryArray, self.mapGPSCB)
@@ -136,7 +136,9 @@ class fiducial_localization(object):
           tf_fid_utm.transform.rotation.x = quat[0] 
           tf_fid_utm.transform.rotation.y = quat[1] 
           tf_fid_utm.transform.rotation.z = quat[2] 
-          tf_fid_utm.transform.rotation.w = quat[3] 
+          tf_fid_utm.transform.rotation.w = quat[3]
+          print "------------"
+          print tf_fid_utm.transform.rotation
           tfmsg_fid_utm = tf2_msgs.msg.TFMessage([tf_fid_utm])
           self.tf_pub.publish(tfmsg_fid_utm)
 
@@ -172,6 +174,18 @@ class fiducial_localization(object):
             robot_gps_pose.pose.pose.orientation = quat_rot(robot_gps_pose.pose.pose.orientation,0,0,90)
             self.robot_gps_pub.publish(robot_gps_pose)         
             debug_info(self.debug_output, "Fiducial position updated")
+
+            fid_utm_trans = self.tfBuffer.lookup_transform(self.gps_frame, fid_name, rospy.Time())
+            fiducial_gps_pose = FiducialMapEntry()
+            fiducial_gps_pose.fiducial_id = self.reference_id
+            fiducial_gps_pose.x,fiducial_gps_pose.y = self.projection(fid_utm_trans.transform.translation.x, fid_utm_trans.transform.translation.y, inverse=True)
+            fiducial_gps_pose.z = fid_utm_trans.transform.translation.z
+            print fid_utm_trans.transform.rotation
+            fid_utm_euler = tf.transformations.euler_from_quaternion((-fid_utm_trans.transform.rotation.x,-fid_utm_trans.transform.rotation.y,-fid_utm_trans.transform.rotation.z,fid_utm_trans.transform.rotation.w))
+            fiducial_gps_pose.rx = math.degrees(fid_utm_euler[0])
+            fiducial_gps_pose.ry = math.degrees(fid_utm_euler[1])
+            fiducial_gps_pose.rz = 180 - math.degrees(fid_utm_euler[2])
+            self.fid_gps_pub.publish(fiducial_gps_pose)
             break
           except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException):    
             debug_info(self.debug_output, "Updating the position")
