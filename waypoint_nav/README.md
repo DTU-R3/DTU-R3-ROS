@@ -37,13 +37,13 @@ Corridor mode is a specific mode that enables the robot drive in the middle of t
 The demo is designed to ask the robot fetch the object and deliver it back to the user. Several technologies are involved in this demo such as voice/vision recognition, robot control, localisation, navigation and speech synthesis. The vision and voice recognition are done by the Google AIY Vision and Voice, respectively.
 
 ### Hardware list
-**[Arlobot Kit](https://learn.parallax.com/tutorials/arlo)
-**[Google AIY Vision Kit](https://aiyprojects.withgoogle.com/vision)
-**[Google AIY Voice Kit](https://aiyprojects.withgoogle.com/voice)
-**[Raspberry Pi](https://www.raspberrypi.org/)
-**[Raspberry Pi camera](https://www.raspberrypi.org/products/camera-module-v2/)
-**[RPLidar](http://www.slamtec.com/en/Lidar/A3)
-**Speaker
+* [Arlobot Kit](https://learn.parallax.com/tutorials/arlo)
+* [Google AIY Vision Kit](https://aiyprojects.withgoogle.com/vision)
+* [Google AIY Voice Kit](https://aiyprojects.withgoogle.com/voice)
+* [Raspberry Pi](https://www.raspberrypi.org/)
+* [Raspberry Pi camera](https://www.raspberrypi.org/products/camera-module-v2/)
+* [RPLidar](http://www.slamtec.com/en/Lidar/A3)
+* Speaker
 
 ### Setup the demo on development machine
 Development machine refers to the image with full source code that can be used in development. Code on Raspberry Pi can be executed by systemd so that it can automatically start when the pi boots. To set up source code, see [DTU-R3-ROS](https://github.com/DTU-R3/DTU-R3-ROS).
