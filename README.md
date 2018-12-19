@@ -5,15 +5,16 @@
 * Simulation of virtual robots and sensors.
 * Uses Mazemap data to generate 3D floorplans for waypoint navigation and simulation.
 * Can use Virtual Reality for remote control of telerobots.
+* All functions can also be programmed in Nodered
 
-## Prerequisites
+## Prerequisites 
 ROS Kinetic
 
 ## ROS Installation
 For tutorials and documentation on installing see [ROS Website](http://www.ros.org/install/)
 
 ## Project contents
-The Unity projects contain ROS packages for robot features as well as package developed by DTU-R3. Detail information for each packages locates in respective folder. 
+The projects contains ROS packages for robot features as well as package developed by DTU-R3. Detail information for each packages locates in respective folder. 
 
 ## ROS graph of the scenrio
 ![ROS graph](/docs/rosgraph.png "ROS graph")
@@ -22,17 +23,17 @@ The Unity projects contain ROS packages for robot features as well as package de
 ![Transformation tree](/docs/frames.png "Transformation tree")
 
 ## Installation
-To install packages needed for each robot. $ROBOT_NAME could be arlobot, padbot or wheelchair
+To install packages needed for each robot. {$ROBOT_NAME} could be arlobot, padbot or wheelchair
 
 ### Download codes
 ```
 cd ~/catkin_ws/src
 git clone https://github.com/DTU-R3/DTU-R3-ROS.git
 cd DTU-R3-ROS
-git checkout origin/dtu-r3/$ROBOT_NAME
+git checkout origin/dtu-r3/{$ROBOT_NAME}
 git submodule init
 git submodule update
-git submodule foreach git checkout origin/dtu-r3/$ROBOT_NAME
+git submodule foreach git checkout origin/dtu-r3/{$ROBOT_NAME}
 ```
 
 ### Compile workspace
