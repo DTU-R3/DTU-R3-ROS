@@ -5,15 +5,16 @@
 * Simulation of virtual robots and sensors.
 * Uses Mazemap data to generate 3D floorplans for waypoint navigation and simulation.
 * Can use Virtual Reality for remote control of telerobots.
+* All functions can also be programmed in [Nodered](https://nodered.org/)
 
-## Prerequisites
+## Prerequisites 
 ROS Kinetic
 
 ## ROS Installation
 For tutorials and documentation on installing see [ROS Website](http://www.ros.org/install/)
 
 ## Project contents
-The Unity projects contain ROS packages for robot features as well as package developed by DTU-R3. Detail information for each packages locates in respective folder. 
+The projects contains ROS packages for robot features as well as package developed by DTU-R3. Detail information for each packages locates in respective folder. 
 
 ## ROS graph of the scenrio
 ![ROS graph](/docs/rosgraph.png "ROS graph")
@@ -22,17 +23,17 @@ The Unity projects contain ROS packages for robot features as well as package de
 ![Transformation tree](/docs/frames.png "Transformation tree")
 
 ## Installation
-To install packages needed for each robot. $ROBOT_NAME could be arlobot, padbot or wheelchair
+To install packages needed for each robot. {$ROBOT_NAME} could be arlobot, padbot or wheelchair
 
 ### Download codes
 ```
 cd ~/catkin_ws/src
 git clone https://github.com/DTU-R3/DTU-R3-ROS.git
 cd DTU-R3-ROS
-git checkout origin/dtu-r3/$ROBOT_NAME
+git checkout origin/dtu-r3/{$ROBOT_NAME}
 git submodule init
 git submodule update
-git submodule foreach git checkout origin/dtu-r3/$ROBOT_NAME
+git submodule foreach git checkout origin/dtu-r3/{$ROBOT_NAME}
 ```
 
 ### Compile workspace
@@ -100,6 +101,50 @@ Or change the port functionality to miniusart if we want to have two device at t
 dtoverlay=pi3-miniuart-bt
 ```
 
-## License
+## Automatically run code when the machine boots, using system service (systemd)
+In order to set up the system service file, go to systemd folder under [DTU-R3-ROS](https://github.com/DTU-R3/DTU-R3-ROS), and set up repective service files based different platform. Take vision kit for example, run:'
+```
+sudo mv vision_demo.service /lib/systemd/system/
+sudo systemctl enable vision_demo.service
+sudo service vision_demo start
+```
+
+To manually stop your service, run:
+```
+sudo service vision_demo stop
+```
+
+To check the status of your service, run:
+```
+sudo service vision_demo status
+```
+
+For more details on systemd configuration, see [manual page](https://www.freedesktop.org/software/systemd/man/systemd.service.html).
+
+# Delivery scenario
+The demo is designed to ask the robot fetch the object and deliver it back to the user. Several technologies are involved in this demo such as voice/vision recognition, robot control, localisation, navigation and speech synthesis. The vision and voice recognition are done by the Google AIY Vision and Voice, respectively.
+
+## Hardware list
+* [Arlobot Kit](https://learn.parallax.com/tutorials/arlo)
+* [Google AIY Vision Kit](https://aiyprojects.withgoogle.com/vision)
+* [Google AIY Voice Kit](https://aiyprojects.withgoogle.com/voice)
+* [Raspberry Pi](https://www.raspberrypi.org/)
+* [Raspberry Pi camera](https://www.raspberrypi.org/products/camera-module-v2/)
+* [RPLidar](http://www.slamtec.com/en/Lidar/A3)
+* Speaker
+
+## Customise scenario
+The scenario consists of a number of tasks that can be custimised to adapt new scenario. The tasks is sent to ROS as json. An example of tasks can be found [here](https://github.com/DTU-R3/DTU-R3-ROS/blob/master/waypoint_nav/src/tasks.json). The tasks are:
+
+* Waypoint: Ask the robot to run through a series of waypoints.
+* Waypoint_fid: Ask the robot to run through a series of waypoints, stop the task when target fiducial is observed.
+* Corridor_fid: Make the robot run in [corridor mode](https://github.com/DTU-R3/DTU-R3-ROS/blob/master/waypoint_nav), stop the task when target fiducial is observed.
+* Speak: Ask the robot to speak something.
+* Speak_cmd: Ask the robot to keep speaking, stop the task when target command is received.
+
+## Deployment
+In order to quickly reproduce the demo without too much professional knowledge, it can also be deployed on Raspberry with default Raspian image through docker.
+
+# License
 DTU-R3-ROS is licensed under the **BSD 3-clause "New" or "Revised"** License - see the [LICENSE.md](LICENSE) file for details
 

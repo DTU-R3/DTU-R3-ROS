@@ -33,42 +33,8 @@ Corridor mode is a specific mode that enables the robot drive in the middle of t
 * 'LEFT,n': Let the robot run along the left wall with a distance n meters.
 * 'RIGHT,n': Let the robot run along the right wall with a distance n meters.
 
-## Delivery scenario
-The demo is designed to ask the robot fetch the object and deliver it back to the user. Several technologies are involved in this demo such as voice/vision recognition, robot control, localisation, navigation and speech synthesis. The vision and voice recognition are done by the Google AIY Vision and Voice, respectively.
-
-### Hardware list
-* [Arlobot Kit](https://learn.parallax.com/tutorials/arlo)
-* [Google AIY Vision Kit](https://aiyprojects.withgoogle.com/vision)
-* [Google AIY Voice Kit](https://aiyprojects.withgoogle.com/voice)
-* [Raspberry Pi](https://www.raspberrypi.org/)
-* [Raspberry Pi camera](https://www.raspberrypi.org/products/camera-module-v2/)
-* [RPLidar](http://www.slamtec.com/en/Lidar/A3)
-* Speaker
-
-### Setup the demo on development machine
-Development machine refers to the image with full source code that can be used in development. Code on Raspberry Pi can be executed by systemd so that it can automatically start when the pi boots. To set up source code, see [DTU-R3-ROS](https://github.com/DTU-R3/DTU-R3-ROS).
-
-In order to set up the system service file, go to systemd folder under [DTU-R3-ROS](https://github.com/DTU-R3/DTU-R3-ROS), and set up repective service files based different platform. Take vision kit for example, run:'
-```
-sudo mv vision_demo.service /lib/systemd/system/
-sudo systemctl enable vision_demo.service
-sudo service vision_demo start
-```
-
-To manually stop your service, run:
-```
-sudo service vision_demo stop
-```
-
-To check the status of your service, run:
-```
-sudo service vision_demo status
-```
-
-For more details on systemd configuration, see [manual page](https://www.freedesktop.org/software/systemd/man/systemd.service.html).
-
-### Deployment
-In order to quickly reproduce the demo without too much professional knowledge, it can also be deployed on Raspberry with default Raspian image through docker.
+## Fiducial mapping
+If a new fiducial is found. The package is also able to calculate the fiducial global position based on robot current position. The position can be read from topic ['/fiducial_gps_pose'](http://docs.ros.org/kinetic/api/fiducial_msgs/html/msg/FiducialMapEntry.html)
 
 ## Launch files
 **fiducial_encoder_waypoint.launch:** 3D waypoint navigation by fiducials together with encoders. The encoders are used to localise the robot while the fiducials are used to correct the transformation from odometry frame to utm frame.
