@@ -133,8 +133,14 @@ The demo is designed to ask the robot fetch the object and deliver it back to th
 * [RPLidar](http://www.slamtec.com/en/Lidar/A3)
 * Speaker
 
-## Setup the demo on development machine
-Development machine refers to the image with full source code that can be used in development. Code on Raspberry Pi can be executed by systemd so that it can automatically start when the pi boots. To set up source code, see [DTU-R3-ROS](https://github.com/DTU-R3/DTU-R3-ROS).
+## Custimise scenario
+The scenario consists of a number of tasks that can be custimised to adapt new scenario. The tasks is sent to ROS as json. An example of tasks can be found [here](https://github.com/DTU-R3/DTU-R3-ROS/blob/master/waypoint_nav/src/tasks.json). The tasks are:
+
+* Waypoint: Ask the robot to run through a series of waypoints.
+* Waypoint_fid: Ask the robot to run through a series of waypoints, stop the task when target fiducial is observed.
+* Corridor_fid: Make the robot run in [corridor mode](https://github.com/DTU-R3/DTU-R3-ROS/blob/master/waypoint_nav), stop the task when target fiducial is observed.
+* Speak: Ask the robot to speak something.
+* Speak_cmd: Ask the robot to keep speaking, stop the task when target command is received.
 
 ## Deployment
 In order to quickly reproduce the demo without too much professional knowledge, it can also be deployed on Raspberry with default Raspian image through docker.
