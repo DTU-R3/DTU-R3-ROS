@@ -33,6 +33,9 @@ Corridor mode is a specific mode that enables the robot drive in the middle of t
 * 'LEFT,n': Let the robot run along the left wall with a distance n meters.
 * 'RIGHT,n': Let the robot run along the right wall with a distance n meters.
 
+## Fiducial mapping
+If a new fiducial is found. The package is also able to calculate the fiducial global position based on robot current position. The position can be read from topic ['/fiducial_gps_pose'](http://docs.ros.org/kinetic/api/fiducial_msgs/html/msg/FiducialMapEntry.html)
+
 ## Launch files
 **fiducial_encoder_waypoint.launch:** 3D waypoint navigation by fiducials together with encoders. The encoders are used to localise the robot while the fiducials are used to correct the transformation from odometry frame to utm frame.
 

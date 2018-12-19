@@ -5,7 +5,7 @@
 * Simulation of virtual robots and sensors.
 * Uses Mazemap data to generate 3D floorplans for waypoint navigation and simulation.
 * Can use Virtual Reality for remote control of telerobots.
-* All functions can also be programmed in Nodered
+* All functions can also be programmed in [Nodered](https://nodered.org/)
 
 ## Prerequisites 
 ROS Kinetic
@@ -133,7 +133,7 @@ The demo is designed to ask the robot fetch the object and deliver it back to th
 * [RPLidar](http://www.slamtec.com/en/Lidar/A3)
 * Speaker
 
-## Custimise scenario
+## Customise scenario
 The scenario consists of a number of tasks that can be custimised to adapt new scenario. The tasks is sent to ROS as json. An example of tasks can be found [here](https://github.com/DTU-R3/DTU-R3-ROS/blob/master/waypoint_nav/src/tasks.json). The tasks are:
 
 * Waypoint: Ask the robot to run through a series of waypoints.
