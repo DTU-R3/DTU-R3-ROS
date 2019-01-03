@@ -42,7 +42,6 @@ class fiducial_localization(object):
     self.robot_gps_pub = rospy.Publisher('robot_gps_pose', Odometry, queue_size = 10, latch = True)
     self.tf_pub = rospy.Publisher("tf", tf2_msgs.msg.TFMessage, queue_size=30, latch = True)
     self.debug_output = rospy.Publisher('debug_output', String, queue_size = 10)
-    self.fid_gps_pub = rospy.Publisher('fiducial_gps_pose', FiducialMapEntry, queue_size = 10)
 
     # Subscribers
     rospy.Subscriber('fiducial_map_gps', FiducialMapEntryArray, self.mapGPSCB)
@@ -122,21 +121,7 @@ class fiducial_localization(object):
           tf_fid_cam.header.stamp = rospy.Time.now()      
           tf_fid_cam.transform = fid_trans.transform
           tfmsg_fid_cam = tf2_msgs.msg.TFMessage([tf_fid_cam])
-          self.tf_pub.publish(tfmsg_fid_cam)
-          
-          try:
-            fid_utm_trans = self.tfBuffer.lookup_transform(self.gps_frame, fid_name, rospy.Time())
-            fiducial_gps_pose = FiducialMapEntry()
-            fiducial_gps_pose.fiducial_id = self.reference_id
-            fiducial_gps_pose.x,fiducial_gps_pose.y = self.projection(fid_utm_trans.transform.translation.x, fid_utm_trans.transform.translation.y, inverse=True)
-            fiducial_gps_pose.z = fid_utm_trans.transform.translation.z
-            fid_utm_euler = tf.transformations.euler_from_quaternion((-fid_utm_trans.transform.rotation.x,-fid_utm_trans.transform.rotation.y,-fid_utm_trans.transform.rotation.z,fid_utm_trans.transform.rotation.w))
-            fiducial_gps_pose.rx = math.degrees(fid_utm_euler[0])
-            fiducial_gps_pose.ry = math.degrees(fid_utm_euler[1])
-            fiducial_gps_pose.rz = 180 - math.degrees(fid_utm_euler[2])
-            self.fid_gps_pub.publish(fiducial_gps_pose)
-          except:
-            pass        
+          self.tf_pub.publish(tfmsg_fid_cam)    
 
           # Publish tf from fid to utm
           tf_fid_utm = TransformStamped()
