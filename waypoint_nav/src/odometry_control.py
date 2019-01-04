@@ -6,7 +6,7 @@ from R3_functions import fit_in_rad, debug_info
 import tf
 
 from geometry_msgs.msg import Twist, Pose
-from std_msgs.msg import String, Float32
+from std_msgs.msg import String, Float32, Bool
 from nav_msgs.msg import Odometry
 
 # Control Class
@@ -44,13 +44,14 @@ class odometry_control(object):
     self.robot_pos = Pose()
     self.target_pos = Pose()
     self.vel = Twist()
+    self.finished = Bool()
     	
     # Init ROS node
     rospy.init_node('odometry_control')
     self.freq = 10
     self.rate = rospy.Rate(self.freq)
 	
-	# Parameters, robot configuration
+    # Parameters, robot configuration
     self.x_config = rospy.get_param("~robot_x_config", True)
     self.y_config = rospy.get_param("~robot_y_config", False)
     self.z_config = rospy.get_param("~robot_z_config", False)
@@ -61,6 +62,7 @@ class odometry_control(object):
     # Publishers
     self.vel_pub = rospy.Publisher('cmd_vel', Twist, queue_size = 10)
     self.debug_output = rospy.Publisher('debug_output', String, queue_size = 10)
+    self.finished_pub = rospy.Publisher('odometry_control/finished', Bool, queue_size = 10)
 
     # Subscribers
     rospy.Subscriber('odom', Odometry, self.odomCB)
@@ -72,7 +74,6 @@ class odometry_control(object):
     rospy.Subscriber('odometry_control/max_angular_speed', Float32, self.angCB)
     rospy.Subscriber('odometry_control/forwarding_thres', Float32, self.fwdThresCB)
     rospy.Subscriber('odometry_control/turning_thres', Float32, self.trunThresCB)
-  
     
   def Start(self):
     while not rospy.is_shutdown():
@@ -119,7 +120,10 @@ class odometry_control(object):
             finished_turning = False
           # If turning is finished          
           if finished_turning:
+            self.finshed.data = True
+            self.finshed_pub.publish(self.finshed)
             self.StopRobot()
+            self.robot_state = self.IDLE
         
         # When the robot is moving forwarding    
         elif self.robot_state == self.FORWARDING:       
@@ -150,7 +154,10 @@ class odometry_control(object):
             finished_forwarding = False
           # When reach the target, stop the robot and wait for new command
           if finished_forwarding:
+            self.finshed.data = True
+            self.finshed_pub.publish(self.finshed)
             self.StopRobot()
+            self.robot_state = self.IDLE
         
         # When the cmd is not known
         else:
@@ -221,6 +228,7 @@ class odometry_control(object):
       self.target_pos.position.x = self.target_pos.position.x + dis * math.cos(robot_th)
       self.target_pos.position.y = self.target_pos.position.y + dis * math.sin(robot_th) 
       self.robot_state = self.FORWARDING
+      self.finished.data = False
     elif s == "turn":  
       a = math.radians( float(cmd_parts[1]) )
       target_th = robot_th + a
@@ -231,7 +239,8 @@ class odometry_control(object):
       self.target_pos.orientation.z = target_quat[2]
       self.target_pos.orientation.w = target_quat[3]
       self.robot_state = self.TURNING
-  
+      self.finished.data = False
+
   def stateCB(self, s):
     if s.data == "RUNNING":
       self.state = self.RUNNING
