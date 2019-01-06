@@ -27,30 +27,43 @@
          "Id":100
       },
       {  
+         "Id":201,
          "Position":{  
-            "latitude":55.6617046554,
-            "altitude":15.0,
-            "longitude":12.5863295208
+            "longitude":12.586442657449286,
+            "latitude":55.662099233634297,
+            "altitude":14.5600004196167
          },
          "Rotation":{  
-            "east":0.0,
+            "heading":103.00000762939452,
             "north":180.0,
-            "heading":197.0
-         },
-         "Id":201
+            "east":0
+         }
       },
       {  
+         "Id":202,
          "Position":{  
-            "latitude":55.6617622787092,
-            "altitude":15.0,
-            "longitude":12.5862661034523
+            "longitude":12.586371582689111,
+            "latitude":55.66203117776228,
+            "altitude":14.5600004196167
          },
          "Rotation":{  
-            "east":2.03555501989729e-13,
+            "heading":283.0,
             "north":180.0,
-            "heading":107.0
+            "east":0
+         }
+      },
+      {  
+         "Id":203,
+         "Position":{  
+            "longitude":12.586392468619869,
+            "latitude":55.66208223668545,
+            "altitude":14.5600004196167
          },
-         "Id":209
+         "Rotation":{  
+            "heading":110.0,
+            "north":180.0,
+            "east":0
+         }
       }
    ]
 }
