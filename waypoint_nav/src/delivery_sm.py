@@ -17,7 +17,7 @@ class Publishers(object):
     self.thresPub = rospy.Publisher('waypoint/forwarding_thres', Float32, queue_size = 10)
     self.paramPub = rospy.Publisher('waypoint/control_parameters', String, queue_size = 10)
     self.cmdPub = rospy.Publisher('delivery/cmd', String, queue_size = 10)
-	self.odom_cmdPub = rospy.Publisher('odometry_control/cmd', String, queue_size = 10)
+    self.odom_cmdPub = rospy.Publisher('odometry_control/cmd', String, queue_size = 10)
 
   def statePub(self, s):
     stateMsg = String()
@@ -157,10 +157,10 @@ class Odometry_control(object):
     self.stop = False
 
   def execute(self):
-    pub.odom_cmdPub(self.cmd)
+    pub.odometry_ctrlPub(self.cmd)
     while not self.stop:
-	  rospy.sleep(1)
-	return True
+      rospy.sleep(1)
+    return True
 	
 # Delivery class
 class Delivery(object):
@@ -180,7 +180,7 @@ class Delivery(object):
     rospy.Subscriber('fiducial_transforms', FiducialTransformArray, self.transCB)
     rospy.Subscriber('mqtt/commands/vision_kit', String, self.mqttCB)
     rospy.Subscriber('delivery/cmd', String, self.cmdCB)
-    rospy.Publisher('odometry_control/finished', Bool, self.odom_cmdCB)
+    rospy.Subscriber('odometry_control/finished', Bool, self.odom_cmdCB)
 	
     # Publish waypoint parameters
     pub.parameterPub("2.0,1.0,1.0,1.0")
@@ -213,7 +213,7 @@ class Delivery(object):
             self.instance = Speak_cmd()
             self.instance.cmd = task["Command"]
             self.instance.target = task["Target"]
-		  elif task["Name"] == "odometry_control":
+          elif task["Name"] == "odometry_control":
             self.instance = Odometry_control()
             self.instance.cmd = task["Command"]
           print self.instance
@@ -275,8 +275,12 @@ class Delivery(object):
       self.instance.stop = True
 
   def odom_cmdCB(self, b):
+    names = ["Odometry_control"]
+    class_name = self.instance.__class__.__name__
+    if not class_name in names:
+      return
     if b.data:
-	  self.instance.stop = True
+      self.instance.stop = True
 
 if __name__ == '__main__':
   pub = Publishers()
