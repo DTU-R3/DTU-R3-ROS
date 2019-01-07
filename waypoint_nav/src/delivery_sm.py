@@ -67,9 +67,11 @@ class Waypoint(object):
     self.finished = False
     self.stop = False
     self.points = []
+    self.thres = []
 
   def execute(self):
     pub.pointPub(self.points[0])
+    pub.thresholdPub(self.thres[0])
     pub.statePub("RUNNING")
     while not self.finished:
       if self.stop:
@@ -86,11 +88,13 @@ class Waypoint_fid(object):
     self.finished = False
     self.stop = False
     self.points = []
+    self.thres = []
     self.fid_id = 0
     self.detected_fid = 0
 
   def execute(self):
     pub.pointPub(self.points[0])
+    pub.thresholdPub(self.thres[0])
     pub.statePub("RUNNING")
     while not self.finished:
       if self.stop:
@@ -198,10 +202,12 @@ class Delivery(object):
           if task["Name"] == "waypoint":
             self.instance = Waypoint()
             self.instance.points = task["Points"]
+            self.instance.thres = task["Thres"]
           elif task["Name"] == "waypoint_fid":
             self.instance = Waypoint_fid()
             self.instance.points = task["Points"]
             self.instance.fid_id = task["Fid"]
+            self.instance.thres = task["Thres"]
           elif task["Name"] == "corridor_fid":
             self.instance = Corridor_fid()
             self.instance.cmd = task["Command"]
@@ -246,6 +252,7 @@ class Delivery(object):
       self.instance.finished = True
     else:       
       pub.pointPub(self.instance.points[index+1])
+      pub.thresholdPub(self.instance.thres[index+1])
       pub.statePub("RUNNING")
     return
 
