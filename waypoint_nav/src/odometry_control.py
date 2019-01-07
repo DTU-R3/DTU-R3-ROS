@@ -78,8 +78,6 @@ class odometry_control(object):
   def Start(self):
     while not rospy.is_shutdown():
       if self.state != self.RUNNING:
-        self.robot_state = self.STOP
-        self.StopRobot()
         self.rate.sleep()
         continue
 
