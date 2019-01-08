@@ -107,7 +107,8 @@
             0.2,
             0.2
          ],
-         "Name":"waypoint",
+         "Fid":201,
+         "Name":"waypoint_fid",
          "Id":9
       },
       {  
