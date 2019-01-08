@@ -15,7 +15,9 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
   tf2_ros
   tf2_msgs
-#  message_generation
+  nav_msgs
+  actionlib_msgs
+  message_generation
 )
 
 ## System dependencies are found with CMake's conventions
@@ -66,18 +68,22 @@ find_package(catkin REQUIRED COMPONENTS
 #)
 
 ## Generate actions in the 'action' folder
-# add_action_files(
-#   FILES
-#   Action1.action
-#   Action2.action
-# )
+add_action_files(
+  DIRECTORY action
+  FILES Delivery.action
+)
 
 ## Generate added messages and services with any dependencies listed here
-# generate_messages(
-#  DEPENDENCIES  
-#  geometry_msgs
-#  std_msgs
-#)
+generate_messages(
+  DEPENDENCIES  
+  actionlib_msgs
+  geometry_msgs
+  std_msgs
+  fiducial_msgs
+  sensor_msgs
+  tf2_msgs
+  nav_msgs
+)
 
 ################################################
 ## Declare ROS dynamic reconfigure parameters ##
@@ -111,9 +117,9 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES waypoint_nav
-#  CATKIN_DEPENDS fiducial_msgs geometry_msgs rospy sensor_msgs std_msgs message_runtime
+ CATKIN_DEPENDS fiducial_msgs geometry_msgs rospy sensor_msgs std_msgs message_runtime actionlib_msgs
 #  DEPENDS system_lib
-#  CATKIN_DEPENDS message_runtime
+ CATKIN_DEPENDS message_runtime
 )
 
 ###########

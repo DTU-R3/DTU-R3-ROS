@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-
 import rospy
 import math
 import json
@@ -20,6 +19,9 @@ from fiducial_msgs.msg import FiducialMapEntryArray, FiducialMapEntry, FiducialT
 # Class
 class fiducial_localization(object):
   def __init__(self):
+    # Init ROS node
+    rospy.init_node('fiducial_waypoint_localization')
+
     # Variables
     self.projection = Proj(proj="utm", zone="34", ellps='WGS84')
     self.tfBuffer = tf2_ros.Buffer()
@@ -28,9 +30,6 @@ class fiducial_localization(object):
     self.fiducial_gps_map = FiducialMapEntryArray()
     self.pre_odom = Odometry()
     self.pre_odom_get = False
-    
-    # Init ROS node
-    rospy.init_node('fiducial_waypoint_localization')
 
     # rosparams
     self.robot_frame = rospy.get_param("~waypoint_control/base_frame", "base_footprint")
@@ -123,8 +122,8 @@ class fiducial_localization(object):
           tf_fid_cam.header.stamp = rospy.Time.now()      
           tf_fid_cam.transform = fid_trans.transform
           tfmsg_fid_cam = tf2_msgs.msg.TFMessage([tf_fid_cam])
-          self.tf_pub.publish(tfmsg_fid_cam)
-        
+          self.tf_pub.publish(tfmsg_fid_cam)    
+
           # Publish tf from fid to utm
           tf_fid_utm = TransformStamped()
           tf_fid_utm.header.frame_id = self.gps_frame
@@ -136,7 +135,7 @@ class fiducial_localization(object):
           tf_fid_utm.transform.rotation.x = quat[0] 
           tf_fid_utm.transform.rotation.y = quat[1] 
           tf_fid_utm.transform.rotation.z = quat[2] 
-          tf_fid_utm.transform.rotation.w = quat[3] 
+          tf_fid_utm.transform.rotation.w = quat[3]
           tfmsg_fid_utm = tf2_msgs.msg.TFMessage([tf_fid_utm])
           self.tf_pub.publish(tfmsg_fid_utm)
 
@@ -172,6 +171,7 @@ class fiducial_localization(object):
             robot_gps_pose.pose.pose.orientation = quat_rot(robot_gps_pose.pose.pose.orientation,0,0,90)
             self.robot_gps_pub.publish(robot_gps_pose)         
             debug_info(self.debug_output, "Fiducial position updated")
+
             break
           except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException):    
             debug_info(self.debug_output, "Updating the position")
