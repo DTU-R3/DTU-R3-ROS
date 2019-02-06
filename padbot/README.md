@@ -21,3 +21,6 @@ rosrun padbot padbot_u1.py
 
 ### Run the whole scenario
 roslaunch padbot padbot_u1.launch 
+
+### Arduino
+Arduino for padbot can be found [here](https://github.com/DTU-R3/Wheelchairduino/tree/master/padbot)
