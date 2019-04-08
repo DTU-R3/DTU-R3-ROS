@@ -28,4 +28,5 @@
   </node>
   <node pkg="waypoint_nav" type="central_mass.py" name="corridor_nav"/>
   <node pkg="waypoint_nav" type="waypoint_prediction.py" name="waypoint_prediction"/>
+  <node pkg="waypoint_nav" type="water_demo.py" name="water_demo"/>
 </launch>
