@@ -1,0 +1,3 @@
+<launch>
+  <node pkg="waypoint_nav" type="water_demo.py" name="water_demo"></node>
+</launch>
