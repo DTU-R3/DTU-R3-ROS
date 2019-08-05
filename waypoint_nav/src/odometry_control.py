@@ -48,7 +48,7 @@ class odometry_control(object):
     	
     # Init ROS node
     rospy.init_node('odometry_control')
-    self.freq = 1
+    self.freq = 100
     self.rate = rospy.Rate(self.freq)
 	
     # Parameters, robot configuration
