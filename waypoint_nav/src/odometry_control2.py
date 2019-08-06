@@ -71,6 +71,8 @@ class odometry_control(object):
         turn_dir = 1.0
       else:
         turn_dir = -1.0
+      # print "distance: " + str(distance)
+      # print "yaw: " + str(yaw)
       # When the robot is turning
       if self.robot_state == self.TURNING:
         # Stop linear movements
@@ -92,7 +94,6 @@ class odometry_control(object):
         
       # When the robot is moving forwarding    
       elif self.robot_state == self.FORWARDING:       
-        # TODO: movement in x-y plane should be optimised
         self.vel.linear.x = fwd_dir * self.VEL_LIN
         self.vel.angular.z = 0
           
@@ -138,8 +139,8 @@ class odometry_control(object):
     robot_th = robot_euler[2]
     if s == "fwd":
       dis = float(cmd_parts[1])
-      self.target_pos.position.x = self.target_pos.position.x + dis * math.cos(robot_th)
-      self.target_pos.position.y = self.target_pos.position.y + dis * math.sin(robot_th) 
+      self.target_pos.position.x = pos.position.x + dis * math.cos(robot_th)
+      self.target_pos.position.y = pos.position.y + dis * math.sin(robot_th) 
       self.robot_state = self.FORWARDING
       self.finished.data = False
     elif s == "turn":  
