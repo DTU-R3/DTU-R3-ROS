@@ -220,8 +220,8 @@ class odometry_control(object):
     robot_th = robot_euler[2] # 2 * math.atan2(odo.pose.pose.orientation.z,odo.pose.pose.orientation.w)
     if s == "fwd":
       dis = float(cmd_parts[1])
-      self.target_pos.position.x = self.target_pos.position.x + dis * math.cos(robot_th)
-      self.target_pos.position.y = self.target_pos.position.y + dis * math.sin(robot_th) 
+      self.target_pos.position.x = pos.position.x + dis * math.cos(robot_th)
+      self.target_pos.position.y = pos.position.y + dis * math.sin(robot_th) 
       self.robot_state = self.FORWARDING
       self.finished.data = False
       self.state = self.RUNNING
