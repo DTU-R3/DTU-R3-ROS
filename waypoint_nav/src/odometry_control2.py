@@ -71,8 +71,8 @@ class odometry_control(object):
         turn_dir = 1.0
       else:
         turn_dir = -1.0
-      print "distance: " + str(distance)
-      print "yaw: " + str(yaw)
+      # print "distance: " + str(distance)
+      # print "yaw: " + str(yaw)
       # When the robot is turning
       if self.robot_state == self.TURNING:
         # Stop linear movements
