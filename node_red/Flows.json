@@ -1,91 +1,98 @@
-[  
-   {  
-      "id":"409e6b4.8de1b94",
+[
+   {
+      "id":"b8c658fd.5c3a88",
       "type":"tab",
       "label":"Banana Demo",
       "disabled":false,
       "info":""
    },
-   {  
-      "id":"dd50d548.d4606",
+   {
+      "id":"6ba5909d.669a6",
       "type":"tab",
       "label":"route_univate",
       "disabled":false,
       "info":""
    },
-   {  
-      "id":"bd3c803a.a5815",
+   {
+      "id":"5f7dbaab.eb2314",
       "type":"tab",
       "label":"Lidar",
       "disabled":false,
       "info":""
    },
-   {  
-      "id":"9eb4b930.403ec",
+   {
+      "id":"ef199fc6.403da",
       "type":"tab",
       "label":"waypoint_control",
       "disabled":false,
       "info":""
    },
-   {  
-      "id":"641844a0.c16274",
+   {
+      "id":"1a19311f.e9adcf",
       "type":"tab",
       "label":"odometry_control",
       "disabled":false,
       "info":""
    },
-   {  
-      "id":"fb46d18a.aa74",
+   {
+      "id":"455888d4.671818",
+      "type":"tab",
+      "label":"odometry_control2",
+      "disabled":false,
+      "info":""
+   },
+   {
+      "id":"84d7960b.48e098",
       "type":"tab",
       "label":"Vel_control",
       "disabled":false,
       "info":""
    },
-   {  
-      "id":"84cfe408.5d7b2",
+   {
+      "id":"42c686b1.16a348",
       "type":"tab",
       "label":"MQTT",
       "disabled":false,
       "info":""
    },
-   {  
-      "id":"a5ac4a4d.48e9d",
+   {
+      "id":"ab0d497f.095068",
       "type":"ros-server",
       "z":"",
       "url":"ws://raspi-ros00:9090/"
    },
-   {  
-      "id":"5e6a20f4.3224b8",
+   {
+      "id":"edfcd702.5a67e8",
       "type":"ros-server",
       "z":"",
       "url":"ws://ROS-desktop:9090/"
    },
-   {  
-      "id":"508a3895.39264",
+   {
+      "id":"18b7da3d.43f1e6",
       "type":"ros-server",
       "z":"",
       "url":"ws://pi-desktop:9090/"
    },
-   {  
-      "id":"74d5e9f2.7376e8",
+   {
+      "id":"3b333869.f59f08",
       "type":"ros-server",
       "z":"",
       "url":"ws://raspi-ros01:9090/"
    },
-   {  
-      "id":"ae7ad7bc.dd90d",
+   {
+      "id":"9677a723.15a5d8",
       "type":"ros-server",
       "z":"",
       "url":"ws://ROS-Jetson:9090/"
    },
-   {  
-      "id":"3f0006b2.243452",
+   {
+      "id":"29f936a2.130aaa",
       "type":"ros-server",
       "z":"",
       "url":"ws://Raspi-ROS-02:9090/"
    },
-   {  
-      "id":"ae90fe4c.6d6908",
+   {
+      "id":"69f8ec92.eedf54",
       "type":"mqtt-broker",
       "z":"",
       "name":"",
@@ -106,29 +113,157 @@
       "willQos":"0",
       "willPayload":""
    },
-   {  
-      "id":"d3704dfd.2bbe38",
+   {
+      "id":"e4598b09.438a2",
       "type":"ros-server",
       "z":"",
       "url":"ws://alex-raspi-ros:9090/"
    },
-   {  
-      "id":"b8d43442.9d6068",
+   {
+      "id":"2c6b5837.003e38",
+      "type":"ros-server",
+      "z":"",
+      "url":"ws://raspi-ros00:9090/"
+   },
+   {
+      "id":"a9b963fa.6b5e2",
+      "type":"ros-server",
+      "z":"",
+      "url":"ws://ROS-desktop:9090/"
+   },
+   {
+      "id":"55b509a1.792c48",
+      "type":"ros-server",
+      "z":"",
+      "url":"ws://pi-desktop:9090/"
+   },
+   {
+      "id":"c363dc7f.1c2c8",
+      "type":"ros-server",
+      "z":"",
+      "url":"ws://raspi-ros01:9090/"
+   },
+   {
+      "id":"ef43fcf3.3b80e",
+      "type":"ros-server",
+      "z":"",
+      "url":"ws://ROS-Jetson:9090/"
+   },
+   {
+      "id":"57354af6.d3c354",
+      "type":"ros-server",
+      "z":"",
+      "url":"ws://Raspi-ROS-02:9090/"
+   },
+   {
+      "id":"669b17be.756008",
+      "type":"mqtt-broker",
+      "z":"",
+      "name":"",
+      "broker":"localhost",
+      "port":"1883",
+      "clientid":"",
+      "usetls":false,
+      "compatmode":true,
+      "keepalive":"60",
+      "cleansession":true,
+      "birthTopic":"",
+      "birthQos":"0",
+      "birthPayload":"",
+      "closeTopic":"",
+      "closeQos":"0",
+      "closePayload":"",
+      "willTopic":"",
+      "willQos":"0",
+      "willPayload":""
+   },
+   {
+      "id":"c55207ea.3332c8",
+      "type":"ros-server",
+      "z":"",
+      "url":"ws://alex-raspi-ros:9090/"
+   },
+   {
+      "id":"625ba41.aa4785c",
+      "type":"ros-server",
+      "z":"",
+      "url":"ws://raspi-ros00:9090/"
+   },
+   {
+      "id":"239a9482.e4735c",
+      "type":"ros-server",
+      "z":"",
+      "url":"ws://ROS-desktop:9090/"
+   },
+   {
+      "id":"f2dadbae.d8f498",
+      "type":"ros-server",
+      "z":"",
+      "url":"ws://pi-desktop:9090/"
+   },
+   {
+      "id":"1cb3b19c.ca789e",
+      "type":"ros-server",
+      "z":"",
+      "url":"ws://raspi-ros01:9090/"
+   },
+   {
+      "id":"6d04db07.6e8724",
+      "type":"ros-server",
+      "z":"",
+      "url":"ws://ROS-Jetson:9090/"
+   },
+   {
+      "id":"404dce64.b4eaa",
+      "type":"ros-server",
+      "z":"",
+      "url":"ws://Raspi-ROS-02:9090/"
+   },
+   {
+      "id":"b17d44d.b2975b8",
+      "type":"mqtt-broker",
+      "z":"",
+      "name":"",
+      "broker":"localhost",
+      "port":"1883",
+      "clientid":"",
+      "usetls":false,
+      "compatmode":true,
+      "keepalive":"60",
+      "cleansession":true,
+      "birthTopic":"",
+      "birthQos":"0",
+      "birthPayload":"",
+      "closeTopic":"",
+      "closeQos":"0",
+      "closePayload":"",
+      "willTopic":"",
+      "willQos":"0",
+      "willPayload":""
+   },
+   {
+      "id":"c1cee8f.8185218",
+      "type":"ros-server",
+      "z":"",
+      "url":"ws://alex-raspi-ros:9090/"
+   },
+   {
+      "id":"914bf32c.f048e",
       "type":"ros-publish",
-      "z":"641844a0.c16274",
-      "server":"ae7ad7bc.dd90d",
+      "z":"1a19311f.e9adcf",
+      "server":"e4598b09.438a2",
       "topicname":"/odometry_control/state",
       "msgtype":"std_msgs/String",
       "x":610,
       "y":80,
-      "wires":[  
+      "wires":[
 
       ]
    },
-   {  
-      "id":"75da1fe9.353c18",
+   {
+      "id":"3495fd54.50c6f2",
       "type":"inject",
-      "z":"641844a0.c16274",
+      "z":"1a19311f.e9adcf",
       "name":"RUNNING",
       "topic":"",
       "payload":"{\"data\":\"RUNNING\"}",
@@ -139,16 +274,16 @@
       "onceDelay":0.1,
       "x":360,
       "y":40,
-      "wires":[  
-         [  
-            "b8d43442.9d6068"
+      "wires":[
+         [
+            "914bf32c.f048e"
          ]
       ]
    },
-   {  
-      "id":"9a8bd05d.979868",
+   {
+      "id":"94b2e063.44c71",
       "type":"inject",
-      "z":"641844a0.c16274",
+      "z":"1a19311f.e9adcf",
       "name":"STOP",
       "topic":"",
       "payload":"{\"data\":\"STOP\"}",
@@ -158,31 +293,31 @@
       "once":false,
       "onceDelay":0.1,
       "x":370,
-      "y":340,
-      "wires":[  
-         [  
-            "b8d43442.9d6068"
+      "y":360,
+      "wires":[
+         [
+            "914bf32c.f048e"
          ]
       ]
    },
-   {  
-      "id":"1a070d2c.7b788b",
+   {
+      "id":"9ff04280.0e2eb",
       "type":"ros-publish",
-      "z":"641844a0.c16274",
-      "server":"ae7ad7bc.dd90d",
+      "z":"1a19311f.e9adcf",
+      "server":"e4598b09.438a2",
       "topicname":"/odometry_control/cmd",
       "msgtype":"std_msgs/String",
       "x":610,
       "y":200,
-      "wires":[  
+      "wires":[
 
       ]
    },
-   {  
-      "id":"2e5aadbf.1f839a",
+   {
+      "id":"59943aa6.53a634",
       "type":"inject",
-      "z":"641844a0.c16274",
-      "name":"forward 1 meter",
+      "z":"1a19311f.e9adcf",
+      "name":"forward 6 meter",
       "topic":"",
       "payload":"{\"data\":\"fwd,1\"}",
       "payloadType":"json",
@@ -192,36 +327,36 @@
       "onceDelay":"",
       "x":340,
       "y":100,
-      "wires":[  
-         [  
-            "1a070d2c.7b788b"
+      "wires":[
+         [
+            "9ff04280.0e2eb"
          ]
       ]
    },
-   {  
-      "id":"fb754e14.2d479",
+   {
+      "id":"7d777176.a95da",
       "type":"inject",
-      "z":"641844a0.c16274",
-      "name":"backward 1 meter",
+      "z":"1a19311f.e9adcf",
+      "name":"backward 6 meter",
       "topic":"",
-      "payload":"{\"data\":\"fwd,-1\"}",
+      "payload":"{\"data\":\"fwd,-6\"}",
       "payloadType":"json",
       "repeat":"",
       "crontab":"",
       "once":false,
       "onceDelay":"",
       "x":330,
-      "y":160,
-      "wires":[  
-         [  
-            "1a070d2c.7b788b"
+      "y":320,
+      "wires":[
+         [
+            "9ff04280.0e2eb"
          ]
       ]
    },
-   {  
-      "id":"ecddc6e0.dee3d",
+   {
+      "id":"997daf7b.a46fd",
       "type":"inject",
-      "z":"641844a0.c16274",
+      "z":"1a19311f.e9adcf",
       "name":"turn counter-clockwise 90 degree",
       "topic":"",
       "payload":"{\"data\":\"turn,90\"}",
@@ -231,20 +366,20 @@
       "once":false,
       "onceDelay":"",
       "x":290,
-      "y":220,
-      "wires":[  
-         [  
-            "1a070d2c.7b788b"
+      "y":140,
+      "wires":[
+         [
+            "9ff04280.0e2eb"
          ]
       ]
    },
-   {  
-      "id":"fdbdcd1d.6620e",
+   {
+      "id":"e1fdce0c.0cc67",
       "type":"inject",
-      "z":"641844a0.c16274",
-      "name":"turn clockwise 90 degree",
+      "z":"1a19311f.e9adcf",
+      "name":"turn clockwise 180 degree",
       "topic":"",
-      "payload":"{\"data\":\"turn,-93\"}",
+      "payload":"{\"data\":\"turn,-180\"}",
       "payloadType":"json",
       "repeat":"",
       "crontab":"",
@@ -252,29 +387,29 @@
       "onceDelay":"",
       "x":310,
       "y":280,
-      "wires":[  
-         [  
-            "1a070d2c.7b788b"
+      "wires":[
+         [
+            "9ff04280.0e2eb"
          ]
       ]
    },
-   {  
-      "id":"a1dde2f3.7bcb6",
+   {
+      "id":"e3285898.308718",
       "type":"ros-publish",
-      "z":"641844a0.c16274",
-      "server":"74d5e9f2.7376e8",
+      "z":"1a19311f.e9adcf",
+      "server":"e4598b09.438a2",
       "topicname":"/odometry_control/control_parameters",
       "msgtype":"std_msgs/String",
-      "x":690,
-      "y":500,
-      "wires":[  
+      "x":530,
+      "y":700,
+      "wires":[
 
       ]
    },
-   {  
-      "id":"19296372.36cead",
+   {
+      "id":"c4d48170.63377",
       "type":"inject",
-      "z":"641844a0.c16274",
+      "z":"1a19311f.e9adcf",
       "name":"params",
       "topic":"",
       "payload":"{\"data\":\"0.3,0.8,0.8,0.8\"}",
@@ -283,163 +418,163 @@
       "crontab":"",
       "once":false,
       "onceDelay":0.1,
-      "x":370,
-      "y":500,
-      "wires":[  
-         [  
-            "a1dde2f3.7bcb6"
+      "x":210,
+      "y":700,
+      "wires":[
+         [
+            "e3285898.308718"
          ]
       ]
    },
-   {  
-      "id":"cfe87fbe.b15d78",
+   {
+      "id":"ed8d8194.f509e",
       "type":"ros-publish",
-      "z":"641844a0.c16274",
-      "server":"74d5e9f2.7376e8",
+      "z":"1a19311f.e9adcf",
+      "server":"c55207ea.3332c8",
       "topicname":"/odometry_control/acceleration",
       "msgtype":"std_msgs/String",
-      "x":670,
-      "y":580,
-      "wires":[  
+      "x":510,
+      "y":660,
+      "wires":[
 
       ]
    },
-   {  
-      "id":"dfd92801.83a528",
+   {
+      "id":"484276c2.ee82e8",
       "type":"inject",
-      "z":"641844a0.c16274",
+      "z":"1a19311f.e9adcf",
       "name":"acceleration",
       "topic":"",
-      "payload":"{\"data\":\"0.1,0.1\"}",
+      "payload":"{\"data\":\"0.5,0.5\"}",
       "payloadType":"json",
       "repeat":"",
       "crontab":"",
       "once":false,
       "onceDelay":0.1,
-      "x":350,
-      "y":580,
-      "wires":[  
-         [  
-            "cfe87fbe.b15d78"
+      "x":190,
+      "y":660,
+      "wires":[
+         [
+            "ed8d8194.f509e"
          ]
       ]
    },
-   {  
-      "id":"f24d761a.fd18",
+   {
+      "id":"fbea2abc.4f3408",
       "type":"ros-publish",
-      "z":"641844a0.c16274",
-      "server":"74d5e9f2.7376e8",
+      "z":"1a19311f.e9adcf",
+      "server":"e4598b09.438a2",
       "topicname":"/odometry_control/max_linear_speed",
       "msgtype":"std_msgs/Float32",
-      "x":690,
-      "y":660,
-      "wires":[  
+      "x":530,
+      "y":580,
+      "wires":[
 
       ]
    },
-   {  
-      "id":"10db234a.3500e5",
+   {
+      "id":"95b9084c.8c62a8",
       "type":"inject",
-      "z":"641844a0.c16274",
+      "z":"1a19311f.e9adcf",
       "name":"Max linear speed",
       "topic":"",
-      "payload":"{\"data\":1.0}",
+      "payload":"{\"data\":5.0}",
       "payloadType":"json",
       "repeat":"",
       "crontab":"",
       "once":false,
       "onceDelay":0.1,
-      "x":340,
-      "y":660,
-      "wires":[  
-         [  
-            "f24d761a.fd18"
+      "x":180,
+      "y":580,
+      "wires":[
+         [
+            "fbea2abc.4f3408"
          ]
       ]
    },
-   {  
-      "id":"131ba5be.5ab762",
+   {
+      "id":"e69d8911.b69c48",
       "type":"ros-publish",
-      "z":"641844a0.c16274",
-      "server":"74d5e9f2.7376e8",
+      "z":"1a19311f.e9adcf",
+      "server":"e4598b09.438a2",
       "topicname":"/odometry_control/max_angular_speed",
       "msgtype":"std_msgs/Float32",
-      "x":690,
-      "y":740,
-      "wires":[  
+      "x":530,
+      "y":620,
+      "wires":[
 
       ]
    },
-   {  
-      "id":"29d2258d.b1ad8a",
+   {
+      "id":"cb43a571.02f758",
       "type":"inject",
-      "z":"641844a0.c16274",
+      "z":"1a19311f.e9adcf",
       "name":"Max angular speed",
       "topic":"",
-      "payload":"{\"data\":1.0}",
+      "payload":"{\"data\":6.0}",
       "payloadType":"json",
       "repeat":"",
       "crontab":"",
       "once":false,
       "onceDelay":0.1,
-      "x":330,
-      "y":740,
-      "wires":[  
-         [  
-            "131ba5be.5ab762"
+      "x":170,
+      "y":620,
+      "wires":[
+         [
+            "e69d8911.b69c48"
          ]
       ]
    },
-   {  
-      "id":"3568c2eb.2458e6",
+   {
+      "id":"286605f.ae2f5fa",
       "type":"ros-publish",
-      "z":"641844a0.c16274",
-      "server":"74d5e9f2.7376e8",
+      "z":"1a19311f.e9adcf",
+      "server":"e4598b09.438a2",
       "topicname":"/odometry_control/forwarding_thres",
       "msgtype":"std_msgs/Float32",
-      "x":680,
-      "y":820,
-      "wires":[  
+      "x":520,
+      "y":740,
+      "wires":[
 
       ]
    },
-   {  
-      "id":"c2d166d3.34a71",
+   {
+      "id":"198559a1.686b76",
       "type":"inject",
-      "z":"641844a0.c16274",
+      "z":"1a19311f.e9adcf",
       "name":"Forward threshold",
       "topic":"",
-      "payload":"{\"data\":0.1}",
+      "payload":"{\"data\":0.2}",
       "payloadType":"json",
       "repeat":"",
       "crontab":"",
       "once":false,
       "onceDelay":0.1,
-      "x":330,
-      "y":820,
-      "wires":[  
-         [  
-            "3568c2eb.2458e6"
+      "x":170,
+      "y":740,
+      "wires":[
+         [
+            "286605f.ae2f5fa"
          ]
       ]
    },
-   {  
-      "id":"a2956e62.2f4e8",
+   {
+      "id":"c3fbe3b2.2db3b",
       "type":"ros-publish",
-      "z":"641844a0.c16274",
-      "server":"74d5e9f2.7376e8",
+      "z":"1a19311f.e9adcf",
+      "server":"e4598b09.438a2",
       "topicname":"/odometry_control/turning_thres",
       "msgtype":"std_msgs/Float32",
-      "x":670,
-      "y":900,
-      "wires":[  
+      "x":510,
+      "y":780,
+      "wires":[
 
       ]
    },
-   {  
-      "id":"382a74a7.6570e4",
+   {
+      "id":"60ec8375.c3bc4c",
       "type":"inject",
-      "z":"641844a0.c16274",
+      "z":"1a19311f.e9adcf",
       "name":"Turning threshold",
       "topic":"",
       "payload":"{\"data\":0.2}",
@@ -448,31 +583,31 @@
       "crontab":"",
       "once":false,
       "onceDelay":0.1,
-      "x":340,
-      "y":900,
-      "wires":[  
-         [  
-            "a2956e62.2f4e8"
+      "x":180,
+      "y":780,
+      "wires":[
+         [
+            "c3fbe3b2.2db3b"
          ]
       ]
    },
-   {  
-      "id":"86a1e1c8.f83ed8",
+   {
+      "id":"d2b748.8a3968b8",
       "type":"ros-publish",
-      "z":"fb46d18a.aa74",
-      "server":"3f0006b2.243452",
+      "z":"84d7960b.48e098",
+      "server":"e4598b09.438a2",
       "topicname":"/cmd_vel",
       "msgtype":"geometry_msgs/Twist",
       "x":680,
       "y":180,
-      "wires":[  
+      "wires":[
 
       ]
    },
-   {  
-      "id":"ffe05c5d.9e6a8",
+   {
+      "id":"8c37cbd8.876818",
       "type":"inject",
-      "z":"fb46d18a.aa74",
+      "z":"84d7960b.48e098",
       "name":"Inject forward",
       "topic":"",
       "payload":"{\"linear\":{\"x\":1,\"y\":0,\"z\":0},\"angular\":{\"x\":0,\"y\":0,\"z\":0}}",
@@ -483,32 +618,32 @@
       "onceDelay":"",
       "x":230,
       "y":100,
-      "wires":[  
-         [  
-            "86a1e1c8.f83ed8"
+      "wires":[
+         [
+            "d2b748.8a3968b8"
          ]
       ]
    },
-   {  
-      "id":"96fe421d.db60a8",
+   {
+      "id":"65db79d3.16aab8",
       "type":"function",
-      "z":"fb46d18a.aa74",
+      "z":"84d7960b.48e098",
       "name":"Square",
       "func":"let twist = {\n    \"linear\": {\n        \"x\": 0.0,\n        \"y\": 0.0,\n        \"z\": 0.0\n    },\n    \"angular\": {\n        \"x\": 0.0,\n        \"y\": 0.0,\n        \"z\": 0.0\n    }\n};\n\nfunction square(state) {\n    switch (state) {\n        case 0:\n        case 2:\n        case 4:\n        case 6:\n            twist.linear.x = 0.4;\n            twist.angular.z = 0.0;\n            ms = 2000;\n            break;\n        case 1:\n        case 3:\n        case 5:\n        case 7:\n            twist.linear.x = 0.0;\n            twist.angular.z = -1.4;\n            ms = 1150;\n            break;\n        default:\n            twist.linear.x = 0.0;\n            twist.angular.z = 0.0;\n            ms = 1000;\n    }\n    msg.payload = twist;\n    node.send(msg);\n    state++;\n    if (state < 9) {\n        setTimeout(() => {\n            square(state, ms);\n            }, ms)\n    }\n}\n\nsquare(0);\n",
       "outputs":1,
       "noerr":0,
       "x":440,
       "y":260,
-      "wires":[  
-         [  
-            "86a1e1c8.f83ed8"
+      "wires":[
+         [
+            "d2b748.8a3968b8"
          ]
       ]
    },
-   {  
-      "id":"3b733e31.ed87ba",
+   {
+      "id":"dddfdc68.88553",
       "type":"inject",
-      "z":"fb46d18a.aa74",
+      "z":"84d7960b.48e098",
       "name":"Inject start scenario",
       "topic":"",
       "payload":"",
@@ -519,16 +654,16 @@
       "onceDelay":"",
       "x":210,
       "y":260,
-      "wires":[  
-         [  
-            "96fe421d.db60a8"
+      "wires":[
+         [
+            "65db79d3.16aab8"
          ]
       ]
    },
-   {  
-      "id":"9f6d1362.70f9",
+   {
+      "id":"938e3857.81f578",
       "type":"inject",
-      "z":"fb46d18a.aa74",
+      "z":"84d7960b.48e098",
       "name":"Inject stop",
       "topic":"",
       "payload":"{\"linear\":{\"x\":0,\"y\":0,\"z\":0},\"angular\":{\"x\":0,\"y\":0,\"z\":0}}",
@@ -538,16 +673,16 @@
       "once":false,
       "x":240,
       "y":220,
-      "wires":[  
-         [  
-            "86a1e1c8.f83ed8"
+      "wires":[
+         [
+            "d2b748.8a3968b8"
          ]
       ]
    },
-   {  
-      "id":"8e162f24.9dd24",
+   {
+      "id":"962013b1.4d80f",
       "type":"inject",
-      "z":"fb46d18a.aa74",
+      "z":"84d7960b.48e098",
       "name":"Inject backward",
       "topic":"",
       "payload":"{\"linear\":{\"x\":-0.3,\"y\":0,\"z\":0},\"angular\":{\"x\":0,\"y\":0,\"z\":0}}",
@@ -558,17 +693,17 @@
       "onceDelay":"",
       "x":220,
       "y":60,
-      "wires":[  
-         [  
-            "86a1e1c8.f83ed8",
-            "a33b1977.cf3d98"
+      "wires":[
+         [
+            "d2b748.8a3968b8",
+            "8e7f0d17.1f8ab"
          ]
       ]
    },
-   {  
-      "id":"1d4042ac.f9983d",
+   {
+      "id":"b48bff62.9720e",
       "type":"inject",
-      "z":"fb46d18a.aa74",
+      "z":"84d7960b.48e098",
       "name":"Turn counter-clockwise",
       "topic":"",
       "payload":"{\"linear\":{\"x\":0,\"y\":0,\"z\":0},\"angular\":{\"x\":0,\"y\":0,\"z\":1}}",
@@ -579,16 +714,16 @@
       "onceDelay":"",
       "x":200,
       "y":140,
-      "wires":[  
-         [  
-            "86a1e1c8.f83ed8"
+      "wires":[
+         [
+            "d2b748.8a3968b8"
          ]
       ]
    },
-   {  
-      "id":"c0713ef8.541f",
+   {
+      "id":"35682e30.523ed2",
       "type":"inject",
-      "z":"fb46d18a.aa74",
+      "z":"84d7960b.48e098",
       "name":"Turn clockwise",
       "topic":"",
       "payload":"{\"linear\":{\"x\":0,\"y\":0,\"z\":0},\"angular\":{\"x\":0,\"y\":0,\"z\":-1}}",
@@ -599,29 +734,29 @@
       "onceDelay":"",
       "x":220,
       "y":180,
-      "wires":[  
-         [  
-            "86a1e1c8.f83ed8"
+      "wires":[
+         [
+            "d2b748.8a3968b8"
          ]
       ]
    },
-   {  
-      "id":"4fa8b2e9.ba6664",
+   {
+      "id":"6906fdd2.61d1c4",
       "type":"ros-publish",
-      "z":"9eb4b930.403ec",
-      "server":"3f0006b2.243452",
+      "z":"ef199fc6.403da",
+      "server":"404dce64.b4eaa",
       "topicname":"/waypoint/state",
       "msgtype":"std_msgs/String",
       "x":500.00000381469727,
       "y":190.00000190734863,
-      "wires":[  
+      "wires":[
 
       ]
    },
-   {  
-      "id":"146d38b2.b34e37",
+   {
+      "id":"f43da950.b26b58",
       "type":"inject",
-      "z":"9eb4b930.403ec",
+      "z":"ef199fc6.403da",
       "name":"RUNNING",
       "topic":"",
       "payload":"{\"data\":\"RUNNING\"}",
@@ -632,16 +767,16 @@
       "onceDelay":0.1,
       "x":300.00000381469727,
       "y":170.00000190734863,
-      "wires":[  
-         [  
-            "4fa8b2e9.ba6664"
+      "wires":[
+         [
+            "6906fdd2.61d1c4"
          ]
       ]
    },
-   {  
-      "id":"49a32d60.2ca594",
+   {
+      "id":"54a75f93.e3e4",
       "type":"inject",
-      "z":"9eb4b930.403ec",
+      "z":"ef199fc6.403da",
       "name":"STOP",
       "topic":"",
       "payload":"{\"data\":\"STOP\"}",
@@ -652,42 +787,42 @@
       "onceDelay":0.1,
       "x":310.00000381469727,
       "y":230.00000190734863,
-      "wires":[  
-         [  
-            "4fa8b2e9.ba6664"
+      "wires":[
+         [
+            "6906fdd2.61d1c4"
          ]
       ]
    },
-   {  
-      "id":"cb0d3f05.b77c6",
+   {
+      "id":"f04d7aa1.bf6af8",
       "type":"ros-publish",
-      "z":"9eb4b930.403ec",
-      "server":"74d5e9f2.7376e8",
+      "z":"ef199fc6.403da",
+      "server":"1cb3b19c.ca789e",
       "topicname":"/waypoint",
       "msgtype":"sensor_msgs/NavSatFix",
       "x":840,
       "y":280,
-      "wires":[  
+      "wires":[
 
       ]
    },
-   {  
-      "id":"325e8b71.5c85a4",
+   {
+      "id":"9b9f49.e334c0b8",
       "type":"ros-publish",
-      "z":"9eb4b930.403ec",
-      "server":"74d5e9f2.7376e8",
+      "z":"ef199fc6.403da",
+      "server":"1cb3b19c.ca789e",
       "topicname":"/waypoint/control_parameters",
       "msgtype":"std_msgs/String",
       "x":590,
       "y":640,
-      "wires":[  
+      "wires":[
 
       ]
    },
-   {  
-      "id":"e88bfc3e.b8d2e",
+   {
+      "id":"8548faeb.b785d8",
       "type":"inject",
-      "z":"9eb4b930.403ec",
+      "z":"ef199fc6.403da",
       "name":"params",
       "topic":"",
       "payload":"{\"data\":\"0.3,0.8,0.8,0.8\"}",
@@ -698,29 +833,29 @@
       "onceDelay":0.1,
       "x":290,
       "y":640,
-      "wires":[  
-         [  
-            "325e8b71.5c85a4"
+      "wires":[
+         [
+            "9b9f49.e334c0b8"
          ]
       ]
    },
-   {  
-      "id":"ec911271.b6fc08",
+   {
+      "id":"501f6dac.487614",
       "type":"ros-publish",
-      "z":"9eb4b930.403ec",
-      "server":"74d5e9f2.7376e8",
+      "z":"ef199fc6.403da",
+      "server":"1cb3b19c.ca789e",
       "topicname":"/waypoint/acceleration",
       "msgtype":"std_msgs/String",
       "x":560,
       "y":720,
-      "wires":[  
+      "wires":[
 
       ]
    },
-   {  
-      "id":"a1dde409.ca00a",
+   {
+      "id":"cf204235.205f5",
       "type":"inject",
-      "z":"9eb4b930.403ec",
+      "z":"ef199fc6.403da",
       "name":"acceleration",
       "topic":"",
       "payload":"{\"data\":\"0.1,0.1\"}",
@@ -731,29 +866,29 @@
       "onceDelay":0.1,
       "x":270,
       "y":720,
-      "wires":[  
-         [  
-            "ec911271.b6fc08"
+      "wires":[
+         [
+            "501f6dac.487614"
          ]
       ]
    },
-   {  
-      "id":"fdc247b0.c67f7",
+   {
+      "id":"419011be.1d53",
       "type":"ros-publish",
-      "z":"9eb4b930.403ec",
-      "server":"a5ac4a4d.48e9d",
+      "z":"ef199fc6.403da",
+      "server":"625ba41.aa4785c",
       "topicname":"/waypoint/max_linear_speed",
       "msgtype":"std_msgs/Float32",
       "x":580,
       "y":800,
-      "wires":[  
+      "wires":[
 
       ]
    },
-   {  
-      "id":"5834312e.6e2fe",
+   {
+      "id":"ec84a8c4.7cf358",
       "type":"inject",
-      "z":"9eb4b930.403ec",
+      "z":"ef199fc6.403da",
       "name":"Max linear speed",
       "topic":"",
       "payload":"{\"data\":1.0}",
@@ -764,29 +899,29 @@
       "onceDelay":0.1,
       "x":260,
       "y":800,
-      "wires":[  
-         [  
-            "fdc247b0.c67f7"
+      "wires":[
+         [
+            "419011be.1d53"
          ]
       ]
    },
-   {  
-      "id":"fe58b12.0409f5",
+   {
+      "id":"cbb8544.52198a8",
       "type":"ros-publish",
-      "z":"9eb4b930.403ec",
-      "server":"a5ac4a4d.48e9d",
+      "z":"ef199fc6.403da",
+      "server":"625ba41.aa4785c",
       "topicname":"/waypoint/max_angular_speed",
       "msgtype":"std_msgs/Float32",
       "x":590,
       "y":880,
-      "wires":[  
+      "wires":[
 
       ]
    },
-   {  
-      "id":"3dfd8273.bc4b2e",
+   {
+      "id":"4865dd51.6c9bb4",
       "type":"inject",
-      "z":"9eb4b930.403ec",
+      "z":"ef199fc6.403da",
       "name":"Max angular speed",
       "topic":"",
       "payload":"{\"data\":1.0}",
@@ -797,29 +932,29 @@
       "onceDelay":0.1,
       "x":250,
       "y":880,
-      "wires":[  
-         [  
-            "fe58b12.0409f5"
+      "wires":[
+         [
+            "cbb8544.52198a8"
          ]
       ]
    },
-   {  
-      "id":"a7509f44.d831e",
+   {
+      "id":"5f5ef037.a1b5c",
       "type":"ros-publish",
-      "z":"9eb4b930.403ec",
-      "server":"a5ac4a4d.48e9d",
+      "z":"ef199fc6.403da",
+      "server":"625ba41.aa4785c",
       "topicname":"/waypoint/forwarding_thres",
       "msgtype":"std_msgs/Float32",
       "x":580,
       "y":960,
-      "wires":[  
+      "wires":[
 
       ]
    },
-   {  
-      "id":"a01633d7.42045",
+   {
+      "id":"95ce8906.559148",
       "type":"inject",
-      "z":"9eb4b930.403ec",
+      "z":"ef199fc6.403da",
       "name":"Forward threshold",
       "topic":"",
       "payload":"{\"data\":0.1}",
@@ -830,29 +965,29 @@
       "onceDelay":0.1,
       "x":250,
       "y":960,
-      "wires":[  
-         [  
-            "a7509f44.d831e"
+      "wires":[
+         [
+            "5f5ef037.a1b5c"
          ]
       ]
    },
-   {  
-      "id":"983ec1b2.f850d8",
+   {
+      "id":"5f173f2b.af2fa",
       "type":"ros-publish",
-      "z":"9eb4b930.403ec",
-      "server":"a5ac4a4d.48e9d",
+      "z":"ef199fc6.403da",
+      "server":"625ba41.aa4785c",
       "topicname":"/waypoint/turning_thres",
       "msgtype":"std_msgs/Float32",
       "x":570,
       "y":1040,
-      "wires":[  
+      "wires":[
 
       ]
    },
-   {  
-      "id":"e0615f48.59e758",
+   {
+      "id":"65e32d5f.1018e4",
       "type":"inject",
-      "z":"9eb4b930.403ec",
+      "z":"ef199fc6.403da",
       "name":"Turning threshold",
       "topic":"",
       "payload":"{\"data\":0.2}",
@@ -863,16 +998,16 @@
       "onceDelay":0.1,
       "x":260,
       "y":1040,
-      "wires":[  
-         [  
-            "983ec1b2.f850d8"
+      "wires":[
+         [
+            "5f173f2b.af2fa"
          ]
       ]
    },
-   {  
-      "id":"2f7652e3.ddaac6",
+   {
+      "id":"1b1cf244.b6ddae",
       "type":"inject",
-      "z":"9eb4b930.403ec",
+      "z":"ef199fc6.403da",
       "name":"Initial robot pose",
       "topic":"",
       "payload":"{\"pose\":{\"pose\":{\"position\":{\"x\":0,\"y\":0,\"z\":0},\"orientation\":{\"x\":0,\"y\":0,\"z\":0,\"w\":1}}}}",
@@ -883,29 +1018,29 @@
       "onceDelay":"",
       "x":180,
       "y":280,
-      "wires":[  
-         [  
-            "ed171e12.31e15"
+      "wires":[
+         [
+            "55dea456.eca9bc"
          ]
       ]
    },
-   {  
-      "id":"ed171e12.31e15",
+   {
+      "id":"55dea456.eca9bc",
       "type":"ros-publish",
-      "z":"9eb4b930.403ec",
-      "server":"3f0006b2.243452",
+      "z":"ef199fc6.403da",
+      "server":"404dce64.b4eaa",
       "topicname":"/odo_calib_pose",
       "msgtype":"nav_msgs/Odometry",
       "x":380,
       "y":280,
-      "wires":[  
+      "wires":[
 
       ]
    },
-   {  
-      "id":"2dc97fb1.4b2e8",
+   {
+      "id":"334744fb.d723ec",
       "type":"inject",
-      "z":"9eb4b930.403ec",
+      "z":"ef199fc6.403da",
       "name":"Initial waypoint",
       "topic":"",
       "payload":"{\"longitude\":0,\"latitude\":0,\"altitude\":0}",
@@ -916,16 +1051,16 @@
       "onceDelay":0.1,
       "x":620,
       "y":280,
-      "wires":[  
-         [  
-            "cb0d3f05.b77c6"
+      "wires":[
+         [
+            "f04d7aa1.bf6af8"
          ]
       ]
    },
-   {  
-      "id":"5a32a2e4.4f6b74",
+   {
+      "id":"a58a7186.81ba6",
       "type":"inject",
-      "z":"9eb4b930.403ec",
+      "z":"ef199fc6.403da",
       "name":"Second waypoint",
       "topic":"",
       "payload":"{\"longitude\":1,\"latitude\":0,\"altitude\":0}",
@@ -936,16 +1071,16 @@
       "onceDelay":0.1,
       "x":620,
       "y":340,
-      "wires":[  
-         [  
-            "cb0d3f05.b77c6"
+      "wires":[
+         [
+            "f04d7aa1.bf6af8"
          ]
       ]
    },
-   {  
-      "id":"c6245ba1.35309",
+   {
+      "id":"3102eb50.6e2804",
       "type":"inject",
-      "z":"9eb4b930.403ec",
+      "z":"ef199fc6.403da",
       "name":"Set waypoint",
       "topic":"",
       "payload":"{\"longitude\":0.00001,\"latitude\":0,\"altitude\":0}",
@@ -956,29 +1091,29 @@
       "onceDelay":0.1,
       "x":230,
       "y":440,
-      "wires":[  
-         [  
-            "fe56d31c.b681c"
+      "wires":[
+         [
+            "d9b7da9a.a45c58"
          ]
       ]
    },
-   {  
-      "id":"fe56d31c.b681c",
+   {
+      "id":"d9b7da9a.a45c58",
       "type":"ros-publish",
-      "z":"9eb4b930.403ec",
-      "server":"74d5e9f2.7376e8",
+      "z":"ef199fc6.403da",
+      "server":"1cb3b19c.ca789e",
       "topicname":"/waypoint",
       "msgtype":"sensor_msgs/NavSatFix",
       "x":500,
       "y":500,
-      "wires":[  
+      "wires":[
 
       ]
    },
-   {  
-      "id":"697f353b.bf46ac",
+   {
+      "id":"b078fc8.5a8d6",
       "type":"inject",
-      "z":"9eb4b930.403ec",
+      "z":"ef199fc6.403da",
       "name":"Set waypoint",
       "topic":"",
       "payload":"{\"longitude\":0.00001,\"latitude\":0.00001,\"altitude\":0}",
@@ -989,16 +1124,16 @@
       "onceDelay":0.1,
       "x":230,
       "y":480,
-      "wires":[  
-         [  
-            "fe56d31c.b681c"
+      "wires":[
+         [
+            "d9b7da9a.a45c58"
          ]
       ]
    },
-   {  
-      "id":"fd20db23.431a6",
+   {
+      "id":"e77acc6b.ae66",
       "type":"inject",
-      "z":"9eb4b930.403ec",
+      "z":"ef199fc6.403da",
       "name":"Set waypoint",
       "topic":"",
       "payload":"{\"longitude\":0,\"latitude\":0.00001,\"altitude\":0}",
@@ -1009,16 +1144,16 @@
       "onceDelay":0.1,
       "x":230,
       "y":520,
-      "wires":[  
-         [  
-            "fe56d31c.b681c"
+      "wires":[
+         [
+            "d9b7da9a.a45c58"
          ]
       ]
    },
-   {  
-      "id":"f55eaaea.3996e",
+   {
+      "id":"80913cda.5781a",
       "type":"inject",
-      "z":"9eb4b930.403ec",
+      "z":"ef199fc6.403da",
       "name":"Set waypoint",
       "topic":"",
       "payload":"{\"longitude\":0,\"latitude\":0,\"altitude\":0}",
@@ -1029,30 +1164,30 @@
       "onceDelay":0.1,
       "x":230,
       "y":560,
-      "wires":[  
-         [  
-            "fe56d31c.b681c"
+      "wires":[
+         [
+            "d9b7da9a.a45c58"
          ]
       ]
    },
-   {  
-      "id":"4d45430c.55ce9c",
+   {
+      "id":"67ad4401.25617c",
       "type":"ros-subscribe",
-      "z":"fb46d18a.aa74",
-      "server":"ae7ad7bc.dd90d",
+      "z":"84d7960b.48e098",
+      "server":"6d04db07.6e8724",
       "topicname":"/cmd_vel",
       "x":160,
       "y":340,
-      "wires":[  
-         [  
-            "595bc2b.ac827bc"
+      "wires":[
+         [
+            "44ec7bee.7c4cf4"
          ]
       ]
    },
-   {  
-      "id":"de2b053b.82304",
+   {
+      "id":"d5a1fa65.664078",
       "type":"debug",
-      "z":"fb46d18a.aa74",
+      "z":"84d7960b.48e098",
       "name":"",
       "active":false,
       "tosidebar":true,
@@ -1061,76 +1196,43 @@
       "complete":"payload",
       "x":450,
       "y":340,
-      "wires":[  
+      "wires":[
 
       ]
    },
-   {  
-      "id":"595bc2b.ac827bc",
+   {
+      "id":"44ec7bee.7c4cf4",
       "type":"function",
-      "z":"fb46d18a.aa74",
+      "z":"84d7960b.48e098",
       "name":"JSON",
       "func":"msg.payload = JSON.stringify(msg.payload);\nreturn msg;",
       "outputs":1,
       "noerr":0,
       "x":310,
       "y":340,
-      "wires":[  
-         [  
-            "de2b053b.82304"
+      "wires":[
+         [
+            "d5a1fa65.664078"
          ]
       ]
    },
-   {  
-      "id":"8458581f.02076",
+   {
+      "id":"d2727d4b.8b3b6",
       "type":"ros-publish",
-      "z":"641844a0.c16274",
-      "server":"74d5e9f2.7376e8",
-      "topicname":"/arlobot/reset_motorBoard",
-      "msgtype":"std_msgs/Bool",
-      "x":650,
-      "y":420,
-      "wires":[  
-
-      ]
-   },
-   {  
-      "id":"7244caaa.31f554",
-      "type":"inject",
-      "z":"641844a0.c16274",
-      "name":"Reset MotorBoard",
-      "topic":"",
-      "payload":"{\"data\":true}",
-      "payloadType":"json",
-      "repeat":"",
-      "crontab":"",
-      "once":false,
-      "onceDelay":0.1,
-      "x":330,
-      "y":420,
-      "wires":[  
-         [  
-            "8458581f.02076"
-         ]
-      ]
-   },
-   {  
-      "id":"fe318359.2931",
-      "type":"ros-publish",
-      "z":"9eb4b930.403ec",
-      "server":"74d5e9f2.7376e8",
+      "z":"ef199fc6.403da",
+      "server":"1cb3b19c.ca789e",
       "topicname":"/arlobot/reset_motorBoard",
       "msgtype":"std_msgs/Bool",
       "x":530,
       "y":400,
-      "wires":[  
+      "wires":[
 
       ]
    },
-   {  
-      "id":"38ddd419.79b74c",
+   {
+      "id":"aa2f2337.15b6",
       "type":"inject",
-      "z":"9eb4b930.403ec",
+      "z":"ef199fc6.403da",
       "name":"Reset MotorBoard",
       "topic":"",
       "payload":"{\"data\":true}",
@@ -1141,30 +1243,30 @@
       "onceDelay":0.1,
       "x":210,
       "y":400,
-      "wires":[  
-         [  
-            "fe318359.2931"
+      "wires":[
+         [
+            "d2727d4b.8b3b6"
          ]
       ]
    },
-   {  
-      "id":"1cc06935.99618f",
+   {
+      "id":"7f31fc0f.5a0ae4",
       "type":"ros-subscribe",
-      "z":"fb46d18a.aa74",
-      "server":"ae7ad7bc.dd90d",
+      "z":"84d7960b.48e098",
+      "server":"6d04db07.6e8724",
       "topicname":"/odom",
       "x":170,
       "y":400,
-      "wires":[  
-         [  
-            "6bf4dca6.d038cc"
+      "wires":[
+         [
+            "362edbce.0c57d4"
          ]
       ]
    },
-   {  
-      "id":"df69f7c5.279e98",
+   {
+      "id":"afbe0cf5.91b4a",
       "type":"debug",
-      "z":"fb46d18a.aa74",
+      "z":"84d7960b.48e098",
       "name":"",
       "active":false,
       "tosidebar":true,
@@ -1173,44 +1275,44 @@
       "complete":"payload",
       "x":460,
       "y":400,
-      "wires":[  
+      "wires":[
 
       ]
    },
-   {  
-      "id":"6bf4dca6.d038cc",
+   {
+      "id":"362edbce.0c57d4",
       "type":"function",
-      "z":"fb46d18a.aa74",
+      "z":"84d7960b.48e098",
       "name":"JSON",
       "func":"msg.payload = JSON.stringify(msg.payload);\nreturn msg;",
       "outputs":1,
       "noerr":0,
       "x":320,
       "y":400,
-      "wires":[  
-         [  
-            "df69f7c5.279e98"
+      "wires":[
+         [
+            "afbe0cf5.91b4a"
          ]
       ]
    },
-   {  
-      "id":"6a96a425.8309a4",
+   {
+      "id":"60b5c5f2.ea064c",
       "type":"ros-subscribe",
-      "z":"fb46d18a.aa74",
-      "server":"ae7ad7bc.dd90d",
+      "z":"84d7960b.48e098",
+      "server":"6d04db07.6e8724",
       "topicname":"/robot_gps_pose",
       "x":140,
       "y":460,
-      "wires":[  
-         [  
-            "f2e4c1f6.97807"
+      "wires":[
+         [
+            "1a40be77.8981a2"
          ]
       ]
    },
-   {  
-      "id":"4cfb9adb.a7646c",
+   {
+      "id":"41a48a2f.3dd9f4",
       "type":"debug",
-      "z":"fb46d18a.aa74",
+      "z":"84d7960b.48e098",
       "name":"",
       "active":false,
       "tosidebar":true,
@@ -1219,30 +1321,30 @@
       "complete":"payload",
       "x":460,
       "y":460,
-      "wires":[  
+      "wires":[
 
       ]
    },
-   {  
-      "id":"f2e4c1f6.97807",
+   {
+      "id":"1a40be77.8981a2",
       "type":"function",
-      "z":"fb46d18a.aa74",
+      "z":"84d7960b.48e098",
       "name":"JSON",
       "func":"msg.payload = JSON.stringify(msg.payload);\nreturn msg;",
       "outputs":1,
       "noerr":0,
       "x":320,
       "y":460,
-      "wires":[  
-         [  
-            "4cfb9adb.a7646c"
+      "wires":[
+         [
+            "41a48a2f.3dd9f4"
          ]
       ]
    },
-   {  
-      "id":"8fab9726.28442",
+   {
+      "id":"d9eebb04.3b5698",
       "type":"inject",
-      "z":"9eb4b930.403ec",
+      "z":"ef199fc6.403da",
       "name":"Initial fiducial map 89",
       "topic":"",
       "payload":"{\"fiducials\":[{\"y\":55.7827023488895,\"z\":10.2530002593994,\"x\":12.5141731917683,\"rx\":0,\"ry\":180,\"rz\":276.5,\"fiducial_id\":100},{\"y\":55.7826913621249,\"z\":10.8999996185303,\"x\":12.5142383914115,\"rx\":6.10666519521713e-13,\"ry\":180,\"rz\":204.907989501953,\"fiducial_id\":124},{\"y\":55.7827030087058,\"z\":10.1400003433228,\"x\":12.5141939157732,\"rx\":0,\"ry\":180,\"rz\":114.908004760742,\"fiducial_id\":118},{\"y\":55.7826788192313,\"z\":10.2530002593994,\"x\":12.5141565871093,\"rx\":0,\"ry\":180,\"rz\":114.908004760742,\"fiducial_id\":150},{\"y\":55.7826268681538,\"z\":10.2530002593994,\"x\":12.514126610999,\"rx\":0,\"ry\":180,\"rz\":114.908004760742,\"fiducial_id\":151},{\"y\":55.7825286244069,\"z\":10.2530002593994,\"x\":12.5140748829797,\"rx\":0,\"ry\":180,\"rz\":114.908004760742,\"fiducial_id\":152},{\"y\":55.7824561121478,\"z\":10.2530002593994,\"x\":12.5140331926298,\"rx\":4.07111003979457e-13,\"ry\":180,\"rz\":115.000007629395,\"fiducial_id\":153},{\"y\":55.7823734933141,\"z\":10.2530002593994,\"x\":12.5139859846002,\"rx\":4.07111003979457e-13,\"ry\":180,\"rz\":115.000007629395,\"fiducial_id\":154},{\"y\":55.7823196086569,\"z\":10.2530002593994,\"x\":12.5139544447294,\"rx\":4.07111003979457e-13,\"ry\":180,\"rz\":115.000007629395,\"fiducial_id\":155},{\"y\":55.7822373160491,\"z\":10.2530002593994,\"x\":12.5139074910966,\"rx\":4.07111003979457e-13,\"ry\":180,\"rz\":115.000007629395,\"fiducial_id\":156},{\"y\":55.7821519031233,\"z\":10.2530002593994,\"x\":12.5138611153848,\"rx\":4.07111003979457e-13,\"ry\":180,\"rz\":115.000007629395,\"fiducial_id\":157},{\"y\":55.7821051250662,\"z\":10.2530002593994,\"x\":12.5138364390989,\"rx\":4.07111003979457e-13,\"ry\":180,\"rz\":115.000007629395,\"fiducial_id\":158},{\"y\":55.7820465675116,\"z\":10.7419996261597,\"x\":12.513851384089,\"rx\":4.07111003979457e-13,\"ry\":180,\"rz\":115.000007629395,\"fiducial_id\":159},{\"y\":55.6617074878224,\"z\":15,\"x\":12.5863218280206,\"rx\":-0.00000500895657751244,\"ry\":180,\"rz\":197,\"fiducial_id\":201}]}",
@@ -1253,43 +1355,43 @@
       "onceDelay":"",
       "x":240,
       "y":40,
-      "wires":[  
-         [  
-            "9e03b995.a41b8"
+      "wires":[
+         [
+            "88fe5497.1761a8"
          ]
       ]
    },
-   {  
-      "id":"9e03b995.a41b8",
+   {
+      "id":"88fe5497.1761a8",
       "type":"ros-publish",
-      "z":"9eb4b930.403ec",
-      "server":"a5ac4a4d.48e9d",
+      "z":"ef199fc6.403da",
+      "server":"625ba41.aa4785c",
       "topicname":"/fiducial_map_gps",
       "msgtype":"fiducial_msgs/FiducialMapEntryArray",
       "x":490,
       "y":40,
-      "wires":[  
+      "wires":[
 
       ]
    },
-   {  
-      "id":"3a1ae465.27ca74",
+   {
+      "id":"cfaed13d.ac7d3",
       "type":"ros-subscribe",
-      "z":"9eb4b930.403ec",
-      "server":"3f0006b2.243452",
+      "z":"ef199fc6.403da",
+      "server":"404dce64.b4eaa",
       "topicname":"/robot_gps_pose",
       "x":140,
       "y":1120,
-      "wires":[  
-         [  
-            "29cf72ec.acd63e"
+      "wires":[
+         [
+            "d92a50ad.b876a"
          ]
       ]
    },
-   {  
-      "id":"579b4808.cd781",
+   {
+      "id":"404c160e.f91458",
       "type":"debug",
-      "z":"9eb4b930.403ec",
+      "z":"ef199fc6.403da",
       "name":"",
       "active":false,
       "tosidebar":true,
@@ -1298,44 +1400,44 @@
       "complete":"payload",
       "x":430,
       "y":1120,
-      "wires":[  
+      "wires":[
 
       ]
    },
-   {  
-      "id":"29cf72ec.acd63e",
+   {
+      "id":"d92a50ad.b876a",
       "type":"function",
-      "z":"9eb4b930.403ec",
+      "z":"ef199fc6.403da",
       "name":"JSON",
       "func":"msg.payload = JSON.stringify(msg.payload);\nreturn msg;",
       "outputs":1,
       "noerr":0,
       "x":290,
       "y":1120,
-      "wires":[  
-         [  
-            "579b4808.cd781"
+      "wires":[
+         [
+            "404c160e.f91458"
          ]
       ]
    },
-   {  
-      "id":"cd4d34c1.7f24b8",
+   {
+      "id":"7cc969cb.e1fe68",
       "type":"ros-subscribe",
-      "z":"9eb4b930.403ec",
-      "server":"3f0006b2.243452",
+      "z":"ef199fc6.403da",
+      "server":"404dce64.b4eaa",
       "topicname":"/debug_output",
       "x":140,
       "y":1180,
-      "wires":[  
-         [  
-            "2b420810.cfbc98"
+      "wires":[
+         [
+            "9bab762f.91ce28"
          ]
       ]
    },
-   {  
-      "id":"175e8766.a212d9",
+   {
+      "id":"61e8afe3.08a55",
       "type":"debug",
-      "z":"9eb4b930.403ec",
+      "z":"ef199fc6.403da",
       "name":"",
       "active":false,
       "tosidebar":true,
@@ -1344,30 +1446,30 @@
       "complete":"payload",
       "x":460,
       "y":1180,
-      "wires":[  
+      "wires":[
 
       ]
    },
-   {  
-      "id":"2b420810.cfbc98",
+   {
+      "id":"9bab762f.91ce28",
       "type":"function",
-      "z":"9eb4b930.403ec",
+      "z":"ef199fc6.403da",
       "name":"JSON",
       "func":"msg.payload = JSON.stringify(msg.payload);\nreturn msg;",
       "outputs":1,
       "noerr":0,
       "x":320,
       "y":1180,
-      "wires":[  
-         [  
-            "175e8766.a212d9"
+      "wires":[
+         [
+            "61e8afe3.08a55"
          ]
       ]
    },
-   {  
-      "id":"a62f1167.27dd68",
+   {
+      "id":"5a5a4340.d974cc",
       "type":"inject",
-      "z":"9eb4b930.403ec",
+      "z":"ef199fc6.403da",
       "name":"Initial campus id 89",
       "topic":"",
       "payload":"{\"data\":89}",
@@ -1378,29 +1480,29 @@
       "onceDelay":"",
       "x":230,
       "y":80,
-      "wires":[  
-         [  
-            "80a858bb.19053"
+      "wires":[
+         [
+            "bfb7e6fc.cdaf08"
          ]
       ]
    },
-   {  
-      "id":"80a858bb.19053",
+   {
+      "id":"bfb7e6fc.cdaf08",
       "type":"ros-publish",
-      "z":"9eb4b930.403ec",
-      "server":"3f0006b2.243452",
+      "z":"ef199fc6.403da",
+      "server":"404dce64.b4eaa",
       "topicname":"//mazemap/campusId",
       "msgtype":"std_msgs/Int32",
       "x":560,
       "y":100,
-      "wires":[  
+      "wires":[
 
       ]
    },
-   {  
-      "id":"2f8f3941.3e5f2e",
+   {
+      "id":"f414a623.fecdd8",
       "type":"inject",
-      "z":"9eb4b930.403ec",
+      "z":"ef199fc6.403da",
       "name":"Initial campus id 179",
       "topic":"",
       "payload":"{\"data\": 179}",
@@ -1411,77 +1513,77 @@
       "onceDelay":"",
       "x":230,
       "y":120,
-      "wires":[  
-         [  
-            "80a858bb.19053"
+      "wires":[
+         [
+            "bfb7e6fc.cdaf08"
          ]
       ]
    },
-   {  
-      "id":"12b031aa.092f3e",
+   {
+      "id":"d48c3f3e.8a27d",
       "type":"mqtt in",
-      "z":"84cfe408.5d7b2",
+      "z":"42c686b1.16a348",
       "name":"",
       "topic":"#",
       "qos":"0",
-      "broker":"ae90fe4c.6d6908",
+      "broker":"b17d44d.b2975b8",
       "x":70,
       "y":280,
-      "wires":[  
-         [  
-            "421c56a6.abce6"
+      "wires":[
+         [
+            "5d8bbcfa.c8df74"
          ]
       ]
    },
-   {  
-      "id":"421c56a6.abce6",
+   {
+      "id":"5d8bbcfa.c8df74",
       "type":"switch",
-      "z":"84cfe408.5d7b2",
+      "z":"42c686b1.16a348",
       "name":"MQTT_hdl",
       "property":"payload",
       "propertyType":"msg",
-      "rules":[  
-         {  
+      "rules":[
+         {
             "t":"eq",
             "v":"STOP",
             "vt":"str"
          },
-         {  
+         {
             "t":"eq",
             "v":"FWD",
             "vt":"str"
          },
-         {  
+         {
             "t":"eq",
             "v":"BACK",
             "vt":"str"
          },
-         {  
+         {
             "t":"eq",
             "v":"LEFT",
             "vt":"str"
          },
-         {  
+         {
             "t":"eq",
             "v":"RIGHT",
             "vt":"str"
          },
-         {  
+         {
             "t":"eq",
             "v":"START",
             "vt":"str"
          },
-         {  
+         {
             "t":"eq",
             "v":"CHANGE",
             "vt":"str"
          },
-         {  
+         {
             "t":"eq",
             "v":"FASTER",
             "vt":"str"
          },
-         {  
+         {
             "t":"eq",
             "v":"SLOWER",
             "vt":"str"
@@ -1492,133 +1594,133 @@
       "outputs":9,
       "x":270,
       "y":280,
-      "wires":[  
-         [  
-            "8a1dc90f.dcd8c8"
+      "wires":[
+         [
+            "8ab2d50.5783f28"
          ],
-         [  
-            "52e0302c.fe7288"
+         [
+            "48a83ac3.861e04"
          ],
-         [  
-            "3fac95a2.4cd92a"
+         [
+            "bad423f5.f354b"
          ],
-         [  
-            "d6ba490c.dde1c"
+         [
+            "84e31aed.ba1278"
          ],
-         [  
-            "c8b43629.348b4"
+         [
+            "962d2350.9dddc"
          ],
-         [  
-            "7a5125d7.32d58c"
+         [
+            "775294cb.c1f5cc"
          ],
-         [  
-            "8b50aa77.237158"
+         [
+            "b549faa8.b73128"
          ],
-         [  
-            "ce2d83e.89cce8"
+         [
+            "8b5d4fd2.82129"
          ],
-         [  
-            "e879b311.c655f8"
+         [
+            "db228606.64a8b8"
          ]
       ]
    },
-   {  
-      "id":"d9d9ae5a.620c6",
+   {
+      "id":"3857cb63.67c094",
       "type":"ros-publish",
-      "z":"84cfe408.5d7b2",
-      "server":"3f0006b2.243452",
+      "z":"42c686b1.16a348",
+      "server":"404dce64.b4eaa",
       "topicname":"/cmd_vel",
       "msgtype":"geometry_msgs/Twist",
       "x":1240,
       "y":320,
-      "wires":[  
+      "wires":[
 
       ]
    },
-   {  
-      "id":"842bd89a.6f674",
+   {
+      "id":"afd35b94.6e6a78",
       "type":"function",
-      "z":"84cfe408.5d7b2",
+      "z":"42c686b1.16a348",
       "name":"Forward",
       "func":"msg.payload = {\n    \"linear\": {\n        \"x\": global.get('speed'),\n        \"y\": 0.0,\n        \"z\": 0.0\n    },\n    \"angular\": {\n        \"x\": 0.0,\n        \"y\": 0.0,\n        \"z\": 0.0\n    }\n};\nreturn msg",
       "outputs":1,
       "noerr":0,
       "x":1040,
       "y":220,
-      "wires":[  
-         [  
-            "d9d9ae5a.620c6"
+      "wires":[
+         [
+            "3857cb63.67c094"
          ]
       ]
    },
-   {  
-      "id":"56aa2661.24a598",
+   {
+      "id":"2ac2657b.62ba5a",
       "type":"function",
-      "z":"84cfe408.5d7b2",
+      "z":"42c686b1.16a348",
       "name":"Stop",
       "func":"msg.payload = {\n    \"linear\": {\n        \"x\": 0.0,\n        \"y\": 0.0,\n        \"z\": 0.0\n    },\n    \"angular\": {\n        \"x\": 0.0,\n        \"y\": 0.0,\n        \"z\": 0.0\n    }\n};\nreturn msg\n",
       "outputs":1,
       "noerr":0,
       "x":1030,
       "y":160,
-      "wires":[  
-         [  
-            "d9d9ae5a.620c6"
+      "wires":[
+         [
+            "3857cb63.67c094"
          ]
       ]
    },
-   {  
-      "id":"36ad202a.b463e8",
+   {
+      "id":"33c80b6e.7f25f4",
       "type":"function",
-      "z":"84cfe408.5d7b2",
+      "z":"42c686b1.16a348",
       "name":"Backward",
       "func":"msg.payload = {\n    \"linear\": {\n        \"x\": -global.get('speed'),\n        \"y\": 0.0,\n        \"z\": 0.0\n    },\n    \"angular\": {\n        \"x\": 0.0,\n        \"y\": 0.0,\n        \"z\": 0.0\n    }\n};\nreturn msg;\n",
       "outputs":1,
       "noerr":0,
       "x":1040,
       "y":280,
-      "wires":[  
-         [  
-            "d9d9ae5a.620c6"
+      "wires":[
+         [
+            "3857cb63.67c094"
          ]
       ]
    },
-   {  
-      "id":"30a4c85f.8f97a",
+   {
+      "id":"8d764d29.6ae91",
       "type":"function",
-      "z":"84cfe408.5d7b2",
+      "z":"42c686b1.16a348",
       "name":"Left",
       "func":"msg.payload = {\n    \"linear\": {\n        \"x\": 0.0,\n        \"y\": 0.0,\n        \"z\": 0.0\n    },\n    \"angular\": {\n        \"x\": 0.0,\n        \"y\": 0.0,\n        \"z\": global.get('speed')\n    }\n};\nreturn msg;\n",
       "outputs":1,
       "noerr":0,
       "x":1030,
       "y":340,
-      "wires":[  
-         [  
-            "d9d9ae5a.620c6"
+      "wires":[
+         [
+            "3857cb63.67c094"
          ]
       ]
    },
-   {  
-      "id":"4509402.6f4ce4",
+   {
+      "id":"885e466e.386058",
       "type":"function",
-      "z":"84cfe408.5d7b2",
+      "z":"42c686b1.16a348",
       "name":"Right",
       "func":"msg.payload = {\n    \"linear\": {\n        \"x\": 0.0,\n        \"y\": 0.0,\n        \"z\": 0.0\n    },\n    \"angular\": {\n        \"x\": 0.0,\n        \"y\": 0.0,\n        \"z\": -global.get('speed')\n    }\n};\nreturn msg;\n",
       "outputs":1,
       "noerr":0,
       "x":1030,
       "y":400,
-      "wires":[  
-         [  
-            "d9d9ae5a.620c6"
+      "wires":[
+         [
+            "3857cb63.67c094"
          ]
       ]
    },
-   {  
-      "id":"a33b1977.cf3d98",
+   {
+      "id":"8e7f0d17.1f8ab",
       "type":"debug",
-      "z":"fb46d18a.aa74",
+      "z":"84d7960b.48e098",
       "name":"",
       "active":true,
       "tosidebar":true,
@@ -1627,33 +1729,33 @@
       "complete":"false",
       "x":530,
       "y":60,
-      "wires":[  
+      "wires":[
 
       ]
    },
-   {  
-      "id":"a400e1d7.6c933",
+   {
+      "id":"2164604f.68eba",
       "type":"function",
-      "z":"84cfe408.5d7b2",
+      "z":"42c686b1.16a348",
       "name":"START",
       "func":"msg.payload = {\n    \"linear\": {\n        \"x\": global.get('speed'),\n        \"y\": 0.0,\n        \"z\": 0.0\n    },\n    \"angular\": {\n        \"x\": 0.0,\n        \"y\": 0.0,\n        \"z\": 0.0\n    }\n};\nreturn msg",
       "outputs":1,
       "noerr":0,
       "x":1040,
       "y":460,
-      "wires":[  
-         [  
-            "d9d9ae5a.620c6"
+      "wires":[
+         [
+            "3857cb63.67c094"
          ]
       ]
    },
-   {  
-      "id":"8a1dc90f.dcd8c8",
+   {
+      "id":"8ab2d50.5783f28",
       "type":"change",
-      "z":"84cfe408.5d7b2",
+      "z":"42c686b1.16a348",
       "name":"Set direction",
-      "rules":[  
-         {  
+      "rules":[
+         {
             "t":"set",
             "p":"dir",
             "pt":"global",
@@ -1668,19 +1770,19 @@
       "reg":false,
       "x":870,
       "y":160,
-      "wires":[  
-         [  
-            "56aa2661.24a598"
+      "wires":[
+         [
+            "2ac2657b.62ba5a"
          ]
       ]
    },
-   {  
-      "id":"52e0302c.fe7288",
+   {
+      "id":"48a83ac3.861e04",
       "type":"change",
-      "z":"84cfe408.5d7b2",
+      "z":"42c686b1.16a348",
       "name":"Set direction",
-      "rules":[  
-         {  
+      "rules":[
+         {
             "t":"set",
             "p":"dir",
             "pt":"global",
@@ -1695,19 +1797,19 @@
       "reg":false,
       "x":870,
       "y":220,
-      "wires":[  
-         [  
-            "842bd89a.6f674"
+      "wires":[
+         [
+            "afd35b94.6e6a78"
          ]
       ]
    },
-   {  
-      "id":"3fac95a2.4cd92a",
+   {
+      "id":"bad423f5.f354b",
       "type":"change",
-      "z":"84cfe408.5d7b2",
+      "z":"42c686b1.16a348",
       "name":"Set direction",
-      "rules":[  
-         {  
+      "rules":[
+         {
             "t":"set",
             "p":"dir",
             "pt":"global",
@@ -1722,19 +1824,19 @@
       "reg":false,
       "x":870,
       "y":280,
-      "wires":[  
-         [  
-            "36ad202a.b463e8"
+      "wires":[
+         [
+            "33c80b6e.7f25f4"
          ]
       ]
    },
-   {  
-      "id":"d6ba490c.dde1c",
+   {
+      "id":"84e31aed.ba1278",
       "type":"change",
-      "z":"84cfe408.5d7b2",
+      "z":"42c686b1.16a348",
       "name":"Set direction",
-      "rules":[  
-         {  
+      "rules":[
+         {
             "t":"set",
             "p":"dir",
             "pt":"global",
@@ -1749,19 +1851,19 @@
       "reg":false,
       "x":870,
       "y":340,
-      "wires":[  
-         [  
-            "30a4c85f.8f97a"
+      "wires":[
+         [
+            "8d764d29.6ae91"
          ]
       ]
    },
-   {  
-      "id":"c8b43629.348b4",
+   {
+      "id":"962d2350.9dddc",
       "type":"change",
-      "z":"84cfe408.5d7b2",
+      "z":"42c686b1.16a348",
       "name":"Set direction",
-      "rules":[  
-         {  
+      "rules":[
+         {
             "t":"set",
             "p":"dir",
             "pt":"global",
@@ -1776,19 +1878,19 @@
       "reg":false,
       "x":870,
       "y":400,
-      "wires":[  
-         [  
-            "4509402.6f4ce4"
+      "wires":[
+         [
+            "885e466e.386058"
          ]
       ]
    },
-   {  
-      "id":"7a5125d7.32d58c",
+   {
+      "id":"775294cb.c1f5cc",
       "type":"change",
-      "z":"84cfe408.5d7b2",
+      "z":"42c686b1.16a348",
       "name":"Set direction",
-      "rules":[  
-         {  
+      "rules":[
+         {
             "t":"set",
             "p":"dir",
             "pt":"global",
@@ -1803,41 +1905,41 @@
       "reg":false,
       "x":870,
       "y":460,
-      "wires":[  
-         [  
-            "a400e1d7.6c933"
+      "wires":[
+         [
+            "2164604f.68eba"
          ]
       ]
    },
-   {  
-      "id":"8b50aa77.237158",
+   {
+      "id":"b549faa8.b73128",
       "type":"switch",
-      "z":"84cfe408.5d7b2",
+      "z":"42c686b1.16a348",
       "name":"Change",
       "property":"dir",
       "propertyType":"global",
-      "rules":[  
-         {  
+      "rules":[
+         {
             "t":"eq",
             "v":"STOP",
             "vt":"str"
          },
-         {  
+         {
             "t":"eq",
             "v":"BACK",
             "vt":"str"
          },
-         {  
+         {
             "t":"eq",
             "v":"FWD",
             "vt":"str"
          },
-         {  
+         {
             "t":"eq",
             "v":"RIGHT",
             "vt":"str"
          },
-         {  
+         {
             "t":"eq",
             "v":"LEFT",
             "vt":"str"
@@ -1848,28 +1950,28 @@
       "outputs":5,
       "x":480,
       "y":400,
-      "wires":[  
-         [  
-            "8a1dc90f.dcd8c8"
+      "wires":[
+         [
+            "8ab2d50.5783f28"
          ],
-         [  
-            "52e0302c.fe7288"
+         [
+            "48a83ac3.861e04"
          ],
-         [  
-            "3fac95a2.4cd92a"
+         [
+            "bad423f5.f354b"
          ],
-         [  
-            "d6ba490c.dde1c"
+         [
+            "84e31aed.ba1278"
          ],
-         [  
-            "c8b43629.348b4"
+         [
+            "962d2350.9dddc"
          ]
       ]
    },
-   {  
-      "id":"f87460b2.4ff508",
+   {
+      "id":"6bbb7953.d530a8",
       "type":"inject",
-      "z":"84cfe408.5d7b2",
+      "z":"42c686b1.16a348",
       "name":"Set speed as 1",
       "topic":"",
       "payload":"1.0",
@@ -1880,16 +1982,16 @@
       "onceDelay":0.1,
       "x":120,
       "y":100,
-      "wires":[  
-         [  
-            "475a138e.04ca9c"
+      "wires":[
+         [
+            "dc5840cc.8bbcc"
          ]
       ]
    },
-   {  
-      "id":"27c1fc6a.388514",
+   {
+      "id":"d1d76e1e.792d9",
       "type":"debug",
-      "z":"84cfe408.5d7b2",
+      "z":"42c686b1.16a348",
       "name":"",
       "active":true,
       "tosidebar":true,
@@ -1898,17 +2000,17 @@
       "complete":"payload",
       "x":480,
       "y":100,
-      "wires":[  
+      "wires":[
 
       ]
    },
-   {  
-      "id":"475a138e.04ca9c",
+   {
+      "id":"dc5840cc.8bbcc",
       "type":"change",
-      "z":"84cfe408.5d7b2",
+      "z":"42c686b1.16a348",
       "name":"Set speed",
-      "rules":[  
-         {  
+      "rules":[
+         {
             "t":"set",
             "p":"speed",
             "pt":"global",
@@ -1923,16 +2025,16 @@
       "reg":false,
       "x":310,
       "y":100,
-      "wires":[  
-         [  
-            "27c1fc6a.388514"
+      "wires":[
+         [
+            "d1d76e1e.792d9"
          ]
       ]
    },
-   {  
-      "id":"d1e8fb23.ddd538",
+   {
+      "id":"46dd2097.5d344",
       "type":"inject",
-      "z":"84cfe408.5d7b2",
+      "z":"42c686b1.16a348",
       "name":"Set speed as 0.5",
       "topic":"",
       "payload":"0.5",
@@ -1943,16 +2045,16 @@
       "onceDelay":0.1,
       "x":120,
       "y":40,
-      "wires":[  
-         [  
-            "675a6d85.aaaf0c"
+      "wires":[
+         [
+            "53604049.ba44a"
          ]
       ]
    },
-   {  
-      "id":"c6be02c7.41aa",
+   {
+      "id":"313b8958.4c0d26",
       "type":"debug",
-      "z":"84cfe408.5d7b2",
+      "z":"42c686b1.16a348",
       "name":"",
       "active":true,
       "tosidebar":true,
@@ -1961,17 +2063,17 @@
       "complete":"payload",
       "x":510,
       "y":40,
-      "wires":[  
+      "wires":[
 
       ]
    },
-   {  
-      "id":"675a6d85.aaaf0c",
+   {
+      "id":"53604049.ba44a",
       "type":"change",
-      "z":"84cfe408.5d7b2",
+      "z":"42c686b1.16a348",
       "name":"Set speed",
-      "rules":[  
-         {  
+      "rules":[
+         {
             "t":"set",
             "p":"speed",
             "pt":"global",
@@ -1986,73 +2088,73 @@
       "reg":false,
       "x":310,
       "y":40,
-      "wires":[  
-         [  
-            "c6be02c7.41aa"
+      "wires":[
+         [
+            "313b8958.4c0d26"
          ]
       ]
    },
-   {  
-      "id":"ce2d83e.89cce8",
+   {
+      "id":"8b5d4fd2.82129",
       "type":"function",
-      "z":"84cfe408.5d7b2",
+      "z":"42c686b1.16a348",
       "name":"Faster",
       "func":"vel = global.get('speed') * 1.2;\nglobal.set('speed', vel);\nreturn msg;",
       "outputs":1,
       "noerr":0,
       "x":470,
       "y":480,
-      "wires":[  
-         [  
-            "fc2641ec.ea553"
+      "wires":[
+         [
+            "55c4140c.22278c"
          ]
       ]
    },
-   {  
-      "id":"e879b311.c655f8",
+   {
+      "id":"db228606.64a8b8",
       "type":"function",
-      "z":"84cfe408.5d7b2",
+      "z":"42c686b1.16a348",
       "name":"Slower",
       "func":"vel = global.get('speed') / 1.2;\nglobal.set('speed', vel);\nreturn msg;",
       "outputs":1,
       "noerr":0,
       "x":470,
       "y":540,
-      "wires":[  
-         [  
-            "fc2641ec.ea553"
+      "wires":[
+         [
+            "55c4140c.22278c"
          ]
       ]
    },
-   {  
-      "id":"fc2641ec.ea553",
+   {
+      "id":"55c4140c.22278c",
       "type":"switch",
-      "z":"84cfe408.5d7b2",
+      "z":"42c686b1.16a348",
       "name":"Keep Moving",
       "property":"dir",
       "propertyType":"global",
-      "rules":[  
-         {  
+      "rules":[
+         {
             "t":"eq",
             "v":"STOP",
             "vt":"str"
          },
-         {  
+         {
             "t":"eq",
             "v":"FWD",
             "vt":"str"
          },
-         {  
+         {
             "t":"eq",
             "v":"BACK",
             "vt":"str"
          },
-         {  
+         {
             "t":"eq",
             "v":"LEFT",
             "vt":"str"
          },
-         {  
+         {
             "t":"eq",
             "v":"RIGHT",
             "vt":"str"
@@ -2063,74 +2165,74 @@
       "outputs":5,
       "x":650,
       "y":500,
-      "wires":[  
-         [  
-            "8a1dc90f.dcd8c8"
+      "wires":[
+         [
+            "8ab2d50.5783f28"
          ],
-         [  
-            "52e0302c.fe7288"
+         [
+            "48a83ac3.861e04"
          ],
-         [  
-            "3fac95a2.4cd92a"
+         [
+            "bad423f5.f354b"
          ],
-         [  
-            "d6ba490c.dde1c"
+         [
+            "84e31aed.ba1278"
          ],
-         [  
-            "c8b43629.348b4"
+         [
+            "962d2350.9dddc"
          ]
       ]
    },
-   {  
-      "id":"8ca042df.30a7a",
+   {
+      "id":"2a181d4a.d37822",
       "type":"inject",
-      "z":"dd50d548.d4606",
+      "z":"6ba5909d.669a6",
       "name":"Point in the office",
       "topic":"",
-      "payload":"{\"longitude\":12.5863292679,\"latitude\":55.6617404801,\"altitude\":0}",
+      "payload":"{\"longitude\":12.5864341122,\"latitude\":55.6620870736,\"altitude\":0}",
       "payloadType":"json",
       "repeat":"",
       "crontab":"",
       "once":false,
       "onceDelay":0.1,
-      "x":140,
-      "y":420,
-      "wires":[  
-         [  
-            "9667e06a.3828d8"
+      "x":180,
+      "y":540,
+      "wires":[
+         [
+            "c0c4217e.6f6b9"
          ]
       ]
    },
-   {  
-      "id":"9667e06a.3828d8",
+   {
+      "id":"c0c4217e.6f6b9",
       "type":"ros-publish",
-      "z":"dd50d548.d4606",
-      "server":"d3704dfd.2bbe38",
+      "z":"6ba5909d.669a6",
+      "server":"c1cee8f.8185218",
       "topicname":"/waypoint",
       "msgtype":"sensor_msgs/NavSatFix",
-      "x":320,
-      "y":460,
-      "wires":[  
+      "x":360,
+      "y":600,
+      "wires":[
 
       ]
    },
-   {  
-      "id":"dc71c762.87f018",
+   {
+      "id":"8f9788cb.07ebb8",
       "type":"ros-publish",
-      "z":"dd50d548.d4606",
-      "server":"d3704dfd.2bbe38",
+      "z":"6ba5909d.669a6",
+      "server":"c1cee8f.8185218",
       "topicname":"/waypoint/state",
       "msgtype":"std_msgs/String",
       "x":380,
       "y":320,
-      "wires":[  
+      "wires":[
 
       ]
    },
-   {  
-      "id":"a1b2dedb.171a9",
+   {
+      "id":"31a626fe.b9ab5a",
       "type":"inject",
-      "z":"dd50d548.d4606",
+      "z":"6ba5909d.669a6",
       "name":"RUNNING",
       "topic":"",
       "payload":"{\"data\":\"RUNNING\"}",
@@ -2141,16 +2243,16 @@
       "onceDelay":0.1,
       "x":160,
       "y":320,
-      "wires":[  
-         [  
-            "dc71c762.87f018"
+      "wires":[
+         [
+            "8f9788cb.07ebb8"
          ]
       ]
    },
-   {  
-      "id":"95dd8bca.4f0e4",
+   {
+      "id":"8db01467.761a68",
       "type":"inject",
-      "z":"dd50d548.d4606",
+      "z":"6ba5909d.669a6",
       "name":"STOP",
       "topic":"",
       "payload":"{\"data\":\"STOP\"}",
@@ -2161,36 +2263,36 @@
       "onceDelay":0.1,
       "x":170,
       "y":359,
-      "wires":[  
-         [  
-            "dc71c762.87f018"
+      "wires":[
+         [
+            "8f9788cb.07ebb8"
          ]
       ]
    },
-   {  
-      "id":"883a4213.107a48",
+   {
+      "id":"36a7cf16.2c9f7",
       "type":"inject",
-      "z":"dd50d548.d4606",
+      "z":"6ba5909d.669a6",
       "name":"Outside the door",
       "topic":"",
-      "payload":"{\"longitude\":12.5862673177,\"latitude\":55.6617452098,\"altitude\":0}",
+      "payload":"{\"longitude\":12.5863921737,\"latitude\":55.6620940794,\"altitude\":0}",
       "payloadType":"json",
       "repeat":"",
       "crontab":"",
       "once":false,
       "onceDelay":0.1,
-      "x":140,
-      "y":460,
-      "wires":[  
-         [  
-            "9667e06a.3828d8"
+      "x":180,
+      "y":580,
+      "wires":[
+         [
+            "c0c4217e.6f6b9"
          ]
       ]
    },
-   {  
-      "id":"7d5f8e8c.c6895",
+   {
+      "id":"c09bc4f7.57e838",
       "type":"inject",
-      "z":"dd50d548.d4606",
+      "z":"6ba5909d.669a6",
       "name":"Start of the corridor",
       "topic":"",
       "payload":"{\"longitude\":12.5862676492,\"latitude\":55.6617671639,\"altitude\":0}",
@@ -2199,31 +2301,31 @@
       "crontab":"",
       "once":false,
       "onceDelay":0.1,
-      "x":130,
-      "y":500,
-      "wires":[  
-         [  
-            "9667e06a.3828d8"
+      "x":170,
+      "y":640,
+      "wires":[
+         [
+            "c0c4217e.6f6b9"
          ]
       ]
    },
-   {  
-      "id":"df7c3333.0476b",
+   {
+      "id":"81b45aef.8e9fe8",
       "type":"ros-publish",
-      "z":"bd3c803a.a5815",
-      "server":"d3704dfd.2bbe38",
+      "z":"5f7dbaab.eb2314",
+      "server":"c1cee8f.8185218",
       "topicname":"/cmd_vel",
       "msgtype":"geometry_msgs/Twist",
       "x":380,
       "y":220,
-      "wires":[  
+      "wires":[
 
       ]
    },
-   {  
-      "id":"1ca0fedf.53e3b9",
+   {
+      "id":"5f62363d.3baee8",
       "type":"inject",
-      "z":"bd3c803a.a5815",
+      "z":"5f7dbaab.eb2314",
       "name":"Inject forward",
       "topic":"",
       "payload":"{\"linear\":{\"x\":1,\"y\":0,\"z\":0},\"angular\":{\"x\":0,\"y\":0,\"z\":0}}",
@@ -2234,16 +2336,16 @@
       "onceDelay":"",
       "x":170,
       "y":240,
-      "wires":[  
-         [  
-            "df7c3333.0476b"
+      "wires":[
+         [
+            "81b45aef.8e9fe8"
          ]
       ]
    },
-   {  
-      "id":"769ea9c4.cba6b8",
+   {
+      "id":"d8df0c0c.39403",
       "type":"inject",
-      "z":"bd3c803a.a5815",
+      "z":"5f7dbaab.eb2314",
       "name":"Inject stop",
       "topic":"",
       "payload":"{\"linear\":{\"x\":0,\"y\":0,\"z\":0},\"angular\":{\"x\":0,\"y\":0,\"z\":0}}",
@@ -2253,16 +2355,16 @@
       "once":false,
       "x":180,
       "y":160,
-      "wires":[  
-         [  
-            "df7c3333.0476b"
+      "wires":[
+         [
+            "81b45aef.8e9fe8"
          ]
       ]
    },
-   {  
-      "id":"2f85f7be.f38728",
+   {
+      "id":"3309a96a.3697b6",
       "type":"inject",
-      "z":"bd3c803a.a5815",
+      "z":"5f7dbaab.eb2314",
       "name":"Inject backward",
       "topic":"",
       "payload":"{\"linear\":{\"x\":-0.3,\"y\":0,\"z\":0},\"angular\":{\"x\":0,\"y\":0,\"z\":0}}",
@@ -2273,16 +2375,16 @@
       "onceDelay":"",
       "x":160,
       "y":200,
-      "wires":[  
-         [  
-            "df7c3333.0476b"
+      "wires":[
+         [
+            "81b45aef.8e9fe8"
          ]
       ]
    },
-   {  
-      "id":"d961b026.b36ad8",
+   {
+      "id":"ef0fda09.c30538",
       "type":"inject",
-      "z":"bd3c803a.a5815",
+      "z":"5f7dbaab.eb2314",
       "name":"Turn counter-clockwise",
       "topic":"",
       "payload":"{\"linear\":{\"x\":0,\"y\":0,\"z\":0},\"angular\":{\"x\":0,\"y\":0,\"z\":1}}",
@@ -2293,16 +2395,16 @@
       "onceDelay":"",
       "x":140,
       "y":280,
-      "wires":[  
-         [  
-            "df7c3333.0476b"
+      "wires":[
+         [
+            "81b45aef.8e9fe8"
          ]
       ]
    },
-   {  
-      "id":"5c33e9d4.edd378",
+   {
+      "id":"cf4faa26.c41f48",
       "type":"inject",
-      "z":"bd3c803a.a5815",
+      "z":"5f7dbaab.eb2314",
       "name":"Turn clockwise",
       "topic":"",
       "payload":"{\"linear\":{\"x\":0,\"y\":0,\"z\":0},\"angular\":{\"x\":0,\"y\":0,\"z\":-1}}",
@@ -2313,29 +2415,29 @@
       "onceDelay":"",
       "x":160,
       "y":320,
-      "wires":[  
-         [  
-            "df7c3333.0476b"
+      "wires":[
+         [
+            "81b45aef.8e9fe8"
          ]
       ]
    },
-   {  
-      "id":"cf0e42ab.e31b6",
+   {
+      "id":"feeae7bd.562418",
       "type":"ros-publish",
-      "z":"bd3c803a.a5815",
-      "server":"d3704dfd.2bbe38",
+      "z":"5f7dbaab.eb2314",
+      "server":"c1cee8f.8185218",
       "topicname":"/corridor_mode",
       "msgtype":"std_msgs/Bool",
       "x":380,
       "y":80,
-      "wires":[  
+      "wires":[
 
       ]
    },
-   {  
-      "id":"dbc0188f.73c26",
+   {
+      "id":"545e64cc.a2050c",
       "type":"inject",
-      "z":"bd3c803a.a5815",
+      "z":"5f7dbaab.eb2314",
       "name":"TRUE",
       "topic":"",
       "payload":"{\"data\": true}",
@@ -2346,16 +2448,16 @@
       "onceDelay":0.1,
       "x":190,
       "y":60,
-      "wires":[  
-         [  
-            "cf0e42ab.e31b6"
+      "wires":[
+         [
+            "feeae7bd.562418"
          ]
       ]
    },
-   {  
-      "id":"c3aab9.0bcd5548",
+   {
+      "id":"df42a2ec.0da7",
       "type":"inject",
-      "z":"bd3c803a.a5815",
+      "z":"5f7dbaab.eb2314",
       "name":"FALSE",
       "topic":"",
       "payload":"{\"data\":false}",
@@ -2366,29 +2468,29 @@
       "onceDelay":0.1,
       "x":190,
       "y":100,
-      "wires":[  
-         [  
-            "cf0e42ab.e31b6"
+      "wires":[
+         [
+            "feeae7bd.562418"
          ]
       ]
    },
-   {  
-      "id":"26f8e094.e2f278",
+   {
+      "id":"ef93f4c9.2f5aa8",
       "type":"ros-publish",
-      "z":"dd50d548.d4606",
-      "server":"d3704dfd.2bbe38",
+      "z":"6ba5909d.669a6",
+      "server":"c1cee8f.8185218",
       "topicname":"/corridor_mode",
       "msgtype":"std_msgs/String",
       "x":420,
       "y":180,
-      "wires":[  
+      "wires":[
 
       ]
    },
-   {  
-      "id":"9d5dbae6.04dcb8",
+   {
+      "id":"b3f32f06.90cfb",
       "type":"inject",
-      "z":"dd50d548.d4606",
+      "z":"6ba5909d.669a6",
       "name":"STOP",
       "topic":"",
       "payload":"{\"data\": \"STOP\"}",
@@ -2399,16 +2501,16 @@
       "onceDelay":0.1,
       "x":170,
       "y":140,
-      "wires":[  
-         [  
-            "26f8e094.e2f278"
+      "wires":[
+         [
+            "ef93f4c9.2f5aa8"
          ]
       ]
    },
-   {  
-      "id":"2a771957.21074e",
+   {
+      "id":"2ddb72e4.4932ee",
       "type":"inject",
-      "z":"dd50d548.d4606",
+      "z":"6ba5909d.669a6",
       "name":"MID,0.4",
       "topic":"",
       "payload":"{\"data\":\"MID,0.4\"}",
@@ -2419,29 +2521,29 @@
       "onceDelay":0.1,
       "x":170,
       "y":180,
-      "wires":[  
-         [  
-            "26f8e094.e2f278"
+      "wires":[
+         [
+            "ef93f4c9.2f5aa8"
          ]
       ]
    },
-   {  
-      "id":"7c8a57ec.b5fae",
+   {
+      "id":"a71be472.c0d128",
       "type":"ros-publish",
-      "z":"dd50d548.d4606",
-      "server":"d3704dfd.2bbe38",
+      "z":"6ba5909d.669a6",
+      "server":"c1cee8f.8185218",
       "topicname":"/delivery/stop",
       "msgtype":"std_msgs/Bool",
       "x":420,
       "y":40,
-      "wires":[  
+      "wires":[
 
       ]
    },
-   {  
-      "id":"90ace2.c18c432",
+   {
+      "id":"ea07e8c1.a46e48",
       "type":"inject",
-      "z":"dd50d548.d4606",
+      "z":"6ba5909d.669a6",
       "name":"TRUE",
       "topic":"",
       "payload":"{\"data\": true}",
@@ -2452,16 +2554,16 @@
       "onceDelay":0.1,
       "x":170,
       "y":40,
-      "wires":[  
-         [  
-            "7c8a57ec.b5fae"
+      "wires":[
+         [
+            "a71be472.c0d128"
          ]
       ]
    },
-   {  
-      "id":"a32e3387.9ff058",
+   {
+      "id":"e59b1b51.28c788",
       "type":"inject",
-      "z":"dd50d548.d4606",
+      "z":"6ba5909d.669a6",
       "name":"Left,1",
       "topic":"",
       "payload":"{\"data\":\"LEFT,1\"}",
@@ -2472,16 +2574,16 @@
       "onceDelay":0.1,
       "x":170,
       "y":220,
-      "wires":[  
-         [  
-            "26f8e094.e2f278"
+      "wires":[
+         [
+            "ef93f4c9.2f5aa8"
          ]
       ]
    },
-   {  
-      "id":"bdc20a35.f32bf",
+   {
+      "id":"5d7f04a6.6a627c",
       "type":"inject",
-      "z":"dd50d548.d4606",
+      "z":"6ba5909d.669a6",
       "name":"RIGHT,1",
       "topic":"",
       "payload":"{\"data\":\"RIGHT,1\"}",
@@ -2492,16 +2594,16 @@
       "onceDelay":0.1,
       "x":160,
       "y":260,
-      "wires":[  
-         [  
-            "26f8e094.e2f278"
+      "wires":[
+         [
+            "ef93f4c9.2f5aa8"
          ]
       ]
    },
-   {  
-      "id":"e29b5171.3890d",
+   {
+      "id":"c68686fc.ff0448",
       "type":"inject",
-      "z":"dd50d548.d4606",
+      "z":"6ba5909d.669a6",
       "name":"Under fid 208",
       "topic":"",
       "payload":"{\"longitude\":12.5863652749,\"latitude\":55.6620066745,\"altitude\":12}",
@@ -2510,31 +2612,31 @@
       "crontab":"",
       "once":false,
       "onceDelay":0.1,
-      "x":150,
-      "y":560,
-      "wires":[  
-         [  
-            "f9a6a60c.18f7"
+      "x":190,
+      "y":720,
+      "wires":[
+         [
+            "61030ff6.947db"
          ]
       ]
    },
-   {  
-      "id":"f9a6a60c.18f7",
+   {
+      "id":"61030ff6.947db",
       "type":"ros-publish",
-      "z":"dd50d548.d4606",
-      "server":"d3704dfd.2bbe38",
+      "z":"6ba5909d.669a6",
+      "server":"c1cee8f.8185218",
       "topicname":"/waypoint",
       "msgtype":"sensor_msgs/NavSatFix",
-      "x":340,
-      "y":600,
-      "wires":[  
+      "x":380,
+      "y":760,
+      "wires":[
 
       ]
    },
-   {  
-      "id":"711e451a.a97d74",
+   {
+      "id":"c4c18ac6.c3de98",
       "type":"inject",
-      "z":"dd50d548.d4606",
+      "z":"6ba5909d.669a6",
       "name":"Outside the door",
       "topic":"",
       "payload":"{\"longitude\":12.5863684147,\"latitude\":55.662021616,\"altitude\":12}",
@@ -2543,18 +2645,18 @@
       "crontab":"",
       "once":false,
       "onceDelay":0.1,
-      "x":140,
-      "y":600,
-      "wires":[  
-         [  
-            "f9a6a60c.18f7"
+      "x":180,
+      "y":760,
+      "wires":[
+         [
+            "61030ff6.947db"
          ]
       ]
    },
-   {  
-      "id":"70e8a972.71ac58",
+   {
+      "id":"a6bd0e07.58f6b",
       "type":"inject",
-      "z":"dd50d548.d4606",
+      "z":"6ba5909d.669a6",
       "name":"Inside the logistic",
       "topic":"",
       "payload":"{\"longitude\":12.5863494406,\"latitude\":55.662022251,\"altitude\":12}",
@@ -2563,18 +2665,18 @@
       "crontab":"",
       "once":false,
       "onceDelay":0.1,
-      "x":140,
-      "y":640,
-      "wires":[  
-         [  
-            "f9a6a60c.18f7"
+      "x":180,
+      "y":800,
+      "wires":[
+         [
+            "61030ff6.947db"
          ]
       ]
    },
-   {  
-      "id":"629c2adc.6dec14",
+   {
+      "id":"61e36807.ddd838",
       "type":"inject",
-      "z":"dd50d548.d4606",
+      "z":"6ba5909d.669a6",
       "name":"Point in the office",
       "topic":"",
       "payload":"{\"longitude\":12.5863317767,\"latitude\":55.6617403463,\"altitude\":12}",
@@ -2583,31 +2685,31 @@
       "crontab":"",
       "once":false,
       "onceDelay":0.1,
-      "x":500,
-      "y":460,
-      "wires":[  
-         [  
-            "87c0dd7f.d158f8"
+      "x":600,
+      "y":580,
+      "wires":[
+         [
+            "5183c12e.6a057"
          ]
       ]
    },
-   {  
-      "id":"87c0dd7f.d158f8",
+   {
+      "id":"5183c12e.6a057",
       "type":"ros-publish",
-      "z":"dd50d548.d4606",
-      "server":"d3704dfd.2bbe38",
+      "z":"6ba5909d.669a6",
+      "server":"c1cee8f.8185218",
       "topicname":"/waypoint",
       "msgtype":"sensor_msgs/NavSatFix",
-      "x":680,
-      "y":460,
-      "wires":[  
+      "x":780,
+      "y":580,
+      "wires":[
 
       ]
    },
-   {  
-      "id":"cc71a1bb.980a98",
+   {
+      "id":"d7b3d3cf.cf11b",
       "type":"inject",
-      "z":"dd50d548.d4606",
+      "z":"6ba5909d.669a6",
       "name":"Outside the door",
       "topic":"",
       "payload":"{\"longitude\":12.5862597695,\"latitude\":55.6617436063,\"altitude\":0}",
@@ -2616,18 +2718,18 @@
       "crontab":"",
       "once":false,
       "onceDelay":0.1,
-      "x":500,
-      "y":420,
-      "wires":[  
-         [  
-            "87c0dd7f.d158f8"
+      "x":600,
+      "y":540,
+      "wires":[
+         [
+            "5183c12e.6a057"
          ]
       ]
    },
-   {  
-      "id":"3011efa4.74228",
+   {
+      "id":"8b00fe1a.d65ea",
       "type":"inject",
-      "z":"dd50d548.d4606",
+      "z":"6ba5909d.669a6",
       "name":"office",
       "topic":"",
       "payload":"{\"longitude\":12.5863346108,\"latitude\":55.6617017139,\"altitude\":0}",
@@ -2636,31 +2738,31 @@
       "crontab":"",
       "once":false,
       "onceDelay":0.1,
-      "x":530,
-      "y":500,
-      "wires":[  
-         [  
-            "87c0dd7f.d158f8"
+      "x":630,
+      "y":620,
+      "wires":[
+         [
+            "5183c12e.6a057"
          ]
       ]
    },
-   {  
-      "id":"68e93e31.eb6568",
+   {
+      "id":"30c93ad9.c3a9a6",
       "type":"ros-publish",
-      "z":"dd50d548.d4606",
-      "server":"d3704dfd.2bbe38",
+      "z":"6ba5909d.669a6",
+      "server":"c1cee8f.8185218",
       "topicname":"/mqtt/commands/voice_kit",
       "msgtype":"std_msgs/String",
       "x":380,
       "y":100,
-      "wires":[  
+      "wires":[
 
       ]
    },
-   {  
-      "id":"c936c926.7ac18",
+   {
+      "id":"9fe8e248.a30de",
       "type":"inject",
-      "z":"dd50d548.d4606",
+      "z":"6ba5909d.669a6",
       "name":"Banana",
       "topic":"",
       "payload":"{\"data\": \"banana\"}",
@@ -2671,29 +2773,29 @@
       "onceDelay":0.1,
       "x":170,
       "y":100,
-      "wires":[  
-         [  
-            "68e93e31.eb6568"
+      "wires":[
+         [
+            "30c93ad9.c3a9a6"
          ]
       ]
    },
-   {  
-      "id":"31408048.942f2",
+   {
+      "id":"cd78145c.29cb68",
       "type":"ros-publish",
-      "z":"409e6b4.8de1b94",
-      "server":"d3704dfd.2bbe38",
+      "z":"b8c658fd.5c3a88",
+      "server":"c1cee8f.8185218",
       "topicname":"/mqtt/commands/voice_kit",
       "msgtype":"std_msgs/String",
-      "x":360,
-      "y":60,
-      "wires":[  
+      "x":330,
+      "y":80,
+      "wires":[
 
       ]
    },
-   {  
-      "id":"48ce5307.6937ec",
+   {
+      "id":"2776429e.1b929e",
       "type":"inject",
-      "z":"409e6b4.8de1b94",
+      "z":"b8c658fd.5c3a88",
       "name":"Banana",
       "topic":"",
       "payload":"{\"data\": \"banana\"}",
@@ -2704,29 +2806,29 @@
       "onceDelay":0.1,
       "x":130,
       "y":80,
-      "wires":[  
-         [  
-            "31408048.942f2"
+      "wires":[
+         [
+            "cd78145c.29cb68"
          ]
       ]
    },
-   {  
-      "id":"e5459f39.f766f8",
+   {
+      "id":"f3583c32.b8e7b",
       "type":"ros-publish",
-      "z":"409e6b4.8de1b94",
-      "server":"d3704dfd.2bbe38",
+      "z":"b8c658fd.5c3a88",
+      "server":"c1cee8f.8185218",
       "topicname":"/mqtt/commands/vision_kit",
       "msgtype":"std_msgs/String",
-      "x":360,
-      "y":140,
-      "wires":[  
+      "x":820,
+      "y":80,
+      "wires":[
 
       ]
    },
-   {  
-      "id":"1f13a5ce.011aca",
+   {
+      "id":"17cb6988.b32e96",
       "type":"inject",
-      "z":"409e6b4.8de1b94",
+      "z":"b8c658fd.5c3a88",
       "name":"Apple",
       "topic":"",
       "payload":"{\"data\": \"apple\"}",
@@ -2735,31 +2837,31 @@
       "crontab":"",
       "once":false,
       "onceDelay":0.1,
-      "x":130,
-      "y":120,
-      "wires":[  
-         [  
-            "e5459f39.f766f8"
+      "x":590,
+      "y":40,
+      "wires":[
+         [
+            "f3583c32.b8e7b"
          ]
       ]
    },
-   {  
-      "id":"2bbf15fb.a6475a",
+   {
+      "id":"dc06d671.4fdc38",
       "type":"ros-publish",
-      "z":"409e6b4.8de1b94",
-      "server":"d3704dfd.2bbe38",
+      "z":"b8c658fd.5c3a88",
+      "server":"c1cee8f.8185218",
       "topicname":"/demo/command",
       "msgtype":"std_msgs/String",
       "x":310,
-      "y":220,
-      "wires":[  
+      "y":240,
+      "wires":[
 
       ]
    },
-   {  
-      "id":"c7266b0f.d94ca8",
+   {
+      "id":"1b0485a2.77ba7a",
       "type":"inject",
-      "z":"409e6b4.8de1b94",
+      "z":"b8c658fd.5c3a88",
       "name":"Start",
       "topic":"",
       "payload":"{\"data\": \"START\"}",
@@ -2770,16 +2872,16 @@
       "onceDelay":0.1,
       "x":130,
       "y":200,
-      "wires":[  
-         [  
-            "2bbf15fb.a6475a"
+      "wires":[
+         [
+            "dc06d671.4fdc38"
          ]
       ]
    },
-   {  
-      "id":"19eee67f.50bf42",
+   {
+      "id":"5df85b36.96de64",
       "type":"inject",
-      "z":"409e6b4.8de1b94",
+      "z":"b8c658fd.5c3a88",
       "name":"Banana",
       "topic":"",
       "payload":"{\"data\": \"banana\"}",
@@ -2788,18 +2890,18 @@
       "crontab":"",
       "once":false,
       "onceDelay":0.1,
-      "x":130,
-      "y":160,
-      "wires":[  
-         [  
-            "e5459f39.f766f8"
+      "x":590,
+      "y":80,
+      "wires":[
+         [
+            "f3583c32.b8e7b"
          ]
       ]
    },
-   {  
-      "id":"6119ec05.329324",
+   {
+      "id":"d5c53d26.9dbc7",
       "type":"inject",
-      "z":"409e6b4.8de1b94",
+      "z":"b8c658fd.5c3a88",
       "name":"Apple",
       "topic":"",
       "payload":"{\"data\": \"apple\"}",
@@ -2810,16 +2912,16 @@
       "onceDelay":0.1,
       "x":130,
       "y":40,
-      "wires":[  
-         [  
-            "31408048.942f2"
+      "wires":[
+         [
+            "cd78145c.29cb68"
          ]
       ]
    },
-   {  
-      "id":"83f44728.684648",
+   {
+      "id":"9649e03d.533a2",
       "type":"inject",
-      "z":"409e6b4.8de1b94",
+      "z":"b8c658fd.5c3a88",
       "name":"Command received",
       "topic":"task1",
       "payload":"{\"Command\":\"Command received\",\"Name\":\"speak\",\"Id\":1}",
@@ -2829,63 +2931,63 @@
       "once":false,
       "onceDelay":0.1,
       "x":170,
-      "y":420,
-      "wires":[  
-         [  
-            "603c6228.638f64"
+      "y":400,
+      "wires":[
+         [
+            "e8abfc0c.7ef0d"
          ]
       ]
    },
-   {  
-      "id":"fb63d94e.53868",
+   {
+      "id":"7df4bc7d.728c44",
       "type":"inject",
-      "z":"409e6b4.8de1b94",
+      "z":"b8c658fd.5c3a88",
       "name":"Go to corridor",
       "topic":"task2",
-      "payload":"{\"Points\":[[12.5863292679,55.6617404801],[12.5862673177,55.6617452098],[12.5862676492,55.6617671639]],\"Fid\":209,\"Name\":\"waypoint_fid\",\"Id\":9}",
+      "payload":"{\"Points\":[[12.5864341122,55.6620870736],[12.5863921737,55.6620940794],[12.586392468,55.662082236]],\"Thres\":[0.2,0.2,0.5],\"Name\":\"waypoint\",\"Id\":2}",
       "payloadType":"json",
       "repeat":"",
       "crontab":"",
       "once":false,
       "onceDelay":0.1,
       "x":150,
-      "y":460,
-      "wires":[  
-         [  
-            "603c6228.638f64"
+      "y":440,
+      "wires":[
+         [
+            "e8abfc0c.7ef0d"
          ]
       ]
    },
-   {  
-      "id":"c4ad43bb.c1c34",
+   {
+      "id":"92131cf3.ca57c",
       "type":"ros-publish",
-      "z":"409e6b4.8de1b94",
-      "server":"d3704dfd.2bbe38",
+      "z":"b8c658fd.5c3a88",
+      "server":"c1cee8f.8185218",
       "topicname":"/demo/tasks",
       "msgtype":"std_msgs/String",
       "x":1090,
-      "y":640,
-      "wires":[  
+      "y":700,
+      "wires":[
 
       ]
    },
-   {  
-      "id":"b0c0d951.c933a8",
+   {
+      "id":"6f56d701.f2a9d8",
       "type":"ros-publish",
-      "z":"409e6b4.8de1b94",
-      "server":"d3704dfd.2bbe38",
+      "z":"b8c658fd.5c3a88",
+      "server":"c1cee8f.8185218",
       "topicname":"/waypoint/state",
       "msgtype":"std_msgs/String",
-      "x":740,
-      "y":120,
-      "wires":[  
+      "x":660,
+      "y":260,
+      "wires":[
 
       ]
    },
-   {  
-      "id":"a3f1985a.563a",
+   {
+      "id":"db62c84c.739738",
       "type":"inject",
-      "z":"409e6b4.8de1b94",
+      "z":"b8c658fd.5c3a88",
       "name":"STOP",
       "topic":"",
       "payload":"{\"data\":\"STOP\"}",
@@ -2894,91 +2996,91 @@
       "crontab":"",
       "once":false,
       "onceDelay":0.1,
-      "x":590,
-      "y":120,
-      "wires":[  
-         [  
-            "b0c0d951.c933a8"
+      "x":490,
+      "y":260,
+      "wires":[
+         [
+            "6f56d701.f2a9d8"
          ]
       ]
    },
-   {  
-      "id":"c556c7c.ffdf238",
+   {
+      "id":"15abf944.29cc47",
       "type":"ros-publish",
-      "z":"409e6b4.8de1b94",
-      "server":"d3704dfd.2bbe38",
+      "z":"b8c658fd.5c3a88",
+      "server":"c1cee8f.8185218",
       "topicname":"/corridor_mode",
       "msgtype":"std_msgs/String",
-      "x":760,
-      "y":60,
-      "wires":[  
+      "x":660,
+      "y":200,
+      "wires":[
 
       ]
    },
-   {  
-      "id":"9484290a.119518",
+   {
+      "id":"2960f3d0.29ea4c",
       "type":"inject",
-      "z":"409e6b4.8de1b94",
+      "z":"b8c658fd.5c3a88",
       "name":"STOP",
       "topic":"",
-      "payload":"{\"data\": \"STOP\"}",
+      "payload":"{\"data\": \"START\"}",
       "payloadType":"json",
       "repeat":"",
       "crontab":"",
       "once":false,
       "onceDelay":0.1,
-      "x":590,
-      "y":60,
-      "wires":[  
-         [  
-            "c556c7c.ffdf238"
+      "x":490,
+      "y":200,
+      "wires":[
+         [
+            "15abf944.29cc47"
          ]
       ]
    },
-   {  
-      "id":"14065ff5.95e71",
+   {
+      "id":"c7ababf6.f9d278",
       "type":"inject",
-      "z":"409e6b4.8de1b94",
+      "z":"b8c658fd.5c3a88",
       "name":"Corridor mode to logistic",
       "topic":"task2",
-      "payload":"{\"Command\":\"MID,0.4\",\"Fid\":208,\"Name\":\"corridor_fid\",\"Id\":3}",
+      "payload":"{\"Command\":\"MID,0.4\",\"Fid\":202,\"Name\":\"corridor_fid\",\"Id\":3}",
       "payloadType":"json",
       "repeat":"",
       "crontab":"",
       "once":false,
       "onceDelay":0.1,
       "x":190,
-      "y":500,
-      "wires":[  
-         [  
-            "603c6228.638f64"
+      "y":480,
+      "wires":[
+         [
+            "e8abfc0c.7ef0d"
          ]
       ]
    },
-   {  
-      "id":"e9b03288.6396f8",
+   {
+      "id":"f39bdd.7075c42",
       "type":"inject",
-      "z":"409e6b4.8de1b94",
+      "z":"b8c658fd.5c3a88",
       "name":"Enter logistic",
       "topic":"task2",
-      "payload":"{\"Points\":[[12.5863684147,55.662021616],[12.5863494406,55.662022251]],\"Name\":\"waypoint\",\"Id\":4}",
+      "payload":"{\"Points\":[[12.5863688402,55.6620197102],[12.5863474284,55.6620207315]],\"Thres\":[0.2,0.2],\"Name\":\"waypoint\",\"Id\":4}",
       "payloadType":"json",
       "repeat":"",
       "crontab":"",
       "once":false,
       "onceDelay":0.1,
       "x":150,
-      "y":540,
-      "wires":[  
-         [  
-            "603c6228.638f64"
+      "y":520,
+      "wires":[
+         [
+            "e8abfc0c.7ef0d"
          ]
       ]
    },
-   {  
-      "id":"cf318f4e.83208",
+   {
+      "id":"bf1b0af0.c797d8",
       "type":"inject",
-      "z":"409e6b4.8de1b94",
+      "z":"b8c658fd.5c3a88",
       "name":"Ask for thing",
       "topic":"task2",
       "payload":"{\"Command\":\"banana please\",\"Target\":\"banana\",\"Name\":\"speak_cmd\",\"Id\":5}",
@@ -2988,17 +3090,17 @@
       "once":false,
       "onceDelay":0.1,
       "x":150,
-      "y":580,
-      "wires":[  
-         [  
-            "603c6228.638f64"
+      "y":560,
+      "wires":[
+         [
+            "e8abfc0c.7ef0d"
          ]
       ]
    },
-   {  
-      "id":"2940be4b.80a0ba",
+   {
+      "id":"62593fbc.01895",
       "type":"inject",
-      "z":"409e6b4.8de1b94",
+      "z":"b8c658fd.5c3a88",
       "name":"Say thank you",
       "topic":"task2",
       "payload":"{\"Command\":\"thank you\",\"Name\":\"speak\",\"Id\":6}",
@@ -3008,77 +3110,77 @@
       "once":false,
       "onceDelay":0.1,
       "x":150,
-      "y":620,
-      "wires":[  
-         [  
-            "603c6228.638f64"
+      "y":600,
+      "wires":[
+         [
+            "e8abfc0c.7ef0d"
          ]
       ]
    },
-   {  
-      "id":"e34c1a01.18a05",
+   {
+      "id":"890ce8a9.1459c8",
       "type":"inject",
-      "z":"409e6b4.8de1b94",
+      "z":"b8c658fd.5c3a88",
       "name":"Logistic to corridor",
       "topic":"task2",
-      "payload":"{\"Points\":[[12.5863684147,55.662021616],[12.5863652749,55.6620066745]],\"Fid\":208,\"Name\":\"waypoint_fid\",\"Id\":7}",
+      "payload":"{\"Points\":[[12.5863688402,55.6620197102],[12.5863715826,55.6620311777]],\"Thres\":[0.2,0.5],\"Name\":\"waypoint\",\"Id\":7}",
       "payloadType":"json",
       "repeat":"",
       "crontab":"",
       "once":false,
       "onceDelay":0.1,
       "x":170,
-      "y":660,
-      "wires":[  
-         [  
-            "603c6228.638f64"
+      "y":640,
+      "wires":[
+         [
+            "e8abfc0c.7ef0d"
          ]
       ]
    },
-   {  
-      "id":"ea631d0a.7985c8",
+   {
+      "id":"4a8f5b44.6b6454",
       "type":"inject",
-      "z":"409e6b4.8de1b94",
+      "z":"b8c658fd.5c3a88",
       "name":"Corridor mode back",
       "topic":"task2",
-      "payload":"{\"Command\":\"MID,0.4\",\"Fid\":209,\"Name\":\"corridor_fid\",\"Id\":8}",
+      "payload":"{\"Command\":\"MID,0.4\",\"Fid\":203,\"Name\":\"corridor_fid\",\"Id\":8}",
       "payloadType":"json",
       "repeat":"",
       "crontab":"",
       "once":false,
       "onceDelay":0.1,
       "x":170,
-      "y":700,
-      "wires":[  
-         [  
-            "603c6228.638f64"
+      "y":680,
+      "wires":[
+         [
+            "e8abfc0c.7ef0d"
          ]
       ]
    },
-   {  
-      "id":"790ecadd.435e84",
+   {
+      "id":"26cf3dcb.7310a2",
       "type":"inject",
-      "z":"409e6b4.8de1b94",
+      "z":"b8c658fd.5c3a88",
       "name":"Get in the office",
       "topic":"task2",
-      "payload":"{\"Points\":[[12.5862597695,55.6617436063],[12.5863317767,55.6617403463],[12.5863346108,55.6617017139]],\"Fid\":201,\"Name\":\"waypoint_fid\",\"Id\":9}",
+      "payload":"{\"Points\":[[12.5863981631,55.662095989],[12.5864379286,55.6620885964],[12.5864377436,55.6620980814]],\"Thres\":[0.2,0.2,0.5],\"Name\":\"waypoint\",\"Id\":9}",
       "payloadType":"json",
       "repeat":"",
       "crontab":"",
       "once":false,
       "onceDelay":0.1,
       "x":160,
-      "y":740,
-      "wires":[  
-         [  
-            "603c6228.638f64"
+      "y":720,
+      "wires":[
+         [
+            "e8abfc0c.7ef0d"
          ]
       ]
    },
-   {  
-      "id":"aab282d2.e99658",
+   {
+      "id":"e355091e.475e68",
       "type":"inject",
-      "z":"409e6b4.8de1b94",
+      "z":"b8c658fd.5c3a88",
       "name":"Task complete",
       "topic":"task2",
       "payload":"{\"Command\":\"task completed\",\"Name\":\"speak\",\"Id\":3}",
@@ -3087,18 +3189,18 @@
       "crontab":"",
       "once":false,
       "onceDelay":0.1,
-      "x":160,
-      "y":780,
-      "wires":[  
-         [  
-            "603c6228.638f64"
+      "x":150,
+      "y":760,
+      "wires":[
+         [
+            "e8abfc0c.7ef0d"
          ]
       ]
    },
-   {  
-      "id":"3ba429a0.5893a6",
+   {
+      "id":"4b4ac91e.55f3a8",
       "type":"inject",
-      "z":"409e6b4.8de1b94",
+      "z":"b8c658fd.5c3a88",
       "name":"Stop",
       "topic":"",
       "payload":"{\"data\": \"STOP\"}",
@@ -3109,16 +3211,16 @@
       "onceDelay":0.1,
       "x":130,
       "y":240,
-      "wires":[  
-         [  
-            "2bbf15fb.a6475a"
+      "wires":[
+         [
+            "dc06d671.4fdc38"
          ]
       ]
    },
-   {  
-      "id":"568cde74.a2ead",
+   {
+      "id":"a5d28c1b.f45d7",
       "type":"inject",
-      "z":"409e6b4.8de1b94",
+      "z":"b8c658fd.5c3a88",
       "name":"Debug",
       "topic":"",
       "payload":"{\"data\": \"DEBUG\"}",
@@ -3129,32 +3231,32 @@
       "onceDelay":0.1,
       "x":130,
       "y":280,
-      "wires":[  
-         [  
-            "2bbf15fb.a6475a"
+      "wires":[
+         [
+            "dc06d671.4fdc38"
          ]
       ]
    },
-   {  
-      "id":"603c6228.638f64",
+   {
+      "id":"e8abfc0c.7ef0d",
       "type":"function",
-      "z":"409e6b4.8de1b94",
+      "z":"b8c658fd.5c3a88",
       "name":"Format tasks",
       "func":"if(msg.complete) {\n    msg.payload = flow.get(\"tasks\");\n    return msg;\n}\n\nfunction formatTask(s) {\n    obj = s;\n    obj[\"Id\"] = flow.get(\"index\");\n    flow.set(\"index\", flow.get(\"index\")+1);\n    return JSON.stringify(obj);\n}\n\nvar task = flow.get(\"tasks\");\nstr = formatTask(msg.payload);\n\nif(task === \"\") {\n    task = str;\n}\nelse {\n    task = task + ',' + str;\n}\n\nflow.set(\"tasks\", task);\n\n",
       "outputs":1,
       "noerr":0,
       "x":650,
-      "y":600,
-      "wires":[  
-         [  
-            "fff27629.f2487"
+      "y":660,
+      "wires":[
+         [
+            "3012568e.a3b0ca"
          ]
       ]
    },
-   {  
-      "id":"b8e9889b.933428",
+   {
+      "id":"df9e5b25.ee7d08",
       "type":"inject",
-      "z":"409e6b4.8de1b94",
+      "z":"b8c658fd.5c3a88",
       "name":"Init tasks",
       "topic":"",
       "payload":"",
@@ -3164,21 +3266,21 @@
       "once":false,
       "onceDelay":0.1,
       "x":140,
-      "y":340,
-      "wires":[  
-         [  
-            "1a204aee.ca2e6d",
-            "1977a222.fed4ce"
+      "y":360,
+      "wires":[
+         [
+            "b8ea9520.056898",
+            "ec3220c8.1cf0b"
          ]
       ]
    },
-   {  
-      "id":"1a204aee.ca2e6d",
+   {
+      "id":"b8ea9520.056898",
       "type":"change",
-      "z":"409e6b4.8de1b94",
+      "z":"b8c658fd.5c3a88",
       "name":"Init task index",
-      "rules":[  
-         {  
+      "rules":[
+         {
             "t":"set",
             "p":"index",
             "pt":"flow",
@@ -3191,37 +3293,37 @@
       "from":"",
       "to":"",
       "reg":false,
-      "x":360,
-      "y":340,
-      "wires":[  
-         [  
-            "a0355a89.c1fb8"
+      "x":400,
+      "y":380,
+      "wires":[
+         [
+            "30dc60b0.205da"
          ]
       ]
    },
-   {  
-      "id":"a0355a89.c1fb8",
+   {
+      "id":"30dc60b0.205da",
       "type":"debug",
-      "z":"409e6b4.8de1b94",
+      "z":"b8c658fd.5c3a88",
       "name":"",
       "active":false,
       "tosidebar":true,
       "console":false,
       "tostatus":false,
       "complete":"payload",
-      "x":590,
-      "y":340,
-      "wires":[  
+      "x":630,
+      "y":380,
+      "wires":[
 
       ]
    },
-   {  
-      "id":"1977a222.fed4ce",
+   {
+      "id":"ec3220c8.1cf0b",
       "type":"change",
-      "z":"409e6b4.8de1b94",
+      "z":"b8c658fd.5c3a88",
       "name":"Init tasks",
-      "rules":[  
-         {  
+      "rules":[
+         {
             "t":"set",
             "p":"tasks",
             "pt":"flow",
@@ -3234,51 +3336,51 @@
       "from":"",
       "to":"",
       "reg":false,
-      "x":340,
-      "y":300,
-      "wires":[  
-         [  
-            "568a43e6.632d54"
+      "x":380,
+      "y":340,
+      "wires":[
+         [
+            "9ac9ac8c.b43b9"
          ]
       ]
    },
-   {  
-      "id":"568a43e6.632d54",
+   {
+      "id":"9ac9ac8c.b43b9",
       "type":"debug",
-      "z":"409e6b4.8de1b94",
+      "z":"b8c658fd.5c3a88",
       "name":"",
       "active":false,
       "tosidebar":true,
       "console":false,
       "tostatus":false,
       "complete":"payload",
-      "x":590,
-      "y":300,
-      "wires":[  
+      "x":630,
+      "y":340,
+      "wires":[
 
       ]
    },
-   {  
-      "id":"fff27629.f2487",
+   {
+      "id":"3012568e.a3b0ca",
       "type":"function",
-      "z":"409e6b4.8de1b94",
+      "z":"b8c658fd.5c3a88",
       "name":"Covert to json",
       "func":"head = '{\"Tasks\":[';\nend =  ']}';\nstr = head + msg.payload + end;\nobj = JSON.parse('{\"data\": \"\" }');\nobj[\"data\"] = str;\nmsg.payload = obj;\nreturn msg;",
       "outputs":1,
       "noerr":0,
       "x":840,
-      "y":600,
-      "wires":[  
-         [  
-            "dfffc19d.5abbc",
-            "c4ad43bb.c1c34"
+      "y":660,
+      "wires":[
+         [
+            "e1255e98.1cbe8",
+            "92131cf3.ca57c"
          ]
       ]
    },
-   {  
-      "id":"dfffc19d.5abbc",
+   {
+      "id":"e1255e98.1cbe8",
       "type":"debug",
-      "z":"409e6b4.8de1b94",
+      "z":"b8c658fd.5c3a88",
       "name":"",
       "active":true,
       "tosidebar":true,
@@ -3286,18 +3388,18 @@
       "tostatus":false,
       "complete":"payload",
       "x":1090,
-      "y":600,
-      "wires":[  
+      "y":660,
+      "wires":[
 
       ]
    },
-   {  
-      "id":"3d45f4c8.2dcb0c",
+   {
+      "id":"6ce1757c.3f4a0c",
       "type":"change",
-      "z":"409e6b4.8de1b94",
+      "z":"b8c658fd.5c3a88",
       "name":"Start the task",
-      "rules":[  
-         {  
+      "rules":[
+         {
             "t":"set",
             "p":"complete",
             "pt":"msg",
@@ -3310,18 +3412,18 @@
       "from":"",
       "to":"",
       "reg":false,
-      "x":360,
-      "y":380,
-      "wires":[  
-         [  
-            "603c6228.638f64"
+      "x":310,
+      "y":800,
+      "wires":[
+         [
+            "e8abfc0c.7ef0d"
          ]
       ]
    },
-   {  
-      "id":"5124dcc.96fc3a4",
+   {
+      "id":"e1d662d8.42493",
       "type":"inject",
-      "z":"409e6b4.8de1b94",
+      "z":"b8c658fd.5c3a88",
       "name":"Start tasks",
       "topic":"",
       "payload":"",
@@ -3331,10 +3433,710 @@
       "once":false,
       "onceDelay":0.1,
       "x":140,
-      "y":380,
-      "wires":[  
-         [  
-            "3d45f4c8.2dcb0c"
+      "y":800,
+      "wires":[
+         [
+            "6ce1757c.3f4a0c"
+         ]
+      ]
+   },
+   {
+      "id":"9609d893.e8a348",
+      "type":"inject",
+      "z":"b8c658fd.5c3a88",
+      "name":"Orange",
+      "topic":"",
+      "payload":"{\"data\": \"orange\"}",
+      "payloadType":"json",
+      "repeat":"",
+      "crontab":"",
+      "once":false,
+      "onceDelay":0.1,
+      "x":590,
+      "y":120,
+      "wires":[
+         [
+            "f3583c32.b8e7b"
+         ]
+      ]
+   },
+   {
+      "id":"716b408a.717d",
+      "type":"inject",
+      "z":"b8c658fd.5c3a88",
+      "name":"Orange",
+      "topic":"",
+      "payload":"{\"data\": \"orange\"}",
+      "payloadType":"json",
+      "repeat":"",
+      "crontab":"",
+      "once":false,
+      "onceDelay":0.1,
+      "x":130,
+      "y":120,
+      "wires":[
+         [
+            "cd78145c.29cb68"
+         ]
+      ]
+   },
+   {
+      "id":"db26d1db.95965",
+      "type":"ros-publish",
+      "z":"6ba5909d.669a6",
+      "server":"e4598b09.438a2",
+      "topicname":"/waypoint/forwarding_thres",
+      "msgtype":"std_msgs/Float32",
+      "x":420,
+      "y":440,
+      "wires":[
+
+      ]
+   },
+   {
+      "id":"e76b9f0f.591d8",
+      "type":"inject",
+      "z":"6ba5909d.669a6",
+      "name":"Forward threshold",
+      "topic":"",
+      "payload":"{\"data\":0.2}",
+      "payloadType":"json",
+      "repeat":"",
+      "crontab":"",
+      "once":false,
+      "onceDelay":0.1,
+      "x":130,
+      "y":440,
+      "wires":[
+         [
+            "db26d1db.95965"
+         ]
+      ]
+   },
+   {
+      "id":"ef956d93.75e0d",
+      "type":"inject",
+      "z":"6ba5909d.669a6",
+      "name":"Starting point",
+      "topic":"",
+      "payload":"{\"longitude\":12.5864393147,\"latitude\":55.6620988737,\"altitude\":0}",
+      "payloadType":"json",
+      "repeat":"",
+      "crontab":"",
+      "once":false,
+      "onceDelay":0.1,
+      "x":170,
+      "y":500,
+      "wires":[
+         [
+            "c0c4217e.6f6b9"
+         ]
+      ]
+   },
+   {
+      "id":"b9aeda97.3860b8",
+      "type":"ros-publish",
+      "z":"6ba5909d.669a6",
+      "server":"e4598b09.438a2",
+      "topicname":"/waypoint/control_parameters",
+      "msgtype":"std_msgs/String",
+      "x":420,
+      "y":400,
+      "wires":[
+
+      ]
+   },
+   {
+      "id":"2c85a7d8.a8abf8",
+      "type":"inject",
+      "z":"6ba5909d.669a6",
+      "name":"params",
+      "topic":"",
+      "payload":"{\"data\":\"2.0,1.0,1.0,1.0\"}",
+      "payloadType":"json",
+      "repeat":"",
+      "crontab":"",
+      "once":false,
+      "onceDelay":0.1,
+      "x":170,
+      "y":400,
+      "wires":[
+         [
+            "b9aeda97.3860b8"
+         ]
+      ]
+   },
+   {
+      "id":"78a28380.e42e4c",
+      "type":"inject",
+      "z":"b8c658fd.5c3a88",
+      "name":"Trun 90",
+      "topic":"task2",
+      "payload":"{\"Command\":\"turn,90\",\"Name\":\"odometry_control\",\"Id\":3}",
+      "payloadType":"json",
+      "repeat":"",
+      "crontab":"",
+      "once":false,
+      "onceDelay":0.1,
+      "x":530,
+      "y":800,
+      "wires":[
+         [
+            "e8abfc0c.7ef0d"
+         ]
+      ]
+   },
+   {
+      "id":"23e1dc19.14d1bc",
+      "type":"inject",
+      "z":"b8c658fd.5c3a88",
+      "name":"Trun -90",
+      "topic":"task2",
+      "payload":"{\"Command\":\"turn,-90\",\"Name\":\"odometry_control\",\"Id\":3}",
+      "payloadType":"json",
+      "repeat":"",
+      "crontab":"",
+      "once":false,
+      "onceDelay":0.1,
+      "x":560,
+      "y":880,
+      "wires":[
+         [
+            "e8abfc0c.7ef0d"
+         ]
+      ]
+   },
+   {
+      "id":"f8e26013.ba2f6",
+      "type":"ros-publish",
+      "z":"b8c658fd.5c3a88",
+      "server":"e4598b09.438a2",
+      "topicname":"/waypoint/control_parameters",
+      "msgtype":"std_msgs/String",
+      "x":650,
+      "y":440,
+      "wires":[
+
+      ]
+   },
+   {
+      "id":"444e0.673493208",
+      "type":"inject",
+      "z":"b8c658fd.5c3a88",
+      "name":"params",
+      "topic":"",
+      "payload":"{\"data\":\"2.0,1.0,1.0,1.0\"}",
+      "payloadType":"json",
+      "repeat":"",
+      "crontab":"",
+      "once":false,
+      "onceDelay":0.1,
+      "x":430,
+      "y":440,
+      "wires":[
+         [
+            "f8e26013.ba2f6"
+         ]
+      ]
+   },
+   {
+      "id":"de887685.55c2d",
+      "type":"ros-publish",
+      "z":"b8c658fd.5c3a88",
+      "server":"e4598b09.438a2",
+      "topicname":"/waypoint/forwarding_thres",
+      "msgtype":"std_msgs/Float32",
+      "x":700,
+      "y":480,
+      "wires":[
+
+      ]
+   },
+   {
+      "id":"c540a4ce.99a108",
+      "type":"inject",
+      "z":"b8c658fd.5c3a88",
+      "name":"Forward threshold",
+      "topic":"",
+      "payload":"{\"data\":0.2}",
+      "payloadType":"json",
+      "repeat":"",
+      "crontab":"",
+      "once":false,
+      "onceDelay":0.1,
+      "x":470,
+      "y":480,
+      "wires":[
+         [
+            "de887685.55c2d"
+         ]
+      ]
+   },
+   {
+      "id":"174d2819.b6d7c8",
+      "type":"ros-publish",
+      "z":"6ba5909d.669a6",
+      "server":"c1cee8f.8185218",
+      "topicname":"/water_demo",
+      "msgtype":"std_msgs/String",
+      "x":750,
+      "y":60,
+      "wires":[
+
+      ]
+   },
+   {
+      "id":"bdae0cd.78133f",
+      "type":"inject",
+      "z":"6ba5909d.669a6",
+      "name":"Start",
+      "topic":"",
+      "payload":"{\"data\": \"START\"}",
+      "payloadType":"json",
+      "repeat":"",
+      "crontab":"",
+      "once":false,
+      "onceDelay":0.1,
+      "x":590,
+      "y":40,
+      "wires":[
+         [
+            "174d2819.b6d7c8"
+         ]
+      ]
+   },
+   {
+      "id":"430b58bf.f630e8",
+      "type":"inject",
+      "z":"6ba5909d.669a6",
+      "name":"Stop",
+      "topic":"",
+      "payload":"{\"data\": \"STOP\"}",
+      "payloadType":"json",
+      "repeat":"",
+      "crontab":"",
+      "once":false,
+      "onceDelay":0.1,
+      "x":590,
+      "y":80,
+      "wires":[
+         [
+            "174d2819.b6d7c8"
+         ]
+      ]
+   },
+   {
+      "id":"9644e3bc.ecc43",
+      "type":"inject",
+      "z":"1a19311f.e9adcf",
+      "name":"forward 3 meter",
+      "topic":"",
+      "payload":"{\"data\":\"fwd,3.5\"}",
+      "payloadType":"json",
+      "repeat":"",
+      "crontab":"",
+      "once":false,
+      "onceDelay":"",
+      "x":340,
+      "y":180,
+      "wires":[
+         [
+            "9ff04280.0e2eb"
+         ]
+      ]
+   },
+   {
+      "id":"c9324189.431d",
+      "type":"inject",
+      "z":"1a19311f.e9adcf",
+      "name":"turn counter-clockwise 180 degree",
+      "topic":"",
+      "payload":"{\"data\":\"turn,180\"}",
+      "payloadType":"json",
+      "repeat":"",
+      "crontab":"",
+      "once":false,
+      "onceDelay":"",
+      "x":280,
+      "y":240,
+      "wires":[
+         [
+            "9ff04280.0e2eb"
+         ]
+      ]
+   },
+   {
+      "id":"2b16e9ff.b57a8e",
+      "type":"inject",
+      "z":"1a19311f.e9adcf",
+      "name":"forward 6 meter",
+      "topic":"",
+      "payload":"{\"data\":\"fwd,0\"}",
+      "payloadType":"json",
+      "repeat":"",
+      "crontab":"",
+      "once":false,
+      "onceDelay":"",
+      "x":600,
+      "y":340,
+      "wires":[
+         [
+            "9ff04280.0e2eb"
+         ]
+      ]
+   },
+   {
+      "id":"2eeb4e7a.11e782",
+      "type":"ros-publish",
+      "z":"455888d4.671818",
+      "server":"e4598b09.438a2",
+      "topicname":"/odometry_control/linear_speed",
+      "msgtype":"std_msgs/Float32",
+      "x":530,
+      "y":460,
+      "wires":[
+
+      ]
+   },
+   {
+      "id":"51217e6c.af1ee",
+      "type":"inject",
+      "z":"455888d4.671818",
+      "name":"Linear speed",
+      "topic":"",
+      "payload":"{\"data\":0.5}",
+      "payloadType":"json",
+      "repeat":"",
+      "crontab":"",
+      "once":false,
+      "onceDelay":0.1,
+      "x":150,
+      "y":460,
+      "wires":[
+         [
+            "2eeb4e7a.11e782"
+         ]
+      ]
+   },
+   {
+      "id":"47f4d071.35ca5",
+      "type":"ros-publish",
+      "z":"455888d4.671818",
+      "server":"e4598b09.438a2",
+      "topicname":"/odometry_control/angular_speed",
+      "msgtype":"std_msgs/Float32",
+      "x":540,
+      "y":500,
+      "wires":[
+
+      ]
+   },
+   {
+      "id":"99025920.16f698",
+      "type":"inject",
+      "z":"455888d4.671818",
+      "name":"Angular speed",
+      "topic":"",
+      "payload":"{\"data\":4.0}",
+      "payloadType":"json",
+      "repeat":"",
+      "crontab":"",
+      "once":false,
+      "onceDelay":0.1,
+      "x":150,
+      "y":500,
+      "wires":[
+         [
+            "47f4d071.35ca5"
+         ]
+      ]
+   },
+   {
+      "id":"fc024245.ed46a",
+      "type":"ros-publish",
+      "z":"455888d4.671818",
+      "server":"c55207ea.3332c8",
+      "topicname":"/odometry_control/forwarding_thres",
+      "msgtype":"std_msgs/Float32",
+      "x":540,
+      "y":540,
+      "wires":[
+
+      ]
+   },
+   {
+      "id":"1e5700f7.8ffb1f",
+      "type":"inject",
+      "z":"455888d4.671818",
+      "name":"Forward threshold",
+      "topic":"",
+      "payload":"{\"data\":0.2}",
+      "payloadType":"json",
+      "repeat":"",
+      "crontab":"",
+      "once":false,
+      "onceDelay":0.1,
+      "x":170,
+      "y":540,
+      "wires":[
+         [
+            "fc024245.ed46a"
+         ]
+      ]
+   },
+   {
+      "id":"5902f977.5692d8",
+      "type":"ros-publish",
+      "z":"455888d4.671818",
+      "server":"e4598b09.438a2",
+      "topicname":"/odometry_control/turning_thres",
+      "msgtype":"std_msgs/Float32",
+      "x":530,
+      "y":580,
+      "wires":[
+
+      ]
+   },
+   {
+      "id":"a669e9c2.d1fe08",
+      "type":"inject",
+      "z":"455888d4.671818",
+      "name":"Turning threshold",
+      "topic":"",
+      "payload":"{\"data\":0.2}",
+      "payloadType":"json",
+      "repeat":"",
+      "crontab":"",
+      "once":false,
+      "onceDelay":0.1,
+      "x":160,
+      "y":580,
+      "wires":[
+         [
+            "5902f977.5692d8"
+         ]
+      ]
+   },
+   {
+      "id":"dbc0808f.32f77",
+      "type":"ros-publish",
+      "z":"455888d4.671818",
+      "server":"e4598b09.438a2",
+      "topicname":"/odometry_control/cmd",
+      "msgtype":"std_msgs/String",
+      "x":500,
+      "y":120,
+      "wires":[
+
+      ]
+   },
+   {
+      "id":"89f9ccb7.701f5",
+      "type":"inject",
+      "z":"455888d4.671818",
+      "name":"forward 1 meter",
+      "topic":"",
+      "payload":"{\"data\":\"fwd,1\"}",
+      "payloadType":"json",
+      "repeat":"",
+      "crontab":"",
+      "once":false,
+      "onceDelay":"",
+      "x":160,
+      "y":80,
+      "wires":[
+         [
+            "dbc0808f.32f77"
+         ]
+      ]
+   },
+   {
+      "id":"c2133002.6c1af",
+      "type":"inject",
+      "z":"455888d4.671818",
+      "name":"turn counter-clockwise 90 degree",
+      "topic":"",
+      "payload":"{\"data\":\"turn,90\"}",
+      "payloadType":"json",
+      "repeat":"",
+      "crontab":"",
+      "once":false,
+      "onceDelay":"",
+      "x":210,
+      "y":160,
+      "wires":[
+         [
+            "dbc0808f.32f77"
+         ]
+      ]
+   },
+   {
+      "id":"c80ec408.d69b08",
+      "type":"inject",
+      "z":"455888d4.671818",
+      "name":"stop",
+      "topic":"",
+      "payload":"{\"data\":\"stop\"}",
+      "payloadType":"json",
+      "repeat":"",
+      "crontab":"",
+      "once":false,
+      "onceDelay":"",
+      "x":130,
+      "y":200,
+      "wires":[
+         [
+            "dbc0808f.32f77"
+         ]
+      ]
+   },
+   {
+      "id":"faaf0af0.68bb68",
+      "type":"inject",
+      "z":"455888d4.671818",
+      "name":"backward 1 meter",
+      "topic":"",
+      "payload":"{\"data\":\"fwd,-1\"}",
+      "payloadType":"json",
+      "repeat":"",
+      "crontab":"",
+      "once":false,
+      "onceDelay":"",
+      "x":170,
+      "y":120,
+      "wires":[
+         [
+            "dbc0808f.32f77"
+         ]
+      ]
+   },
+   {
+      "id":"6952cb8a.3e1864",
+      "type":"debug",
+      "z":"455888d4.671818",
+      "name":"",
+      "active":true,
+      "tosidebar":true,
+      "console":false,
+      "tostatus":false,
+      "complete":"payload.data",
+      "x":430,
+      "y":400,
+      "wires":[
+
+      ]
+   },
+   {
+      "id":"aca3d407.9200b8",
+      "type":"inject",
+      "z":"455888d4.671818",
+      "name":"Init tasks",
+      "topic":"",
+      "payload":"",
+      "payloadType":"date",
+      "repeat":"",
+      "crontab":"",
+      "once":false,
+      "onceDelay":0.1,
+      "x":140,
+      "y":320,
+      "wires":[
+         [
+            "570db975.4fd6b8"
+         ]
+      ]
+   },
+   {
+      "id":"10f8aa2e.7f6896",
+      "type":"function",
+      "z":"455888d4.671818",
+      "name":"Send command",
+      "func":"index = flow.get(\"cmd_index\");\n\nvar cmd = [\"turn,90\", \"turn,180\", \"turn,90\"];\n\nif (index >= cmd.length) {\n    return;\n}\n\nnode.send({\n\t\t\tpayload: {\"data\":cmd[index]},\n\t\t});\n\nindex++;\nflow.set(\"cmd_index\", index);",
+      "outputs":1,
+      "noerr":0,
+      "x":600,
+      "y":320,
+      "wires":[
+         [
+            "834aaa13.c9cee8"
+         ]
+      ]
+   },
+   {
+      "id":"570db975.4fd6b8",
+      "type":"change",
+      "z":"455888d4.671818",
+      "name":"Set cmd_index",
+      "rules":[
+         {
+            "t":"set",
+            "p":"cmd_index",
+            "pt":"flow",
+            "to":"0",
+            "tot":"num"
+         }
+      ],
+      "action":"",
+      "property":"",
+      "from":"",
+      "to":"",
+      "reg":false,
+      "x":320,
+      "y":320,
+      "wires":[
+         [
+            "10f8aa2e.7f6896"
+         ]
+      ]
+   },
+   {
+      "id":"483ab359.45a00c",
+      "type":"ros-subscribe",
+      "z":"455888d4.671818",
+      "server":"c55207ea.3332c8",
+      "topicname":"/odometry_control/finished",
+      "x":170,
+      "y":360,
+      "wires":[
+         [
+            "eb3cae77.a3e6e",
+            "6952cb8a.3e1864"
+         ]
+      ]
+   },
+   {
+      "id":"834aaa13.c9cee8",
+      "type":"ros-publish",
+      "z":"455888d4.671818",
+      "server":"e4598b09.438a2",
+      "topicname":"/odometry_control/cmd",
+      "msgtype":"std_msgs/String",
+      "x":880,
+      "y":320,
+      "wires":[
+
+      ]
+   },
+   {
+      "id":"eb3cae77.a3e6e",
+      "type":"delay",
+      "z":"455888d4.671818",
+      "name":"",
+      "pauseType":"delay",
+      "timeout":"3",
+      "timeoutUnits":"seconds",
+      "rate":"1",
+      "nbRateUnits":"1",
+      "rateUnits":"second",
+      "randomFirst":"1",
+      "randomLast":"5",
+      "randomUnits":"seconds",
+      "drop":false,
+      "x":400,
+      "y":360,
+      "wires":[
+         [
+            "10f8aa2e.7f6896"
          ]
       ]
    }
