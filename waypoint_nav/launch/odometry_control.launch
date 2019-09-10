@@ -1,10 +1,3 @@
 <launch>
-  <node pkg="waypoint_nav" type="odometry_control.py" name="odometry_control" >
-    <param name="robot_x_config" value="True"/>
-    <param name="robot_y_config" value="False"/>
-    <param name="robot_z_config" value="False"/>
-    <param name="robot_rx_config" value="False"/>
-    <param name="robot_ry_config" value="False"/>
-    <param name="robot_rz_config" value="True"/>
-  </node>
+  <node pkg="waypoint_nav" type="odometry_control.py" name="odometry_control" />
 </launch>
